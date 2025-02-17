@@ -21,11 +21,17 @@ export default function MainLayout() {
     return (
         <Tabs
             screenOptions={{
+                headerStyle: {
+                    shadowOpacity: 0,
+                    elevation: 0,
+                },
                 tabBarStyle: {
                     height: 65
                 },
                 tabBarLabelStyle: {
                     fontSize: 13,
+                    fontWeight: 400,
+                    letterSpacing: 0.6
                 },
                 tabBarActiveBackgroundColor: tabBarActiveBg!.value,
             }}
@@ -35,7 +41,7 @@ export default function MainLayout() {
                 options={{
                     headerTitle: 'Trang chủ',
                     title: 'Trang chủ',
-                    tabBarIcon: () => <Home className='text-[var(--quick-access-icon-color)]' size={23} />,
+                    tabBarIcon: () => <Home className='text-[var(--quick-access-icon-color)]' size={22} />,
                     headerRight: () => <HeaderRight />,
                     animation: 'shift'
                 }}
@@ -45,7 +51,7 @@ export default function MainLayout() {
                 options={{
                     headerTitle: 'Tin nhắn',
                     title: 'Tin nhắn',
-                    tabBarIcon: () => <MessageCircleMore className='text-[var(--quick-access-icon-color)]' size={23} />,
+                    tabBarIcon: () => <MessageCircleMore className='text-[var(--quick-access-icon-color)]' size={22} />,
                     headerRight: () => <HeaderRight />,
                     animation: 'shift'
                 }}
@@ -55,7 +61,7 @@ export default function MainLayout() {
                 options={{
                     headerTitle: 'Bài viết',
                     title: 'Bài viết',
-                    tabBarIcon: () => <Newspaper className='text-[var(--quick-access-icon-color)]' size={23} />,
+                    tabBarIcon: () => <Newspaper className='text-[var(--quick-access-icon-color)]' size={22} />,
                     headerRight: () => <HeaderRight />,
                     animation: 'shift'
                 }}
@@ -65,7 +71,7 @@ export default function MainLayout() {
                 options={{
                     headerTitle: 'Hồ sơ',
                     title: 'Hồ sơ',
-                    tabBarIcon: () => <User className='text-[var(--quick-access-icon-color)]' size={23} />,
+                    tabBarIcon: () => <User className='text-[var(--quick-access-icon-color)]' size={22} />,
                     headerRight: () => <HeaderRight />,
                     animation: 'shift'
                 }}

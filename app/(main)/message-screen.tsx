@@ -1,6 +1,6 @@
 import * as React from 'react';
 import { View } from 'react-native';
-import Chat from '~/components/chat/chat-item';
+import Chat from '~/components/chat-screen/chat-item';
 
 export default function MessagesScreen() {
 

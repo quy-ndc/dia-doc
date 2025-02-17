@@ -14,7 +14,7 @@ export default function HeaderRight() {
         <View className='flex-row gap-2 px-2'>
             <ThemeToggle />
             <Pressable
-                onPress={() => router.push('/(main)/profile')}
+                onPress={() => router.push('/profile-screen')}
             >
                 <Image
                     style={styles.image}

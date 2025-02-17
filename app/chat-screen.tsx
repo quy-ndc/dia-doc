@@ -7,7 +7,7 @@ import { Stack, useLocalSearchParams, useRouter } from 'expo-router';
 import { useRef, useState } from 'react';
 import { Input } from '~/components/ui/input';
 import { Message } from '~/assets/types/chat/message';
-import { OwnMessage, ReceivedMessage } from '~/components/chat/messages';
+import { OwnMessage, ReceivedMessage } from '~/components/chat-screen/messages';
 import { SendHorizontal } from '~/lib/icons/SendHorizontal';
 
 

@@ -10,7 +10,7 @@ export enum GlobalColor {
 }
 
 const Colors: ColorValue[] = [
-    { name: GlobalColor.TAB_BAR_ACTIVE_BG_LIGHT, value: 'rgba(189, 189, 189, 0.2)' },
+    { name: GlobalColor.TAB_BAR_ACTIVE_BG_LIGHT, value: 'rgba(189, 189, 189, 0.3)' },
     { name: GlobalColor.TAB_BAR_ACTIVE_BG_DARK, value: 'rgba(100, 100, 100, 0.2)' },
 ]
 

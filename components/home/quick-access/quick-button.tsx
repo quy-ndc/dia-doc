@@ -13,7 +13,7 @@ export default function QuickButton({ icon, title, onPress }: Prop) {
 
     return (
         <Pressable
-            className='flex-col gap-2 w-[30%] justify-center items-center px-5 py-2 rounded-2xl active:bg-[--click-bg]'
+            className='flex-col gap-2 w-[30%] justify-center items-center px-4 py-2 rounded-2xl active:bg-[--click-bg]'
             onPress={onPress}
         >
             {icon}

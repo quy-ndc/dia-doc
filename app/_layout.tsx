@@ -77,8 +77,12 @@ export default function RootLayout() {
             />
             <Stack.Screen
               name='chat-screen'
+            />
+            <Stack.Screen
+              name='blog-detail-screen'
               options={{
-                // headerShown: false
+                headerTitle: ' ',
+                presentation: 'modal'
               }}
             />
             <Stack.Screen

@@ -1,10 +1,7 @@
 import * as React from 'react';
-import { View, StyleSheet, Dimensions, useColorScheme } from 'react-native';
-import { Image } from 'expo-image';
-import { Button } from '~/components/ui/button';
-import { Text } from '~/components/ui/text';
-import { LogIn } from '~/lib/icons/Login';
+import { View, StyleSheet, Dimensions, useColorScheme, ScrollView } from 'react-native';
 import { useRouter } from 'expo-router';
+import BlogItem from '~/components/common/blog-item/blog-item';
 
 
 const { width, height } = Dimensions.get('window');
@@ -14,28 +11,34 @@ export default function BlogScreen() {
     const router = useRouter()
 
     return (
-        <View className='flex-1 justify-between gap-5 p-10'>
-            <Text>Profile</Text>
-        </View>
+        <ScrollView
+            className='w-full pb-5'
+            contentContainerStyle={styles.container}
+        >
+            <View className='flex-col gap-5 justify-center w-full px-3 pb-10'>
+                <BlogItem
+                    avatar="https://res.cloudinary.com/dcjdtlnbl/image/upload/v1729604351/T_shirt_3_yrzyex.jpg"
+                    title="Very long and intentionally dragged out title and somehow isn't long enough by my standard"
+                    content="An even more insanly dragged out content for the sake of testing the posibility of the application and somehow is still not long enough for me"
+                    liked
+                    detailed
+                    images={["https://res.cloudinary.com/dcjdtlnbl/image/upload/v1729604351/T_shirt_3_yrzyex.jpg", "https://res.cloudinary.com/dcjdtlnbl/image/upload/v1729604351/T_shirt_3_yrzyex.jpg"]}
+                />
+                <BlogItem
+                    avatar="https://res.cloudinary.com/dcjdtlnbl/image/upload/v1729604351/T_shirt_3_yrzyex.jpg"
+                    title="Very long and intentionally dragged out title and somehow isn't long enough by my standard"
+                    content="An even more insanly dragged out content for the sake of testing the posibility of the application and somehow is still not long enough for me"
+                    liked
+                    detailed
+                    images={["https://res.cloudinary.com/dcjdtlnbl/image/upload/v1729604351/T_shirt_3_yrzyex.jpg", "https://res.cloudinary.com/dcjdtlnbl/image/upload/v1729604351/T_shirt_3_yrzyex.jpg"]}
+                />
+            </View>
+        </ScrollView>
     );
 }
 
 const styles = StyleSheet.create({
     container: {
-        flex: 1,
-        backgroundColor: '#fff',
-        alignItems: 'center',
-        justifyContent: 'center',
+        alignItems: 'center'
     },
-    image: {
-        width: '100%',
-        height: height * 0.6,
-    },
-    button: {
-        height: 60,
-        width: '70%'
-    },
-    text: {
-        fontSize: 19,
-    }
 });

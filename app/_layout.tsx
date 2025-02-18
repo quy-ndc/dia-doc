@@ -4,18 +4,19 @@ import { DarkTheme, DefaultTheme, Theme, ThemeProvider } from '@react-navigation
 import { Stack } from 'expo-router';
 import { StatusBar } from 'expo-status-bar';
 import * as React from 'react';
-import { Platform, View } from 'react-native';
+import { Platform } from 'react-native';
 import { NAV_THEME } from '~/lib/constants';
 import { useColorScheme } from '~/lib/useColorScheme';
 import { PortalHost } from '@rn-primitives/portal';
-import { ThemeToggle } from '~/components/ThemeToggle';
 import { setAndroidNavigationBar } from '~/lib/android-navigation-bar';
 import { ReactQueryProvider } from '~/util/provider/react-query-provider';
 import { Provider } from 'react-redux';
 import { persistor, store } from '~/store/store';
 import { PersistGate } from 'redux-persist/integration/react';
-import { Text } from '~/components/ui/text'
 import Toast from 'react-native-toast-message';
+import { getApplicationHashKey } from 'react-native-zalo-kit'
+import ZaloKit from 'react-native-zalo-kit'
+import { useEffect } from 'react';
 
 
 const LIGHT_THEME: Theme = {
@@ -54,6 +55,7 @@ export default function RootLayout() {
   if (!isColorSchemeLoaded) {
     return null;
   }
+
 
   return (
     <>

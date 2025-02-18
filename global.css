@@ -115,10 +115,10 @@
     --ownt-message-text: white;
 
     /* Icon color of quick access button */
-    --quick-access-icon-color: rgb(134, 239, 172);
+    --quick-access-icon-color: rgb(122, 255, 112);
 
     /* Background color of blog post */
-    --blog-bg: #11111189;
+    --blog-bg: #111111b7;
 
     /* Color of the right border of a Blog post item in the home page */
     --blog-right-border-color: rgba(238, 238, 238, 0.15);

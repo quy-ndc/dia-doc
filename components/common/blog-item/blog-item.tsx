@@ -9,6 +9,7 @@ import CommentButton from "./comment-button";
 
 type Prop = {
     avatar: string
+    name: string
     title: string
     content: string
     images: string[]
@@ -16,13 +17,20 @@ type Prop = {
     detailed: boolean
 }
 
-export default function BlogItem({ avatar, title, content, images, liked, detailed }: Prop) {
+export default function BlogItem({ avatar, name, title, content, images, liked, detailed }: Prop) {
 
     const router = useRouter()
 
     const handleBlogClick = () => {
         router.push({
-            pathname: '/blog-detail-screen'
+            pathname: '/blog-detail-screen',
+            params: {
+                avatar: avatar,
+                title: title,
+                name: name,
+                images: JSON.stringify(images),
+                liked: liked.toString()
+            }
         })
     }
 
@@ -38,7 +46,7 @@ export default function BlogItem({ avatar, title, content, images, liked, detail
                     contentFit="cover"
                 />
                 <View className="flex-col gap-[0.5]">
-                    <Text className="text-base font-bold tracking-wider">Name Of A Person</Text>
+                    <Text className="text-base font-bold tracking-wider">{name}</Text>
                     <Text className="text-sm tracking-wider">{formatDateBlog('2025-02-17T16:19:20')}</Text>
                 </View>
             </View>
@@ -49,7 +57,7 @@ export default function BlogItem({ avatar, title, content, images, liked, detail
             </View>
 
             {(detailed && images.length > 0) && (
-                <Pressable onPress={() => router.push('/blog-detail-screen')}>
+                <Pressable onPress={handleBlogClick}>
                     <Image
                         style={styles.image}
                         source={images[0]}

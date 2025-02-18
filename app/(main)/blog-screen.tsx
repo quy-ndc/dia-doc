@@ -1,14 +1,9 @@
 import * as React from 'react';
-import { View, StyleSheet, Dimensions, useColorScheme, ScrollView } from 'react-native';
-import { useRouter } from 'expo-router';
+import { View, StyleSheet, ScrollView } from 'react-native';
 import BlogItem from '~/components/common/blog-item/blog-item';
 
 
-const { width, height } = Dimensions.get('window');
-
 export default function BlogScreen() {
-
-    const router = useRouter()
 
     return (
         <ScrollView
@@ -19,6 +14,7 @@ export default function BlogScreen() {
                 <BlogItem
                     avatar="https://res.cloudinary.com/dcjdtlnbl/image/upload/v1729604351/T_shirt_3_yrzyex.jpg"
                     title="Very long and intentionally dragged out title and somehow isn't long enough by my standard"
+                    name='Name of user'
                     content="An even more insanly dragged out content for the sake of testing the posibility of the application and somehow is still not long enough for me"
                     liked
                     detailed
@@ -27,6 +23,7 @@ export default function BlogScreen() {
                 <BlogItem
                     avatar="https://res.cloudinary.com/dcjdtlnbl/image/upload/v1729604351/T_shirt_3_yrzyex.jpg"
                     title="Very long and intentionally dragged out title and somehow isn't long enough by my standard"
+                    name='Name of user'
                     content="An even more insanly dragged out content for the sake of testing the posibility of the application and somehow is still not long enough for me"
                     liked
                     detailed

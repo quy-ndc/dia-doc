@@ -12,6 +12,8 @@ export default function MainLayout() {
 
     const theme = useColorScheme()
 
+    const router = useRouter()
+
     // useEffect(() => {
     //     router.push('/authen-screen')
     // })
@@ -26,7 +28,7 @@ export default function MainLayout() {
                     elevation: 0,
                 },
                 tabBarStyle: {
-                    height: 65
+                    height: 60
                 },
                 tabBarLabelStyle: {
                     fontSize: 13,

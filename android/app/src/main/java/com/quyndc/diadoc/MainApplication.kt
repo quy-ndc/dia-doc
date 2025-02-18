@@ -16,9 +16,6 @@ import com.facebook.soloader.SoLoader
 import expo.modules.ApplicationLifecycleDispatcher
 import expo.modules.ReactNativeHostWrapper
 
-import com.zing.zalo.zalosdk.oauth.ZaloSDKApplication;
-
-
 class MainApplication : Application(), ReactApplication {
 
   override val reactNativeHost: ReactNativeHost = ReactNativeHostWrapper(
@@ -51,8 +48,6 @@ class MainApplication : Application(), ReactApplication {
       load()
     }
     ApplicationLifecycleDispatcher.onApplicationCreate(this)
-
-    ZaloSDKApplication.wrap(this);
   }
 
   override fun onConfigurationChanged(newConfig: Configuration) {

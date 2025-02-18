@@ -28,7 +28,7 @@
         <action android:name="android.intent.action.VIEW" />
         <category android:name="android.intent.category.DEFAULT" />
         <category android:name="android.intent.category.BROWSABLE" />
-        <data android:scheme="zalo-<YOUR_ZALO_APP_ID>" />
+        <data android:scheme="zalo-350132100575839532" />
         <!-- eg: <data android:scheme="zalo-1234567890" />-->
       </intent-filter>
     </activity>

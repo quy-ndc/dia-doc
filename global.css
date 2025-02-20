@@ -69,6 +69,9 @@
 
     /* Carousel indicator color */
     --carousel-color: black;
+
+    /* Click background when the image is in detail mode */
+    --detail-click-bg: rgba(42, 42, 42, 0.4);
   }
 
   .dark:root {
@@ -137,5 +140,8 @@
 
     /* Carousel indicator color */
     --carousel-color: white;
+
+    /* Click background when the image is in detail mode */
+    --detail-click-bg: rgba(42, 42, 42, 0.4);
   }
 }

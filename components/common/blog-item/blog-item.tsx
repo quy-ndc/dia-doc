@@ -1,10 +1,11 @@
 import { Image } from "expo-image";
 import { useRouter } from "expo-router";
-import { View, StyleSheet, Pressable, Dimensions } from "react-native";
+import { View, StyleSheet, Pressable } from "react-native";
 import { Text } from '~/components/ui/text'
 import { formatDateBlog } from "~/util/format-date-post";
 import LikeButton from "./like-button";
 import CommentButton from "./comment-button";
+import DetailImage from "./detail-image";
 
 
 type Prop = {
@@ -47,7 +48,7 @@ export default function BlogItem({ avatar, name, title, content, images, liked, 
                 />
                 <View className="flex-col gap-[0.5]">
                     <Text className="text-base font-bold tracking-wider">{name}</Text>
-                    <Text className="text-sm tracking-wider">{formatDateBlog('2025-02-17T16:19:20')}</Text>
+                    <Text className="text-sm tracking-wider text-[var(--fade-text-color)]">{formatDateBlog('2025-02-17T16:19:20')}</Text>
                 </View>
             </View>
 
@@ -57,17 +58,23 @@ export default function BlogItem({ avatar, name, title, content, images, liked, 
             </View>
 
             {(detailed && images.length > 0) && (
-                <Pressable onPress={handleBlogClick}>
-                    <Image
-                        style={styles.image}
-                        source={images[0]}
-                        contentFit="cover"
-                    />
-                </Pressable>
+                <DetailImage
+                    avatar={avatar}
+                    name={name}
+                    images={images}
+                    title={title}
+                    liked={liked}
+                />
             )}
             <View className="flex-row gap-1">
                 <LikeButton liked={liked} />
-                <CommentButton />
+                <CommentButton
+                    avatar={avatar}
+                    title={title}
+                    name={name}
+                    images={images}
+                    liked={liked}
+                />
             </View>
         </Pressable>
     );

@@ -14,9 +14,7 @@ import { Provider } from 'react-redux';
 import { persistor, store } from '~/store/store';
 import { PersistGate } from 'redux-persist/integration/react';
 import Toast from 'react-native-toast-message';
-import { getApplicationHashKey } from 'react-native-zalo-kit'
-import ZaloKit from 'react-native-zalo-kit'
-import { useEffect } from 'react';
+
 
 
 const LIGHT_THEME: Theme = {
@@ -56,6 +54,7 @@ export default function RootLayout() {
     return null;
   }
 
+ 
 
   return (
     <>

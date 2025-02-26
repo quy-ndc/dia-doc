@@ -2,7 +2,8 @@ import { Text } from '~/components/ui/text'
 import { Button } from "../../ui/button";
 import { ThumbsUp } from "~/lib/icons/ThumbsUp";
 import { useState } from "react";
-import { Pressable } from 'react-native';
+import { Pressable, useColorScheme } from 'react-native';
+import { GetGlobalColor, GlobalColor } from '~/global-color';
 
 
 type Prop = {
@@ -16,7 +17,7 @@ export default function LikeButton({ liked, detail }: Prop) {
 
     return (
         <Pressable
-            className={`flex-row gap-3 items-center px-4 py-2 rounded-xl ${detail ? 'active:bg-[var(--detail-click-bg)]' : 'active:bg-[var(--click-bg)]'}`}
+            className={`flex-row gap-3 items-center px-4 py-2 rounded-lg ${detail ? 'active:bg-[var(--detail-click-bg)]' : 'active:bg-[var(--click-bg)]'}`}
             onPress={() => setIsLiked(!isLiked)}
         >
             <ThumbsUp

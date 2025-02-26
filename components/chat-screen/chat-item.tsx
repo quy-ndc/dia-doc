@@ -1,11 +1,10 @@
 import * as React from 'react';
-import { View, StyleSheet, Dimensions, useColorScheme, Pressable, TouchableOpacity } from 'react-native';
+import { View, StyleSheet, Pressable } from 'react-native';
 import { Text } from '~/components/ui/text';
-import { Stack, useLocalSearchParams, useRouter } from 'expo-router';
+import { useRouter } from 'expo-router';
 import { Image } from 'expo-image'
 import { truncateText } from '~/util/truncate-text';
-
-const { width, height } = Dimensions.get('window');
+import { formatDateBlog } from '~/util/format-date-post';
 
 type Prop = {
     // id: string;
@@ -33,7 +32,7 @@ export default function Chat({ img, name, time, message, hasNewMessage }: Prop) 
     return (
         <Pressable
             onPress={handleChatSelect}
-            className={`flex-row justify-between p-6 active:bg-[var(--click-bg)]`}
+            className={`flex-row justify-between py-5 px-3 active:bg-[var(--click-bg)]`}
         >
             <Image
                 style={styles.image}
@@ -43,9 +42,9 @@ export default function Chat({ img, name, time, message, hasNewMessage }: Prop) 
             <View className='flex-col justify-center gap-1 w-[80%]'>
                 <View className='flex-row justify-between items-center'>
                     <Text className={`text-xl ${hasNewMessage && 'font-bold'}`}>{name}</Text>
-                    <Text className={`text-sm ${hasNewMessage && 'font-bold'}`}>{time}</Text>
+                    <Text className={`text-sm ${hasNewMessage && 'font-bold'}`}>{formatDateBlog('2025-02-17T16:19:20')}</Text>
                 </View>
-                <Text className={`${hasNewMessage ? 'font-bold' : 'opacity-[60%]'}`}>{truncateText(message, 45)}</Text>
+                <Text className={`${hasNewMessage ? 'font-bold' : 'opacity-[60%]'}`}>{truncateText(message, 40)}</Text>
             </View>
         </Pressable>
     );

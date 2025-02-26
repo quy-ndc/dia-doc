@@ -16,27 +16,13 @@ export default function QuickAccess() {
     const router = useRouter()
 
     return (
-        <View className='flex-col gap-5 px-5'>
+        <View className='flex-col gap-5'>
             <SectionTitle
                 icon={<Zap className='text-[var(--quick-access-title-icon-color)]' size={18} />}
                 title='Truy cập Nhanh'
             />
-            <View className='flex flex-wrap flex-row justify-between gap-3'>
-                <QuickButton
-                    icon={<MessageCircleMore className='text-[var(--quick-access-icon-color)]' size={23} />}
-                    title='Tin nhắn'
-                    onPress={() => router.push('/message-screen')}
-                />
-                <QuickButton
-                    icon={<Newspaper className='text-[var(--quick-access-icon-color)]' size={23} />}
-                    title='Bài viết'
-                    onPress={() => router.push('/blog-screen')}
-                />
-                <QuickButton
-                    icon={<User className='text-[var(--quick-access-icon-color)]' size={23} />}
-                    title='Hồ sơ'
-                    onPress={() => router.push('/profile-screen')}
-                />
+             
+            <View className='flex flex-wrap flex-row justify-between gap-3 px-5'>
                 <QuickButton
                     icon={<MessageCircleMore className='text-[var(--quick-access-icon-color)]' size={23} />}
                     title='Tin nhắn'

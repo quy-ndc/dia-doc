@@ -1,24 +1,20 @@
-import { Tabs, useRouter } from 'expo-router';
+import { Tabs } from 'expo-router';
 import { User } from '~/lib/icons/User';
 import { MessageCircleMore } from '~/lib/icons/MessageCircleMore';
 import HeaderRight from '~/components/header/header-right';
-import { useEffect } from 'react';
 import { Home } from '~/lib/icons/Home';
 import { Newspaper } from '~/lib/icons/Newspaper';
-import { useColorScheme } from 'react-native';
+import { Dimensions, Platform, useColorScheme } from 'react-native';
 import { GetGlobalColor, GlobalColor } from '~/global-color';
 
 export default function MainLayout() {
 
     const theme = useColorScheme()
 
-    const router = useRouter()
-
-    // useEffect(() => {
-    //     router.push('/authen-screen')
-    // })
+    const { height } = Dimensions.get('window');
 
     const tabBarActiveBg = theme == 'dark' ? GetGlobalColor(GlobalColor.TAB_BAR_ACTIVE_BG_DARK) : GetGlobalColor(GlobalColor.TAB_BAR_ACTIVE_BG_LIGHT)
+
 
     return (
         <Tabs
@@ -28,10 +24,10 @@ export default function MainLayout() {
                     elevation: 0,
                 },
                 tabBarStyle: {
-                    height: 60
+                    height: Platform.OS == 'ios' ? height * 0.104 : height * 0.07,
                 },
                 tabBarLabelStyle: {
-                    fontSize: 13,
+                    fontSize: 12,
                     fontWeight: 400,
                     letterSpacing: 0.6
                 },
@@ -43,7 +39,7 @@ export default function MainLayout() {
                 options={{
                     headerTitle: 'Trang chủ',
                     title: 'Trang chủ',
-                    tabBarIcon: () => <Home className='text-[var(--quick-access-icon-color)]' size={22} />,
+                    tabBarIcon: () => <Home className='text-[var(--quick-access-icon-color)]' size={20} />,
                     headerRight: () => <HeaderRight />,
                     animation: 'shift'
                 }}
@@ -53,7 +49,7 @@ export default function MainLayout() {
                 options={{
                     headerTitle: 'Tin nhắn',
                     title: 'Tin nhắn',
-                    tabBarIcon: () => <MessageCircleMore className='text-[var(--quick-access-icon-color)]' size={22} />,
+                    tabBarIcon: () => <MessageCircleMore className='text-[var(--quick-access-icon-color)]' size={20} />,
                     headerRight: () => <HeaderRight />,
                     animation: 'shift'
                 }}
@@ -63,9 +59,9 @@ export default function MainLayout() {
                 options={{
                     headerTitle: 'Bài viết',
                     title: 'Bài viết',
-                    tabBarIcon: () => <Newspaper className='text-[var(--quick-access-icon-color)]' size={22} />,
+                    tabBarIcon: () => <Newspaper className='text-[var(--quick-access-icon-color)]' size={20} />,
                     headerRight: () => <HeaderRight />,
-                    animation: 'shift'
+                    animation: 'shift',
                 }}
             />
             <Tabs.Screen
@@ -73,7 +69,7 @@ export default function MainLayout() {
                 options={{
                     headerTitle: 'Hồ sơ',
                     title: 'Hồ sơ',
-                    tabBarIcon: () => <User className='text-[var(--quick-access-icon-color)]' size={22} />,
+                    tabBarIcon: () => <User className='text-[var(--quick-access-icon-color)]' size={20} />,
                     headerRight: () => <HeaderRight />,
                     animation: 'shift'
                 }}

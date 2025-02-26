@@ -33,7 +33,7 @@ export default function CommentButton({ avatar, title, name, images, liked, deta
     return (
         <Pressable
             className={
-                `flex-row gap-3 items-center px-4 py-2 rounded-xl 
+                `flex-row gap-3 items-center px-4 py-2 rounded-lg
                 ${detail ?
                     'active:bg-[var(--detail-click-bg)]' :
                     'active:bg-[var(--click-bg)]'}`

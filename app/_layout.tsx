@@ -78,11 +78,14 @@ export default function RootLayout() {
             />
             <Stack.Screen
               name='chat-screen'
+              options={{
+                headerTitle: '',
+              }}
             />
             <Stack.Screen
               name='blog-detail-screen'
               options={{
-                headerTitle: ' ',
+                headerTitle: '',
                 presentation: 'modal'
               }}
             />

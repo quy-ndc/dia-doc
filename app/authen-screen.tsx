@@ -1,5 +1,5 @@
 import * as React from 'react';
-import { View, StyleSheet, Dimensions, useColorScheme } from 'react-native';
+import { View, StyleSheet, Dimensions, useColorScheme, Platform } from 'react-native';
 import { Image } from 'expo-image';
 import { Button } from '~/components/ui/button';
 import { Text } from '~/components/ui/text';
@@ -26,7 +26,7 @@ export default function Screen() {
           source={require('../assets/images/authen_image.png')}
           // placeholder={{ blurhash }}
           contentFit="contain"
-          transition={1000}
+          transition={Platform.OS == 'ios' ? 1000 : 3000}
         />
         <Text className='text-3xl font-bold'>Bác Sĩ Tiểu Đường</Text>
       </View>

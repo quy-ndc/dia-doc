@@ -1,6 +1,6 @@
 import { Image } from "expo-image";
 import { useRouter } from "expo-router";
-import { Animated as RNAnimated, View, StyleSheet, Pressable, Dimensions, Modal, ScrollView, NativeSyntheticEvent, NativeScrollEvent } from "react-native";
+import { Animated as RNAnimated, View, StyleSheet, Pressable, Dimensions, Modal, ScrollView, NativeSyntheticEvent, NativeScrollEvent, Platform } from "react-native";
 import { Text } from '~/components/ui/text'
 import { formatDateBlog } from "~/util/format-date-post";
 import LikeButton from "./like-button";
@@ -103,7 +103,7 @@ export default function DetailImage({
                             <Text className='text-lg text-white font-bold'>{name}</Text>
                         </View>
                         <Text className='text-lg text-white font-bold'>{title}</Text>
-                        <View className="flex-row gap-1">
+                        <View className={`flex-row gap-1 ${Platform.OS == 'ios' && 'pb-5'}`}>
                             <LikeButton
                                 liked={liked}
                                 detail
@@ -129,13 +129,12 @@ export default function DetailImage({
                     showsHorizontalScrollIndicator={false}
                     onScroll={onScroll}
                     scrollEventThrottle={16}
-                    style={{ width: width * 0.9 }}
+                    style={{ width: width }}
                 >
                     {images.map((image, index) => (
                         <Pressable
                             key={index}
-                            className="flex-1 justify-center items-center"
-                            style={{ width: width * 0.9 }}
+                            style={{ width: width }}
                             onPress={onImageClick}
                         >
                             <Image

@@ -47,7 +47,7 @@
     --ownt-message-text: black;
 
     /* Icon color of quick access button */
-    --quick-access-icon-color: rgb(34, 197, 94);
+    --quick-access-icon-color: #195eff;
 
     /* Background color of blog post */
     --blog-bg: rgba(139, 139, 139, 0.06);
@@ -72,6 +72,15 @@
 
     /* Click background when the image is in detail mode */
     --detail-click-bg: rgba(42, 42, 42, 0.4);
+
+    /* Background of the type of diebetes in profile screen */
+    --dia-type-bg: #195eff;
+
+    /* Color of the go to top buttun in blog screen */
+    --go-up-btn-bg: rgba(0, 0, 0, 0.465);
+
+    /* The color of the icon inside the go up button */
+    --go-up-btn-icon: white;
   }
 
   .dark:root {
@@ -118,7 +127,7 @@
     --ownt-message-text: white;
 
     /* Icon color of quick access button */
-    --quick-access-icon-color: rgb(122, 255, 112);
+    --quick-access-icon-color: #84bcfd;
 
     /* Background color of blog post */
     --blog-bg: #111111b7;
@@ -136,12 +145,21 @@
     --not-liked: #fff;
 
     /* Color of the like button when liked */
-    --liked: rgb(49, 49, 215);
+    --liked: rgb(71, 71, 195);
 
     /* Carousel indicator color */
     --carousel-color: white;
 
     /* Click background when the image is in detail mode */
     --detail-click-bg: rgba(42, 42, 42, 0.4);
+
+    /* Background of the type of diebetes in profile screen */
+    --dia-type-bg: #2969ff;
+
+    /* Color of the go to top buttun in blog screen */
+    --go-up-btn-bg: rgba(255, 255, 255, 0.859);
+
+    /* The color of the icon inside the go up button */
+    --go-up-btn-icon: black;
   }
 }

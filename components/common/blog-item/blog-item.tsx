@@ -37,10 +37,10 @@ export default function BlogItem({ avatar, name, title, content, images, liked, 
 
     return (
         <Pressable
-            className="flex-col gap-5 rounded-xl p-2.5 bg-[var(--blog-bg)] active:bg-[--click-bg]"
+            className="flex-col gap-5 active:bg-[--click-bg] border-b border-[var(--blog-right-border-color)]"
             onPress={handleBlogClick}
         >
-            <View className="flex-row items-center gap-5">
+            <View className="flex-row items-center gap-5 px-4 pt-4">
                 <Image
                     style={styles.avatar}
                     source={avatar}
@@ -52,7 +52,7 @@ export default function BlogItem({ avatar, name, title, content, images, liked, 
                 </View>
             </View>
 
-            <View className="flex-col gap-4 justify-center">
+            <View className="flex-col gap-4 justify-center px-5">
                 <Text className="text-lg font-bold tracking-wider">{title}</Text>
                 {/* <Text className="text-sm tracking-wider">{truncateText(content, 120)}</Text> */}
             </View>
@@ -66,7 +66,7 @@ export default function BlogItem({ avatar, name, title, content, images, liked, 
                     liked={liked}
                 />
             )}
-            <View className="flex-row gap-1">
+            <View className="flex-row gap-1 px-3 pb-3">
                 <LikeButton liked={liked} />
                 <CommentButton
                     avatar={avatar}

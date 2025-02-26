@@ -1,18 +1,15 @@
 import * as React from 'react';
-import { View, StyleSheet, Dimensions, ScrollView, Pressable } from 'react-native';
+import { View, ScrollView, Pressable } from 'react-native';
 import { Text } from '~/components/ui/text';
-import { useRouter } from 'expo-router';
 import { Image } from 'expo-image'
 
 import { Hospital } from '~/lib/icons/Hospital';
 import { formatDateDiagnose } from '~/util/format-date-diagnose';
 
 
-const { width, height } = Dimensions.get('window');
 
 export default function ProfileScreen() {
 
-    const router = useRouter()
 
     return (
         <ScrollView>
@@ -48,6 +45,13 @@ export default function ProfileScreen() {
                     <View className='flex-col gap-1'>
                         <Text className='text-xl font-bold tracking-wide'>Lần cuối chuẩn đoán</Text>
                         <Text className='text-sm text-[var(--fade-text-color)]'>{formatDateDiagnose('2025-02-17T16:19:20')}</Text>
+                    </View>
+                </View>
+
+                <View className='flex-col gap-6 p-5 bg-[var(--blog-bg)] rounded-lg'>
+                    <Text className='text-2xl font-bold tracking-wider'>Thông tin cơ bản</Text>
+                    <View >
+
                     </View>
                 </View>
             </View>

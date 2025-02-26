@@ -1,5 +1,4 @@
 import { Text } from '~/components/ui/text'
-import { Button } from "../../ui/button";
 import { MessageSquareText } from '~/lib/icons/MessageSquareText';
 import { Pressable } from 'react-native';
 import { useRouter } from 'expo-router';

@@ -8,8 +8,6 @@ import CommentButton from "./comment-button";
 import { useRef, useState } from "react";
 import Carousel, { ICarouselInstance } from "react-native-reanimated-carousel";
 import { Button } from "~/components/ui/button";
-import { ChevronLeft } from "~/lib/icons/ChevronLeft";
-import { ChevronRight } from "~/lib/icons/ChevronRight";
 import ImageViewer from "react-native-image-zoom-viewer";
 import { X } from "~/lib/icons/X";
 
@@ -23,7 +21,7 @@ type Prop = {
     liked: boolean
 }
 
-const { width, height } = Dimensions.get('window');
+const { width } = Dimensions.get('window');
 
 export default function DetailImage({
     avatar,

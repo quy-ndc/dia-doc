@@ -1,17 +1,6 @@
 import * as React from 'react';
-import { View, Dimensions, Animated as RNAnimated, Pressable, StyleSheet, ScrollView, Modal } from 'react-native';
-import { Image } from 'expo-image';
-import Carousel, { ICarouselInstance } from 'react-native-reanimated-carousel';
-import { Text } from '~/components/ui/text';
-import LikeButton from '~/components/common/blog-item/like-button';
-import CommentButton from '~/components/common/blog-item/comment-button';
-import { useEffect, useRef, useState } from 'react';
-import { Button } from '~/components/ui/button';
-import { ChevronLeft } from '~/lib/icons/ChevronLeft';
-import { ChevronRight } from '~/lib/icons/ChevronRight';
-import Animated, { SlideInLeft, SlideOutLeft } from 'react-native-reanimated';
+import { View, Dimensions, StyleSheet, ScrollView } from 'react-native';
 import { useLocalSearchParams } from 'expo-router';
-import ImageViewer from 'react-native-image-zoom-viewer';
 import BlogItem from '~/components/common/blog-item/blog-item';
 import BlogComment from '~/components/common/blog-item/blog-comment';
 

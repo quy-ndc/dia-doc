@@ -1,5 +1,5 @@
 import * as React from 'react';
-import { StyleSheet, Pressable } from 'react-native';
+import { Pressable } from 'react-native';
 import { Text } from '~/components/ui/text';
 
 

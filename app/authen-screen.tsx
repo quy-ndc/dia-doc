@@ -1,14 +1,13 @@
 import * as React from 'react';
-import { View, StyleSheet, Dimensions, useColorScheme, Platform } from 'react-native';
+import { View, StyleSheet, Dimensions, Platform } from 'react-native';
 import { Image } from 'expo-image';
 import { Button } from '~/components/ui/button';
 import { Text } from '~/components/ui/text';
 import { LogIn } from '~/lib/icons/Login';
-import { Link, useRouter } from 'expo-router';
-import { useEffect } from 'react';
+import { useRouter } from 'expo-router';
 
 
-const { width, height } = Dimensions.get('window');
+const { height } = Dimensions.get('window');
 
 export default function Screen() {
 

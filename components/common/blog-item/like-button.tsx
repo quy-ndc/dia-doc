@@ -1,9 +1,7 @@
 import { Text } from '~/components/ui/text'
-import { Button } from "../../ui/button";
 import { ThumbsUp } from "~/lib/icons/ThumbsUp";
 import { useState } from "react";
-import { Pressable, useColorScheme } from 'react-native';
-import { GetGlobalColor, GlobalColor } from '~/global-color';
+import { Pressable } from 'react-native';
 
 
 type Prop = {

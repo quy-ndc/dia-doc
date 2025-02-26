@@ -1,10 +1,9 @@
 import * as React from 'react';
-import { Dimensions, Pressable, StyleSheet, View } from 'react-native';
+import { Pressable, StyleSheet, View } from 'react-native';
 import { useRouter } from 'expo-router';
 import { ThemeToggle } from '../ThemeToggle';
 import { Image } from 'expo-image'
 
-const { width, height } = Dimensions.get('window');
 
 export default function HeaderRight() {
 

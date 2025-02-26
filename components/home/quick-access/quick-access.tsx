@@ -1,15 +1,13 @@
 import * as React from 'react';
-import { View, Dimensions } from 'react-native';
+import { View } from 'react-native';
 import { useRouter } from 'expo-router';
 import QuickButton from './quick-button';
 import { MessageCircleMore } from '~/lib/icons/MessageCircleMore';
 import { Newspaper } from '~/lib/icons/Newspaper';
 import { User } from '~/lib/icons/User';
-import { Text } from '~/components/ui/text'
 import SectionTitle from '../common/section-title';
 import { Zap } from '~/lib/icons/Zap';
 
-const { width, height } = Dimensions.get('window');
 
 export default function QuickAccess() {
 

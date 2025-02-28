@@ -6,6 +6,8 @@ import { Animated as RNAnimated } from 'react-native';
 import BlogItem from '../../components/common/blog-item/blog-item';
 import { ChevronUp } from '../../lib/icons/ChevronUp';
 import ZaloKit, { isAuthenticated } from 'react-native-zalo-kit'
+import { Button } from '../../components/ui/button';
+import { Text } from '../../components/ui/text';
 
 
 
@@ -126,22 +128,25 @@ export default function BlogScreen() {
         }
     };
 
-    const checkAuthentication = async () => {
+    const checkAuthenticationn = async () => {
         try {
-            const isAuth = await ZaloKit.isAuthenticated(); // Call the function
-            console.log(isAuth); // Log the result (true/false)
+            const isAuth = await ZaloKit.isAuthenticated();
+            console.log(isAuth);
         } catch (error) {
-            console.error("Authentication check failed:", error);
+            console.error(error);
         }
     };
 
     useEffect(() => {
-        checkAuthentication();
+        checkAuthenticationn();
     }, []);
 
 
     return (
         <View className='flex-1 w-full pb-5'>
+            <Button onPress={() => ZaloKit.login()}>
+                <Text>aaaa</Text>
+            </Button>
             <FlashList
                 data={blogPosts}
                 ref={listRef}

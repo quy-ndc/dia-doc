@@ -1,11 +1,9 @@
 import * as React from 'react';
-import { View, Dimensions, StyleSheet, ScrollView } from 'react-native';
+import { View, StyleSheet, ScrollView } from 'react-native';
 import { useLocalSearchParams } from 'expo-router';
-import BlogItem from '~/components/common/blog-item/blog-item';
-import BlogComment from '~/components/common/blog-item/blog-comment';
+import BlogItem from '../components/common/blog-item/blog-item';
+import BlogComment from '../components/common/blog-item/blog-comment';
 
-
-const { width, height } = Dimensions.get('window');
 
 export default function BlogDetailScreen() {
 
@@ -13,8 +11,6 @@ export default function BlogDetailScreen() {
 
     const blogImages: string[] = JSON.parse(images as string) || [];
     const isLiked = liked == 'true'
-
-
 
     return (
         <>

@@ -1,7 +1,7 @@
-import { Text } from '~/components/ui/text'
+import { Text } from '../../../components/ui/text'
 import { View } from 'react-native';
 import { Image } from 'expo-image'
-import { formatDateBlog } from '~/util/format-date-post';
+import { formatDateBlog } from '../../../util/format-date-post';
 
 
 

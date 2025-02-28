@@ -1,9 +1,9 @@
 import * as React from 'react';
 import { View, StyleSheet, Dimensions, Platform } from 'react-native';
 import { Image } from 'expo-image';
-import { Button } from '~/components/ui/button';
-import { Text } from '~/components/ui/text';
-import { LogIn } from '~/lib/icons/Login';
+import { Button } from '../components/ui/button';
+import { Text } from '../components/ui/text';
+import { LogIn } from '../lib/icons/Login';
 import { useRouter } from 'expo-router';
 
 

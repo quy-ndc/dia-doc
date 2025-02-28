@@ -1,14 +1,14 @@
 import * as React from 'react';
 import { View, StyleSheet, KeyboardAvoidingView, Platform, ScrollView } from 'react-native';
 import { Image } from 'expo-image';
-import { Button } from '~/components/ui/button';
-import { Text } from '~/components/ui/text';
+import { Button } from '../components/ui/button';
+import { Text } from '../components/ui/text';
 import { Stack, useLocalSearchParams, useRouter } from 'expo-router';
 import { useRef, useState } from 'react';
-import { Input } from '~/components/ui/input';
-import { Message } from '~/assets/types/chat/message';
-import { OwnMessage, ReceivedMessage } from '~/components/chat-screen/messages';
-import { SendHorizontal } from '~/lib/icons/SendHorizontal';
+import { Input } from '../components/ui/input';
+import { Message } from '../assets/types/chat/message';
+import { OwnMessage, ReceivedMessage } from '../components/chat-screen/messages';
+import { SendHorizontal } from '../lib/icons/SendHorizontal';
 
 
 export default function ChatScreen() {

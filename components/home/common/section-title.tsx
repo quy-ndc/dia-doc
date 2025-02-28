@@ -1,6 +1,6 @@
 import * as React from 'react';
 import { Dimensions, View } from 'react-native';
-import { Text } from '~/components/ui/text'
+import { Text } from '../../../components/ui/text'
 
 type Prop = {
     icon: React.ReactNode

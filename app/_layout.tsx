@@ -1,17 +1,17 @@
-import '~/global.css';
+import '../global.css';
 
 import { DarkTheme, DefaultTheme, Theme, ThemeProvider } from '@react-navigation/native';
 import { Stack } from 'expo-router';
 import { StatusBar } from 'expo-status-bar';
 import * as React from 'react';
 import { Platform } from 'react-native';
-import { NAV_THEME } from '~/lib/constants';
-import { useColorScheme } from '~/lib/useColorScheme';
+import { NAV_THEME } from '../lib/constants';
+import { useColorScheme } from '../lib/useColorScheme';
 import { PortalHost } from '@rn-primitives/portal';
-import { setAndroidNavigationBar } from '~/lib/android-navigation-bar';
-import { ReactQueryProvider } from '~/util/provider/react-query-provider';
+import { setAndroidNavigationBar } from '../lib/android-navigation-bar';
+import { ReactQueryProvider } from '../util/provider/react-query-provider';
 import { Provider } from 'react-redux';
-import { persistor, store } from '~/store/store';
+import { persistor, store } from '../store/store';
 import { PersistGate } from 'redux-persist/integration/react';
 import Toast from 'react-native-toast-message';
 

@@ -1,5 +1,5 @@
-import { Text } from '~/components/ui/text'
-import { ThumbsUp } from "~/lib/icons/ThumbsUp";
+import { Text } from '../../../components/ui/text'
+import { ThumbsUp } from "../../../lib/icons/ThumbsUp";
 import { useState } from "react";
 import { Pressable } from 'react-native';
 

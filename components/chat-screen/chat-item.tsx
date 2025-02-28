@@ -1,10 +1,10 @@
 import * as React from 'react';
 import { View, StyleSheet, Pressable } from 'react-native';
-import { Text } from '~/components/ui/text';
+import { Text } from '../../components/ui/text';
 import { useRouter } from 'expo-router';
 import { Image } from 'expo-image'
-import { truncateText } from '~/util/truncate-text';
-import { formatDateBlog } from '~/util/format-date-post';
+import { truncateText } from '../../util/truncate-text';
+import { formatDateBlog } from '../../util/format-date-post';
 
 type Prop = {
     // id: string;

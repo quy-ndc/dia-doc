@@ -1,10 +1,13 @@
 import { FlashList } from '@shopify/flash-list';
 import * as React from 'react';
-import { useCallback, useRef, useState } from 'react';
+import { useCallback, useEffect, useRef, useState } from 'react';
 import { View, RefreshControl, Pressable } from 'react-native';
 import { Animated as RNAnimated } from 'react-native';
-import BlogItem from '~/components/common/blog-item/blog-item';
-import { ChevronUp } from '~/lib/icons/ChevronUp';
+import BlogItem from '../../components/common/blog-item/blog-item';
+import { ChevronUp } from '../../lib/icons/ChevronUp';
+import ZaloKit, { isAuthenticated } from 'react-native-zalo-kit'
+
+
 
 export default function BlogScreen() {
 
@@ -122,6 +125,20 @@ export default function BlogScreen() {
             toggleVisibility(false);
         }
     };
+
+    const checkAuthentication = async () => {
+        try {
+            const isAuth = await ZaloKit.isAuthenticated(); // Call the function
+            console.log(isAuth); // Log the result (true/false)
+        } catch (error) {
+            console.error("Authentication check failed:", error);
+        }
+    };
+
+    useEffect(() => {
+        checkAuthentication();
+    }, []);
+
 
     return (
         <View className='flex-1 w-full pb-5'>

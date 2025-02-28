@@ -1,3 +1,4 @@
+
 package com.quyndc.diadoc
 import expo.modules.splashscreen.SplashScreenManager
 

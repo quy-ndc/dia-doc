@@ -2,11 +2,11 @@ import * as React from 'react';
 import { View } from 'react-native';
 import { useRouter } from 'expo-router';
 import QuickButton from './quick-button';
-import { MessageCircleMore } from '~/lib/icons/MessageCircleMore';
-import { Newspaper } from '~/lib/icons/Newspaper';
-import { User } from '~/lib/icons/User';
+import { MessageCircleMore } from '../../../lib/icons/MessageCircleMore';
+import { Newspaper } from '../../../lib/icons/Newspaper';
+import { User } from '../../../lib/icons/User';
 import SectionTitle from '../common/section-title';
-import { Zap } from '~/lib/icons/Zap';
+import { Zap } from '../../../lib/icons/Zap';
 
 
 export default function QuickAccess() {

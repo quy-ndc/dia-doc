@@ -1,9 +1,9 @@
 import { Dimensions, View } from "react-native";
 import SectionTitle from "../common/section-title";
-import { Sparkles } from '~/lib/icons/Sparkles';
-import { Button } from "~/components/ui/button";
-import { Text } from "~/components/ui/text";
-import { ChevronDown } from "~/lib/icons/ChevronDown";
+import { Sparkles } from '../../../lib/icons/Sparkles';
+import { Button } from "../../../components/ui/button";
+import { Text } from "../../../components/ui/text";
+import { ChevronDown } from "../../../lib/icons/ChevronDown";
 import { useRouter } from "expo-router";
 import BlogItem from "../../common/blog-item/blog-item";
 import { FlashList } from "@shopify/flash-list";

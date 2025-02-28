@@ -1,10 +1,10 @@
 import * as React from 'react';
 import { View, ScrollView, Pressable } from 'react-native';
-import { Text } from '~/components/ui/text';
+import { Text } from '../../components/ui/text';
 import { Image } from 'expo-image'
 
-import { Hospital } from '~/lib/icons/Hospital';
-import { formatDateDiagnose } from '~/util/format-date-diagnose';
+import { Hospital } from '../../lib/icons/Hospital';
+import { formatDateDiagnose } from '../../util/format-date-diagnose';
 
 
 

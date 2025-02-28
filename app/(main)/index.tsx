@@ -1,7 +1,7 @@
 import * as React from 'react';
 import { View, ScrollView } from 'react-native';
-import QuickAccess from '~/components/home/quick-access/quick-access';
-import HomeBlogSection from '~/components/home/blog/blog-section';
+import QuickAccess from '../../components/home/quick-access/quick-access';
+import HomeBlogSection from '../../components/home/blog/blog-section';
 
 export default function HomeScreen() {
 

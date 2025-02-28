@@ -1,8 +1,8 @@
 import { Image } from "expo-image";
 import { useRouter } from "expo-router";
 import { View, StyleSheet, Pressable } from "react-native";
-import { Text } from '~/components/ui/text'
-import { formatDateBlog } from "~/util/format-date-post";
+import { Text } from '../../../components/ui/text'
+import { formatDateBlog } from "../../../util/format-date-post";
 import LikeButton from "./like-button";
 import CommentButton from "./comment-button";
 import DetailImage from "./detail-image";

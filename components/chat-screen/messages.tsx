@@ -1,8 +1,8 @@
 import * as React from 'react';
 import { useState } from 'react';
 import { Pressable, View } from 'react-native';
-import { Text } from '~/components/ui/text';
-import { formatDateMessage } from '~/util/format-date-message';
+import { Text } from '../../components/ui/text';
+import { formatDateMessage } from '../../util/format-date-message';
 
 type Prop = {
     content: string;

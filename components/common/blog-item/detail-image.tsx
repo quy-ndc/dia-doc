@@ -1,15 +1,12 @@
 import { Image } from "expo-image";
-import { useRouter } from "expo-router";
-import { Animated as RNAnimated, View, StyleSheet, Pressable, Dimensions, Modal, ScrollView, NativeSyntheticEvent, NativeScrollEvent, Platform } from "react-native";
-import { Text } from '~/components/ui/text'
-import { formatDateBlog } from "~/util/format-date-post";
+import { Animated as RNAnimated, View, Pressable, Dimensions, Modal, ScrollView, NativeSyntheticEvent, NativeScrollEvent, Platform } from "react-native";
+import { Text } from '../../../components/ui/text'
 import LikeButton from "./like-button";
 import CommentButton from "./comment-button";
 import { useRef, useState } from "react";
-import Carousel, { ICarouselInstance } from "react-native-reanimated-carousel";
-import { Button } from "~/components/ui/button";
+import { Button } from "../../../components/ui/button";
 import ImageViewer from "react-native-image-zoom-viewer";
-import { X } from "~/lib/icons/X";
+import { X } from "../../../lib/icons/X";
 
 
 type Prop = {

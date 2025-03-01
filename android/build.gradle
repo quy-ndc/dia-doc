@@ -3,12 +3,14 @@
 buildscript {
     ext {
         buildToolsVersion = findProperty('android.buildToolsVersion') ?: '35.0.0'
-        minSdkVersion = Integer.parseInt(findProperty('android.minSdkVersion') ?: '24')
+        minSdkVersion = '24'
+        // minSdkVersion = Integer.parseInt(findProperty('android.minSdkVersion') ?: '24')
         compileSdkVersion = Integer.parseInt(findProperty('android.compileSdkVersion') ?: '35')
-        targetSdkVersion = Integer.parseInt(findProperty('android.targetSdkVersion') ?: '34')
+        targetSdkVersion = '34'
+        // targetSdkVersion = Integer.parseInt(findProperty('android.targetSdkVersion') ?: '34')
         kotlinVersion = findProperty('android.kotlinVersion') ?: '1.9.25'
-
         ndkVersion = "26.1.10909125"
+        androidXCore = "1.6.0"
     }
     repositories {
         google()
@@ -39,3 +41,16 @@ allprojects {
         maven { url 'https://www.jitpack.io' }
     }
 }
+
+subprojects {
+    if (it.name.contains("react-native")) {
+        if (it.plugins.hasPlugin("com.android.library")) {
+            it.android {
+                compileSdkVersion = 35
+                buildToolsVersion = "35.0.0"
+            }
+        }
+    }
+}
+
+

@@ -1,11 +1,11 @@
 import { FlashList } from '@shopify/flash-list';
 import * as React from 'react';
 import { useCallback, useEffect, useRef, useState } from 'react';
-import { View, RefreshControl, Pressable } from 'react-native';
+import { View, RefreshControl, Pressable, ToastAndroid } from 'react-native';
 import { Animated as RNAnimated } from 'react-native';
 import BlogItem from '../../components/common/blog-item/blog-item';
 import { ChevronUp } from '../../lib/icons/ChevronUp';
-import ZaloKit, { isAuthenticated } from 'react-native-zalo-kit'
+import ZaloKit, { Constants, getUserProfile, isAuthenticated } from 'react-native-zalo-kit'
 import { Button } from '../../components/ui/button';
 import { Text } from '../../components/ui/text';
 
@@ -128,12 +128,16 @@ export default function BlogScreen() {
         }
     };
 
+    const [error, setError] = useState<any>()
+
     const checkAuthenticationn = async () => {
         try {
             const isAuth = await ZaloKit.isAuthenticated();
-            console.log(isAuth);
-        } catch (error) {
-            console.error(error);
+            console.log(isAuth)
+        } catch (e) {
+            ToastAndroid.show(String(e), 1000)
+            console.log(String(e))
+            setError(String(e))
         }
     };
 
@@ -141,12 +145,64 @@ export default function BlogScreen() {
         checkAuthenticationn();
     }, []);
 
+    const zaloLogin = async () => {
+        try {
+            const code = await ZaloKit.login(Constants.AUTH_VIA_APP_OR_WEB)
+            ToastAndroid.show(String(code), 1000)
+            console.log('code', code)
+        } catch (e) {
+            ToastAndroid.show(String(e), 1000)
+            console.log(e)
+        }
+    }
+
+    const zaloLogout = async () => {
+        try {
+            await ZaloKit.logout()
+        } catch (e) {
+            ToastAndroid.show(String(e), 1000)
+            console.log(String(e))
+        }
+    }
+
+    const getUserProfilee = async () => {
+        try {
+            const userProfile = await getUserProfile()
+            console.log('pro', userProfile)
+
+            /*
+              returns: {
+                id: 'user_id_1',
+                name: 'user name',
+                phoneNumber: 'phone number',
+                gender: 'male',
+                birthday: '01/01/2020',
+                picture: {
+                  data: {
+                    url: 'http://image.example',
+                  },
+                }
+              }
+            */
+        } catch (error) {
+            console.log(error)
+        }
+    }
+
 
     return (
         <View className='flex-1 w-full pb-5'>
-            <Button onPress={() => ZaloKit.login()}>
+            <Text>{error}</Text>
+            <Button onPress={zaloLogin}>
                 <Text>aaaa</Text>
             </Button>
+            <Button onPress={zaloLogout}>
+                <Text>out</Text>
+            </Button>
+            <Button onPress={getUserProfilee}>
+                <Text>pro</Text>
+            </Button>
+
             <FlashList
                 data={blogPosts}
                 ref={listRef}

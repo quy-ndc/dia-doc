@@ -12,6 +12,9 @@ import com.facebook.react.defaults.DefaultReactActivityDelegate
 
 import expo.modules.ReactActivityDelegateWrapper
 
+import com.zing.zalo.zalosdk.oauth.ZaloSDK;
+import android.content.Intent;
+
 class MainActivity : ReactActivity() {
   override fun onCreate(savedInstanceState: Bundle?) {
     // Set the theme to AppTheme BEFORE onCreate to support
@@ -62,5 +65,10 @@ class MainActivity : ReactActivity() {
       // Use the default back button implementation on Android S
       // because it's doing more than [Activity.moveTaskToBack] in fact.
       super.invokeDefaultOnBackPressed()
+  }
+
+  override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
+    super.onActivityResult(requestCode, resultCode, data)
+    ZaloSDK.Instance.onActivityResult(this, requestCode, resultCode, data)
   }
 }

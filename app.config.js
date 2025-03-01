@@ -58,7 +58,7 @@ export default {
       [
         "react-native-zalo-kit/expo",
         {
-          appId: "2451745039837416278",
+          appId: "350132100575839532",
           appDelegateContent,
           mainActivityContent,
           mainApplicationContent,

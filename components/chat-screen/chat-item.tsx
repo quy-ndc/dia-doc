@@ -15,7 +15,7 @@ type Prop = {
     hasNewMessage: boolean
 }
 
-export default function Chat({ img, name, time, message, hasNewMessage }: Prop) {
+export default function ChatItem({ img, name, time, message, hasNewMessage }: Prop) {
 
     const router = useRouter()
 
@@ -35,7 +35,7 @@ export default function Chat({ img, name, time, message, hasNewMessage }: Prop) 
             className={`flex-row justify-between py-5 px-3 active:bg-[var(--click-bg)]`}
         >
             <Image
-                style={styles.image}
+                style={{ width: 60, height: 60, borderRadius: 1000 }}
                 source={img}
                 contentFit='cover'
             />
@@ -49,24 +49,3 @@ export default function Chat({ img, name, time, message, hasNewMessage }: Prop) 
         </Pressable>
     );
 }
-
-const styles = StyleSheet.create({
-    container: {
-        flex: 1,
-        backgroundColor: '#fff',
-        alignItems: 'center',
-        justifyContent: 'center',
-    },
-    image: {
-        width: 60,
-        height: 60,
-        borderRadius: 1000
-    },
-    button: {
-        height: 60,
-        width: '70%'
-    },
-    text: {
-        fontSize: 19,
-    }
-});

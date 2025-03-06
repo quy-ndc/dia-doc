@@ -37,7 +37,7 @@ export default function BlogItem({ avatar, name, title, content, images, liked, 
 
     return (
         <Pressable
-            className="flex-col gap-5 active:bg-[--click-bg] border-b border-[var(--blog-right-border-color)]"
+            className="flex-col gap-5 active:bg-[--click-bg] border-b border-[var(--blog-border-color)]"
             onPress={handleBlogClick}
         >
             <View className="flex-row items-center gap-5 px-4 pt-4">

@@ -14,6 +14,7 @@ import { Provider } from 'react-redux';
 import { persistor, store } from '../store/store';
 import { PersistGate } from 'redux-persist/integration/react';
 import Toast from 'react-native-toast-message';
+import { toastConfig } from '../components/common/toast-config/toast-config';
 
 
 
@@ -54,7 +55,7 @@ export default function RootLayout() {
     return null;
   }
 
- 
+
 
   return (
     <>
@@ -101,7 +102,7 @@ export default function RootLayout() {
       </ThemeProvider>
       {/* </PersistGate> */}
       {/* </Provider> */}
-      <Toast />
+      <Toast config={toastConfig} />
     </>
   );
 }

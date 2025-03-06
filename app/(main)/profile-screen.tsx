@@ -5,6 +5,7 @@ import { Image } from 'expo-image'
 
 import { Hospital } from '../../lib/icons/Hospital';
 import { formatDateDiagnose } from '../../util/format-date-diagnose';
+import BasicInfo from '../../components/profile-screen/basic-info';
 
 
 
@@ -13,7 +14,7 @@ export default function ProfileScreen() {
 
     return (
         <ScrollView>
-            <View className='flex-col gap-2 px-5'>
+            <View className='flex-col gap-4 px-5'>
                 <View className='flex-row gap-4 items-center px-4 py-4'>
                     <Image
                         style={{ width: 48, height: 48, borderRadius: 1000 }}
@@ -50,8 +51,19 @@ export default function ProfileScreen() {
 
                 <View className='flex-col gap-6 p-5 bg-[var(--blog-bg)] rounded-lg'>
                     <Text className='text-2xl font-bold tracking-wider'>Thông tin cơ bản</Text>
-                    <View >
-
+                    <View className='flex-col gap-5 items-center'>
+                        <View className='flex-row w-full items-center'>
+                            <BasicInfo title='Tuổi' value='40' />
+                            <BasicInfo title='Giới tính' value='Nam' />
+                        </View>
+                        <View className='flex-row w-full items-center'>
+                            <BasicInfo title='Cân nặng' value='50' unit='kg' />
+                            <BasicInfo title='Chiều cao' value='160' unit='cm' />
+                        </View>
+                        <View className='flex-row w-full items-center'>
+                            <BasicInfo title='BMI' value='25.5' />
+                            <BasicInfo title='Nhóm máu' value='A+' />
+                        </View>
                     </View>
                 </View>
             </View>

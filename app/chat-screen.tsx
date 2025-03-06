@@ -1,14 +1,16 @@
 import * as React from 'react';
-import { View, StyleSheet, KeyboardAvoidingView, Platform, ScrollView } from 'react-native';
+import { View, StyleSheet, KeyboardAvoidingView, Platform, ScrollView, Pressable, Animated, Easing } from 'react-native';
 import { Image } from 'expo-image';
-import { Button } from '../components/ui/button';
 import { Text } from '../components/ui/text';
 import { Stack, useLocalSearchParams, useRouter } from 'expo-router';
-import { useRef, useState } from 'react';
+import { useEffect, useRef, useState } from 'react';
 import { Input } from '../components/ui/input';
 import { Message } from '../assets/types/chat/message';
-import { OwnMessage, ReceivedMessage } from '../components/chat-screen/messages';
+import { TextMessage } from '../components/chat-screen/messages';
 import { SendHorizontal } from '../lib/icons/SendHorizontal';
+import { Images } from '../lib/icons/Images';
+import SpinningLoader from '../components/common/icons/spinning-loader';
+import { Camera } from '../lib/icons/Camera';
 
 
 export default function ChatScreen() {
@@ -22,18 +24,27 @@ export default function ChatScreen() {
     const { title, image } = useLocalSearchParams();
 
     const [messages, setMessages] = useState<Message[]>([
-        { id: '1', content: 'a', time: '2025-2-12 08:06:26.753000' },
-        { id: '1', content: 'a', time: '2025-2-11 08:06:26.753000' },
-        { id: '2', content: 'a', time: '2024-11-01 08:06:26.753000' },
-        { id: '2', content: 'a', time: '2024-11-01 08:06:26.753000' },
-        { id: '1', content: 'a', time: '2024-11-01 08:06:26.753000' },
-        { id: '2', content: 'aaaaaaaaaaa', time: '2024-11-01 08:06:26.753000' },
-        { id: '1', content: 'ni ma de sha bi', time: '2024-11-01 08:06:26.753000' },
-        { id: '2', content: 'a', time: '2024-11-01 08:06:26.753000' },
-        { id: '1', content: 'a', time: '2024-11-01 08:06:26.753000' },
-        { id: '2', content: 'a', time: '2024-11-01 08:06:26.753000' },
-        { id: '2', content: 'a', time: '2024-11-01 08:06:26.753000' },
+        { id: '1', type: 'text', content: 'a', time: '2025-2-12 08:06:26.753000' },
+        { id: '1', type: 'text', content: 'a', time: '2025-2-11 08:06:26.753000' },
+        { id: '2', type: 'text', content: 'a', time: '2024-11-01 08:06:26.753000' },
+        { id: '2', type: 'text', content: 'a', time: '2024-11-01 08:06:26.753000' },
+        { id: '1', type: 'text', content: 'a', time: '2024-11-01 08:06:26.753000' },
+        { id: '2', type: 'text', content: 'aaaaaaaaaaa', time: '2024-11-01 08:06:26.753000' },
+        { id: '1', type: 'text', content: 'ni ma de sha bi', time: '2024-11-01 08:06:26.753000' },
+        { id: '2', type: 'text', content: 'a', time: '2024-11-01 08:06:26.753000' },
+        { id: '1', type: 'text', content: 'a', time: '2024-11-01 08:06:26.753000' },
+        { id: '2', type: 'text', content: 'a', time: '2024-11-01 08:06:26.753000' },
+        { id: '2', type: 'text', content: 'a', time: '2024-11-01 08:06:26.753000' },
+        { id: '2', type: 'text', content: 'a', time: '2024-11-01 08:06:26.753000' },
+        { id: '2', type: 'text', content: 'a', time: '2024-11-01 08:06:26.753000' },
+        { id: '2', type: 'text', content: 'a', time: '2024-11-01 08:06:26.753000' },
+        { id: '2', type: 'text', content: 'a', time: '2024-11-01 08:06:26.753000' },
+        { id: '2', type: 'text', content: 'a', time: '2024-11-01 08:06:26.753000' },
+        { id: '2', type: 'text', content: 'a', time: '2024-11-01 08:06:26.753000' },
+        { id: '2', type: 'text', content: 'a', time: '2024-11-01 08:06:26.753000' },
+        { id: '2', type: 'text', content: 'a', time: '2024-11-01 08:06:26.753000' },
     ]);
+
     const [newMessage, setNewMessage] = useState('');
     const scrollViewRef = useRef<ScrollView>(null);
 
@@ -41,11 +52,13 @@ export default function ChatScreen() {
         if (newMessage.trim()) {
             const messageToSend: Message = {
                 id: '1',
+                type: 'text',
                 content: newMessage,
                 time: new Date(Date.now()).toISOString()
             }
             setMessages((prevMessages) => [...prevMessages, messageToSend]);
             setNewMessage('');
+            scrollViewRef.current?.scrollToEnd({ animated: true })
         }
     };
 
@@ -70,9 +83,7 @@ export default function ChatScreen() {
                 behavior={Platform.OS === 'ios' ? 'padding' : undefined}
                 style={{ flex: 1 }}
             >
-                <View className='flex-1 items-center justify-center' >
-
-                    {/* MESSAGE AREA */}
+                <View className='h-full w-full items-center justify-center'>
                     <ScrollView
                         className='w-full flex-col px-5'
                         ref={scrollViewRef}
@@ -80,42 +91,50 @@ export default function ChatScreen() {
                         keyboardShouldPersistTaps="handled"
                     >
                         {messages.map((message, index) => (
-                            message.id == ownId ? (
-                                <OwnMessage
-                                    key={index}
-                                    content={message.content}
-                                    time={message.time}
-                                />
-                            ) : (
-                                <ReceivedMessage
-                                    key={index}
-                                    content={message.content}
-                                    time={message.time}
-                                />
-                            )
+                            <TextMessage
+                                key={index}
+                                content={message.content}
+                                time={message.time}
+                                isOwn={message.id == ownId}
+                            />
                         ))}
                     </ScrollView>
 
-                    {/* INPUT FIELD */}
-                    <View className='flex-row pl-5 pt-2'>
+                    <View className='flex-row gap-1 justify-center items-center pt-2 pb-2'>
+                        <View className='flex-row items-center'>
+                            <Pressable
+                                className='px-3 py-4 rounded-xl active:bg-[var(--click-bg)]'
+                                onPress={handleSendMessage}
+                            >
+                                <Camera className='text-foreground' size={20} />
+                            </Pressable>
+                            <Pressable
+                                className='px-3 py-4 rounded-xl active:bg-[var(--click-bg)]'
+                                onPress={handleSendMessage}
+                            >
+                                <Images className='text-foreground' size={20} />
+                            </Pressable>
+                        </View>
                         <Input
-                            style={styles.input}
+                            className='flex-1 rounded-full bg-[var(--input-bg)]'
                             value={newMessage}
                             onChangeText={setNewMessage}
                             placeholder="Aa"
                             returnKeyType="send"
                             onSubmitEditing={handleSendMessage}
+                            multiline
+                            autoCapitalize='sentences'
                         />
-                        <Button
+                        <Pressable
+                            className='p-4 rounded-full active:bg-[var(--click-bg)]'
                             onPress={handleSendMessage}
-                            variant={'ghost'}
                         >
+                            {/* <SpinningLoader cn='text-foreground' /> */}
                             <SendHorizontal className='text-foreground' size={20} />
-                        </Button>
+                        </Pressable>
                     </View>
                 </View>
             </KeyboardAvoidingView>
-
         </>
     );
 }

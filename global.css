@@ -52,8 +52,8 @@
     /* Background color of blog post */
     --blog-bg: rgba(139, 139, 139, 0.06);
 
-    /* Color of the right border of a Blog post item in the home page */
-    --blog-right-border-color: rgba(119, 119, 119, 0.15);
+    /* Color of the border of a Blog post item in the home page */
+    --blog-border-color: rgba(119, 119, 119, 0.15);
 
     /* Color of the lightning icon in the quick access section */
     --quick-access-title-icon-color: orange;
@@ -81,6 +81,12 @@
 
     /* The color of the icon inside the go up button */
     --go-up-btn-icon: white;
+
+    /* Color of info button text and icon in authen page */
+    --info-text: #2a6aff;
+
+    /* Background of the input field of the chat screen */
+    --input-bg: rgba(234, 234, 234, 0.781);
   }
 
   .dark:root {
@@ -132,8 +138,8 @@
     /* Background color of blog post */
     --blog-bg: #111111b7;
 
-    /* Color of the right border of a Blog post item in the home page */
-    --blog-right-border-color: rgba(238, 238, 238, 0.15);
+    /* Color of the border of a Blog post item in the home page */
+    --blog-border-color: rgba(238, 238, 238, 0.15);
 
     /* Color of the lightning icon in the quick access section */
     --quick-access-title-icon-color: orange;
@@ -161,5 +167,11 @@
 
     /* The color of the icon inside the go up button */
     --go-up-btn-icon: black;
+
+    /* Color of info button text and icon in authen page */
+    --info-text: #85aaff;
+    
+    /* Background of the input field of the chat screen */
+    --input-bg: rgba(32, 32, 32, 0.952);
   }
 }

@@ -5,7 +5,7 @@ import { View, RefreshControl, Pressable, ToastAndroid } from 'react-native';
 import { Animated as RNAnimated } from 'react-native';
 import BlogItem from '../../components/common/blog-item/blog-item';
 import { ChevronUp } from '../../lib/icons/ChevronUp';
-import ZaloKit, { Constants, getUserProfile, isAuthenticated } from 'react-native-zalo-kit'
+import ZaloKit, { Constants, getUserProfile } from 'react-native-zalo-kit'
 import { Button } from '../../components/ui/button';
 import { Text } from '../../components/ui/text';
 
@@ -128,80 +128,100 @@ export default function BlogScreen() {
         }
     };
 
-    const [error, setError] = useState<any>()
+    // const [error, setError] = useState<any>()
+    // const [pro, setPro] = useState<any>()
 
-    const checkAuthenticationn = async () => {
-        try {
-            const isAuth = await ZaloKit.isAuthenticated();
-            console.log(isAuth)
-        } catch (e) {
-            ToastAndroid.show(String(e), 1000)
-            console.log(String(e))
-            setError(String(e))
-        }
-    };
+    // const checkAuthenticationn = async () => {
+    //     try {
+    //         const isAuth = await ZaloKit.isAuthenticated();
+    //         console.log(isAuth)
+    //     } catch (e) {
+    //         ToastAndroid.show(String(e), 1000)
+    //         console.log(String(e))
+    //         setError(String(e))
+    //     }
+    // };
 
-    useEffect(() => {
-        checkAuthenticationn();
-    }, []);
+    // useEffect(() => {
+    //     checkAuthenticationn();
+    // }, []);
 
-    const zaloLogin = async () => {
-        try {
-            const code = await ZaloKit.login(Constants.AUTH_VIA_APP_OR_WEB)
-            ToastAndroid.show(String(code), 1000)
-            console.log('code', code)
-        } catch (e) {
-            ToastAndroid.show(String(e), 1000)
-            console.log(e)
-        }
-    }
+    // const zaloLogin = async () => {
+    //     try {
+    //         const code = await ZaloKit.login(Constants.AUTH_VIA_APP)
+    //         setError(JSON.stringify(code))
+    //         ToastAndroid.show(String(code), 1000)
+    //         console.log('code', code)
+    //     } catch (e) {
+    //         setError(String(e))
+    //         console.log(e)
+    //     }
+    // }
 
-    const zaloLogout = async () => {
-        try {
-            await ZaloKit.logout()
-        } catch (e) {
-            ToastAndroid.show(String(e), 1000)
-            console.log(String(e))
-        }
-    }
+    // const zaloLoginWeb = async () => {
+    //     try {
+    //         const code = await ZaloKit.login(Constants.AUTH_VIA_WEB)
+    //         setError(JSON.stringify(code))
+    //         ToastAndroid.show(String(code), 1000)
+    //         console.log('code', code)
+    //     } catch (e) {
+    //         setError(String(e))
+    //         console.log(e)
+    //     }
+    // }
 
-    const getUserProfilee = async () => {
-        try {
-            const userProfile = await getUserProfile()
-            console.log('pro', userProfile)
+    // const zaloLogout = async () => {
+    //     try {
+    //         ZaloKit.logout()
+    //     } catch (e) {
+    //         ToastAndroid.show(String(e), 1000)
+    //         console.log(String(e))
+    //     }
+    // }
 
-            /*
-              returns: {
-                id: 'user_id_1',
-                name: 'user name',
-                phoneNumber: 'phone number',
-                gender: 'male',
-                birthday: '01/01/2020',
-                picture: {
-                  data: {
-                    url: 'http://image.example',
-                  },
-                }
-              }
-            */
-        } catch (error) {
-            console.log(error)
-        }
-    }
+    // const getUserProfilee = async () => {
+    //     try {
+    //         const userProfile = await getUserProfile()
+    //         setPro(JSON.stringify(userProfile));
+    //         console.log('pro', userProfile)
+
+    //         /*
+    //           returns: {
+    //             id: 'user_id_1',
+    //             name: 'user name',
+    //             phoneNumber: 'phone number',
+    //             gender: 'male',
+    //             birthday: '01/01/2020',
+    //             picture: {
+    //               data: {
+    //                 url: 'http://image.example',
+    //               },
+    //             }
+    //           }
+    //         */
+    //     } catch (error) {
+    //         console.log(error)
+    //     }
+    // }
 
 
     return (
         <View className='flex-1 w-full pb-5'>
-            <Text>{error}</Text>
+            {/* <Text>{error}</Text>
+            <Text>{pro}</Text>
+            <Text></Text>
             <Button onPress={zaloLogin}>
-                <Text>aaaa</Text>
+                <Text>app</Text>
+            </Button>
+            <Button onPress={zaloLoginWeb}>
+                <Text>web</Text>
             </Button>
             <Button onPress={zaloLogout}>
                 <Text>out</Text>
             </Button>
             <Button onPress={getUserProfilee}>
                 <Text>pro</Text>
-            </Button>
+            </Button> */}
 
             <FlashList
                 data={blogPosts}

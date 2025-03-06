@@ -2,7 +2,7 @@ import { FlashList } from '@shopify/flash-list';
 import * as React from 'react';
 import { useCallback, useState } from 'react';
 import { Dimensions, RefreshControl, ScrollView, View } from 'react-native';
-import Chat from '../../components/chat-screen/chat-item';
+import ChatItem from '../../components/chat-screen/chat-item';
 
 const { width } = Dimensions.get('window')
 
@@ -119,7 +119,7 @@ export default function MessagesScreen() {
                     data={data}
                     keyExtractor={(_, index) => index.toString()}
                     renderItem={({ item }) =>
-                        <Chat {...item} />
+                        <ChatItem {...item} />
                     }
                     estimatedItemSize={100}
                 />

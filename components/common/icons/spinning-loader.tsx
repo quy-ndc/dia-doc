@@ -1,0 +1,38 @@
+import * as React from 'react';
+import { Animated, Easing } from 'react-native';
+import { useEffect, useRef } from 'react';
+import { Loader } from '../../../lib/icons/Loader';
+
+type Prop = {
+    cn: string
+}
+
+export default function SpinningLoader({ cn }: Prop) {
+
+    const spinValue = useRef(new Animated.Value(0)).current;
+
+    useEffect(() => {
+        const spinAnimation = Animated.loop(
+            Animated.timing(spinValue, {
+                toValue: 1,
+                duration: 1000,
+                easing: Easing.linear,
+                useNativeDriver: true,
+            })
+        );
+        spinAnimation.start();
+    }, []);
+
+    const spin = spinValue.interpolate({
+        inputRange: [0, 1],
+        outputRange: ["0deg", "360deg"],
+    });
+
+
+    return (
+        <Animated.View style={{ transform: [{ rotate: spin }] }}>
+            <Loader className={cn} size={20} />
+        </Animated.View>
+    );
+}
+

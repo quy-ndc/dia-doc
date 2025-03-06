@@ -5,7 +5,7 @@ import HeaderRight from '../../components/header/header-right';
 import { Home } from '../../lib/icons/Home';
 import { Newspaper } from '../../lib/icons/Newspaper';
 import { Dimensions, Platform, useColorScheme } from 'react-native';
-import { GetGlobalColor, GlobalColor } from '../../global-color';
+import { GlobalColor } from '../../global-color';
 
 export default function MainLayout() {
 
@@ -13,7 +13,7 @@ export default function MainLayout() {
 
     const { height } = Dimensions.get('window');
 
-    const tabBarActiveBg = theme == 'dark' ? GetGlobalColor(GlobalColor.TAB_BAR_ACTIVE_BG_DARK) : GetGlobalColor(GlobalColor.TAB_BAR_ACTIVE_BG_LIGHT)
+    const tabBarActiveBg = theme == 'dark' ? GlobalColor.TAB_BAR_ACTIVE_BG_DARK : GlobalColor.TAB_BAR_ACTIVE_BG_LIGHT
 
 
     return (
@@ -31,7 +31,7 @@ export default function MainLayout() {
                     fontWeight: 400,
                     letterSpacing: 0.6
                 },
-                tabBarActiveBackgroundColor: tabBarActiveBg!.value,
+                tabBarActiveBackgroundColor: tabBarActiveBg,
             }}
         >
             <Tabs.Screen

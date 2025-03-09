@@ -14,7 +14,7 @@ const appDelegateContent = `
   // They will be passed down to the ViewController used by React Native.
   self.initialProps = @{};
 
-  [[ZaloSDK sharedInstance] initializeWithAppId:@"ZALO_APP_ID"];
+  [[ZaloSDK sharedInstance] initializeWithAppId:@"350132100575839532"];
 
   return [super application:application didFinishLaunchingWithOptions:launchOptions];
 }

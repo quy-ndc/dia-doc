@@ -1,7 +1,7 @@
 import * as React from 'react';
 import { useState } from 'react';
 import { Pressable, View } from 'react-native';
-import { Text } from '../../components/ui/text';
+import { Text } from '../ui/text';
 import { formatDateMessage } from '../../util/format-date-message';
 
 type Prop = {
@@ -18,7 +18,7 @@ export function TextMessage({ content, time, isOwn }: Prop) {
     return (
         <View className='flex-col gap-4 justify-center items-center'>
             {showTime && (
-                <Text className='text-[--fade-text-color]'>{formatDateMessage(time)}</Text>
+                <Text className='text-sm text-[--fade-text-color] pt-2'>{formatDateMessage(time)}</Text>
             )}
             <View className='flex-row justify-between w-full my-1'>
                 {isOwn && (

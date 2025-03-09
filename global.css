@@ -28,8 +28,11 @@
     /* Container background color on click */
     --click-bg: rgba(86, 86, 86, 0.1);
 
-    /* Text with the same color as the theme */
-    --same-theme-text: white;
+    /* Color that matches the theme */
+    --same-theme-col: white;
+
+    /* Color that is opposite of the theme */
+    --oppo-theme-col: black;
 
     /* Text with faded texture */
     --fade-text-color: gray;
@@ -114,8 +117,11 @@
     /* Container background color on click */
     --click-bg: rgb(42, 42, 42);
 
-    /* Text with the same color as the theme */
-    --same-theme-text: black;
+    /* Color that matches the theme */
+    --same-theme-col: black;
+
+    /* Color that is opposite of the theme */
+    --oppo-theme-col: white;
 
     /* Text with faded texture */
     --fade-text-color: gray;
@@ -170,7 +176,7 @@
 
     /* Color of info button text and icon in authen page */
     --info-text: #85aaff;
-    
+
     /* Background of the input field of the chat screen */
     --input-bg: rgba(32, 32, 32, 0.952);
   }

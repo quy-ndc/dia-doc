@@ -4,7 +4,7 @@ import { Button } from '../../components/ui/button';
 import { Camera } from '../../lib/icons/Camera';
 import { CameraType, CameraView } from 'expo-camera';
 import { Repeat2 } from '../../lib/icons/Repeat2';
-import { useRef, useState } from 'react';
+import { useEffect, useRef, useState } from 'react';
 import { Image } from 'expo-image'
 import { X } from '../../lib/icons/X';
 import { Loader } from '../../lib/icons/Loader';
@@ -61,6 +61,18 @@ export default function CameraModule({ setIsCameraOn, handleSendImage }: Prop) {
         setPreview(null)
     }
 
+    useEffect(() => {
+        const fetchSizes = async () => {
+            try {
+                const sizes = await cameraRef.current!.getAvailablePictureSizesAsync();
+                console.log(sizes);
+            } catch (error) {
+                console.error('Error fetching picture sizes:', error);
+            }
+        };
+
+        fetchSizes();
+    }, []);
 
     if (preview) {
         return (
@@ -95,22 +107,27 @@ export default function CameraModule({ setIsCameraOn, handleSendImage }: Prop) {
         <CameraView
             ref={cameraRef}
             mode='picture'
-            style={styles.container}
+            style={{ flex: 1, justifyContent: 'center' }}
             facing={facing}
             autofocus='on'
             enableTorch={torch}
+
         >
-            <View className='absolute top-5 right-5 items-center justify-center'>
-                <Pressable
-                    className='p-4 active:[]'
-                    onPress={toggleTorch}
-                >
-                    {torch ? (
+            <View className='absolute flex-col gap-3 top-5 right-5 items-center justify-center'>
+                <CameraButton
+                    icon={torch ? (
                         <Lightbulb className='text-white' />
                     ) : (
                         <LightbulbOff className='text-white' />
                     )}
-                </Pressable>
+                    buttonSize={4}
+                    onClick={toggleTorch}
+                />
+                <CameraButton
+                    icon={<Repeat2 className='text-white' />}
+                    buttonSize={4}
+                    onClick={toggleCameraFacing}
+                />
             </View>
             <View className='absolute top-5 left-5 items-center justify-center'>
                 <CameraButton
@@ -126,25 +143,18 @@ export default function CameraModule({ setIsCameraOn, handleSendImage }: Prop) {
                     onClick={handleTakePhoto}
                 />
             </View>
-            <View className='absolute bottom-5 right-5 items-center justify-center'>
-                <CameraButton
-                    icon={<Repeat2 className='text-white' />}
-                    buttonSize={4}
-                    onClick={toggleCameraFacing}
-                />
-            </View>
+            {/* <View className='absolute bottom-5 right-5 items-center justify-center'>
+
+            </View> */}
         </CameraView>
     )
 }
 
 const styles = StyleSheet.create({
-    container: {
-        flex: 1,
-        justifyContent: 'center',
-    },
     image: {
         flex: 1,
         width: width,
-        height: 'auto'
+        height: height * 0.9
     },
 });
+

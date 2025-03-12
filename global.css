@@ -80,7 +80,7 @@
     --dia-type-bg: #195eff;
 
     /* Color of the go to top buttun in blog screen */
-    --go-up-btn-bg: rgba(0, 0, 0, 0.465);
+    --go-up-btn-bg: black;
 
     /* The color of the icon inside the go up button */
     --go-up-btn-icon: white;
@@ -93,6 +93,9 @@
 
     /* Background of the cameara buttons when clicked */
     --camera-click-bg: rgba(145, 145, 145, 0.502);
+
+    /* Background of the go up button when clicked */
+    --go-up-click-bg: rgba(44, 44, 44, 0.875);
   }
 
   .dark:root {
@@ -172,7 +175,7 @@
     --dia-type-bg: #2969ff;
 
     /* Color of the go to top buttun in blog screen */
-    --go-up-btn-bg: rgba(255, 255, 255, 0.859);
+    --go-up-btn-bg: white;
 
     /* The color of the icon inside the go up button */
     --go-up-btn-icon: black;
@@ -182,8 +185,11 @@
 
     /* Background of the input field of the chat screen */
     --input-bg: rgba(32, 32, 32, 0.952);
-    
+
     /* Background of the cameara buttons when clicked */
     --camera-click-bg: rgba(145, 145, 145, 0.502);
+
+    /* Background of the go up button when clicked */
+    --go-up-click-bg: rgba(209, 209, 209);
   }
 }

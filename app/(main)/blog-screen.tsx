@@ -207,22 +207,6 @@ export default function BlogScreen() {
 
     return (
         <View className='flex-1 w-full pb-5'>
-            {/* <Text>{error}</Text>
-            <Text>{pro}</Text>
-            <Text></Text>
-            <Button onPress={zaloLogin}>
-                <Text>app</Text>
-            </Button>
-            <Button onPress={zaloLoginWeb}>
-                <Text>web</Text>
-            </Button>
-            <Button onPress={zaloLogout}>
-                <Text>out</Text>
-            </Button>
-            <Button onPress={getUserProfilee}>
-                <Text>pro</Text>
-            </Button> */}
-
             <FlashList
                 data={blogPosts}
                 ref={listRef}
@@ -239,16 +223,18 @@ export default function BlogScreen() {
                     opacity,
                     position: 'absolute',
                     bottom: 10,
-                    right: 10,
+                    left: '50%',
+                    transform: [{ translateX: -25 }],
                 }}
             >
                 <Pressable
-                    className='p-5 rounded-full bg-[var(--go-up-btn-bg)]'
+                    className='p-3 rounded-full bg-[var(--go-up-btn-bg)] active:bg-[var(--go-up-click-bg)]'
                     onPress={scrollToTop}
                 >
                     <ChevronUp className='text-[var(--go-up-btn-icon)]' size={22} />
                 </Pressable>
             </RNAnimated.View>
+
         </View>
     );
 }

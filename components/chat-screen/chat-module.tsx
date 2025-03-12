@@ -8,6 +8,9 @@ import { SendHorizontal } from '../../lib/icons/SendHorizontal';
 import GalleryAccess from './gallery-access';
 import { ImageMessage } from './image-message';
 import CameraAccess from './camera-access';
+import { Animated as RNAnimated } from 'react-native';
+import { ChevronDown } from '../../lib/icons/ChevronDown';
+
 
 type Prop = {
     setIsCameraOn: (state: boolean) => void
@@ -27,9 +30,28 @@ export default function ChatModule({
     handleSendImage
 }: Prop) {
 
-
-
+    const [showScrollButton, setShowScrollButton] = useState(false);
     const scrollViewRef = useRef<ScrollView>(null);
+    const opacity = useRef(new RNAnimated.Value(0)).current;
+
+    const toggleVisibility = (visible: boolean) => {
+        RNAnimated.timing(opacity, {
+            toValue: visible ? 1 : 0,
+            duration: 300,
+            useNativeDriver: true,
+        }).start(() => {
+            setShowScrollButton(visible);
+        });
+    };
+
+    const handleScroll = (event: any) => {
+        const offsetY = event.nativeEvent.contentOffset.y;
+        if (offsetY < 400 && !showScrollButton) {
+            toggleVisibility(true);
+        } else if (offsetY > 400 && showScrollButton) {
+            toggleVisibility(false);
+        }
+    };
 
     useEffect(() => {
         if (scrollViewRef.current) {
@@ -38,6 +60,10 @@ export default function ChatModule({
             }, 100);
         }
     }, [messages]);
+
+    const scrollToTop = () => {
+        scrollViewRef.current?.scrollToEnd({ animated: true });
+    };
 
     const ownId = '1'
 
@@ -52,6 +78,7 @@ export default function ChatModule({
                     ref={scrollViewRef}
                     contentContainerStyle={styles.messagesContainer}
                     keyboardShouldPersistTaps="handled"
+                    onScroll={handleScroll}
                 >
                     {messages.map((message, index) => (
                         message.type == 'text' ?
@@ -65,11 +92,27 @@ export default function ChatModule({
                             <ImageMessage
                                 key={index}
                                 content={message.content}
-                                time={message.time}
                                 isOwn={message.id == ownId}
                             />
                     ))}
                 </ScrollView>
+
+                <RNAnimated.View
+                    style={{
+                        opacity,
+                        position: 'absolute',
+                        bottom: 70,
+                        left: '50%',
+                        transform: [{ translateX: -20 }],
+                    }}
+                >
+                    <Pressable
+                        className='p-2 rounded-full justify-center items-center bg-[var(--go-up-btn-bg)] active:bg-[var(--go-up-click-bg)]'
+                        onPress={scrollToTop}
+                    >
+                        <ChevronDown className='text-[var(--go-up-btn-icon)]' size={22} />
+                    </Pressable>
+                </RNAnimated.View>
 
                 <View className='flex-row gap-1 justify-center items-center pt-2 pb-2'>
                     <View className='flex-row items-center'>

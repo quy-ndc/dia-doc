@@ -90,6 +90,9 @@
 
     /* Background of the input field of the chat screen */
     --input-bg: rgba(234, 234, 234, 0.781);
+
+    /* Background of the cameara buttons when clicked */
+    --camera-click-bg: rgba(145, 145, 145, 0.502);
   }
 
   .dark:root {
@@ -179,5 +182,8 @@
 
     /* Background of the input field of the chat screen */
     --input-bg: rgba(32, 32, 32, 0.952);
+    
+    /* Background of the cameara buttons when clicked */
+    --camera-click-bg: rgba(145, 145, 145, 0.502);
   }
 }

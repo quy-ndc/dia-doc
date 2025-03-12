@@ -23,9 +23,7 @@ export function ImageMessage({ content, time, isOwn }: Prop) {
 
     const theme = useColorScheme()
 
-    const [showTime, setShowTime] = useState(false)
     const [modallVisible, setModalVisible] = useState(false)
-    const [visible, setVisible] = useState(false)
 
     const onImageClick = () => {
         setModalVisible(!modallVisible)
@@ -38,14 +36,14 @@ export function ImageMessage({ content, time, isOwn }: Prop) {
 
     return (
         <View className='flex-col gap-4 justify-center items-center'>
-            {showTime && (
-                <Text className='text-sm text-[--fade-text-color] pt-2'>{formatDateMessage(time)}</Text>
-            )}
             <View className='flex-row justify-between w-full my-1'>
                 {isOwn && (
                     <View />
                 )}
-                <Modal visible={modallVisible}>
+                <Modal
+                    visible={modallVisible}
+                    style={{ backgroundColor: theme == 'dark' ? GlobalColor.DARK_THEME_COL : GlobalColor.LIGHT_THEME_COL }}
+                >
                     <View className="flex-row justify-between items-center bg-[var(--same-theme-col)]">
                         <Pressable
                             className="mt-3 ml-3 p-4 rounded-full active:bg-[var(--click-bg)]"

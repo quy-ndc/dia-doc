@@ -5,40 +5,31 @@ import { Input } from '../../components/ui/input';
 import { Message } from '../../assets/types/chat/message';
 import { TextMessage } from './text-message';
 import { SendHorizontal } from '../../lib/icons/SendHorizontal';
-import SpinningLoader from '../../components/common/icons/spinning-loader';
-import { Camera } from '../../lib/icons/Camera';
 import GalleryAccess from './gallery-access';
 import { ImageMessage } from './image-message';
+import CameraAccess from './camera-access';
+
+type Prop = {
+    setIsCameraOn: (state: boolean) => void
+    newMessage: string;
+    setNewMessage: (newMessage: string) => void;
+    messages: Message[]
+    handleSendMessage: (newMessage: string) => void
+    handleSendImage: (image: string) => void
+}
+
+export default function ChatModule({
+    setIsCameraOn,
+    newMessage,
+    setNewMessage,
+    messages,
+    handleSendMessage,
+    handleSendImage
+}: Prop) {
 
 
-export default function ChatModule() {
 
-    const [messages, setMessages] = useState<Message[]>([
-        { id: '1', type: 'text', content: 'a', time: '2025-2-12 08:06:26.753000' },
-        { id: '1', type: 'text', content: 'a', time: '2025-2-11 08:06:26.753000' },
-        { id: '2', type: 'text', content: 'a', time: '2024-11-01 08:06:26.753000' },
-        { id: '2', type: 'text', content: 'a', time: '2024-11-01 08:06:26.753000' },
-        { id: '1', type: 'text', content: 'a', time: '2024-11-01 08:06:26.753000' },
-        { id: '2', type: 'text', content: 'aaaaaaaaaaa', time: '2024-11-01 08:06:26.753000' },
-        { id: '1', type: 'text', content: 'ni ma de sha bi', time: '2024-11-01 08:06:26.753000' },
-        { id: '2', type: 'text', content: 'a', time: '2024-11-01 08:06:26.753000' },
-        { id: '1', type: 'text', content: 'a', time: '2024-11-01 08:06:26.753000' },
-        { id: '2', type: 'text', content: 'a', time: '2024-11-01 08:06:26.753000' },
-        { id: '2', type: 'text', content: 'a', time: '2024-11-01 08:06:26.753000' },
-        { id: '2', type: 'text', content: 'a', time: '2024-11-01 08:06:26.753000' },
-        { id: '1', type: 'text', content: 'a', time: '2024-11-01 08:06:26.753000' },
-        { id: '2', type: 'text', content: 'a', time: '2024-11-01 08:06:26.753000' },
-        { id: '2', type: 'text', content: 'a', time: '2024-11-01 08:06:26.753000' },
-        { id: '1', type: 'text', content: 'a', time: '2024-11-01 08:06:26.753000' },
-        { id: '2', type: 'text', content: 'a', time: '2024-11-01 08:06:26.753000' },
-        { id: '2', type: 'text', content: 'a', time: '2024-11-01 08:06:26.753000' },
-        { id: '1', type: 'image', content: 'https://res.cloudinary.com/dcjdtlnbl/image/upload/v1729604342/Shirt_4_xkedmf.jpg', time: '2024-11-01 08:06:26.753000' },
-        { id: '2', type: 'image', content: 'https://res.cloudinary.com/dcjdtlnbl/image/upload/v1729604342/Shirt_4_xkedmf.jpg', time: '2024-11-01 08:06:26.753000' },
-    ])
-
-    const [newMessage, setNewMessage] = useState('');
     const scrollViewRef = useRef<ScrollView>(null);
-
 
     useEffect(() => {
         if (scrollViewRef.current) {
@@ -47,30 +38,6 @@ export default function ChatModule() {
             }, 100);
         }
     }, [messages]);
-
-    const handleSendMessage = () => {
-        if (newMessage.trim()) {
-            const messageToSend: Message = {
-                id: '1',
-                type: 'text',
-                content: newMessage,
-                time: new Date(Date.now()).toISOString()
-            }
-            setMessages((prevMessages) => [...prevMessages, messageToSend]);
-            setNewMessage('');
-        }
-    };
-
-    const handleImageMessage = (url: string) => {
-        const messageToSend: Message = {
-            id: '1',
-            type: 'image',
-            content: url,
-            time: new Date(Date.now()).toISOString()
-        }
-        setMessages((prevMessages) => [...prevMessages, messageToSend]);
-        setNewMessage('');
-    }
 
     const ownId = '1'
 
@@ -106,13 +73,8 @@ export default function ChatModule() {
 
                 <View className='flex-row gap-1 justify-center items-center pt-2 pb-2'>
                     <View className='flex-row items-center'>
-                        <Pressable
-                            className='px-3 py-4 rounded-xl active:bg-[var(--click-bg)]'
-                            onPress={handleSendMessage}
-                        >
-                            <Camera className='text-foreground' size={20} />
-                        </Pressable>
-                        <GalleryAccess onImagePick={handleImageMessage} />
+                        <CameraAccess setIsCameraOn={(state) => setIsCameraOn(state)} />
+                        <GalleryAccess onImagePick={(image) => handleSendImage(image)} />
                     </View>
                     <Input
                         className='flex-1 rounded-full bg-[var(--input-bg)]'
@@ -120,13 +82,13 @@ export default function ChatModule() {
                         onChangeText={setNewMessage}
                         placeholder="Aa"
                         returnKeyType="send"
-                        onSubmitEditing={handleSendMessage}
+                        onSubmitEditing={() => handleSendMessage(newMessage)}
                         multiline
                         autoCapitalize='sentences'
                     />
                     <Pressable
                         className='p-4 rounded-full active:bg-[var(--click-bg)]'
-                        onPress={handleSendMessage}
+                        onPress={() => handleSendMessage(newMessage)}
                     >
                         {/* <SpinningLoader cn='text-foreground' /> */}
                         <SendHorizontal className='text-foreground' size={20} />

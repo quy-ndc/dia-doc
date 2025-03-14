@@ -35,7 +35,7 @@ export function ImageMessage({ content, isOwn }: Prop) {
                 {isOwn && (
                     <View />
                 )}
-                <Modal visible={modallVisible}>
+                <Modal visible={modallVisible} animationType='slide'>
                     <View className="flex-row justify-between items-center bg-[var(--same-theme-col)]">
                         <Pressable
                             className="mt-3 ml-3 p-4 rounded-full active:bg-[var(--click-bg)]"

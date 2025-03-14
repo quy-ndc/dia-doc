@@ -1,6 +1,5 @@
 import * as React from 'react';
 import { View, StyleSheet, Pressable, Dimensions } from 'react-native';
-import { Button } from '../../components/ui/button';
 import { Camera } from '../../lib/icons/Camera';
 import { CameraType, CameraView } from 'expo-camera';
 import { Repeat2 } from '../../lib/icons/Repeat2';
@@ -10,7 +9,7 @@ import { X } from '../../lib/icons/X';
 import { Loader } from '../../lib/icons/Loader';
 import { Lightbulb } from '../../lib/icons/Lightbulb';
 import { LightbulbOff } from '../../lib/icons/LightbulbOff';
-import CameraButton from './camera-button';
+import IconButton from '../common/icon-button';
 import { Text } from '../ui/text'
 import { SendHorizontal } from '../../lib/icons/SendHorizontal';
 import { ArrowLeft } from '../../lib/icons/ArrowLeft';
@@ -83,10 +82,11 @@ export default function CameraModule({ setIsCameraOn, handleSendImage }: Prop) {
                     contentFit='contain'
                 />
                 <View className='absolute top-5 left-5 items-center justify-center'>
-                    <CameraButton
+                    <IconButton
                         icon={<ArrowLeft className='text-white' />}
                         buttonSize={4}
-                        onClick={handleClear}
+                        onPress={handleClear}
+                        possition='camera'
                     />
                 </View>
                 <View className='absolute bottom-5 right-5 flex-row gap-3 items-center justify-center'>
@@ -111,37 +111,40 @@ export default function CameraModule({ setIsCameraOn, handleSendImage }: Prop) {
             facing={facing}
             autofocus='on'
             enableTorch={torch}
-
         >
             <View className='absolute flex-col gap-3 top-5 right-5 items-center justify-center'>
-                <CameraButton
+                <IconButton
                     icon={torch ? (
                         <Lightbulb className='text-white' />
                     ) : (
                         <LightbulbOff className='text-white' />
                     )}
                     buttonSize={4}
-                    onClick={toggleTorch}
-                />
-                <CameraButton
+                    onPress={toggleTorch}
+                    possition='camera'
+                    />
+                <IconButton
                     icon={<Repeat2 className='text-white' />}
                     buttonSize={4}
-                    onClick={toggleCameraFacing}
-                />
+                    onPress={toggleCameraFacing}
+                    possition='camera'
+                    />
             </View>
             <View className='absolute top-5 left-5 items-center justify-center'>
-                <CameraButton
+                <IconButton
                     icon={<X className='text-white' />}
                     buttonSize={4}
-                    onClick={() => setIsCameraOn(false)}
-                />
+                    onPress={() => setIsCameraOn(false)}
+                    possition='camera'
+                    />
             </View>
             <View className='absolute bottom-10 left-0 right-0 flex-row gap-1 items-center justify-center'>
-                <CameraButton
+                <IconButton
                     icon={<Camera className='text-white' size={30} />}
                     buttonSize={5}
-                    onClick={handleTakePhoto}
-                />
+                    onPress={handleTakePhoto}
+                    possition='camera'
+                    />
             </View>
             {/* <View className='absolute bottom-5 right-5 items-center justify-center'>
 

@@ -96,6 +96,12 @@
 
     /* Background of the go up button when clicked */
     --go-up-click-bg: rgba(44, 44, 44, 0.875);
+
+    /* Background of the notification modal */
+    --noti-bg: #ffffff;
+
+    /* Border of the divider in noti modal */
+    --noti-divider: rgb(219, 219, 219);
   }
 
   .dark:root {
@@ -163,7 +169,7 @@
     --not-liked: #fff;
 
     /* Color of the like button when liked */
-    --liked: rgb(71, 71, 195);
+    --liked: rgb(0, 153, 255);
 
     /* Carousel indicator color */
     --carousel-color: white;
@@ -191,5 +197,11 @@
 
     /* Background of the go up button when clicked */
     --go-up-click-bg: rgba(209, 209, 209);
+
+    /* Background of the notification modal */
+    --noti-bg: #111;
+
+    /* Border of the divider in noti modal */
+    --noti-divider: #333;
   }
 }

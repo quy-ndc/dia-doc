@@ -67,7 +67,7 @@ export default function DetailImage({
 
     return (
         <>
-            <Modal visible={modallVisible}>
+            <Modal visible={modallVisible} animationType="slide">
                 <View className="flex-row justify-between items-center bg-black">
                     <Button
                         variant={"ghost"}

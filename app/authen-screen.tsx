@@ -11,7 +11,7 @@ import { CircleAlert } from '../lib/icons/CircleAlert';
 
 const { width, height } = Dimensions.get('window');
 
-export default function Screen() {
+export default function AuthenScreen() {
 
   const router = useRouter();
 
@@ -72,7 +72,7 @@ export default function Screen() {
           variant="ghost"
           size="lg"
           onPress={zaloLogin}
-          // onPress={() => router.push('/(main)')}
+        // onPress={() => router.push('/(main)')}
         >
           <LogIn className="text-foreground" size={20} />
           <Text className="text-lg font-bold">Đăng nhập bằng Zalo qua ứng dụng</Text>
@@ -84,11 +84,16 @@ export default function Screen() {
           variant="ghost"
           size="lg"
           onPress={zaloLoginWeb}
-          // onPress={() => router.push('/(main)')}
+        // onPress={() => router.push('/(main)')}
         >
           <LogIn className="text-foreground" size={20} />
           <Text className="font-bold">Đăng nhập bằng Zalo qua trình duyệt</Text>
         </Button>
+        <Pressable onPress={() => router.push('/set-up-screen')}>
+          <Text>
+            set up
+          </Text>
+        </Pressable>
       </View>
     </View>
   );

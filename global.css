@@ -169,7 +169,7 @@
     --not-liked: #fff;
 
     /* Color of the like button when liked */
-    --liked: rgb(0, 153, 255);
+    --liked: rgb(0, 89, 255);
 
     /* Carousel indicator color */
     --carousel-color: white;

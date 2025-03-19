@@ -9,7 +9,7 @@ import NotificationItem from './noti-item';
 
 const { height, width } = Dimensions.get('window');
 
-export default function Notification() {
+export default function NotificationAccess() {
     const [open, setOpen] = useState(false);
 
     return (
@@ -45,7 +45,7 @@ export default function Notification() {
             </Modal>
 
             <IconButton
-                icon={<Bell className="text-foreground" strokeWidth={1.25} />}
+                icon={<Bell className="text-foreground" size={21} strokeWidth={1.25} />}
                 buttonSize={3}
                 onPress={() => setOpen(true)}
                 possition='other'

@@ -2,7 +2,6 @@ import * as React from 'react';
 import { View, Pressable } from 'react-native';
 import { Camera } from '../../lib/icons/Camera';
 import { useCameraPermissions } from 'expo-camera';
-import { Text } from '../ui/text'
 
 type Prop = {
     setIsCameraOn: (state: boolean) => void

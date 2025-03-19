@@ -16,6 +16,7 @@ import { PersistGate } from 'redux-persist/integration/react';
 import Toast from 'react-native-toast-message';
 import { toastConfig } from '../components/common/toast-config/toast-config';
 import { Text } from '../components/ui/text'
+import AblyWrapper from '../util/provider/ably-provider';
 
 
 const LIGHT_THEME: Theme = {
@@ -61,45 +62,53 @@ export default function RootLayout() {
     <>
       <Provider store={store}>
         <PersistGate loading={<View className='flex-1 w-full h-full align-center justify-center'><Text>Loading...</Text></View>} persistor={persistor}>
-          <ThemeProvider value={isDarkColorScheme ? DARK_THEME : LIGHT_THEME}>
-            <StatusBar style={isDarkColorScheme ? 'light' : 'dark'} />
-            <ReactQueryProvider>
-              <Stack>
-                <Stack.Screen
-                  name='(main)'
-                  options={{
-                    headerShown: false
-                  }}
-                />
-                <Stack.Screen
-                  name='authen-screen'
-                  options={{
-                    headerShown: false
-                  }}
-                />
-                <Stack.Screen
-                  name='chat-screen'
-                  options={{
-                    headerTitle: '',
-                  }}
-                />
-                <Stack.Screen
-                  name='blog-detail-screen'
-                  options={{
-                    headerTitle: '',
-                    presentation: 'modal'
-                  }}
-                />
-                <Stack.Screen
-                  name='+not-found'
-                  options={{
-                    headerShown: false
-                  }}
-                />
-              </Stack>
-            </ReactQueryProvider>
-            <PortalHost />
-          </ThemeProvider>
+          <AblyWrapper>
+            <ThemeProvider value={isDarkColorScheme ? DARK_THEME : LIGHT_THEME}>
+              <StatusBar style={isDarkColorScheme ? 'light' : 'dark'} />
+              <ReactQueryProvider>
+                <Stack>
+                  <Stack.Screen
+                    name='(main)'
+                    options={{
+                      headerShown: false
+                    }}
+                  />
+                  <Stack.Screen
+                    name='authen-screen'
+                    options={{
+                      headerShown: false
+                    }}
+                  />
+                  <Stack.Screen
+                    name='set-up-screen'
+                    options={{
+                      headerShown: false
+                    }}
+                  />
+                  <Stack.Screen
+                    name='chat-screen'
+                    options={{
+                      headerTitle: '',
+                    }}
+                  />
+                  <Stack.Screen
+                    name='blog-detail-screen'
+                    options={{
+                      headerTitle: '',
+                      presentation: 'modal'
+                    }}
+                  />
+                  <Stack.Screen
+                    name='+not-found'
+                    options={{
+                      headerShown: false
+                    }}
+                  />
+                </Stack>
+              </ReactQueryProvider>
+              <PortalHost />
+            </ThemeProvider>
+          </AblyWrapper>
         </PersistGate>
       </Provider>
       <Toast config={toastConfig} />

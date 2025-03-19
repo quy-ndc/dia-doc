@@ -3,7 +3,7 @@ import { Pressable, StyleSheet, View } from 'react-native';
 import { useRouter } from 'expo-router';
 import { ThemeToggle } from '../ThemeToggle';
 import { Image } from 'expo-image'
-import Notification from './notification/notification'
+import Notification from './notification/noti-access'
 import IconButton from '../common/icon-button';
 
 export default function HeaderRight() {

@@ -32,13 +32,17 @@ export default function MainLayout() {
                     letterSpacing: 0.6
                 },
                 tabBarActiveBackgroundColor: tabBarActiveBg,
+                headerTitleStyle: {
+                    fontWeight: 'bold',
+                    letterSpacing: 1
+                }
             }}
         >
             <Tabs.Screen
                 name="index"
                 options={{
-                    headerTitle: 'Trang chủ',
-                    title: 'Trang chủ',
+                    headerTitle: 'Trang Chủ',
+                    title: 'Trang Chủ',
                     tabBarIcon: () => <Home className='text-[var(--quick-access-icon-color)]' size={20} />,
                     headerRight: () => <HeaderRight />,
                     animation: 'shift'
@@ -47,7 +51,7 @@ export default function MainLayout() {
             <Tabs.Screen
                 name="message-screen"
                 options={{
-                    headerTitle: 'Tin nhắn',
+                    headerTitle: 'Tin Nhắn',
                     title: 'Tin nhắn',
                     tabBarIcon: () => <MessageCircleMore className='text-[var(--quick-access-icon-color)]' size={20} />,
                     headerRight: () => <HeaderRight />,
@@ -57,7 +61,7 @@ export default function MainLayout() {
             <Tabs.Screen
                 name="blog-screen"
                 options={{
-                    headerTitle: 'Bài viết',
+                    headerTitle: 'Bài Viết',
                     title: 'Bài viết',
                     tabBarIcon: () => <Newspaper className='text-[var(--quick-access-icon-color)]' size={20} />,
                     headerRight: () => <HeaderRight />,
@@ -67,7 +71,7 @@ export default function MainLayout() {
             <Tabs.Screen
                 name="profile-screen"
                 options={{
-                    headerTitle: 'Hồ sơ',
+                    headerTitle: 'Hồ Sơ',
                     title: 'Hồ sơ',
                     tabBarIcon: () => <User className='text-[var(--quick-access-icon-color)]' size={20} />,
                     headerRight: () => <HeaderRight />,

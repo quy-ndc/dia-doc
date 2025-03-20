@@ -1,12 +1,10 @@
 import * as React from 'react';
-import { View, Dimensions, ScrollView, Pressable, Alert } from 'react-native';
+import { View, Pressable } from 'react-native';
 import { Text } from '../components/ui/text';
 import SetUpPaitient from '../components/set-up-screen/set-up-paitient';
 import { useState } from 'react';
 import SetUpDoctor from '../components/set-up-screen/set-up-doctor';
-import { ThemeToggle } from '../components/ThemeToggle';
 
-const { width } = Dimensions.get('window');
 
 export default function SetUpScreen() {
 

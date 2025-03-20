@@ -1,0 +1,29 @@
+{
+  "project_info": {
+    "project_number": "359690253845",
+    "project_id": "pushnotifcm-7f80b",
+    "storage_bucket": "pushnotifcm-7f80b.firebasestorage.app"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:359690253845:android:e5b05389c3969be8a1401c",
+        "android_client_info": {
+          "package_name": "com.quyndc.diadoc"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyB2xeIn6AprM8PhKfgCLIEh-L6bwMGOJzE"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

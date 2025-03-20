@@ -20,6 +20,7 @@ buildscript {
         classpath('com.android.tools.build:gradle')
         classpath('com.facebook.react:react-native-gradle-plugin')
         classpath('org.jetbrains.kotlin:kotlin-gradle-plugin')
+        classpath('com.google.gms:google-services:4.4.2')
     }
 }
 
@@ -46,7 +47,7 @@ subprojects {
     if (it.name.contains("react-native")) {
         if (it.plugins.hasPlugin("com.android.library")) {
             it.android {
-                compileSdkVersion = 35
+                compileSdkVersion = 35  
                 buildToolsVersion = "35.0.0"
             }
             

@@ -1,7 +1,5 @@
 import Ably from 'ably';
-import { AblyProvider, useAbly } from 'ably/react';
-import { useEffect } from 'react';
-
+import { AblyProvider } from 'ably/react';
 
 export default function AblyWrapper({
     children,
@@ -9,19 +7,19 @@ export default function AblyWrapper({
     children: React.ReactNode;
 }>) {
 
-    const client = new Ably.Realtime({ key: 'WhRbFA.7P4C7w:lV-MRhuTs5xGaYE6L0nFNsgx4bzTGNuOuspXpqxHjw0', clientId: Date.now().toString() });
+    const client = new Ably.Realtime({ key: 'WhRbFA.7P4C7w:lV-MRhuTs5xGaYE6L0nFNsgx4bzTGNuOuspXpqxHjw0' });
 
-    const registerDevice = async () => {
-        await client.push.activate()
-    }
+    // const registerDevice = async () => {
+    //     await client.push.activate()
+    // }
 
-    useEffect(() => {
-        registerDevice();
-    }, [])
+    // useEffect(() => {
+    //     registerDevice();
+    // }, [])
 
     return (
         <AblyProvider client={client}>
             {children}
         </AblyProvider>
     );
-} 
+}

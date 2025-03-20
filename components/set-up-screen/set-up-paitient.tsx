@@ -287,16 +287,16 @@ export default function SetUpPaitient({ setRole }: Prop) {
 
                     <View className='flex-row justify-between items-center'>
                         <View />
-                        <View className='flex-row gap-2 items-center'>
+                        <View className='flex-row gap-2 justify-center items-center'>
                             <Pressable
-                                className='flex-row items-center gap-2 px-5 py-3 rounded-md active:bg-[var(--click-bg)]'
+                                className='flex-row items-center gap-2 pr-4 pl-2 py-3 rounded-md active:bg-[var(--click-bg)]'
                                 onPress={() => setRole('')}
                             >
                                 <ChevronLeft className='text-foreground' size={20} />
                                 <Text className='text-base font-boldd tracking-wider uppercase'>Quay lại</Text>
                             </Pressable>
                             <Pressable
-                                className='flex-row items-center gap-2 px-5 py-3 rounded-md active:bg-[var(--click-bg)]'
+                                className='flex-row items-center gap-2 px-4 py-3 rounded-md active:bg-[var(--click-bg)]'
                                 // onPress={handleSubmit(onSubmit)}
                                 onPress={() => router.push('/(main)')}
                             >

@@ -1,0 +1,21 @@
+    GO TO /node_module/react_native_zalo_kit/android/build.gradle 
+    AND ADD THESE 2 LINES     
+    compileSdkVersion 35
+    buildToolsVersion "35.0.0"
+    
+    
+    REQUEST NOTIFICATION PERMISSION
+    
+    async function requestUserPermission() {
+        const authStatus = await getApp().messaging().requestPermission();
+        const enabled =
+            authStatus === messaging.AuthorizationStatus.AUTHORIZED ||
+            authStatus === messaging.AuthorizationStatus.PROVISIONAL;
+
+        if (enabled) {
+            console.log('Notification permission granted.');
+        } else {
+            Alert.alert('Permissions required', 'Please enable notifications.');
+        }
+    }
+

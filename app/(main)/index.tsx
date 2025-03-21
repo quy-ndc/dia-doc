@@ -21,38 +21,6 @@ export default function HomeScreen() {
     //     return () => clearTimeout(timeout);
     // }, []);
 
-    const [token, setToken] = useState('aaa')
-
-    async function requestUserPermission() {
-        const authStatus = await getApp().messaging().requestPermission();
-        const enabled =
-            authStatus === messaging.AuthorizationStatus.AUTHORIZED ||
-            authStatus === messaging.AuthorizationStatus.PROVISIONAL;
-
-        if (enabled) {
-            console.log('Notification permission granted.');
-        } else {
-            Alert.alert('Permissions required', 'Please enable notifications.');
-        }
-    }
-
-    async function getDeviceToken() {
-        try {
-            const token = await getApp().messaging().getToken();
-            console.log('FCM Token:', token);
-            setToken(token)
-            return token;
-        } catch (error) {
-            console.error('Error getting FCM token:', error);
-        }
-    }
-
-
-    useEffect(() => {
-        requestUserPermission();
-        getDeviceToken();
-    }, []);
-
     return (
         <>
             <ScrollView

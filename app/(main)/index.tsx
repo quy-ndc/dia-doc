@@ -3,11 +3,7 @@ import { View, ScrollView } from 'react-native';
 import QuickAccess from '../../components/home/quick-access/quick-access';
 import HomeBlogSection from '../../components/home/blog/blog-section';
 import { useRouter } from 'expo-router';
-import { useEffect, useState } from 'react';
-import messaging from '@react-native-firebase/messaging';
-import { Alert } from 'react-native';
-import { getApp } from '@react-native-firebase/app';
-import { Text } from '../../components/ui/text'
+import { useEffect } from 'react';
 
 export default function HomeScreen() {
 
@@ -15,7 +11,7 @@ export default function HomeScreen() {
 
     // useEffect(() => {
     //     const timeout = setTimeout(() => {
-    //         router.push('/set-up-screen');
+    //         router.push('/chat-screen');
     //     }, 1000);
 
     //     return () => clearTimeout(timeout);
@@ -29,7 +25,6 @@ export default function HomeScreen() {
                 decelerationRate={'normal'}
             >
                 <View className='flex-col items-center gap-10'>
-                    {/* <Text>{token}</Text> */}
                     <QuickAccess />
                     <HomeBlogSection />
                 </View>

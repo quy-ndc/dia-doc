@@ -4,10 +4,10 @@ import { useEffect, useRef } from 'react';
 import { Loader } from '../../../lib/icons/Loader';
 
 type Prop = {
-    cn: string
+    icon: React.ReactNode
 }
 
-export default function SpinningLoader({ cn }: Prop) {
+export default function SpinningIcon({ icon }: Prop) {
 
     const spinValue = useRef(new Animated.Value(0)).current;
 
@@ -31,7 +31,8 @@ export default function SpinningLoader({ cn }: Prop) {
 
     return (
         <Animated.View style={{ transform: [{ rotate: spin }] }}>
-            <Loader className={cn} size={20} />
+            {/* <Loader className={cn} size={20} /> */}
+            {icon}
         </Animated.View>
     );
 }

@@ -4,8 +4,9 @@ import { MessageCircleMore } from '../../lib/icons/MessageCircleMore';
 import HeaderRight from '../../components/header/header-right';
 import { Home } from '../../lib/icons/Home';
 import { Newspaper } from '../../lib/icons/Newspaper';
-import { Dimensions, Platform, useColorScheme } from 'react-native';
+import { Dimensions, Platform, View, useColorScheme } from 'react-native';
 import { GlobalColor } from '../../global-color';
+import { Text } from '../../components/ui/text'
 
 export default function MainLayout() {
 
@@ -14,7 +15,6 @@ export default function MainLayout() {
     const { height } = Dimensions.get('window');
 
     const tabBarActiveBg = theme == 'dark' ? GlobalColor.TAB_BAR_ACTIVE_BG_DARK : GlobalColor.TAB_BAR_ACTIVE_BG_LIGHT
-
 
     return (
         <Tabs
@@ -46,6 +46,7 @@ export default function MainLayout() {
                     tabBarIcon: () => <Home className='text-[var(--quick-access-icon-color)]' size={20} />,
                     headerRight: () => <HeaderRight />,
                     animation: 'shift'
+
                 }}
             />
             <Tabs.Screen

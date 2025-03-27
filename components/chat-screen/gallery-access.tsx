@@ -19,8 +19,10 @@ export default function GalleryAccess({ onImagePick }: Prop) {
 
         let result = await ImagePicker.launchImageLibraryAsync({
             mediaTypes: ['images'],
-            allowsEditing: true,
+            // allowsEditing: true,
             quality: 1,
+            allowsMultipleSelection: true,
+            orderedSelection: true
         });
 
         if (!result.canceled) {

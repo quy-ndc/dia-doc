@@ -13,7 +13,7 @@ export const toastConfig = {
                 width: width * 0.9,
                 borderLeftColor: GlobalColor.TOAST_SUCCESS,
             }}
-            text1Style={{   
+            text1Style={{
                 fontSize: 14,
                 fontWeight: 'bold'
             }}
@@ -22,12 +22,16 @@ export const toastConfig = {
     error: (props: ToastProps) => (
         <ErrorToast
             {...props}
-            text1Style={{
-                fontSize: 17
+            style={{
+                width: width * 0.9,
+                borderLeftColor: GlobalColor.TOAST_FAIL,
             }}
-            text2Style={{
-                fontSize: 15
-            }}
+        // text1Style={{
+        //     fontSize: 17
+        // }}
+        // text2Style={{
+        //     fontSize: 15
+        // }}
         />
     ),
     info: (props: ToastProps) => (
@@ -60,5 +64,5 @@ export const toastConfig = {
                 lineHeight: 21
             }}
         />
-    ),    
+    ),
 };

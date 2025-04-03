@@ -1,4 +1,4 @@
-type UserZState = {
+export type UserZState = {
     name: string;
     email: string;
     isAuthenticated: boolean;

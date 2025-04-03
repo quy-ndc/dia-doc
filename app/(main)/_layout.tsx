@@ -4,15 +4,16 @@ import { MessageCircleMore } from '../../lib/icons/MessageCircleMore';
 import HeaderRight from '../../components/header/header-right';
 import { Home } from '../../lib/icons/Home';
 import { Newspaper } from '../../lib/icons/Newspaper';
-import { Dimensions, Platform, View, useColorScheme } from 'react-native';
+import { Dimensions, Platform, useColorScheme } from 'react-native';
 import { GlobalColor } from '../../global-color';
-import { Text } from '../../components/ui/text'
+
+
+const { height } = Dimensions.get('window');
 
 export default function MainLayout() {
 
     const theme = useColorScheme()
 
-    const { height } = Dimensions.get('window');
 
     const tabBarActiveBg = theme == 'dark' ? GlobalColor.TAB_BAR_ACTIVE_BG_DARK : GlobalColor.TAB_BAR_ACTIVE_BG_LIGHT
 

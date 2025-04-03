@@ -10,7 +10,9 @@ import { ImageMessage } from './image-message';
 import CameraAccess from './camera-access';
 import { Animated as RNAnimated } from 'react-native';
 import { ChevronDown } from '../../lib/icons/ChevronDown';
-
+import { useChatConnection, useMessages } from '@ably/chat';
+import { Text } from '../../components/ui/text'
+import { Button } from '../ui/button';
 
 type Prop = {
     setIsCameraOn: (state: boolean) => void
@@ -67,6 +69,18 @@ export default function ChatModule({
 
     const ownId = '1'
 
+    const { connectionStatus, send } = useMessages({
+        listener: (message) => {
+            console.log('Received message: ', message);
+        },
+    })
+
+    const { currentStatus } = useChatConnection({
+        onStatusChange: (statusChange) => {
+            console.log('Connection status changed to: ', statusChange.current);
+        },
+    });
+
     return (
         <KeyboardAvoidingView
             behavior={Platform.OS === 'ios' ? 'padding' : undefined}
@@ -95,6 +109,12 @@ export default function ChatModule({
                                 isOwn={message.id == ownId}
                             />
                     ))}
+                    <Text>{connectionStatus}</Text>
+                    <Text>{currentStatus}</Text>
+                    <Button variant={'default'} onPress={() => send({ text: 'Hello, World!' })}>
+                        <Text>Send</Text>
+                    </Button>
+
                 </ScrollView>
 
                 <RNAnimated.View

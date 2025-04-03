@@ -9,10 +9,8 @@ import { useColorScheme } from '../lib/useColorScheme';
 import { PortalHost } from '@rn-primitives/portal';
 import { setAndroidNavigationBar } from '../lib/android-navigation-bar';
 import { ReactQueryProvider } from '../util/provider/react-query-provider';
-import { Provider } from 'react-redux';
 import Toast from 'react-native-toast-message';
 import { toastConfig } from '../components/common/toast-config/toast-config';
-import { Text } from '../components/ui/text';
 import AblyWrapper from '../util/provider/ably-provider';
 import messaging from '@react-native-firebase/messaging';
 import { useEffect, useState } from 'react';
@@ -110,7 +108,7 @@ export default function RootLayout() {
               <Stack.Screen name='authen-screen' options={{ headerShown: false }} />
               <Stack.Screen name='set-up-screen' options={{ headerShown: false }} />
               <Stack.Screen name='chat-screen' options={{ headerTitle: '' }} />
-              <Stack.Screen name='blog-detail-screen' options={{ headerTitle: '', presentation: 'modal' }} />
+              <Stack.Screen name='blog-detail-screen' options={{ headerTitle: '', presentation: 'modal', animation: 'slide_from_bottom', gestureDirection: 'horizontal' }} />
               <Stack.Screen name='+not-found' options={{ headerShown: false }} />
             </Stack>
             <NetworkOverlay />

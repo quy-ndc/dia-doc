@@ -5,8 +5,9 @@ import { Text } from '../components/ui/text';
 import { Stack, useLocalSearchParams, useRouter } from 'expo-router';
 import ChatModule from '../components/chat-screen/chat-module';
 import CameraModule from '../components/chat-screen/camera-module';
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import { Message } from '../assets/types/chat/message';
+import { AllFeaturesEnabled, ChatRoomProvider } from '@ably/chat';
 
 
 export default function ChatScreen() {
@@ -85,14 +86,16 @@ export default function ChatScreen() {
                     handleSendImage={handleImageMessage}
                 />
             </Modal>
-            <ChatModule
-                setIsCameraOn={setIsCameraOn}
-                newMessage={newMessage}
-                setNewMessage={setNewMessage}
-                messages={messages}
-                handleSendMessage={handleSendMessage}
-                handleSendImage={handleImageMessage}
-            />
+            <ChatRoomProvider id="readme-getting-started" options={AllFeaturesEnabled}>
+                <ChatModule
+                    setIsCameraOn={setIsCameraOn}
+                    newMessage={newMessage}
+                    setNewMessage={setNewMessage}
+                    messages={messages}
+                    handleSendMessage={handleSendMessage}
+                    handleSendImage={handleImageMessage}
+                />
+            </ChatRoomProvider>
         </>
     );
 }

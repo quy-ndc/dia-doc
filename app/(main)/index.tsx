@@ -4,6 +4,10 @@ import QuickAccess from '../../components/home/quick-access/quick-access';
 import HomeBlogSection from '../../components/home/blog/blog-section';
 import { useRouter } from 'expo-router';
 import { useEffect } from 'react';
+import { DropdownMenu, DropdownMenuContent, DropdownMenuGroup, DropdownMenuItem, DropdownMenuLabel, DropdownMenuSeparator, DropdownMenuShortcut, DropdownMenuTrigger } from '../../components/ui/dropdown-menu';
+import { Button } from '../../components/ui/button';
+import { Text } from '../../components/ui/text'
+
 
 export default function HomeScreen() {
 

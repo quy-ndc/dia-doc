@@ -6,6 +6,8 @@ import { Image } from 'expo-image'
 import { Hospital } from '../../lib/icons/Hospital';
 import { formatDateDiagnose } from '../../util/format-date-diagnose';
 import BasicInfo from '../../components/profile-screen/basic-info';
+import IconButton from '../../components/common/icon-button';
+import { PencilLine } from '../../lib/icons/PencilLine';
 
 
 
@@ -15,19 +17,26 @@ export default function ProfileScreen() {
     return (
         <ScrollView>
             <View className='flex-col gap-4 px-5'>
-                <View className='flex-row gap-4 items-center px-4 py-4'>
-                    <Image
-                        style={{ width: 48, height: 48, borderRadius: 1000 }}
-                        source={'https://res.cloudinary.com/dcjdtlnbl/image/upload/v1729604351/T_shirt_3_yrzyex.jpg'}
-                        contentFit='cover'
-                    />
-                    <View className='flex-col gap-1'>
-                        <Text className='text-xl font-bold tracking-wider'>Name of paitient</Text>
-                        <View className='flex-row gap-2 items-center'>
-                            <Hospital className='text-[--fade-text-color]' size={15} />
-                            <Text className='text-base tracking-wider text-[--fade-text-color]'>Name of hospital</Text>
+                <View className='flex-row justify-between items-center'>
+                    <View className='flex-row gap-4 items-center px-4 py-4'>
+                        <Image
+                            style={{ width: 48, height: 48, borderRadius: 1000 }}
+                            source={'https://res.cloudinary.com/dcjdtlnbl/image/upload/v1729604351/T_shirt_3_yrzyex.jpg'}
+                            contentFit='cover'
+                        />
+                        <View className='flex-col gap-1'>
+                            <Text className='text-xl font-bold tracking-wider'>Name of paitient</Text>
+                            <View className='flex-row gap-2 items-center'>
+                                <Hospital className='text-[--fade-text-color]' size={15} />
+                                <Text className='text-base tracking-wider text-[--fade-text-color]'>Name of hospital</Text>
+                            </View>
                         </View>
                     </View>
+                    <IconButton
+                        icon={<PencilLine className='text-foreground' size={20} />}
+                        buttonSize={4}
+                        possition={'other'}
+                    />
                 </View>
 
                 <View className='flex-col gap-6 p-5 bg-[var(--blog-bg)] rounded-lg'>

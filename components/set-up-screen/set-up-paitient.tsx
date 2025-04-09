@@ -24,7 +24,18 @@ type Prop = {
 export default function SetUpPaitient({ setRole }: Prop) {
 
     const schema = yup.object({
-        name: yup.string().required('Không được trống'),
+        name: yup.string()
+            .when({
+                is: (value: string | undefined) => !!value,
+                then: (schema) =>
+                    schema.matches(/^[^\d]+$/, 'Không được chứa số'),
+            })
+            .when({
+                is: (value: string | undefined) => !!value,
+                then: (schema) =>
+                    schema.matches(/^[A-Za-zÀ-ỹ\s]+$/, 'Không được chứa ký tự đặc biệt'),
+            })
+            .required('Không được trống'),
         phone: yup.string()
             .required('Không đước trống')
             .matches(/^\d{10}$/, 'Phải có đúng 10 chữ số'),

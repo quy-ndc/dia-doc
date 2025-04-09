@@ -16,6 +16,9 @@ import messaging from '@react-native-firebase/messaging';
 import { useEffect, useState } from 'react';
 import { getApp } from '@react-native-firebase/app';
 import NetworkOverlay from '../components/common/network-overlay';
+import { Vibration } from 'react-native';
+import notifee, { AndroidImportance } from '@notifee/react-native';
+import { createNotificationChannel } from '../util/notification/create-noti-channel';
 
 
 const LIGHT_THEME: Theme = { ...DefaultTheme, colors: NAV_THEME.light };
@@ -29,9 +32,27 @@ export default function RootLayout() {
   const [isColorSchemeLoaded, setIsColorSchemeLoaded] = React.useState(false);
 
   useEffect(() => {
+    createNotificationChannel();
+  }, []);
+
+  useEffect(() => {
     requestUserPermission();
 
     const unsubscribeOnMessage = getApp().messaging().onMessage(async remoteMessage => {
+      Vibration.vibrate();
+
+      await notifee.displayNotification({
+        title: remoteMessage.notification?.title,
+        body: remoteMessage.notification?.body,
+        android: {
+          channelId: 'foreground-noti',
+          smallIcon: 'ic_launcher', // ensure you have this icon in `android/app/src/main/res`
+          pressAction: {
+            id: 'default',
+          },
+        },
+      });
+
       Alert.alert('New Notification', JSON.stringify(remoteMessage));
       console.log(JSON.stringify(remoteMessage))
     });
@@ -46,11 +67,11 @@ export default function RootLayout() {
       authStatus === messaging.AuthorizationStatus.PROVISIONAL;
 
     if (!enabled) {
-      Toast.show({
-        type: 'error',
-        text1: 'Bạn cần cấp quyền để nhận thông báo',
-        visibilityTime: 3000,
-      })
+      // Toast.show({
+      //   type: 'error',
+      //   text1: 'Bạn cần cấp quyền để nhận thông báo',
+      //   visibilityTime: 3000,
+      // })
     }
 
     if (Platform.OS === 'android' && Platform.Version >= 33) {

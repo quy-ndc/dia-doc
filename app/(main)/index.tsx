@@ -1,12 +1,9 @@
 import * as React from 'react';
-import { View, ScrollView } from 'react-native';
+import { View, ScrollView} from 'react-native';
 import QuickAccess from '../../components/home/quick-access/quick-access';
 import HomeBlogSection from '../../components/home/blog/blog-section';
 import { useRouter } from 'expo-router';
-import { useEffect } from 'react';
-import { DropdownMenu, DropdownMenuContent, DropdownMenuGroup, DropdownMenuItem, DropdownMenuLabel, DropdownMenuSeparator, DropdownMenuShortcut, DropdownMenuTrigger } from '../../components/ui/dropdown-menu';
-import { Button } from '../../components/ui/button';
-import { Text } from '../../components/ui/text'
+import { useEffect} from 'react';
 
 
 export default function HomeScreen() {
@@ -36,7 +33,6 @@ export default function HomeScreen() {
         </>
     );
 }
-
 
 // import * as React from 'react';
 // import { View, ScrollView, Animated } from 'react-native';

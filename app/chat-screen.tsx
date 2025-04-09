@@ -80,7 +80,11 @@ export default function ChatScreen() {
                         </View>
                 }}
             />
-            <Modal visible={isCameraOn} animationType='fade'>
+            <Modal
+                visible={isCameraOn}
+                animationType='fade'
+                onRequestClose={() => setIsCameraOn(false)}
+            >
                 <CameraModule
                     setIsCameraOn={setIsCameraOn}
                     handleSendImage={handleImageMessage}

@@ -14,14 +14,16 @@ import { yupResolver } from '@hookform/resolvers/yup';
 export default function DoctorAuthenModule() {
 
     const schema = yup.object({
-        username: yup.string().required('Không được trống'),
+        email: yup.string()
+            .required('Không được trống')
+            .email('Email không hợp lệ'),
         password: yup.string().required('Không đước trống')
     }).required();
 
     const { control, handleSubmit, formState: { errors } } = useForm({
         resolver: yupResolver(schema),
         defaultValues: {
-            username: '',
+            email: '',
             password: ''
         }
     });
@@ -29,16 +31,16 @@ export default function DoctorAuthenModule() {
     const [show, setShow] = useState(false)
 
     const onLogin = (data: any) => {
-        console.log(data.username + ' ' + data.password)
+        console.log(data.email + ' ' + data.password)
     }
 
     return (
         <View className='flex-col gap-5 items-center'>
             <View className='flex-col gap-2 w-full'>
-                <Text className='text-base font-bold tracking-widest capitalize'>Tên người dùng</Text>
+                <Text className='text-base font-bold tracking-widest capitalize'>Email</Text>
                 <Controller
                     control={control}
-                    name="username"
+                    name="email"
                     render={({ field: { onChange, onBlur, value } }) => (
                         <>
                             <Input
@@ -48,7 +50,7 @@ export default function DoctorAuthenModule() {
                                 onChangeText={onChange}
                                 onBlur={onBlur}
                             />
-                            {errors.username && <Text className='text-red-500'>{errors.username.message}</Text>}
+                            {errors.email && <Text className='text-red-500'>{errors.email.message}</Text>}
                         </>
                     )}
                 />

@@ -2,17 +2,17 @@ import * as React from 'react';
 import { View, ScrollView, Pressable } from 'react-native';
 import { Text } from '../../components/ui/text';
 import { Image } from 'expo-image'
-
-import { Hospital } from '../../lib/icons/Hospital';
 import { formatDateDiagnose } from '../../util/format-date-diagnose';
 import BasicInfo from '../../components/profile-screen/basic-info';
 import IconButton from '../../components/common/icon-button';
 import { PencilLine } from '../../lib/icons/PencilLine';
-
+import { Phone } from '../../lib/icons/Phone';
+import { useRouter } from 'expo-router';
 
 
 export default function ProfileScreen() {
 
+    const router = useRouter()
 
     return (
         <ScrollView>
@@ -20,15 +20,15 @@ export default function ProfileScreen() {
                 <View className='flex-row justify-between items-center'>
                     <View className='flex-row gap-4 items-center px-4 py-4'>
                         <Image
-                            style={{ width: 48, height: 48, borderRadius: 1000 }}
+                            style={{ width: 55, height: 55, borderRadius: 1000 }}
                             source={'https://res.cloudinary.com/dcjdtlnbl/image/upload/v1729604351/T_shirt_3_yrzyex.jpg'}
                             contentFit='cover'
                         />
                         <View className='flex-col gap-1'>
                             <Text className='text-xl font-bold tracking-wider'>Name of paitient</Text>
                             <View className='flex-row gap-2 items-center'>
-                                <Hospital className='text-[--fade-text-color]' size={15} />
-                                <Text className='text-base tracking-wider text-[--fade-text-color]'>Name of hospital</Text>
+                                <Phone className='text-[--fade-text-color]' size={15} />
+                                <Text className='text-base tracking-wider text-[--fade-text-color]'>0123456789</Text>
                             </View>
                         </View>
                     </View>
@@ -44,12 +44,6 @@ export default function ProfileScreen() {
                     <View className='flex-row justify-between items-center'>
                         <Pressable className='px-7 py-3 rounded-lg bg-[var(--dia-type-bg)]'>
                             <Text className='text-white font-bold tracking-wider'>Loại 1</Text>
-                        </Pressable>
-                        <Pressable className='px-7 py-3 rounded-lg'>
-                            <Text className='tracking-wider'>Loại 2</Text>
-                        </Pressable>
-                        <Pressable className='px-7 py-3 rounded-lg'>
-                            <Text className='tracking-wider'>Loại 3</Text>
                         </Pressable>
                     </View>
                     <View className='flex-col gap-1'>

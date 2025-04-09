@@ -1,7 +1,8 @@
 import * as React from 'react';
 import * as ImagePicker from 'expo-image-picker';
-import { Pressable } from 'react-native';
+import { Linking, Pressable } from 'react-native';
 import { Images } from '../../lib/icons/Images';
+import Toast from 'react-native-toast-message';
 
 type Prop = {
     onImagePick: (message: string) => void
@@ -10,12 +11,23 @@ type Prop = {
 export default function GalleryAccess({ onImagePick }: Prop) {
 
     const pickImageAsync = async () => {
-        const permission = await ImagePicker.requestMediaLibraryPermissionsAsync();
+        const response = await ImagePicker.requestMediaLibraryPermissionsAsync();
 
-        if (!permission.granted) {
-            alert('Cần quyền truy cập thư viện ảnh');
-            return;
-        }
+        // if (!response.canAskAgain) {
+        //     Toast.show({
+        //         type: 'error',
+        //         text1: 'Bạn cần cấp quyền trong cài đặt để truy cập thư viện',
+        //         text2: 'Nhấn vào thông báo này để truy cập cài đặt',
+        //         visibilityTime: 3000,
+        //         onPress: () => Linking.openSettings(),
+        //     })
+        // } else {
+        //     Toast.show({
+        //         type: 'error',
+        //         text1: 'Bạn cần cấp quyền để truy cập thư viện',
+        //         visibilityTime: 2000
+        //     })
+        // }
 
         let result = await ImagePicker.launchImageLibraryAsync({
             mediaTypes: ['images'],

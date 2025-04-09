@@ -1,5 +1,5 @@
 import * as React from 'react';
-import { View, StyleSheet, KeyboardAvoidingView, Platform, ScrollView, Pressable, Animated, Easing } from 'react-native';
+import { View, StyleSheet, KeyboardAvoidingView, Platform, ScrollView, Pressable } from 'react-native';
 import { useEffect, useRef, useState } from 'react';
 import { Input } from '../../components/ui/input';
 import { Message } from '../../assets/types/chat/message';
@@ -13,6 +13,9 @@ import { ChevronDown } from '../../lib/icons/ChevronDown';
 import { useChatConnection, useMessages } from '@ably/chat';
 import { Text } from '../../components/ui/text'
 import { Button } from '../ui/button';
+import { AtSign } from '../../lib/icons/AtSign';
+import VoiceRecord from './voice-record';
+import { ChevronRight } from '../../lib/icons/ChevronRight';
 
 type Prop = {
     setIsCameraOn: (state: boolean) => void
@@ -35,6 +38,18 @@ export default function ChatModule({
     const [showScrollButton, setShowScrollButton] = useState(false);
     const scrollViewRef = useRef<ScrollView>(null);
     const opacity = useRef(new RNAnimated.Value(0)).current;
+    const [showUtil, setShowUtil] = useState(true)
+
+    const onTextChange = (m: string) => {
+        setNewMessage(m)
+        if (showUtil && m !== '') {
+            setShowUtil(false)
+        }
+
+        if (!showUtil && m == '') {
+            setShowUtil(true)
+        }
+    }
 
     const toggleVisibility = (visible: boolean) => {
         RNAnimated.timing(opacity, {
@@ -109,13 +124,51 @@ export default function ChatModule({
                                 isOwn={message.id == ownId}
                             />
                     ))}
-                    <Text>{connectionStatus}</Text>
+                    {/* <Text>{connectionStatus}</Text>
                     <Text>{currentStatus}</Text>
                     <Button variant={'default'} onPress={() => send({ text: 'Hello, World!' })}>
                         <Text>Send</Text>
-                    </Button>
+                    </Button> */}
 
                 </ScrollView>
+
+                <View className='flex-row gap-1 justify-center items-center pt-2 pb-2'>
+                    <View className={`flex-row items-center ${!showUtil && 'hidden'}`}>
+                        <CameraAccess setIsCameraOn={(state) => setIsCameraOn(state)} />
+                        <GalleryAccess onImagePick={(image) => handleSendImage(image)} />
+                        <VoiceRecord setNewMessage={setNewMessage} />
+                        <Pressable
+                            className='px-3 py-4 rounded-xl active:bg-[var(--click-bg)]'
+                            onPress={() => setNewMessage(`@AI ${newMessage}`)}
+                        >
+                            <AtSign className='text-foreground' size={20} />
+                        </Pressable>
+                    </View>
+                    <Pressable
+                        className={`px-3 py-4 rounded-xl active:bg-[var(--click-bg)] ${showUtil && 'hidden'}`}
+                        onPress={() => setShowUtil(true)}
+                    >
+                        <ChevronRight className='text-foreground' size={20} />
+                    </Pressable>
+                    <Input
+                        className='flex-1 rounded-full bg-[var(--input-bg)]'
+                        value={newMessage}
+                        onChangeText={onTextChange}
+                        onFocus={() => setShowUtil(false)}
+                        placeholder="Aa"
+                        returnKeyType="send"
+                        onSubmitEditing={() => handleSendMessage(newMessage)}
+                        multiline
+                        autoCapitalize='sentences'
+                    />
+                    <Pressable
+                        className='p-4 rounded-full active:bg-[var(--click-bg)]'
+                        onPress={() => handleSendMessage(newMessage)}
+                    >
+                        {/* <SpinningLoader cn='text-foreground' /> */}
+                        <SendHorizontal className='text-foreground' size={20} />
+                    </Pressable>
+                </View>
 
                 <RNAnimated.View
                     style={{
@@ -133,50 +186,14 @@ export default function ChatModule({
                         <ChevronDown className='text-[var(--go-up-btn-icon)]' size={22} />
                     </Pressable>
                 </RNAnimated.View>
-
-                <View className='flex-row gap-1 justify-center items-center pt-2 pb-2'>
-                    <View className='flex-row items-center'>
-                        <CameraAccess setIsCameraOn={(state) => setIsCameraOn(state)} />
-                        <GalleryAccess onImagePick={(image) => handleSendImage(image)} />
-                    </View>
-                    <Input
-                        className='flex-1 rounded-full bg-[var(--input-bg)]'
-                        value={newMessage}
-                        onChangeText={setNewMessage}
-                        placeholder="Aa"
-                        returnKeyType="send"
-                        onSubmitEditing={() => handleSendMessage(newMessage)}
-                        multiline
-                        autoCapitalize='sentences'
-                    />
-                    <Pressable
-                        className='p-4 rounded-full active:bg-[var(--click-bg)]'
-                        onPress={() => handleSendMessage(newMessage)}
-                    >
-                        {/* <SpinningLoader cn='text-foreground' /> */}
-                        <SendHorizontal className='text-foreground' size={20} />
-                    </Pressable>
-                </View>
             </View>
         </KeyboardAvoidingView>
     );
 }
 
 const styles = StyleSheet.create({
-    image: {
-        width: 30,
-        height: 30,
-        borderRadius: 1000
-    },
     messagesContainer: {
         flexGrow: 1,
         justifyContent: 'flex-end',
-    },
-    input: {
-        flex: 1,
-        borderWidth: 1,
-        borderColor: '#ddd',
-        borderRadius: 5,
-        padding: 10,
     },
 });

@@ -129,6 +129,7 @@ export default function RootLayout() {
               <Stack.Screen name='authen-screen' options={{ headerShown: false }} />
               <Stack.Screen name='set-up-screen' options={{ headerShown: false }} />
               <Stack.Screen name='chat-screen' options={{ headerTitle: '' }} />
+              <Stack.Screen name='edit-profile-page' options={{ headerTitle: '' }} />
               <Stack.Screen name='blog-detail-screen' options={{ headerTitle: '', presentation: 'modal', animation: 'slide_from_bottom', gestureDirection: 'horizontal' }} />
               <Stack.Screen name='+not-found' options={{ headerShown: false }} />
             </Stack>

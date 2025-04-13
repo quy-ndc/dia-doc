@@ -7,7 +7,17 @@ import { useState } from 'react';
 import { Trash2 } from '../../../lib/icons/Trash2';
 import { X } from '../../../lib/icons/X';
 import useNotificationStore from '../../../store/notificationStore';
-
+import {
+    AlertDialog,
+    AlertDialogAction,
+    AlertDialogCancel,
+    AlertDialogContent,
+    AlertDialogDescription,
+    AlertDialogFooter,
+    AlertDialogHeader,
+    AlertDialogTitle,
+    AlertDialogTrigger,
+} from '../../../components/ui/alert-dialog';
 
 type Prop = {
     text: string
@@ -44,6 +54,7 @@ export default function NotificationItem({ text }: Prop) {
                 visible={visible}
                 transparent
                 animationType='fade'
+                onRequestClose={() => setVisible(false)}
             >
                 <Pressable
                     className='flex-1 justify-center items-center bg-black/50'

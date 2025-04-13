@@ -25,6 +25,7 @@
     "@react-native-voice/voice": "^3.2.4",
     "@react-navigation/native": "^7.0.0",
     "@reduxjs/toolkit": "^2.5.1",
+    "@rn-primitives/alert-dialog": "^1.1.0",
     "@rn-primitives/avatar": "~1.1.0",
     "@rn-primitives/dropdown-menu": "^1.1.0",
     "@rn-primitives/portal": "~1.1.0",

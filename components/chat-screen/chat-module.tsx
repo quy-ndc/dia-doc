@@ -12,10 +12,10 @@ import { Animated as RNAnimated } from 'react-native';
 import { ChevronDown } from '../../lib/icons/ChevronDown';
 import { useChatConnection, useMessages } from '@ably/chat';
 import { Text } from '../../components/ui/text'
-import { Button } from '../ui/button';
 import { AtSign } from '../../lib/icons/AtSign';
 import VoiceRecord from './voice-record';
 import { ChevronRight } from '../../lib/icons/ChevronRight';
+import { ChevronUp } from '../../lib/icons/ChevronUp';
 
 type Prop = {
     setIsCameraOn: (state: boolean) => void
@@ -101,7 +101,12 @@ export default function ChatModule({
             behavior={Platform.OS === 'ios' ? 'padding' : undefined}
             style={{ flex: 1 }}
         >
-            <View className='h-full w-full items-center justify-center'>
+            <View className='relative h-full w-full items-center justify-center'>
+                <Pressable className="absolute top-2 left-1/2 -translate-x-1/2 flex-row gap-2 items-center z-50 px-4 py-2 rounded-full bg-blue-500 active:bg-blue-400">
+                    <Text className='text-white text-sm font-semibold tracking-widest'>Tin nhắn mới</Text>
+                    <ChevronUp className='text-white' size={17} />
+                </Pressable>
+
                 <ScrollView
                     className='w-full flex-col px-5'
                     ref={scrollViewRef}
@@ -129,7 +134,6 @@ export default function ChatModule({
                     <Button variant={'default'} onPress={() => send({ text: 'Hello, World!' })}>
                         <Text>Send</Text>
                     </Button> */}
-
                 </ScrollView>
 
                 <View className='flex-row gap-1 justify-center items-center pt-2 pb-2'>
@@ -186,6 +190,7 @@ export default function ChatModule({
                         <ChevronDown className='text-[var(--go-up-btn-icon)]' size={22} />
                     </Pressable>
                 </RNAnimated.View>
+
             </View>
         </KeyboardAvoidingView>
     );

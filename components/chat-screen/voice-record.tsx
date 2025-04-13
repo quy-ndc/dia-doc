@@ -8,6 +8,7 @@ import Voice, { SpeechRecognizedEvent, SpeechResultsEvent, SpeechErrorEvent, } f
 import { MicOff } from "../../lib/icons/MicOff";
 import IconButton from "../common/icon-button";
 import { Check } from "../../lib/icons/Check";
+import { X } from "../../lib/icons/X";
 
 type Prop = {
     setNewMessage: (newMessage: string) => void;
@@ -49,7 +50,6 @@ export default function VoiceRecord({ setNewMessage }: Prop) {
         try {
             setCanSubmit(false)
             setResults('')
-            // await Voice.start("en-US");
             await Voice.start("vi-VN");
             setVisible(true)
             setIsRecording(true)
@@ -127,14 +127,6 @@ export default function VoiceRecord({ setNewMessage }: Prop) {
         };
     }, []);
 
-    const cancelRecognizing = async () => {
-        try {
-            await Voice.cancel();
-        } catch (e) {
-            console.error(e);
-        }
-    };
-
     if (!permission) {
         return <View />
     }
@@ -161,6 +153,13 @@ export default function VoiceRecord({ setNewMessage }: Prop) {
                         style={{ width: width * 0.7, minHeight: height * 0.3 }}
                         className="relative flex-col p-5 gap-5 justify-center items-center bg-[var(--noti-bg)] rounded-2xl"
                     >
+                        <Pressable
+                            className={`absolute top-2 left-2 p-3 items-center justify-center rounded-full active:bg-[var(--click-bg)]`}
+                            onPress={onCancelRecord}
+                        >
+                            <X className={`text-red-500`} size={22} />
+                        </Pressable>
+
                         <Pressable
                             className={`p-5 rounded-full ${isRecording
                                 ? 'bg-red-500 active:bg-red-700'

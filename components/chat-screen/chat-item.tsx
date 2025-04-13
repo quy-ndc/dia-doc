@@ -5,6 +5,7 @@ import { useRouter } from 'expo-router';
 import { Image } from 'expo-image'
 import { truncateText } from '../../util/truncate-text';
 import { formatDateBlog } from '../../util/format-date-post';
+import { AllFeaturesEnabled, ChatRoomProvider } from '@ably/chat';
 
 type Prop = {
     // id: string;
@@ -30,6 +31,7 @@ export default function ChatItem({ img, name, time, message, hasNewMessage }: Pr
     }
 
     return (
+        // <ChatRoomProvider id="readme-getting-started" options={AllFeaturesEnabled}>
         <Pressable
             onPress={handleChatSelect}
             className={`flex-row justify-between py-5 px-3 active:bg-[var(--click-bg)]`}
@@ -47,5 +49,6 @@ export default function ChatItem({ img, name, time, message, hasNewMessage }: Pr
                 <Text className={`${hasNewMessage ? 'font-bold' : 'opacity-[60%]'}`}>{truncateText(message, 40)}</Text>
             </View>
         </Pressable>
+        // </ChatRoomProvider> 
     );
 }

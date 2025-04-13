@@ -5,7 +5,6 @@
     
     
     REQUEST NOTIFICATION PERMISSION
-    
     async function requestUserPermission() {
         const authStatus = await getApp().messaging().requestPermission();
         const enabled =
@@ -18,4 +17,8 @@
             Alert.alert('Permissions required', 'Please enable notifications.');
         }
     }
+
+    INSTALL THE APK TO PHONE
+    adb install app/build/outputs/apk/release/app-release.apk
+
 

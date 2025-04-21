@@ -25,7 +25,7 @@ export default function ProfileScreen() {
                             contentFit='cover'
                         />
                         <View className='flex-col gap-1'>
-                            <Text className='text-xl font-bold tracking-wider'>Name of paitient</Text>
+                            <Text className='text-xl font-bold tracking-wider'>Name of patient</Text>
                             <View className='flex-row gap-2 items-center'>
                                 <Phone className='text-[--fade-text-color]' size={15} />
                                 <Text className='text-base tracking-wider text-[--fade-text-color]'>0123456789</Text>
@@ -36,6 +36,7 @@ export default function ProfileScreen() {
                         icon={<PencilLine className='text-foreground' size={20} />}
                         buttonSize={4}
                         possition={'other'}
+                        onPress={() => router.push('/edit-profile-page')}
                     />
                 </View>
 

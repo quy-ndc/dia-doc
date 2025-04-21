@@ -1,7 +1,6 @@
 import * as React from 'react';
 import { Animated, Easing } from 'react-native';
 import { useEffect, useRef } from 'react';
-import { Loader } from '../../../lib/icons/Loader';
 
 type Prop = {
     icon: React.ReactNode
@@ -31,7 +30,6 @@ export default function SpinningIcon({ icon }: Prop) {
 
     return (
         <Animated.View style={{ transform: [{ rotate: spin }] }}>
-            {/* <Loader className={cn} size={20} /> */}
             {icon}
         </Animated.View>
     );

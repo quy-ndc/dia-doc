@@ -5,20 +5,37 @@ import { Text } from '../../../components/ui/text'
 import { formatDateBlog } from "../../../util/format-date-post";
 import LikeButton from "./like-button";
 import CommentButton from "./comment-button";
-import DetailImage from "./detail-image";
+import BookmarkButton from "./bookmark-button";
+import { truncateText } from "../../../util/truncate-text";
 
 
 type Prop = {
-    avatar: string
-    name: string
+    id: string
     title: string
     content: string
-    images: string[]
+    image: string
+    createDate: string
+    category: string
+    name: string
+    avatar: string
     liked: boolean
     detailed: boolean
+    bookmarked: boolean
 }
 
-export default function BlogItem({ avatar, name, title, content, images, liked, detailed }: Prop) {
+export default function BlogItem({
+    id,
+    avatar,
+    name,
+    title,
+    content,
+    image,
+    category,
+    liked,
+    detailed,
+    createDate,
+    bookmarked
+}: Prop) {
 
     const router = useRouter()
 
@@ -29,7 +46,7 @@ export default function BlogItem({ avatar, name, title, content, images, liked, 
                 avatar: avatar,
                 title: title,
                 name: name,
-                images: JSON.stringify(images),
+                images: JSON.stringify(image),
                 liked: liked.toString()
             }
         })
@@ -48,16 +65,26 @@ export default function BlogItem({ avatar, name, title, content, images, liked, 
                 />
                 <View className="flex-col gap-[0.5]">
                     <Text className="text-base font-bold tracking-wider">{name}</Text>
-                    <Text className="text-sm tracking-wider text-[var(--fade-text-color)]">{formatDateBlog('2025-02-17T16:19:20')}</Text>
+                    <Text className="text-sm tracking-wider text-[var(--fade-text-color)]">{formatDateBlog(createDate)}</Text>
                 </View>
             </View>
-
-            <View className="flex-col gap-4 justify-center px-5">
-                <Text className="text-lg font-bold tracking-wider">{title}</Text>
-                {/* <Text className="text-sm tracking-wider">{truncateText(content, 120)}</Text> */}
+            <View className="flex-row justify-between px-5 items-center">
+                <View className="flex-1 flex-col gap-4">
+                    <Text className="text-base font-semibold tracking-wider">
+                        {truncateText(title, 90)}
+                    </Text>
+                    <View style={{ alignSelf: 'flex-start' }}>
+                        <Text className="text-white text-sm font-semibold px-3 py-1 bg-[var(--type4-bg)] rounded-full tracking-wider capitalize">{category}</Text>
+                    </View>
+                </View>
+                <Image
+                    style={{ width: 60, minHeight: 80, borderRadius: 10 }}
+                    contentFit="cover"
+                    source={image}
+                />
             </View>
 
-            {(detailed && images.length > 0) && (
+            {/* {(detailed && images.length > 0) && (
                 <DetailImage
                     avatar={avatar}
                     name={name}
@@ -65,19 +92,23 @@ export default function BlogItem({ avatar, name, title, content, images, liked, 
                     title={title}
                     liked={liked}
                 />
-            )}
-            <View className="flex-row gap-1 px-3 pb-3">
-                <LikeButton liked={liked} />
-                <CommentButton
-                    avatar={avatar}
-                    title={title}
-                    name={name}
-                    images={images}
-                    liked={liked}
-                />
+            )} */}
+
+            <View className="flex-row justify-between items-center gap-1 px-3 pb-3">
+                <View className="flex-row gap-1 items-center">
+                    <LikeButton liked={liked} />
+                    <CommentButton
+                        avatar={avatar}
+                        title={title}
+                        name={name}
+                        image={image}
+                        liked={liked}
+                    />
+                </View>
+                <BookmarkButton bookmarked={bookmarked} />
             </View>
         </Pressable>
-    );
+    )
 }
 
 const styles = StyleSheet.create({
@@ -85,10 +116,5 @@ const styles = StyleSheet.create({
         width: 35,
         height: 35,
         borderRadius: 10000,
-    },
-    image: {
-        width: '100%',
-        height: 500,
-        borderRadius: 10
     }
 });

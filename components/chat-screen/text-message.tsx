@@ -29,7 +29,7 @@ export function TextMessage({ content, time, isOwn }: Prop) {
                 className={`flex-row w-full justify-between items-center ${!showTime && 'hidden'}`}
             >
                 {isOwn && <View />}
-                <Text className="text-sm text-[--fade-text-color] tracking-wider">
+                <Text className="text-sm text-[--fade-text-color] tracking-widest">
                     {formatDateMessage(time)}
                 </Text>
                 {!isOwn && <View />}

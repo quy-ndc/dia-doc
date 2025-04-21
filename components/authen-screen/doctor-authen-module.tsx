@@ -2,16 +2,26 @@ import * as React from 'react';
 import { Pressable, View } from 'react-native';
 import { Text } from '../ui/text'
 import { Input } from '../ui/input';
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import { LogIn } from '../../lib/icons/Login';
 import { Eye } from '../../lib/icons/Eye';
 import { EyeOff } from '../../lib/icons/EyeOff';
 import * as yup from 'yup';
 import { Controller, useForm } from 'react-hook-form';
 import { yupResolver } from '@hookform/resolvers/yup';
+import { useRouter } from 'expo-router';
+import { useLoginDoctorMutation } from '../../service/query/auth-query';
+import Toast from 'react-native-toast-message';
+import { Loader } from '../../lib/icons/Loader';
+import SpinningIcon from '../common/icons/spinning-icon';
+import { Button } from '../ui/button';
 
 
 export default function DoctorAuthenModule() {
+
+    const router = useRouter();
+
+    const { mutateAsync, isLoading, isError, data } = useLoginDoctorMutation();
 
     const schema = yup.object({
         email: yup.string()
@@ -30,9 +40,25 @@ export default function DoctorAuthenModule() {
 
     const [show, setShow] = useState(false)
 
-    const onLogin = (data: any) => {
+    const onLogin = async (data: any) => {
+        const res = await mutateAsync({
+            email: data.email,
+            password: data.password
+        })
         console.log(data.email + ' ' + data.password)
     }
+
+
+    useEffect(() => {
+        // if (isError) {
+        //     Toast.show({
+        //         type: 'error',
+        //         text1: 'Có lỗi xảy ra khi đăng nhập',
+        //         visibilityTime: 2000
+        //     })
+        // }
+        console.log('data', data)
+    }, [isLoading])
 
     return (
         <View className='flex-col gap-5 items-center'>
@@ -45,7 +71,7 @@ export default function DoctorAuthenModule() {
                         <>
                             <Input
                                 style={{ letterSpacing: 2 }}
-                                placeholder='BacSi123'
+                                placeholder='bacsi@gmail.com'
                                 value={value}
                                 onChangeText={onChange}
                                 onBlur={onBlur}
@@ -65,7 +91,7 @@ export default function DoctorAuthenModule() {
                             <View className='relative'>
                                 <Input
                                     style={{ letterSpacing: 3 }}
-                                    placeholder='********'
+                                    placeholder={show ? '123456789' : '********'}
                                     value={value}
                                     onChangeText={onChange}
                                     onBlur={onBlur}
@@ -90,13 +116,19 @@ export default function DoctorAuthenModule() {
             </View>
             <View className='flex-row w-full justify-between items-center'>
                 <View />
-                <Pressable
-                    className='flex-row gap-2 items-center px-4 py-2 rounded-lg active:bg-[var(--click-bg)]'
+                <Button
+                    className='flex-row gap-2 items-center'
+                    variant={'ghost'}
                     onPress={handleSubmit(onLogin)}
+                    disabled={isLoading}
                 >
                     <Text className='text-lg font-bold tracking-wider capitalize'>Đăng nhập</Text>
-                    <LogIn className="text-foreground" size={20} />
-                </Pressable>
+                    {isLoading ? (
+                        <SpinningIcon icon={<Loader className='text-foreground' size={19} />} />
+                    ) : (
+                        <LogIn className="text-foreground" size={19} />
+                    )}
+                </Button>
             </View>
 
         </View>

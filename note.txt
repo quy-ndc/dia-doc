@@ -2,7 +2,12 @@
     AND ADD THESE 2 LINES     
     compileSdkVersion 35
     buildToolsVersion "35.0.0"
-    
+
+    GO TO /node_module/react_native_zalo_kit/lib/typescript/type.d.THESE
+    ADD 
+    accessToken: string 
+    refreshToken: string 
+    to IZaloAuthResponse 
     
     REQUEST NOTIFICATION PERMISSION
     async function requestUserPermission() {

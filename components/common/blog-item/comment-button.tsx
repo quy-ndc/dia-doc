@@ -7,12 +7,12 @@ type Prop = {
     avatar: string
     title: string
     name: string
-    images: string[]
+    image: string
     liked: boolean
     detail?: boolean
 }
 
-export default function CommentButton({ avatar, title, name, images, liked, detail }: Prop) {
+export default function CommentButton({ avatar, title, name, image, liked, detail }: Prop) {
 
     const router = useRouter()
 
@@ -23,7 +23,7 @@ export default function CommentButton({ avatar, title, name, images, liked, deta
                 avatar: avatar,
                 title: title,
                 name: name,
-                images: JSON.stringify(images),
+                images: JSON.stringify(image),
                 liked: liked.toString()
             }
         })

@@ -1,13 +1,13 @@
 import * as React from 'react';
 import { View, Dimensions, ScrollView, Pressable, Alert } from 'react-native';
-import { Text } from '../../components/ui/text';
-import { Option, Select, SelectContent, SelectGroup, SelectItem, SelectTrigger, SelectValue } from '../../components/ui/select';
+import { Text } from '../ui/text';
+import { Option, Select, SelectContent, SelectGroup, SelectItem, SelectTrigger, SelectValue } from '../ui/select';
 import { useState } from 'react';
-import { Input } from '../../components/ui/input';
-import SetUpFields from '../../components/set-up-screen/set-up-fields';
+import { Input } from '../ui/input';
+import SetUpFields from './set-up-fields';
 import DateTimePicker, { DateTimePickerEvent } from '@react-native-community/datetimepicker';
 import { PencilLine } from '../../lib/icons/PencilLine';
-import IconButton from '../../components/common/icon-button';
+import IconButton from '../common/icon-button';
 import { useForm, Controller } from 'react-hook-form';
 import { yupResolver } from '@hookform/resolvers/yup';
 import * as yup from 'yup';
@@ -19,9 +19,10 @@ const { width } = Dimensions.get('window');
 
 type Prop = {
     setRole: (role: string) => void;
+    mode: 'edit' | 'set-up'
 };
 
-export default function SetUpPaitient({ setRole }: Prop) {
+export default function SetUpPatient({ setRole, mode }: Prop) {
 
     const schema = yup.object({
         name: yup.string()
@@ -57,7 +58,7 @@ export default function SetUpPaitient({ setRole }: Prop) {
         }
     });
 
-    const [gender, setGender] = useState<Option>({ label: 'Nam', value: 'male' })
+    const [gender, setGender] = useState<Option>({ label: 'Nam', value: '0' })
     const [show, setShow] = useState<boolean>(false)
     const [date, setDate] = useState<Date>(new Date())
     const [blood, setBlood] = useState<Option>({ label: 'A+', value: 'A+' })
@@ -71,15 +72,15 @@ export default function SetUpPaitient({ setRole }: Prop) {
     }
 
     const onSubmit = (data: any) => {
-        Alert.alert(
+        console.log(
             `
             Name: ${data.name}
             Phone: ${data.phone}
-            Gender: ${gender}
+            Gender: ${gender?.value}
             DOB: ${date}
             Weight: ${data.weight}
             Height: ${data.height}
-            Type: ${type}
+            Type: ${type?.value}
             `);
     }
 
@@ -89,7 +90,13 @@ export default function SetUpPaitient({ setRole }: Prop) {
             contentContainerStyle={{ justifyContent: 'center', alignItems: 'center' }}
         >
             <View className='flex-col w-full gap-7 justify-center items-center'>
-                <Text className='text-2xl font-bold tracking-widest capitalize pb-3'>Thiết lập hồ Sơ</Text>
+                <Text className='text-2xl font-bold tracking-widest capitalize pb-3'>
+                    {mode == 'set-up' ? (
+                        'Thiết lập hồ Sơ'
+                    ) : (
+                        'Chỉnh sửa hồ sơ'
+                    )}
+                </Text>
 
                 <View className='flex-col gap-7'>
                     <Controller
@@ -213,9 +220,8 @@ export default function SetUpPaitient({ setRole }: Prop) {
                                     </SelectTrigger>
                                     <SelectContent style={{ width: width * 0.4 }}>
                                         <SelectGroup>
-                                            <SelectItem label='Nam' value='male' />
-                                            <SelectItem label='Nữ' value='female' />
-                                            <SelectItem label='Khác' value='other' />
+                                            <SelectItem label='Nam' value='0' />
+                                            <SelectItem label='Nữ' value='1' />
                                         </SelectGroup>
                                     </SelectContent>
                                 </Select>
@@ -308,8 +314,8 @@ export default function SetUpPaitient({ setRole }: Prop) {
                             </Pressable>
                             <Pressable
                                 className='flex-row items-center gap-2 px-4 py-3 rounded-md active:bg-[var(--click-bg)]'
-                                // onPress={handleSubmit(onSubmit)}
-                                onPress={() => router.push('/(main)')}
+                                onPress={handleSubmit(onSubmit)}
+                            // onPress={() => router.push('/(main)')}
                             >
                                 <Text className='text-base font-boldd tracking-wider uppercase'>Xác Nhận</Text>
                                 <Check className='text-foreground' size={20} />

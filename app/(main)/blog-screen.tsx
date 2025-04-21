@@ -5,102 +5,51 @@ import { View, RefreshControl, Pressable } from 'react-native';
 import { Animated as RNAnimated } from 'react-native';
 import BlogItem from '../../components/common/blog-item/blog-item';
 import { ChevronUp } from '../../lib/icons/ChevronUp';
-
+import { useMediaQuery } from '../../service/query/media-query';
+import { useInfiniteQuery, useQuery } from '@tanstack/react-query';
+import { BlogPost } from '../../assets/types/media/blog-post';
+import { Button } from '../../components/ui/button';
+import { Text } from '../../components/ui/text'
+import SpinningIcon from '../../components/common/icons/spinning-icon';
+import { Loader } from '../../lib/icons/Loader';
 
 
 export default function BlogScreen() {
 
-    const blogPosts = [
-        {
-            avatar: "https://res.cloudinary.com/dcjdtlnbl/image/upload/v1729604351/T_shirt_3_yrzyex.jpg",
-            title: "Very long and intentionally dragged out title and somehow isn't long enough by my standard",
-            name: "Name of user",
-            content: "An even more insanely dragged out content for the sake of testing the possibility of the application and somehow is still not long enough for me",
-            liked: false,
-            detailed: true,
-            images: [
-                "https://res.cloudinary.com/dcjdtlnbl/image/upload/v1729604351/T_shirt_3_yrzyex.jpg",
-                'https://res.cloudinary.com/dcjdtlnbl/image/upload/v1730225300/right2_vvzeur.jpg',
-                "https://res.cloudinary.com/dcjdtlnbl/image/upload/v1729103770/blouse-category-image_slezvn.webp",
-            ],
-        },
-        {
-            avatar: "https://res.cloudinary.com/dcjdtlnbl/image/upload/v1729604349/Shirt_8_rnvxrc.jpg",
-            title: "Second post's placeholder for variety",
-            name: "Name of user",
-            content: "Content doesn't really matter, does it? This one also has a shirt for the banner. How quirky is that?",
-            liked: true,
-            detailed: true,
-            images: [
-                "https://res.cloudinary.com/dcjdtlnbl/image/upload/v1729604351/T_shirt_3_yrzyex.jpg",
-                "https://res.cloudinary.com/dcjdtlnbl/image/upload/v1729604351/T_shirt_3_yrzyex.jpg"
-            ],
-        },
-        {
-            avatar: "https://res.cloudinary.com/dcjdtlnbl/image/upload/v1729604342/Shirt_4_xkedmf.jpg",
-            title: "This is the last post, I swear",
-            name: "Name of user",
-            content: "The actual final product will display like 5 posts, but I mean there's a long way till then. Wait for it...",
-            liked: true,
-            detailed: true,
-            images: [
-                "https://res.cloudinary.com/dcjdtlnbl/image/upload/v1729604351/T_shirt_3_yrzyex.jpg",
-                'https://res.cloudinary.com/dcjdtlnbl/image/upload/v1730225300/right2_vvzeur.jpg',
-                "https://res.cloudinary.com/dcjdtlnbl/image/upload/v1729103770/blouse-category-image_slezvn.webp",
-            ],
-        },
-        {
-            avatar: "https://res.cloudinary.com/dcjdtlnbl/image/upload/v1729604351/T_shirt_3_yrzyex.jpg",
-            title: "Very long and intentionally dragged out title and somehow isn't long enough by my standard",
-            name: "Name of user",
-            content: "An even more insanely dragged out content for the sake of testing the possibility of the application and somehow is still not long enough for me",
-            liked: false,
-            detailed: true,
-            images: [
-                "https://res.cloudinary.com/dcjdtlnbl/image/upload/v1729604351/T_shirt_3_yrzyex.jpg",
-                "https://res.cloudinary.com/dcjdtlnbl/image/upload/v1729604351/T_shirt_3_yrzyex.jpg"
-            ],
-        },
-        {
-            avatar: "https://res.cloudinary.com/dcjdtlnbl/image/upload/v1729604349/Shirt_8_rnvxrc.jpg",
-            title: "Second post's placeholder for variety",
-            name: "Name of user",
-            content: "Content doesn't really matter, does it? This one also has a shirt for the banner. How quirky is that?",
-            liked: true,
-            detailed: true,
-            images: [
-                "https://res.cloudinary.com/dcjdtlnbl/image/upload/v1729604351/T_shirt_3_yrzyex.jpg",
-                'https://res.cloudinary.com/dcjdtlnbl/image/upload/v1730225300/right2_vvzeur.jpg',
-                "https://res.cloudinary.com/dcjdtlnbl/image/upload/v1729103770/blouse-category-image_slezvn.webp",
-            ],
-        },
-        {
-            avatar: "https://res.cloudinary.com/dcjdtlnbl/image/upload/v1729604342/Shirt_4_xkedmf.jpg",
-            title: "This is the last post, I swear",
-            name: "Name of user",
-            content: "The actual final product will display like 5 posts, but I mean there's a long way till then. Wait for it...",
-            liked: true,
-            detailed: true,
-            images: [
-                "https://res.cloudinary.com/dcjdtlnbl/image/upload/v1729604351/T_shirt_3_yrzyex.jpg",
-                "https://res.cloudinary.com/dcjdtlnbl/image/upload/v1729604351/T_shirt_3_yrzyex.jpg"
-            ],
-        }
-    ];
-
+    const listRef = useRef<FlashList<BlogPost>>(null);
+    const opacity = useRef(new RNAnimated.Value(0)).current;
 
     const [refreshing, setRefreshing] = useState(false);
     const [showScrollButton, setShowScrollButton] = useState(false);
-    const opacity = useRef(new RNAnimated.Value(0)).current;
+
+    const {
+        data,
+        hasNextPage,
+        isFetchingNextPage,
+        fetchNextPage,
+        refetch,
+        remove,
+        isLoading,
+        isFetching,
+    } = useInfiniteQuery({
+        ...useMediaQuery({
+            PageSize: 5,
+        }),
+        getNextPageParam: (lastPage, pages) => {
+            const currentPage = lastPage.data?.value?.data?.pageIndex || 1;
+            const totalPages = lastPage.data?.value?.data?.totalPages || 1;
+            return currentPage < totalPages ? currentPage + 1 : undefined;
+        },
+        keepPreviousData: false,
+    });
+
+    const allItems: BlogPost[] = data?.pages.flatMap(page => page.data?.value.data.items) || [];
 
     const onRefresh = useCallback(() => {
         setRefreshing(true);
-        setTimeout(() => {
-            setRefreshing(false);
-        }, 2000);
-    }, []);
-
-    const listRef = useRef<FlashList<any>>(null);
+        remove();
+        refetch().finally(() => setRefreshing(false));
+    }, [refetch]);
 
     const scrollToTop = () => {
         listRef.current?.scrollToIndex({ index: 0, animated: true });
@@ -127,34 +76,62 @@ export default function BlogScreen() {
 
     return (
         <View className='flex-1 w-full pb-5'>
-            <FlashList
-                data={blogPosts}
-                ref={listRef}
-                keyExtractor={(_, index) => index.toString()}
-                renderItem={({ item }) => <BlogItem {...item} />}
-                estimatedItemSize={100}
-                refreshControl={<RefreshControl refreshing={refreshing} onRefresh={onRefresh} />}
-                onScroll={handleScroll}
-                scrollEventThrottle={16}
-            />
+            {isLoading ? (
+                <View className='flex-1 w-full h-full flex-col gap-3 justify-center items-center'>
+                    <SpinningIcon icon={<Loader className='text-foreground' size={30} />} />
+                    <Text className='text-base font-semibold tracking-wider capitalize'>Đang tải...</Text>
+                </View>
+            ) : (
+                <>
+                    <FlashList<BlogPost>
+                        data={allItems}
+                        ref={listRef}
+                        keyExtractor={(_, index) => index.toString()}
+                        renderItem={({ item }) =>
+                            <BlogItem
+                                id={item.id}
+                                title={item.title}
+                                content={item.content}
+                                image={item.imageUrl}
+                                createDate={item.createdDate}
+                                category={item.category.name}
+                                name={item.user.fullName}
+                                avatar={item.user.imageUrl}
+                                liked={false}
+                                detailed={false}
+                                bookmarked={item.isBookmarked}
+                            />
+                        }
+                        estimatedItemSize={100}
+                        refreshControl={<RefreshControl refreshing={refreshing} onRefresh={onRefresh} />}
+                        onScroll={handleScroll}
+                        scrollEventThrottle={16}
+                        onEndReached={() => {
+                            if (hasNextPage && !isFetchingNextPage) {
+                                fetchNextPage();
+                            }
+                        }}
+                        onEndReachedThreshold={0.5}
+                    />
 
-            <RNAnimated.View
-                style={{
-                    opacity,
-                    position: 'absolute',
-                    bottom: 10,
-                    left: '50%',
-                    transform: [{ translateX: -25 }],
-                }}
-            >
-                <Pressable
-                    className='p-3 rounded-full bg-[var(--go-up-btn-bg)] active:bg-[var(--go-up-click-bg)]'
-                    onPress={scrollToTop}
-                >
-                    <ChevronUp className='text-[var(--go-up-btn-icon)]' size={22} />
-                </Pressable>
-            </RNAnimated.View>
-
+                    <RNAnimated.View
+                        style={{
+                            opacity,
+                            position: 'absolute',
+                            top: 10,
+                            right: 10,
+                        }}
+                    >
+                        <Pressable
+                            className='flex flex-row items-center gap-2 p-2 px-3 rounded-full bg-[var(--go-up-btn-bg)] active:bg-[var(--go-up-click-bg)]'
+                            onPress={scrollToTop}
+                        >
+                            <Text className='text-sm font-semibold tracking-wider text-[var(--same-theme-col)] capitalize'>Lên đầu</Text>
+                            <ChevronUp className='text-[var(--go-up-btn-icon)]' size={18} />
+                        </Pressable>
+                    </RNAnimated.View>
+                </>
+            )}
         </View>
     );
 }

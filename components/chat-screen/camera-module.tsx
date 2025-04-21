@@ -60,18 +60,18 @@ export default function CameraModule({ setIsCameraOn, handleSendImage }: Prop) {
         setPreview(null)
     }
 
-    useEffect(() => {
-        const fetchSizes = async () => {
-            try {
-                const sizes = await cameraRef.current!.getAvailablePictureSizesAsync();
-                console.log(sizes);
-            } catch (error) {
-                console.error('Error fetching picture sizes:', error);
-            }
-        };
+    // useEffect(() => {
+    //     const fetchSizes = async () => {
+    //         try {
+    //             const sizes = await cameraRef.current!.getAvailablePictureSizesAsync();
+    //             console.log(sizes);
+    //         } catch (error) {
+    //             console.error('Error fetching picture sizes:', error);
+    //         }
+    //     };
 
-        fetchSizes();
-    }, []);
+    //     fetchSizes();
+    // }, []);
 
     if (preview) {
         return (

@@ -19,6 +19,7 @@ import NetworkOverlay from '../components/common/network-overlay';
 import { Vibration } from 'react-native';
 import notifee, { AndroidImportance } from '@notifee/react-native';
 import { createNotificationChannel } from '../util/notification/create-noti-channel';
+import { endppointAuth } from '../service/endpoint';
 
 
 const LIGHT_THEME: Theme = { ...DefaultTheme, colors: NAV_THEME.light };
@@ -98,6 +99,8 @@ export default function RootLayout() {
 
   useEffect(() => {
     requestUserPermission().then(() => getDeviceToken());
+
+    console.log(`${endppointAuth.LOGIN_PATIENT}`)
   }, []);
 
 

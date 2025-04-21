@@ -9,21 +9,21 @@ import Toast from 'react-native-toast-message';
 import { CircleAlert } from '../lib/icons/CircleAlert';
 import { ArrowRightLeft } from '../lib/icons/ArrowRightLeft';
 import { useState } from 'react';
-import PaitientAuthenModule from '../components/authen-screen/paitient-authen-module';
+import PatientAuthenModule from '../components/authen-screen/patient-authen-module';
 import DoctorAuthenModule from '../components/authen-screen/doctor-authen-module';
 
-const { width, height } = Dimensions.get('window');
+const { height } = Dimensions.get('window');
 
 export default function AuthenScreen() {
 
   const router = useRouter();
 
-  const [mode, setMode] = useState<'paitient' | 'doctor'>('paitient')
+  const [mode, setMode] = useState<'patient' | 'doctor'>('patient')
   const [notice, setNotice] = useState('Sử dụng lựa chọn thứ 2 nếu bạn không có ứng dụng Zalo hoặc ứng dụng Zalo sai phiên bản')
 
   const onModeChange = () => {
-    mode == 'paitient' ? setMode('doctor') : setMode('paitient')
-    mode == 'paitient' ? setNotice('Tài khoản bác sĩ sẽ được cung cấp bởi bệnh viện') : setNotice('Sử dụng lựa chọn thứ 2 nếu bạn không có ứng dụng Zalo hoặc ứng dụng Zalo sai phiên bản')
+    mode == 'patient' ? setMode('doctor') : setMode('patient')
+    mode == 'patient' ? setNotice('Tài khoản bác sĩ sẽ được cung cấp bởi bệnh viện') : setNotice('Sử dụng lựa chọn thứ 2 nếu bạn không có ứng dụng Zalo hoặc ứng dụng Zalo sai phiên bản')
   }
 
   const onInfo = () => {
@@ -73,8 +73,8 @@ export default function AuthenScreen() {
           <Text className="text-3xl font-bold">Bác Sĩ Tiểu Đường</Text>
         </View>
 
-        {mode == 'paitient' ? (
-          <PaitientAuthenModule />
+        {mode == 'patient' ? (
+          <PatientAuthenModule />
         ) : (
           <DoctorAuthenModule />
         )}

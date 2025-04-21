@@ -102,6 +102,19 @@
 
     /* Border of the divider in noti modal */
     --noti-divider: rgb(219, 219, 219);
+
+    /* Background for type 1 category */
+    --type1-bg: #B22222;
+
+    /* Background for type 2 category */
+    --type2-bg: #1E3A8A;
+
+    /* Background for type 3 category */
+    --type3-bg: #cb8b00;
+
+    /* Background for type 4 category */
+    --type4-bg: #15a75e;
+    
   }
 
   .dark:root {
@@ -203,5 +216,17 @@
 
     /* Border of the divider in noti modal */
     --noti-divider: #333;
+    
+    /* Background for type 1 category */
+    --type1-bg: #FF4C4C;
+  
+    /* Background for type 2 category */
+    --type2-bg: #4C9BFF;
+
+    /* Background for type 3 category */
+    --type3-bg: #d1b33a;
+
+    /* Background for type 4 category */
+    --type4-bg: #10bb71;
   }
 }

@@ -19,9 +19,10 @@ const { width } = Dimensions.get('window');
 
 type Prop = {
     setRole: (role: string) => void;
+    mode: 'edit' | 'set-up'
 };
 
-export default function SetUpDoctor({ setRole }: Prop) {
+export default function SetUpDoctor({ setRole, mode }: Prop) {
 
     const schema = yup.object({
         name: yup.string()
@@ -85,7 +86,13 @@ export default function SetUpDoctor({ setRole }: Prop) {
             contentContainerStyle={{ justifyContent: 'center', alignItems: 'center' }}
         >
             <View className='flex-col w-full gap-7 justify-center items-center'>
-                <Text className='text-2xl font-bold tracking-widest capitalize pb-3'>Thiết lập hồ Sơ</Text>
+                <Text className='text-2xl font-bold tracking-widest capitalize pb-3'>
+                    {mode == 'set-up' ? (
+                        'Thiết lập hồ Sơ'
+                    ) : (
+                        'Chỉnh sửa hồ sơ'
+                    )}
+                </Text>
 
                 <View className='flex-col gap-7'>
                     <Controller

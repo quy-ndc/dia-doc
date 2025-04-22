@@ -8,7 +8,6 @@ import { ChevronUp } from '../../lib/icons/ChevronUp';
 import { useMediaQuery } from '../../service/query/media-query';
 import { useInfiniteQuery, useQuery } from '@tanstack/react-query';
 import { BlogPost } from '../../assets/types/media/blog-post';
-import { Button } from '../../components/ui/button';
 import { Text } from '../../components/ui/text'
 import SpinningIcon from '../../components/common/icons/spinning-icon';
 import { Loader } from '../../lib/icons/Loader';
@@ -30,12 +29,11 @@ export default function BlogScreen() {
         refetch,
         remove,
         isLoading,
-        isFetching,
     } = useInfiniteQuery({
         ...useMediaQuery({
             PageSize: 5,
         }),
-        getNextPageParam: (lastPage, pages) => {
+        getNextPageParam: (lastPage) => {
             const currentPage = lastPage.data?.value?.data?.pageIndex || 1;
             const totalPages = lastPage.data?.value?.data?.totalPages || 1;
             return currentPage < totalPages ? currentPage + 1 : undefined;

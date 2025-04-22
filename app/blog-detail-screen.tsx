@@ -1,35 +1,79 @@
 import * as React from 'react';
-import { View, StyleSheet, ScrollView } from 'react-native';
+import { View, StyleSheet, ScrollView, Dimensions, RefreshControl } from 'react-native';
 import { useLocalSearchParams } from 'expo-router';
-import BlogItem from '../components/common/blog-item/blog-item';
-import BlogComment from '../components/common/blog-item/blog-comment';
+import { useQuery } from '@tanstack/react-query';
+import { useMediaByIdQuery } from '../service/query/media-query';
+import { BlogPost } from '../assets/types/media/blog-post';
+import BlogDetailItem from '../components/common/blog-item/blog-detail';
+import { Skeleton } from '../components/ui/skeleton';
+import { useCallback, useState } from 'react';
 
+
+const { width } = Dimensions.get('window');
 
 export default function BlogDetailScreen() {
 
-    const { avatar, title, name, images, liked } = useLocalSearchParams();
+    const { id } = useLocalSearchParams()
 
-    const blogImages: string[] = JSON.parse(images as string) || [];
-    const isLiked = liked == 'true'
+    // const blogImages: string[] = JSON.parse(images as string) || []
+    // const isLiked = liked == 'true'
+
+    const { data, isLoading, refetch, remove } = useQuery(
+        useMediaByIdQuery({
+            Id: id as string
+        })
+    )
+
+    const [refreshing, setRefreshing] = useState(false);
+    const onRefresh = useCallback(() => {
+        setRefreshing(true);
+        remove();
+        refetch().finally(() => setRefreshing(false));
+    }, [refetch]);
+
+    const item: BlogPost = data ? data?.data.value.data : null
+
+    if (isLoading) {
+        return (
+            <View className='flex-1 w-full flex-col gap-3 items-center'>
+                <Skeleton className='h-6 w-full' />
+                <Skeleton className='h-6 w-full' />
+                <Skeleton className='h-6 w-full' />
+                <Skeleton className='h-6 w-full' />
+                <Skeleton className='h-6 w-full' />
+                <Skeleton className='h-6 w-full' />
+                <Skeleton className='h-6 w-full' />
+                <Skeleton className='h-6 w-full' />
+            </View>
+        )
+    }
 
     return (
         <>
             <ScrollView
                 className='w-full'
                 contentContainerStyle={styles.container}
+                refreshControl={<RefreshControl refreshing={refreshing} onRefresh={onRefresh} />}
             >
                 <View className='flex-col gap-5 justify-center w-full px-3 pb-10'>
-                    <BlogItem
-                        avatar={avatar as string}
-                        name={name as string}
-                        title={title as string}
-                        content=''
-                        images={blogImages}
-                        liked={isLiked}
-                        detailed
-                    />
+                    {data && (
+                        <BlogDetailItem
+                            id={item.id}
+                            avatar={item.user.imageUrl}
+                            name={item.user.fullName}
+                            title={item.title}
+                            content={item.content}
+                            image={item.imageUrl}
+                            liked={true}
+                            createDate={item.createdDate}
+                            category={item.category.name}
+                            bookmarked={false}
+                            detailed={false}
+                        />
+                    )}
+
                     <View className='flex-col gap-7'>
-                        <BlogComment />
+                        {/* <BlogComment /> */}
                     </View>
                 </View>
             </ScrollView>

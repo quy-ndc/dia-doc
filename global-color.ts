@@ -4,6 +4,6 @@ export enum GlobalColor {
     TOAST_SUCCESS = 'rgb(38, 246, 38)',
     TOAST_FAIL = 'red',
     TOAST_INFO = '#85aaff',
-    LIGHT_THEME_COL = 'light',
+    LIGHT_THEME_COL = 'white',
     DARK_THEME_COL = 'black',
 }

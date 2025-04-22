@@ -30,7 +30,8 @@ const endpointUser = {
 }
 
 const endpointMedia = {
-    GET_ALL_MEDIAS: `${MEDIA_SERVICE_ENDPOINT}/${apiPrefixV1}/posts/get-all-posts-by-user`
+    GET_ALL_MEDIAS: `${MEDIA_SERVICE_ENDPOINT}/${apiPrefixV1}/posts/get-all-posts-by-user`,
+    GET_MEDIA_BY_ID: `${MEDIA_SERVICE_ENDPOINT}/${apiPrefixV1}/posts/get-post-by-id-by-user`
 }
 
 

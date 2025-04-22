@@ -10,12 +10,42 @@ export const GetAllMedias = async (params: {
     UserCreatedId?: string
     SortType?: number
     IsSortASC?: boolean
-    SelectedColumns?: string[]
+    electedColumns?: string[]
 }) => {
 
     try {
         const queryString = createQueryString(params)
         const response = await axios.get(`${endpointMedia.GET_ALL_MEDIAS}?${queryString}`)
+
+        return {
+            success: true,
+            status: response.status,
+            data: response.data,
+        }
+    } catch (error) {
+        if (axios.isAxiosError(error) && error.response) {
+            return {
+                success: false,
+                status: error.response.status,
+                message: error.response.data.message || 'An error occurred',
+                data: error.response.data
+            };
+        } else {
+            return {
+                success: false,
+                status: 500,
+                message: 'An unexpected error occurred',
+                data: null
+            };
+        }
+    }
+}
+
+export const GetMediaById = async (params: { Id: string }) => {
+
+    try {
+        const queryString = createQueryString(params)
+        const response = await axios.get(`${endpointMedia.GET_MEDIA_BY_ID}?${queryString}`)
 
         return {
             success: true,

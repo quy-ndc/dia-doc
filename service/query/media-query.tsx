@@ -1,4 +1,4 @@
-import { GetAllMedias } from "../api/media-service";
+import { GetAllMedias, GetMediaById } from "../api/media-service";
 
 export const useMediaQuery = (params: {
     PageSize: number
@@ -37,3 +37,15 @@ export const useNewMediaQuery = (params: {
 
     return { queryKey, queryFn };
 };
+
+
+export const useMediaByIdQuery = (params: {
+    Id: string
+}) => {
+    const queryKey = ['media by id', params];
+    const queryFn = async () => {
+        return GetMediaById(params);
+    };
+
+    return { queryKey, queryFn };
+}

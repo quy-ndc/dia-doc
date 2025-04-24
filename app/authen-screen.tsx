@@ -1,10 +1,7 @@
 import * as React from 'react';
 import { View, StyleSheet, Dimensions, Platform, Pressable, ScrollView } from 'react-native';
 import { Image } from 'expo-image';
-import { Button } from '../components/ui/button';
 import { Text } from '../components/ui/text';
-import { LogIn } from '../lib/icons/Login';
-import { useRouter } from 'expo-router';
 import Toast from 'react-native-toast-message';
 import { CircleAlert } from '../lib/icons/CircleAlert';
 import { ArrowRightLeft } from '../lib/icons/ArrowRightLeft';
@@ -15,8 +12,6 @@ import DoctorAuthenModule from '../components/authen-screen/doctor-authen-module
 const { height } = Dimensions.get('window');
 
 export default function AuthenScreen() {
-
-  const router = useRouter();
 
   const [mode, setMode] = useState<'patient' | 'doctor'>('patient')
   const [notice, setNotice] = useState('Sử dụng lựa chọn thứ 2 nếu bạn không có ứng dụng Zalo hoặc ứng dụng Zalo sai phiên bản')
@@ -78,7 +73,6 @@ export default function AuthenScreen() {
         ) : (
           <DoctorAuthenModule />
         )}
-
       </View>
     </ScrollView>
   );

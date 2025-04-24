@@ -1,13 +1,13 @@
 import axios from "axios";
-import axiosServices from "../axios";
 import { endppointAuth } from "../endpoint";
 import { LoginDoctorRequest, LoginPatientRequest } from "../type/auth-type";
-import { ErrorResponse } from "../type/generic-response";
+
+
 
 export const LoginPatient = async (request: LoginPatientRequest) => {
 
     try {
-        const response = await axiosServices.post(`${endppointAuth.LOGIN_PATIENT}`, {
+        const response = await axios.post(`${endppointAuth.LOGIN_PATIENT}`, {
             zaloIdentityId: request.zaloIdentityId,
             fullName: request.fullName,
             avatar: request.avatar

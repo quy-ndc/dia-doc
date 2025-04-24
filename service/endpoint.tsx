@@ -1,4 +1,21 @@
 import { AUTH_SERVICE_ENDPOINT, USER_SERVICE_ENDPOINT, MEDIA_SERVICE_ENDPOINT } from '@env';
+import useUserStore from '../store/userStore';
+
+const getToken = () => {
+    const { user } = useUserStore()
+    return user.accessToken
+}
+
+export const authApiConfig = () => {
+    const token = getToken()
+    return (
+        {
+            headers: {
+                Authorization: `Bearer ${token}`
+            }
+        }
+    )
+}
 
 export const createQueryString = (params: Record<string, any>): string => {
     const urlParams = new URLSearchParams();
@@ -26,7 +43,9 @@ const endppointAuth = {
 const endpointUser = {
     CREATE_HOSPITAL: `${USER_SERVICE_ENDPOINT}/${apiPrefixV1}/hospitals/create-hospital`,
     CREATE_USER: `${USER_SERVICE_ENDPOINT}/${apiPrefixV1}/users/create-user`,
-    UPDATE_USER: `${USER_SERVICE_ENDPOINT}/${apiPrefixV1}/users/patients`
+    UPDATE_USER: `${USER_SERVICE_ENDPOINT}/${apiPrefixV1}/users/patients`,
+    GET_CURRENT_USER: `${USER_SERVICE_ENDPOINT}/${apiPrefixV1}/patients/me`,
+    EDIT_USER: `${USER_SERVICE_ENDPOINT}/${apiPrefixV1}/patients`
 }
 
 const endpointMedia = {

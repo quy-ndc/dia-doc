@@ -11,89 +11,12 @@ export default function MessagesScreen() {
 
     const data = [
         {
-            img: 'https://res.cloudinary.com/dcjdtlnbl/image/upload/v1729103768/female-shirt-category_pl5o1d.jpg',
-            name: 'Woman',
-            message: 'Hey I wanna talk wj iajwoi aiowj iaj iaw wadwj oa daw',
-            time: '2025-02-17T16:19:20',
+            img: 'https://cdn-healthcare.hellohealthgroup.com/hospitals/vn/benh-vien-thanh-pho-thu-duc-1.png',
+            name: 'Bệnh viện Thủ Đức',
+            message: '',
+            time: '',
             hasNewMessage: false
         },
-        {
-            img: 'https://res.cloudinary.com/dcjdtlnbl/image/upload/v1729103768/female-shirt-category_pl5o1d.jpg',
-            name: 'Man',
-            message: 'Hey I wanna talk wj iajwoi aiowj iaj iaw wadwj oa daw',
-            time: '2025-02-17T16:19:20',
-            hasNewMessage: true
-        },
-        {
-            img: 'https://res.cloudinary.com/dcjdtlnbl/image/upload/v1729103768/female-shirt-category_pl5o1d.jpg',
-            name: 'Woman',
-            message: 'Hey I wanna talk wj iajwoi aiowj iaj iaw wadwj oa daw',
-            time: '2025-02-17T16:19:20',
-            hasNewMessage: false
-        },
-        {
-            img: 'https://res.cloudinary.com/dcjdtlnbl/image/upload/v1729103768/female-shirt-category_pl5o1d.jpg',
-            name: 'Man',
-            message: 'Hey I wanna talk wj iajwoi aiowj iaj iaw wadwj oa daw',
-            time: '2025-02-17T16:19:20',
-            hasNewMessage: true
-        },
-        {
-            img: 'https://res.cloudinary.com/dcjdtlnbl/image/upload/v1729103768/female-shirt-category_pl5o1d.jpg',
-            name: 'Woman',
-            message: 'Hey I wanna talk wj iajwoi aiowj iaj iaw wadwj oa daw',
-            time: '2025-02-17T16:19:20',
-            hasNewMessage: false
-        },
-        {
-            img: 'https://res.cloudinary.com/dcjdtlnbl/image/upload/v1729103768/female-shirt-category_pl5o1d.jpg',
-            name: 'Man',
-            message: 'Hey I wanna talk wj iajwoi aiowj iaj iaw wadwj oa daw',
-            time: '2025-02-17T16:19:20',
-            hasNewMessage: true
-        },
-        {
-            img: 'https://res.cloudinary.com/dcjdtlnbl/image/upload/v1729103768/female-shirt-category_pl5o1d.jpg',
-            name: 'Woman',
-            message: 'Hey I wanna talk wj iajwoi aiowj iaj iaw wadwj oa daw',
-            time: '2025-02-17T16:19:20',
-            hasNewMessage: false
-        },
-        {
-            img: 'https://res.cloudinary.com/dcjdtlnbl/image/upload/v1729103768/female-shirt-category_pl5o1d.jpg',
-            name: 'Man',
-            message: 'Hey I wanna talk wj iajwoi aiowj iaj iaw wadwj oa daw',
-            time: '2025-02-17T16:19:20',
-            hasNewMessage: true
-        },
-        {
-            img: 'https://res.cloudinary.com/dcjdtlnbl/image/upload/v1729103768/female-shirt-category_pl5o1d.jpg',
-            name: 'Woman',
-            message: 'Hey I wanna talk wj iajwoi aiowj iaj iaw wadwj oa daw',
-            time: '2025-02-17T16:19:20',
-            hasNewMessage: false
-        },
-        {
-            img: 'https://res.cloudinary.com/dcjdtlnbl/image/upload/v1729103768/female-shirt-category_pl5o1d.jpg',
-            name: 'Man',
-            message: 'Hey I wanna talk wj iajwoi aiowj iaj iaw wadwj oa daw',
-            time: '2025-02-17T16:19:20',
-            hasNewMessage: true
-        },
-        {
-            img: 'https://res.cloudinary.com/dcjdtlnbl/image/upload/v1729103768/female-shirt-category_pl5o1d.jpg',
-            name: 'Woman',
-            message: 'Hey I wanna talk wj iajwoi aiowj iaj iaw wadwj oa daw',
-            time: '2025-02-17T16:19:20',
-            hasNewMessage: false
-        },
-        {
-            img: 'https://res.cloudinary.com/dcjdtlnbl/image/upload/v1729103768/female-shirt-category_pl5o1d.jpg',
-            name: 'Man',
-            message: 'Hey I wanna talk wj iajwoi aiowj iaj iaw wadwj oa daw',
-            time: '2025-02-17T16:19:20',
-            hasNewMessage: true
-        }
     ]
 
     const [refreshing, setRefreshing] = useState(false);

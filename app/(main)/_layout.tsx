@@ -14,7 +14,6 @@ export default function MainLayout() {
 
     const theme = useColorScheme()
 
-
     const tabBarActiveBg = theme == 'dark' ? GlobalColor.TAB_BAR_ACTIVE_BG_DARK : GlobalColor.TAB_BAR_ACTIVE_BG_LIGHT
 
     return (

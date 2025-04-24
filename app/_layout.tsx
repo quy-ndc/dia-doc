@@ -1,9 +1,9 @@
 import '../global.css';
 import { DarkTheme, DefaultTheme, Theme, ThemeProvider } from '@react-navigation/native';
-import { Stack } from 'expo-router';
+import { Stack, useRouter } from 'expo-router';
 import { StatusBar } from 'expo-status-bar';
 import * as React from 'react';
-import { Platform, View, Alert, PermissionsAndroid } from 'react-native';
+import { Platform, Alert, PermissionsAndroid } from 'react-native';
 import { NAV_THEME } from '../lib/constants';
 import { useColorScheme } from '../lib/useColorScheme';
 import { PortalHost } from '@rn-primitives/portal';
@@ -13,13 +13,13 @@ import Toast from 'react-native-toast-message';
 import { toastConfig } from '../components/common/toast-config/toast-config';
 import AblyWrapper from '../util/provider/ably-provider';
 import messaging from '@react-native-firebase/messaging';
-import { useEffect, useState } from 'react';
+import { useEffect } from 'react';
 import { getApp } from '@react-native-firebase/app';
 import NetworkOverlay from '../components/common/network-overlay';
 import { Vibration } from 'react-native';
-import notifee, { AndroidImportance } from '@notifee/react-native';
+import notifee from '@notifee/react-native';
 import { createNotificationChannel } from '../util/notification/create-noti-channel';
-import { endppointAuth } from '../service/endpoint';
+import useUserStore from '../store/userStore';
 
 
 const LIGHT_THEME: Theme = { ...DefaultTheme, colors: NAV_THEME.light };
@@ -28,9 +28,13 @@ const DARK_THEME: Theme = { ...DarkTheme, colors: NAV_THEME.dark };
 export { ErrorBoundary } from 'expo-router';
 
 export default function RootLayout() {
+
+  const router = useRouter()
+
   const hasMounted = React.useRef(false);
   const { colorScheme, isDarkColorScheme } = useColorScheme();
   const [isColorSchemeLoaded, setIsColorSchemeLoaded] = React.useState(false);
+  const { user } = useUserStore()
 
   useEffect(() => {
     createNotificationChannel();
@@ -96,13 +100,25 @@ export default function RootLayout() {
     }
   }
 
+  // useEffect(() => {
+  //   if (!user.isAuthenticated) {
+  //     const timeoutId = setTimeout(() => {
+  //       router.push('/authen-screen')
+  //     }, 100)
+  //     return () => clearTimeout(timeoutId)
+  //   }
+
+  //   if (user.isAuthenticated && !user.isSetUp) {
+  //     const timeoutId = setTimeout(() => {
+  //       router.push('/set-up-screen')
+  //     }, 100)
+  //     return () => clearTimeout(timeoutId)
+  //   }
+  // }, [user, router])
 
   useEffect(() => {
     requestUserPermission().then(() => getDeviceToken());
-
-    console.log(`${endppointAuth.LOGIN_PATIENT}`)
-  }, []);
-
+  }, [])
 
   useIsomorphicLayoutEffect(() => {
     if (hasMounted.current) {

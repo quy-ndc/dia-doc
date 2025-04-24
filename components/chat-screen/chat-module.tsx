@@ -10,20 +10,24 @@ import { ImageMessage } from './image-message';
 import CameraAccess from './camera-access';
 import { Animated as RNAnimated } from 'react-native';
 import { ChevronDown } from '../../lib/icons/ChevronDown';
-import { useChatConnection, useMessages } from '@ably/chat';
+import { OrderBy, useChatConnection, useMessages } from '@ably/chat';
 import { Text } from '../../components/ui/text'
 import { AtSign } from '../../lib/icons/AtSign';
 import VoiceRecord from './voice-record';
 import { ChevronRight } from '../../lib/icons/ChevronRight';
 import { ChevronUp } from '../../lib/icons/ChevronUp';
+import { Button } from '../ui/button';
+import useUserStore from '../../store/userStore';
 
 type Prop = {
     setIsCameraOn: (state: boolean) => void
-    newMessage: string;
-    setNewMessage: (newMessage: string) => void;
+    newMessage: string
+    setNewMessage: (newMessage: string) => void
     messages: Message[]
     handleSendMessage: (newMessage: string) => void
     handleSendImage: (image: string) => void
+    onHistory: (historyItems: Array<{ clientId: string; text: string, time: string }>) => void
+    onReceived: (text: string, time: string, id: string) => void
 }
 
 export default function ChatModule({
@@ -32,13 +36,18 @@ export default function ChatModule({
     setNewMessage,
     messages,
     handleSendMessage,
-    handleSendImage
+    handleSendImage,
+    onHistory,
+    onReceived
 }: Prop) {
 
+    const { user } = useUserStore()
     const [showScrollButton, setShowScrollButton] = useState(false);
     const scrollViewRef = useRef<ScrollView>(null);
     const opacity = useRef(new RNAnimated.Value(0)).current;
     const [showUtil, setShowUtil] = useState(true)
+
+    const ownId = user.id
 
     const onTextChange = (m: string) => {
         setNewMessage(m)
@@ -82,19 +91,30 @@ export default function ChatModule({
         scrollViewRef.current?.scrollToEnd({ animated: true });
     };
 
-    const ownId = '1'
+    const { get } = useMessages();
 
-    const { connectionStatus, send } = useMessages({
+    const { send } = useMessages({
         listener: (message) => {
+            // handleSendMessage(message.message.text)
+            onReceived(message.message.text, message.message.createdAt.toISOString(), message.message.clientId)
             console.log('Received message: ', message);
         },
     })
 
-    const { currentStatus } = useChatConnection({
-        onStatusChange: (statusChange) => {
-            console.log('Connection status changed to: ', statusChange.current);
-        },
-    });
+    const handleGetMessages = () => {
+        get({ limit: 100, orderBy: OrderBy.OldestFirst })
+            .then((result) => {
+                onHistory(result.items.map(item => ({
+                    clientId: item.clientId,
+                    text: item.text,
+                    time: item.createdAt.toISOString()
+                })));
+            });
+    }
+
+    useEffect(() => {
+        handleGetMessages()
+    }, [])
 
     return (
         <KeyboardAvoidingView
@@ -102,10 +122,10 @@ export default function ChatModule({
             style={{ flex: 1 }}
         >
             <View className='relative h-full w-full items-center justify-center'>
-                <Pressable className="absolute top-2 left-1/2 -translate-x-1/2 flex-row gap-2 items-center z-50 px-4 py-2 rounded-full bg-blue-500 active:bg-blue-400">
+                {/* <Pressable className="absolute top-2 left-1/2 -translate-x-1/2 flex-row gap-2 items-center z-50 px-4 py-2 rounded-full bg-blue-500 active:bg-blue-400">
                     <Text className='text-white text-sm font-semibold tracking-widest'>Tin nhắn mới</Text>
                     <ChevronUp className='text-white' size={17} />
-                </Pressable>
+                </Pressable> */}
 
                 <ScrollView
                     className='w-full flex-col px-5'
@@ -129,8 +149,8 @@ export default function ChatModule({
                                 isOwn={message.id == ownId}
                             />
                     ))}
-                    {/* <Text>{connectionStatus}</Text>
-                    <Text>{currentStatus}</Text>
+                    {/* <Text>{currentStatus}</Text>
+                    <Text>{connectionStatus}</Text>
                     <Button variant={'default'} onPress={() => send({ text: 'Hello, World!' })}>
                         <Text>Send</Text>
                     </Button> */}
@@ -161,13 +181,13 @@ export default function ChatModule({
                         onFocus={() => setShowUtil(false)}
                         placeholder="Aa"
                         returnKeyType="send"
-                        onSubmitEditing={() => handleSendMessage(newMessage)}
+                        // onSubmitEditing={() => handleSendMessage(newMessage)}
                         multiline
                         autoCapitalize='sentences'
                     />
                     <Pressable
                         className='p-4 rounded-full active:bg-[var(--click-bg)]'
-                        onPress={() => handleSendMessage(newMessage)}
+                        onPress={() => send({ text: newMessage })}
                     >
                         {/* <SpinningLoader cn='text-foreground' /> */}
                         <SendHorizontal className='text-foreground' size={20} />

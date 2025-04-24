@@ -29,69 +29,6 @@ export default function HomeBlogSection() {
 
     const items: BlogPost[] = data ? data?.data.value.data.items : []
 
-    const blogPosts: BlogPost[] = [
-        {
-            id: '12345',
-            title: "Very long and intentionally dragged out title and somehow isn't long enough by my standard",
-            content: "An even more insanely dragged out content for the sake of testing the possibility of the application and somehow is still not long enough for me",
-            imageUrl: "https://res.cloudinary.com/dcjdtlnbl/image/upload/v1729103770/blouse-category-image_slezvn.webp",
-            createdDate: '2025-04-18T09:50:11.677Z',
-            category: {
-                id: 'asdasdasd',
-                name: 'type 1',
-                imageUrl: 'adasd'
-            },
-            user: {
-                id: '128y893huicse',
-                fullName: 'Man of Name',
-                imageUrl: 'https://res.cloudinary.com/dcjdtlnbl/image/upload/v1729604351/T_shirt_3_yrzyex.jpg'
-            },
-            // liked: false,
-            // detailed: true,
-            isBookmarked: true
-        },
-        {
-            id: '12345adawd',
-            title: "Very long and intentionally dra wdaiw iaw awagged out title and somehow isn't long enough by my standard",
-            content: "An even more insanely dragged out content for the sake of testing the possibility of the application and somehow is still not long enough for me",
-            imageUrl: "https://res.cloudinary.com/dcjdtlnbl/image/upload/v1729103770/blouse-category-image_slezvn.webp",
-            createdDate: '2025-04-18T09:50:11.677Z',
-            category: {
-                id: 'asdasdasd',
-                name: 'type 1',
-                imageUrl: 'adasd'
-            },
-            user: {
-                id: '128y893huicse',
-                fullName: 'Man of Name',
-                imageUrl: 'https://res.cloudinary.com/dcjdtlnbl/image/upload/v1729604351/T_shirt_3_yrzyex.jpg'
-            },
-            // liked: false,
-            // detailed: true,
-            isBookmarked: true
-        },
-        {
-            id: '1234amlwdm5',
-            title: "Very long and intentionally dawldawdmaiwd awd awd awragged out title and somehow isn't long enough by my standard",
-            content: "An even more insanely dragged out content for the sake of testing the possibility of the application and somehow is still not long enough for me",
-            imageUrl: "https://res.cloudinary.com/dcjdtlnbl/image/upload/v1729103770/blouse-category-image_slezvn.webp",
-            createdDate: '2025-04-18T09:50:11.677Z',
-            category: {
-                id: 'asdasdasd',
-                name: 'type 1',
-                imageUrl: 'adasd'
-            },
-            user: {
-                id: '128y893huicse',
-                fullName: 'Man of Name',
-                imageUrl: 'https://res.cloudinary.com/dcjdtlnbl/image/upload/v1729604351/T_shirt_3_yrzyex.jpg'
-            },
-            // liked: false,
-            // detailed: true,
-            isBookmarked: true
-        },
-    ];
-
     return (
         <View className="flex-col gap-5 justify-center items-center pb-7">
             <SectionTitle
@@ -100,7 +37,6 @@ export default function HomeBlogSection() {
             />
             {isLoading ? (
                 <SpinningIcon icon={<Loader className='text-foreground' size={30} />} />
-
             ) : (
                 <>
                     <View style={{ width: width }}>

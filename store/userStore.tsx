@@ -1,28 +1,30 @@
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import { create } from 'zustand';
 import { createJSONStorage, persist } from 'zustand/middleware';
-import { UserZState } from '../assets/types/zustand/user-z';
+import { User, UserZState } from '../assets/types/zustand/user-z';
 
-const defaultUser = {
+const defaultUser: User = {
+  isAuthenticated: false,
+  isSetUp: false,
   accessToken: '',
   refreshToken: '',
-  name: '',
+  id: '',
+  fullname: '',
   phone: '',
-  blood: '',
-  diaType: '',
-  gender: '',
+  blood: 0,
+  diaType: 0,
+  gender: 0,
   bod: '',
-  weight: '',
-  height: '',
-};
+  weight: 0,
+  height: 0,
+}
 
 const useUserStore = create<UserZState>()(
   persist(
     (set) => ({
       user: defaultUser,
-      isAuthenticated: false,
-      setUser: (user) => set({ user, isAuthenticated: true }),
-      logout: () => set({ user: defaultUser, isAuthenticated: false }),
+      setUser: (user) => set({ user }),
+      logout: () => set({ user: defaultUser }),
     }),
     {
       name: 'user-storage',

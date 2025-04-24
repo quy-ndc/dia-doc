@@ -1,20 +1,21 @@
 export type UserZState = {
-    // token: string;
     user: User
-    isAuthenticated: boolean;
-    setUser: (user: User) => void;
-    logout: () => void;
+    setUser: (user: User) => void
+    logout: () => void
 };
 
-type User = {
+export type User = {
+    isAuthenticated: boolean
+    isSetUp: boolean
     accessToken: string
     refreshToken: string
-    name: string
+    id: string
+    fullname: string
     phone: string
-    blood: string
-    diaType: string
-    gender: string
+    blood: number
+    diaType: number
+    gender: number
     bod: string
-    weight: string
-    height: string
+    weight: number
+    height: number
 }

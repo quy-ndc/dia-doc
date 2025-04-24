@@ -42,7 +42,7 @@ export default function BlogItem({
     const handleBlogClick = () => {
         router.push({
             pathname: '/blog-detail-screen',
-            params: {id: id }
+            params: { id: id }
         })
     }
 
@@ -64,7 +64,7 @@ export default function BlogItem({
             </View>
             <View className="flex-row justify-between px-5 items-center">
                 <View className="flex-1 flex-col gap-4 mr-3">
-                    <Text className="text-base font-semibold tracking-wider">
+                    <Text className="text-lg font-semibold tracking-wider">
                         {truncateText(title, 90)}
                     </Text>
                     <View style={{ alignSelf: 'flex-start' }}>
@@ -72,7 +72,7 @@ export default function BlogItem({
                     </View>
                 </View>
                 <Image
-                    style={{ width: 70, minHeight: 100, borderRadius: 10 }}
+                    style={{ minWidth: 80, minHeight: 100, borderRadius: 10 }}
                     contentFit="cover"
                     source={image}
                 />

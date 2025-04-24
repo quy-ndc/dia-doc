@@ -2,6 +2,7 @@ import * as Ably from 'ably';
 import { AblyProvider } from 'ably/react';
 import React, { useEffect } from 'react';
 import { AllFeaturesEnabled, ChatClient, ChatClientProvider } from '@ably/chat';
+import useUserStore from '../../store/userStore';
 
 
 export default function AblyWrapper({
@@ -10,7 +11,8 @@ export default function AblyWrapper({
     children: React.ReactNode;
 }>) {
 
-    const client = new Ably.Realtime({ key: 'WhRbFA.8aOuBg:FgK9bmZmkI70w_TzKMwlowSKPfzDLy2HB5QAcPNKYYg', clientId: 'aaa' });
+    const { user } = useUserStore()
+    const client = new Ably.Realtime({ key: 'WhRbFA.8aOuBg:FgK9bmZmkI70w_TzKMwlowSKPfzDLy2HB5QAcPNKYYg', clientId: user.id });
     const chatClient = new ChatClient(client,);
 
     // const registerDevice = async () => {

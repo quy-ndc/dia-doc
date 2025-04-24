@@ -8,6 +8,7 @@ import BookmarkButton from "./bookmark-button";
 import RenderHTML from 'react-native-render-html';
 import { GlobalColor } from "../../../global-color";
 
+
 type Prop = {
     id: string
     title: string
@@ -18,7 +19,6 @@ type Prop = {
     name: string
     avatar: string
     liked: boolean
-    detailed: boolean
     bookmarked: boolean
 }
 
@@ -33,7 +33,6 @@ export default function BlogDetailItem({
     image,
     category,
     liked,
-    detailed,
     createDate,
     bookmarked
 }: Prop) {
@@ -89,7 +88,7 @@ export default function BlogDetailItem({
                     letterSpacing: 0.3
                 }}
                 tagsStyles={{
-                    img: { width: width * 0.95, aspectRatio: 16 / 9, resizeMode: 'cover', borderRadius: 8, alignSelf: 'center' },
+                    img: { width: width * 0.95, aspectRatio: 16 / 9, resizeMode: 'cover', borderRadius: 10, alignSelf: 'center' },
                     h1: { fontSize: 22, fontWeight: 'bold', marginVertical: 8 },
                     h2: { fontSize: 18, fontWeight: 'semibold', marginVertical: 6 },
                     p: { fontSize: 15, marginVertical: 4, lineHeight: 22 },

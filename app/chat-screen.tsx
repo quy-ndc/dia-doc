@@ -8,46 +8,47 @@ import CameraModule from '../components/chat-screen/camera-module';
 import { useEffect, useState } from 'react';
 import { Message } from '../assets/types/chat/message';
 import { AllFeaturesEnabled, ChatRoomProvider } from '@ably/chat';
+import useUserStore from '../store/userStore';
 
 
 export default function ChatScreen() {
 
     const { title, image } = useLocalSearchParams();
+    const { user } = useUserStore()
+    const [messages, setMessages] = useState<Message[]>([])
+    const [newMessage, setNewMessage] = useState('')
 
-    const [messages, setMessages] = useState<Message[]>([
-        { id: '1', type: 'text', content: 'a', time: '2025-2-12 08:06:26.753000' },
-        { id: '1', type: 'text', content: 'a', time: '2025-2-11 08:06:26.753000' },
-        { id: '2', type: 'text', content: 'a', time: '2024-11-01 08:06:26.753000' },
-        { id: '2', type: 'text', content: 'a', time: '2024-11-01 08:06:26.753000' },
-        { id: '1', type: 'text', content: 'a', time: '2024-11-01 08:06:26.753000' },
-        { id: '2', type: 'text', content: 'aaaaaaaaaaa', time: '2024-11-01 08:06:26.753000' },
-        { id: '1', type: 'text', content: 'ni ma de sha bi', time: '2024-11-01 08:06:26.753000' },
-        { id: '2', type: 'text', content: 'a', time: '2024-11-01 08:06:26.753000' },
-        { id: '1', type: 'text', content: 'a', time: '2024-11-01 08:06:26.753000' },
-        { id: '2', type: 'text', content: 'a', time: '2024-11-01 08:06:26.753000' },
-        { id: '2', type: 'text', content: 'a', time: '2024-11-01 08:06:26.753000' },
-        { id: '2', type: 'text', content: 'a', time: '2024-11-01 08:06:26.753000' },
-        { id: '1', type: 'text', content: 'a', time: '2024-11-01 08:06:26.753000' },
-        { id: '2', type: 'text', content: 'a', time: '2024-11-01 08:06:26.753000' },
-        { id: '2', type: 'text', content: 'a', time: '2024-11-01 08:06:26.753000' },
-        { id: '1', type: 'text', content: 'a', time: '2024-11-01 08:06:26.753000' },
-        { id: '2', type: 'text', content: 'a', time: '2024-11-01 08:06:26.753000' },
-        { id: '2', type: 'text', content: 'a', time: '2024-11-01 08:06:26.753000' },
-        { id: '1', type: 'image', content: 'https://res.cloudinary.com/dcjdtlnbl/image/upload/v1729604342/Shirt_4_xkedmf.jpg', time: '2024-11-01 08:06:26.753000' },
-        { id: '2', type: 'image', content: 'https://res.cloudinary.com/dcjdtlnbl/image/upload/v1729604342/Shirt_4_xkedmf.jpg', time: '2024-11-01 08:06:26.753000' },
-    ])
 
-    const [newMessage, setNewMessage] = useState('');
+    const handleHistory = (historyItems: { clientId: string; text: string, time: string }[]) => {
+        const historyMessages: Message[] = historyItems.map(h => ({
+            id: h.clientId,
+            type: 'text',
+            content: h.text,
+            time: h.time
+        }));
+
+        setMessages(prev => [...historyMessages, ...prev]);
+    }
+
+    const handleReceive = (text: string, time: string, id: string) => {
+        const receivedMessage: Message = {
+            content: text,
+            id: id,
+            time: time,
+            type: 'text'
+        }
+        setMessages((prevMessages) => [...prevMessages, receivedMessage])
+    }
 
     const handleSendMessage = (newMessage: string) => {
         if (newMessage.trim()) {
             const messageToSend: Message = {
-                id: '1',
+                id: user.id,
                 type: 'text',
                 content: newMessage,
                 time: new Date(Date.now()).toISOString()
             }
-            setMessages((prevMessages) => [...prevMessages, messageToSend]);
+            setMessages((prevMessages) => [...prevMessages, messageToSend])
             setNewMessage('');
         }
     };
@@ -90,7 +91,7 @@ export default function ChatScreen() {
                     handleSendImage={handleImageMessage}
                 />
             </Modal>
-            <ChatRoomProvider id="readme-getting-started" options={AllFeaturesEnabled}>
+            <ChatRoomProvider id="thu-duc" options={AllFeaturesEnabled}>
                 <ChatModule
                     setIsCameraOn={setIsCameraOn}
                     newMessage={newMessage}
@@ -98,6 +99,8 @@ export default function ChatScreen() {
                     messages={messages}
                     handleSendMessage={handleSendMessage}
                     handleSendImage={handleImageMessage}
+                    onHistory={handleHistory}
+                    onReceived={handleReceive}
                 />
             </ChatRoomProvider>
         </>

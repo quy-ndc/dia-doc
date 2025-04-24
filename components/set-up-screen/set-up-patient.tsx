@@ -14,6 +14,12 @@ import * as yup from 'yup';
 import { ChevronLeft } from '../../lib/icons/ChevronLeft';
 import { Check } from '../../lib/icons/Check';
 import { router } from 'expo-router';
+import useUserStore from '../../store/userStore';
+import { BloodType } from '../../assets/enum/blood';
+import { DiaType } from '../../assets/enum/dia-type';
+import { GenderNumber } from '../../assets/enum/gender';
+import { UpdateUserProfile } from '../../service/api/user-service';
+import Toast from 'react-native-toast-message';
 
 const { width } = Dimensions.get('window');
 
@@ -24,45 +30,45 @@ type Prop = {
 
 export default function SetUpPatient({ setRole, mode }: Prop) {
 
+    const { user } = useUserStore()
+    const [loading, setLoading] = useState(false)
+
+    const [show, setShow] = useState<boolean>(false)
+    const [blood, setBlood] = useState<Option>()
+    const [type, setType] = useState<Option>()
+    const [gender, setGender] = useState<Option>()
+    const [date, setDate] = useState<Date>(new Date())
+    const [weight, setWeight] = useState(0)
+    const [height, setHeight] = useState(0)
+
     const schema = yup.object({
-        name: yup.string()
-            .when({
-                is: (value: string | undefined) => !!value,
-                then: (schema) =>
-                    schema.matches(/^[^\d]+$/, 'Không được chứa số'),
-            })
-            .when({
-                is: (value: string | undefined) => !!value,
-                then: (schema) =>
-                    schema.matches(/^[A-Za-zÀ-ỹ\s]+$/, 'Không được chứa ký tự đặc biệt'),
-            })
-            .required('Không được trống'),
-        phone: yup.string()
-            .required('Không đước trống')
-            .matches(/^\d{10}$/, 'Phải có đúng 10 chữ số'),
-        weight: yup.string()
+        // phone: yup.string()
+        //     .required('Không đước trống')
+        //     .matches(/^\d{10}$/, 'Phải có đúng 10 chữ số'),
+        weight: yup
+            .number()
+            .typeError('Chỉ được chứa số')
             .required('Không được trống')
-            .matches(/^\d+$/, 'Chỉ được chứa số'),
-        height: yup.string()
+            .integer('Phải là số nguyên')
+            .positive('Phải lớn hơn 0'),
+        height: yup
+            .number()
+            .typeError('Chỉ được chứa số')
             .required('Không được trống')
-            .matches(/^\d+$/, 'Chỉ được chứa số')
+            .integer('Phải là số nguyên')
+            .positive('Phải lớn hơn 0'),
     }).required();
 
     const { control, handleSubmit, formState: { errors } } = useForm({
         resolver: yupResolver(schema),
         defaultValues: {
-            name: 'Nguyễn Đỗ Chung Quý',
-            phone: '0333476554',
-            weight: '40',
-            height: '150'
+            // phone: user.phone,
+            weight: user.weight,
+            height: user.height
         }
-    });
+    })
 
-    const [gender, setGender] = useState<Option>({ label: 'Nam', value: '0' })
-    const [show, setShow] = useState<boolean>(false)
-    const [date, setDate] = useState<Date>(new Date())
-    const [blood, setBlood] = useState<Option>({ label: 'A+', value: 'A+' })
-    const [type, setType] = useState<Option>({ label: 'Loại 1', value: 'type1' })
+
 
     const onChange = (event: DateTimePickerEvent, selectedDate?: Date) => {
         setShow(false);
@@ -71,17 +77,40 @@ export default function SetUpPatient({ setRole, mode }: Prop) {
         }
     }
 
-    const onSubmit = (data: any) => {
-        console.log(
-            `
-            Name: ${data.name}
-            Phone: ${data.phone}
-            Gender: ${gender?.value}
-            DOB: ${date}
-            Weight: ${data.weight}
-            Height: ${data.height}
-            Type: ${type?.value}
-            `);
+    const onSubmit = async () => {
+        try {
+            // const req = {
+            //     dateOfBirth: date.toString(),
+            //     genderType: Number(gender?.value),
+            //     bloodType: Number(blood?.value),
+            //     weight: weight,
+            //     height: height,
+            //     userId: user.id,
+            //     medicalRecord: null
+            // }
+            const req = {
+                dateOfBirth: 'asdasd',
+                genderType: 0,
+                bloodType: 0,
+                weight: 111,
+                height: 111,
+                userId: 'asdasd',
+                medicalRecord: null
+            }
+            console.log(req)
+            const response = await UpdateUserProfile(req)
+            if (response) {
+                // setLoading(false)
+            }
+            console.log(response)
+        } catch (e) {
+            console.log(e)
+            Toast.show({
+                type: 'error',
+                text1: 'Cập nhật thất bại',
+                visibilityTime: 2000
+            })
+        }
     }
 
     return (
@@ -99,52 +128,46 @@ export default function SetUpPatient({ setRole, mode }: Prop) {
                 </Text>
 
                 <View className='flex-col gap-7'>
-                    <Controller
-                        control={control}
-                        name="name"
-                        render={({ field: { onChange, onBlur, value } }) => (
-                            <View className='flex-col gap-1'>
-                                <SetUpFields
-                                    label='Họ và tên'
-                                    length={0.9}
-                                    object={
-                                        <Input
-                                            className='tracking-widest'
-                                            value={value}
-                                            onChangeText={onChange}
-                                            onBlur={onBlur}
-                                            keyboardType='default'
-                                        />
-                                    }
-                                />
-                                {errors.name && <Text className='text-red-500'>{errors.name.message}</Text>}
-                            </View>
-                        )}
-                    />
 
-                    <Controller
-                        control={control}
-                        name="phone"
-                        render={({ field: { onChange, onBlur, value } }) => (
-                            <View className='flex-col gap-1'>
-                                <SetUpFields
-                                    label='Số điện thoại'
-                                    length={0.9}
-                                    object={
-                                        <Input
-                                            className='tracking-widest'
-                                            value={value}
-                                            onChangeText={onChange}
-                                            onBlur={onBlur}
-                                            maxLength={10}
-                                            keyboardType='number-pad'
-                                        />
-                                    }
+                    <View className='flex-col gap-1'>
+                        <SetUpFields
+                            label='Họ và tên'
+                            length={0.9}
+                            object={
+                                <Input
+                                    className='tracking-widest'
+                                    value={user.fullname}
+                                    keyboardType='default'
+                                    editable={false}
                                 />
-                                {errors.phone && <Text className='text-red-500'>{errors.phone.message}</Text>}
-                            </View>
-                        )}
-                    />
+                            }
+                        />
+                    </View>
+
+                    {/* <Controller
+                            control={control}
+                            name="phone"
+                            render={({ field: { onChange, onBlur, value } }) => (
+                                <View className='flex-col gap-1'>
+                                    <SetUpFields
+                                        label='Số điện thoại'
+                                        length={0.9}
+                                        object={
+                                            <Input
+                                                className='tracking-widest'
+                                                value={value}
+                                                placeholder='0123456789'
+                                                onChangeText={onChange}
+                                                onBlur={onBlur}
+                                                maxLength={10}
+                                                keyboardType='number-pad'
+                                            />
+                                        }
+                                    />
+                                    {errors.phone && <Text className='text-red-500'>{errors.phone.message}</Text>}
+                                </View>
+                            )}
+                        /> */}
 
                     <View className='flex-row justify-between'>
                         <SetUpFields
@@ -158,19 +181,19 @@ export default function SetUpPatient({ setRole, mode }: Prop) {
                                     <SelectTrigger>
                                         <SelectValue
                                             className='text-foreground text-sm native:text-lg'
-                                            placeholder='Chọn loại máu'
+                                            placeholder='Loại máu'
                                         />
                                     </SelectTrigger>
                                     <SelectContent style={{ width: width * 0.42 }}>
                                         <SelectGroup>
-                                            <SelectItem label='A+' value='A+' />
-                                            <SelectItem label='A-' value='A-' />
-                                            <SelectItem label='B+' value='B+' />
-                                            <SelectItem label='B-' value='B-' />
-                                            <SelectItem label='AB+' value='AB+' />
-                                            <SelectItem label='AB-' value='AB-' />
-                                            <SelectItem label='O+' value='O+' />
-                                            <SelectItem label='O-' value='O-' />
+                                            <SelectItem label='A+' value={BloodType.A_POSITIVE.toString()} />
+                                            <SelectItem label='A-' value={BloodType.A_NEGATIVE.toString()} />
+                                            <SelectItem label='B+' value={BloodType.B_POSITIVE.toString()} />
+                                            <SelectItem label='B-' value={BloodType.B_NEGATIVE.toString()} />
+                                            <SelectItem label='AB+' value={BloodType.AB_POSITIVE.toString()} />
+                                            <SelectItem label='AB-' value={BloodType.AB_NEGATIVE.toString()} />
+                                            <SelectItem label='O+' value={BloodType.O_POSITIVE.toString()} />
+                                            <SelectItem label='O-' value={BloodType.O_NEGATIVE.toString()} />
                                         </SelectGroup>
                                     </SelectContent>
                                 </Select>
@@ -187,15 +210,15 @@ export default function SetUpPatient({ setRole, mode }: Prop) {
                                     <SelectTrigger>
                                         <SelectValue
                                             className='text-foreground text-sm native:text-lg'
-                                            placeholder='Chọn loại tiểu đường'
+                                            placeholder='Loại tiểu đường'
                                         />
                                     </SelectTrigger>
                                     <SelectContent style={{ width: width * 0.42 }}>
                                         <SelectGroup>
-                                            <SelectItem label='Loại 1' value='type1' />
-                                            <SelectItem label='Loại 2' value='type2' />
-                                            <SelectItem label='Loại thai kỳ' value='gestationa' />
-                                            <SelectItem label='Loại khác' value='other' />
+                                            <SelectItem label='Loại 1' value={DiaType.TYPE_1.toString()} />
+                                            <SelectItem label='Loại 2' value={DiaType.TYPE_2.toString()} />
+                                            <SelectItem label='Loại thai kỳ' value={DiaType.GESTATIONAL.toString()} />
+                                            <SelectItem label='Loại khác' value={DiaType.OTHER.toString()} />
                                         </SelectGroup>
                                     </SelectContent>
                                 </Select>
@@ -215,13 +238,13 @@ export default function SetUpPatient({ setRole, mode }: Prop) {
                                     <SelectTrigger className='w-full'>
                                         <SelectValue
                                             className='text-foreground text-sm native:text-lg'
-                                            placeholder='Chọn giới tính'
+                                            placeholder='Giới tính'
                                         />
                                     </SelectTrigger>
                                     <SelectContent style={{ width: width * 0.4 }}>
                                         <SelectGroup>
-                                            <SelectItem label='Nam' value='0' />
-                                            <SelectItem label='Nữ' value='1' />
+                                            <SelectItem label='Nam' value={GenderNumber.MALE.toString()} />
+                                            <SelectItem label='Nữ' value={GenderNumber.FAMALE.toString()} />
                                         </SelectGroup>
                                     </SelectContent>
                                 </Select>
@@ -266,8 +289,11 @@ export default function SetUpPatient({ setRole, mode }: Prop) {
                                         object={
                                             <Input
                                                 className='tracking-widest'
-                                                value={value}
-                                                onChangeText={onChange}
+                                                value={value.toString()}
+                                                onChangeText={text => {
+                                                    onChange(text)
+                                                    setWeight(Number(text))
+                                                }}
                                                 onBlur={onBlur}
                                                 keyboardType='numeric'
                                             />
@@ -288,8 +314,11 @@ export default function SetUpPatient({ setRole, mode }: Prop) {
                                         object={
                                             <Input
                                                 className='tracking-widest'
-                                                value={value}
-                                                onChangeText={onChange}
+                                                value={value.toString()}
+                                                onChangeText={text => {
+                                                    onChange(text)
+                                                    setHeight(Number(text))
+                                                }}
                                                 onBlur={onBlur}
                                                 maxLength={3}
                                                 keyboardType='numeric'
@@ -310,14 +339,15 @@ export default function SetUpPatient({ setRole, mode }: Prop) {
                                 onPress={() => setRole('')}
                             >
                                 <ChevronLeft className='text-foreground' size={20} />
-                                <Text className='text-base font-boldd tracking-wider uppercase'>Quay lại</Text>
+                                <Text className='text-base font-boldd tracking-wider capitalize'>Quay lại</Text>
                             </Pressable>
                             <Pressable
                                 className='flex-row items-center gap-2 px-4 py-3 rounded-md active:bg-[var(--click-bg)]'
-                                onPress={handleSubmit(onSubmit)}
+                                onPress={onSubmit}
+                            // disabled={loading}
                             // onPress={() => router.push('/(main)')}
                             >
-                                <Text className='text-base font-boldd tracking-wider uppercase'>Xác Nhận</Text>
+                                <Text className='text-base font-boldd tracking-wider capitalize'>Xác Nhận</Text>
                                 <Check className='text-foreground' size={20} />
                             </Pressable>
                         </View>

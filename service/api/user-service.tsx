@@ -1,11 +1,93 @@
 import axios from "axios";
+import { authApiConfig, endpointUser } from "../endpoint";
 
-// export const LoginDoctor = async (request: LoginDoctorRequest): Promise<any> => {
+export const GetUserProfile = async () => {
 
-//     const response = await axios.put(`${endppointAuth.LOGIN_DOCTOR}`, {
-//         email: request.email,
-//         password: request.password
-//     });
+    try {
+        const response = await axios.get(`${endpointUser.GET_CURRENT_USER}`)
 
-//     return { response };
-// }
+        return {
+            success: true,
+            status: response.status,
+            data: response.data
+        };
+
+    } catch (e) {
+        if (axios.isAxiosError(e) && e.response) {
+            return {
+                success: false,
+                status: e.response.status,
+                message: e.response.data.message || 'An error occurred',
+                data: e.response.data
+            };
+        }
+
+        return {
+            success: false,
+            status: 500,
+            message: 'An error occurred',
+            data: null
+        };
+    }
+}
+
+export const UpdateUserProfile = async ({
+    dateOfBirth,
+    genderType,
+    bloodType,
+    weight,
+    height,
+    userId,
+    medicalRecord
+}: {
+    dateOfBirth: string,
+    genderType: number,
+    bloodType: number,
+    weight: number,
+    height: number,
+    userId: string,
+    medicalRecord?: any
+}) => {
+
+    const config = authApiConfig();
+
+    if (!config) {
+        return;
+    }
+
+    try {
+        const response = await axios.put(`${endpointUser.EDIT_USER}`, {
+            dateOfBirth: dateOfBirth,
+            genderType: genderType,
+            bloodType: bloodType,
+            weight: weight,
+            height: height,
+            userId: userId,
+            medicalRecord: medicalRecord
+        }, config)
+
+        return {
+            success: true,
+            status: response.status,
+            data: response.data
+        };
+
+    } catch (e) {
+        if (axios.isAxiosError(e) && e.response) {
+            return {
+                success: false,
+                status: e.response.status,
+                message: e.response.data.message || 'An error occurred',
+                data: e.response.data
+            };
+        }
+
+        return {
+            success: false,
+            status: 500,
+            message: 'An error occurred',
+            data: null
+        };
+    }
+}
+

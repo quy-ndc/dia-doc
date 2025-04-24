@@ -5,6 +5,7 @@ import { ThemeToggle } from '../ThemeToggle';
 import { Image } from 'expo-image'
 import Notification from './notification/noti-access'
 import IconButton from '../common/icon-button';
+import LogoutButton from './logout-button';
 
 export default function HeaderRight() {
 
@@ -12,6 +13,7 @@ export default function HeaderRight() {
 
     return (
         <View className='flex-row pr-2 items-center'>
+            <LogoutButton />
             <ThemeToggle />
             <Notification />
             <IconButton

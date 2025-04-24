@@ -1,6 +1,5 @@
 import * as React from 'react';
-import { Text } from '../components/ui/text';
-import { useEffect, useState } from 'react';
+import { useState } from 'react';
 import SetUpPatient from '../components/set-up-screen/set-up-patient';
 import SetUpDoctor from '../components/set-up-screen/set-up-doctor';
 

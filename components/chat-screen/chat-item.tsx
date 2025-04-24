@@ -31,7 +31,7 @@ export default function ChatItem({ img, name, time, message, hasNewMessage }: Pr
     }
 
     return (
-        // <ChatRoomProvider id="readme-getting-started" options={AllFeaturesEnabled}>
+        // <ChatRoomProvider id="thu-duc" options={AllFeaturesEnabled}>
         <Pressable
             onPress={handleChatSelect}
             className={`flex-row justify-between py-5 px-3 active:bg-[var(--click-bg)]`}
@@ -44,11 +44,11 @@ export default function ChatItem({ img, name, time, message, hasNewMessage }: Pr
             <View className='flex-col justify-center gap-1 w-[80%]'>
                 <View className='flex-row justify-between items-center'>
                     <Text className={`text-xl ${hasNewMessage && 'font-bold'}`}>{name}</Text>
-                    <Text className={`text-sm ${hasNewMessage && 'font-bold'}`}>{formatDateBlog('2025-02-17T16:19:20')}</Text>
+                    {/* <Text className={`text-sm ${hasNewMessage && 'font-bold'}`}>{formatDateBlog('2025-02-17T16:19:20')}</Text> */}
                 </View>
                 <Text className={`${hasNewMessage ? 'font-bold' : 'opacity-[60%]'}`}>{truncateText(message, 40)}</Text>
             </View>
         </Pressable>
-        // </ChatRoomProvider> 
+        // </ChatRoomProvider>
     );
 }

@@ -1,5 +1,7 @@
 import axios from "axios"
 import { createQueryString, endpointMedia } from "../endpoint"
+import axiosServices from "../axios"
+// import axiosServices from "../axios"
 
 export const GetAllMedias = async (params: {
     PageIndex: number
@@ -15,7 +17,7 @@ export const GetAllMedias = async (params: {
 
     try {
         const queryString = createQueryString(params)
-        const response = await axios.get(`${endpointMedia.GET_ALL_MEDIAS}?${queryString}`)
+        const response = await axiosServices.get(`${endpointMedia.GET_ALL_MEDIAS}?${queryString}`)
 
         return {
             success: true,
@@ -41,11 +43,12 @@ export const GetAllMedias = async (params: {
     }
 }
 
-export const GetMediaById = async (params: { Id: string }) => {
+export const GetMediaById = async (id: string) => {
+
+    // const config = useAuthHeader()
 
     try {
-        const queryString = createQueryString(params)
-        const response = await axios.get(`${endpointMedia.GET_MEDIA_BY_ID}?${queryString}`)
+        const response = await axiosServices.get(`${endpointMedia.GET_MEDIA_BY_ID}/${id}`)
 
         return {
             success: true,

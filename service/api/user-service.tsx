@@ -1,5 +1,5 @@
 import axios from "axios";
-import { authApiConfig, endpointUser } from "../endpoint";
+import { endpointUser } from "../endpoint";
 
 export const GetUserProfile = async () => {
 
@@ -10,7 +10,7 @@ export const GetUserProfile = async () => {
             success: true,
             status: response.status,
             data: response.data
-        };
+        }
 
     } catch (e) {
         if (axios.isAxiosError(e) && e.response) {
@@ -27,7 +27,7 @@ export const GetUserProfile = async () => {
             status: 500,
             message: 'An error occurred',
             data: null
-        };
+        }
     }
 }
 
@@ -48,13 +48,6 @@ export const UpdateUserProfile = async ({
     userId: string,
     medicalRecord?: any
 }) => {
-
-    const config = authApiConfig();
-
-    if (!config) {
-        return;
-    }
-
     try {
         const response = await axios.put(`${endpointUser.EDIT_USER}`, {
             dateOfBirth: dateOfBirth,
@@ -64,7 +57,7 @@ export const UpdateUserProfile = async ({
             height: height,
             userId: userId,
             medicalRecord: medicalRecord
-        }, config)
+        })
 
         return {
             success: true,
@@ -79,7 +72,7 @@ export const UpdateUserProfile = async ({
                 status: e.response.status,
                 message: e.response.data.message || 'An error occurred',
                 data: e.response.data
-            };
+            }
         }
 
         return {
@@ -87,7 +80,7 @@ export const UpdateUserProfile = async ({
             status: 500,
             message: 'An error occurred',
             data: null
-        };
+        }
     }
 }
 

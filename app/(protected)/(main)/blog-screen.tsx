@@ -3,14 +3,14 @@ import * as React from 'react';
 import { useCallback, useRef, useState } from 'react';
 import { View, RefreshControl, Pressable } from 'react-native';
 import { Animated as RNAnimated } from 'react-native';
-import BlogItem from '../../components/common/blog-item/blog-item';
-import { ChevronUp } from '../../lib/icons/ChevronUp';
-import { useMediaQuery } from '../../service/query/media-query';
+import BlogItem from '../../../components/common/blog-item/blog-item';
+import { ChevronUp } from '../../../lib/icons/ChevronUp';
+import { useMediaQuery } from '../../../service/query/media-query';
 import { useInfiniteQuery, useQuery } from '@tanstack/react-query';
-import { BlogPost } from '../../assets/types/media/blog-post';
-import { Text } from '../../components/ui/text'
-import SpinningIcon from '../../components/common/icons/spinning-icon';
-import { Loader } from '../../lib/icons/Loader';
+import { BlogPost } from '../../../assets/types/media/blog-post';
+import { Text } from '../../../components/ui/text'
+import SpinningIcon from '../../../components/common/icons/spinning-icon';
+import { Loader } from '../../../lib/icons/Loader';
 
 
 export default function BlogScreen() {
@@ -38,10 +38,10 @@ export default function BlogScreen() {
             const totalPages = lastPage.data?.value?.data?.totalPages || 1;
             return currentPage < totalPages ? currentPage + 1 : undefined;
         },
-        keepPreviousData: false,
-    });
+        keepPreviousData: false
+    })
 
-    const allItems: BlogPost[] = data?.pages.flatMap(page => page.data?.value.data.items) || [];
+    const allItems: BlogPost[] = data?.pages.flatMap(page => page.data?.value.data.items) || []
 
     const onRefresh = useCallback(() => {
         setRefreshing(true);
@@ -51,7 +51,7 @@ export default function BlogScreen() {
 
     const scrollToTop = () => {
         listRef.current?.scrollToIndex({ index: 0, animated: true });
-    };
+    }
 
     const toggleVisibility = (visible: boolean) => {
         RNAnimated.timing(opacity, {
@@ -61,7 +61,7 @@ export default function BlogScreen() {
         }).start(() => {
             setShowScrollButton(visible);
         });
-    };
+    }
 
     const handleScroll = (event: any) => {
         const offsetY = event.nativeEvent.contentOffset.y;
@@ -70,7 +70,7 @@ export default function BlogScreen() {
         } else if (offsetY <= 400 && showScrollButton) {
             toggleVisibility(false);
         }
-    };
+    }
 
     return (
         <View className='flex-1 w-full pb-5'>
@@ -89,14 +89,12 @@ export default function BlogScreen() {
                             <BlogItem
                                 id={item.id}
                                 title={item.title}
-                                content={item.content}
                                 image={item.imageUrl}
                                 createDate={item.createdDate}
                                 category={item.category.name}
                                 name={item.user.fullName}
                                 avatar={item.user.imageUrl}
                                 liked={false}
-                                detailed={false}
                                 bookmarked={item.isBookmarked}
                             />
                         }

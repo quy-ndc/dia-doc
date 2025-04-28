@@ -27,6 +27,10 @@ export default function HomeBlogSection() {
         })
     )
 
+    if (data) {
+        console.log(data.data.value.data.items)
+    }
+
     const items: BlogPost[] = data ? data?.data.value.data.items : []
 
     return (
@@ -47,14 +51,12 @@ export default function HomeBlogSection() {
                                 <BlogItem
                                     id={item.id}
                                     title={item.title}
-                                    content={item.content}
                                     image={item.imageUrl}
                                     createDate={item.createdDate}
                                     category={item.category.name}
                                     name={item.user.fullName}
                                     avatar={item.user.imageUrl}
                                     liked={false}
-                                    detailed={false}
                                     bookmarked={item.isBookmarked}
                                 />
                             }

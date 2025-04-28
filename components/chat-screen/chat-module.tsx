@@ -187,7 +187,7 @@ export default function ChatModule({
                     />
                     <Pressable
                         className='p-4 rounded-full active:bg-[var(--click-bg)]'
-                        onPress={() => send({ text: newMessage })}
+                        onPress={() => {send({ text: newMessage })}}
                     >
                         {/* <SpinningLoader cn='text-foreground' /> */}
                         <SendHorizontal className='text-foreground' size={20} />

@@ -19,13 +19,11 @@ const { width } = Dimensions.get('window');
 
 export default function PatientAuthenModule() {
 
-    // const { mutateAsync, isLoading, isError, data } = useLoginPatientMutation();
+    const { mutateAsync, isLoading, isError, data } = useLoginPatientMutation()
 
     const { setUser, user } = useUserStore()
 
     console.log(user)
-
-    const [isLoading, setIsLoading] = useState(false)
 
     const router = useRouter();
 
@@ -35,7 +33,7 @@ export default function PatientAuthenModule() {
         if (code.accessToken) {
             const profile = await ZaloKit.getUserProfile()
             if (profile && profile.id) {
-                const response = await LoginPatient({
+                const response = await mutateAsync({
                     zaloIdentityId: profile.id,
                     fullName: profile.name,
                     avatar: profile.picture.data.url,
@@ -75,7 +73,7 @@ export default function PatientAuthenModule() {
             if (code.accessToken) {
                 const profile = await ZaloKit.getUserProfile();
                 if (profile && profile.id) {
-                    const response = await LoginPatient({
+                    const response = await mutateAsync({
                         zaloIdentityId: profile.id,
                         fullName: profile.name,
                         avatar: profile.picture.data.url,
@@ -116,7 +114,6 @@ export default function PatientAuthenModule() {
                 size="lg"
                 disabled={isLoading}
                 onPress={zaloLogin}
-            // onPress={() => router.push('/(main)')}
             >
                 {isLoading ? (
                     <SpinningIcon icon={<Loader className='text-foreground' size={20} />} />
@@ -133,7 +130,6 @@ export default function PatientAuthenModule() {
                 size="lg"
                 disabled={isLoading}
                 onPress={zaloLoginWeb}
-            // onPress={() => router.push('/(main)')}
             >
                 {isLoading ? (
                     <SpinningIcon icon={<Loader className='text-foreground' size={20} />} />

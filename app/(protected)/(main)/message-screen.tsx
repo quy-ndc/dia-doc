@@ -2,7 +2,7 @@ import { FlashList } from '@shopify/flash-list';
 import * as React from 'react';
 import { useCallback, useState } from 'react';
 import { Dimensions, RefreshControl, ScrollView, View } from 'react-native';
-import ChatItem from '../../components/chat-screen/chat-item';
+import ChatItem from '../../../components/chat-screen/chat-item';
 
 const { width } = Dimensions.get('window')
 

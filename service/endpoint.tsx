@@ -1,21 +1,4 @@
-import { AUTH_SERVICE_ENDPOINT, USER_SERVICE_ENDPOINT, MEDIA_SERVICE_ENDPOINT } from '@env';
-import useUserStore from '../store/userStore';
-
-const getToken = () => {
-    const { user } = useUserStore()
-    return user.accessToken
-}
-
-export const authApiConfig = () => {
-    const token = getToken()
-    return (
-        {
-            headers: {
-                Authorization: `Bearer ${token}`
-            }
-        }
-    )
-}
+import { AUTH_SERVICE_ENDPOINT, MEDIA_SERVICE_ENDPOINT, USER_SERVICE_ENDPOINT } from '@env'
 
 export const createQueryString = (params: Record<string, any>): string => {
     const urlParams = new URLSearchParams();
@@ -49,8 +32,8 @@ const endpointUser = {
 }
 
 const endpointMedia = {
-    GET_ALL_MEDIAS: `${MEDIA_SERVICE_ENDPOINT}/${apiPrefixV1}/posts/get-all-posts-by-user`,
-    GET_MEDIA_BY_ID: `${MEDIA_SERVICE_ENDPOINT}/${apiPrefixV1}/posts/get-post-by-id-by-user`
+    GET_ALL_MEDIAS: `${MEDIA_SERVICE_ENDPOINT}/${apiPrefixV1}/posts`,
+    GET_MEDIA_BY_ID: `${MEDIA_SERVICE_ENDPOINT}/${apiPrefixV1}/posts`
 }
 
 

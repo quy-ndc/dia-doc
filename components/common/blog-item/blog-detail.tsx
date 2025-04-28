@@ -7,10 +7,10 @@ import CommentButton from "./comment-button";
 import BookmarkButton from "./bookmark-button";
 import RenderHTML from 'react-native-render-html';
 import { GlobalColor } from "../../../global-color";
+import { getBlogTagColor } from "../../../util/get-blog-tag-color";
 
 
 type Prop = {
-    id: string
     title: string
     content: string
     image: string
@@ -25,7 +25,6 @@ type Prop = {
 const { width } = Dimensions.get('window');
 
 export default function BlogDetailItem({
-    id,
     avatar,
     name,
     title,
@@ -41,13 +40,19 @@ export default function BlogDetailItem({
 
     const textColor = theme == 'dark' ? GlobalColor.LIGHT_THEME_COL : GlobalColor.DARK_THEME_COL
 
+    const color = getBlogTagColor(category).borderColor
+
     return (
         <View className="flex-col gap-3 pt-3">
             <View className="w-full flex-row justify-between items-center">
-                <Text className="text-base font-semibold px-1 py-1 text-left text-[var(--type4-bg)] tracking-wider uppercase">tiểu đường {category}</Text>
+                <Text
+                    style={{ color: color }}
+                    className={`text-base font-semibold px-1 py-1 text-left tracking-wider uppercase`}>
+                    tiểu đường {category}
+                </Text>
                 <BookmarkButton bookmarked={bookmarked} />
             </View>
-            <Text className="text-xl px-1 font-semibold tracking-wider">
+            <Text className={`text-xl px-1 font-semibold tracking-wider`}>
                 {title}
             </Text>
             <View className="flex-row w-full gap-4 px-1 pt-4">

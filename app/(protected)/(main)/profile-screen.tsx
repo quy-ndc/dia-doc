@@ -1,12 +1,12 @@
 import * as React from 'react';
 import { View, ScrollView, Pressable } from 'react-native';
-import { Text } from '../../components/ui/text';
+import { Text } from '../../../components/ui/text';
 import { Image } from 'expo-image'
-import { formatDateDiagnose } from '../../util/format-date-diagnose';
-import BasicInfo from '../../components/profile-screen/basic-info';
-import IconButton from '../../components/common/icon-button';
-import { PencilLine } from '../../lib/icons/PencilLine';
-import { Phone } from '../../lib/icons/Phone';
+import { formatDateDiagnose } from '../../../util/format-date-diagnose';
+import BasicInfo from '../../../components/profile-screen/basic-info';
+import IconButton from '../../../components/common/icon-button';
+import { PencilLine } from '../../../lib/icons/PencilLine';
+import { Phone } from '../../../lib/icons/Phone';
 import { useRouter } from 'expo-router';
 
 

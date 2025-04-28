@@ -21,7 +21,6 @@ import notifee from '@notifee/react-native';
 import { createNotificationChannel } from '../util/notification/create-noti-channel';
 import useUserStore from '../store/userStore';
 
-
 const LIGHT_THEME: Theme = { ...DefaultTheme, colors: NAV_THEME.light };
 const DARK_THEME: Theme = { ...DarkTheme, colors: NAV_THEME.dark };
 
@@ -100,24 +99,8 @@ export default function RootLayout() {
     }
   }
 
-  // useEffect(() => {
-  //   if (!user.isAuthenticated) {
-  //     const timeoutId = setTimeout(() => {
-  //       router.push('/authen-screen')
-  //     }, 100)
-  //     return () => clearTimeout(timeoutId)
-  //   }
-
-  //   if (user.isAuthenticated && !user.isSetUp) {
-  //     const timeoutId = setTimeout(() => {
-  //       router.push('/set-up-screen')
-  //     }, 100)
-  //     return () => clearTimeout(timeoutId)
-  //   }
-  // }, [user, router])
-
   useEffect(() => {
-    requestUserPermission().then(() => getDeviceToken());
+    requestUserPermission().then(() => getDeviceToken())
   }, [])
 
   useIsomorphicLayoutEffect(() => {
@@ -131,7 +114,7 @@ export default function RootLayout() {
     setAndroidNavigationBar(colorScheme);
     setIsColorSchemeLoaded(true);
     hasMounted.current = true;
-  }, []);
+  }, [])
 
   if (!isColorSchemeLoaded) {
     return null;
@@ -144,9 +127,10 @@ export default function RootLayout() {
           <StatusBar style={isDarkColorScheme ? 'light' : 'dark'} />
           <ReactQueryProvider>
             <Stack>
-              <Stack.Screen name='(main)' options={{ headerShown: false }} />
               <Stack.Screen name='authen-screen' options={{ headerShown: false }} />
               <Stack.Screen name='set-up-screen' options={{ headerShown: false }} />
+              <Stack.Screen name='(main)' options={{ headerShown: false }} />
+              <Stack.Screen name='(protected)' options={{ headerShown: false }} />
               <Stack.Screen name='chat-screen' options={{ headerTitle: '' }} />
               <Stack.Screen name='edit-profile-page' options={{ headerTitle: '' }} />
               <Stack.Screen name='blog-detail-screen' options={{ headerTitle: '', presentation: 'modal', animation: 'slide_from_bottom', gestureDirection: 'horizontal' }} />

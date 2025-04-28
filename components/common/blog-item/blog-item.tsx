@@ -7,19 +7,18 @@ import LikeButton from "./like-button";
 import CommentButton from "./comment-button";
 import BookmarkButton from "./bookmark-button";
 import { truncateText } from "../../../util/truncate-text";
+import { getBlogTagColor } from "../../../util/get-blog-tag-color";
 
 
 type Prop = {
     id: string
     title: string
-    content: string
     image: string
     createDate: string
     category: string
     name: string
     avatar: string
     liked: boolean
-    detailed: boolean
     bookmarked: boolean
 }
 
@@ -28,11 +27,9 @@ export default function BlogItem({
     avatar,
     name,
     title,
-    content,
     image,
     category,
     liked,
-    detailed,
     createDate,
     bookmarked
 }: Prop) {
@@ -46,6 +43,9 @@ export default function BlogItem({
         })
     }
 
+    const tagBorder = getBlogTagColor(category).borderColor
+    const tagBg = getBlogTagColor(category).backgroundColor
+
     return (
         <Pressable
             className="flex-col gap-5 active:bg-[--click-bg] border-b border-[var(--blog-border-color)]"
@@ -53,7 +53,7 @@ export default function BlogItem({
         >
             <View className="flex-row items-center gap-5 px-4 pt-4">
                 <Image
-                    style={styles.avatar}
+                    style={{ width: 35, height: 35, borderRadius: 10000 }}
                     source={avatar}
                     contentFit="cover"
                 />
@@ -67,8 +67,13 @@ export default function BlogItem({
                     <Text className="text-lg font-semibold tracking-wider">
                         {truncateText(title, 90)}
                     </Text>
-                    <View style={{ alignSelf: 'flex-start' }}>
-                        <Text className="text-white text-sm font-semibold px-3 py-1 bg-[var(--type4-bg)] rounded-full tracking-wider capitalize">{category}</Text>
+                    <View className="self-start">
+                        <Text
+                            style={{ backgroundColor: tagBg, color: tagBorder, borderColor: tagBorder }}
+                            className={`text-center text-sm font-semibold px-3 py-1 border rounded-full tracking-wider capitalize`}
+                        >
+                            {category}
+                        </Text>
                     </View>
                 </View>
                 <Image
@@ -77,17 +82,6 @@ export default function BlogItem({
                     source={image}
                 />
             </View>
-
-            {/* {(detailed && images.length > 0) && (
-                <DetailImage
-                    avatar={avatar}
-                    name={name}
-                    images={images}
-                    title={title}
-                    liked={liked}
-                />
-            )} */}
-
             <View className="flex-row justify-between items-center gap-1 px-3 pb-3">
                 <View className="flex-row gap-1 items-center">
                     <LikeButton liked={liked} />
@@ -104,11 +98,3 @@ export default function BlogItem({
         </Pressable>
     )
 }
-
-const styles = StyleSheet.create({
-    avatar: {
-        width: 35,
-        height: 35,
-        borderRadius: 10000,
-    }
-});

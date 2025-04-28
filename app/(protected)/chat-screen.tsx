@@ -1,14 +1,14 @@
 import * as React from 'react';
 import { Modal, View } from 'react-native';
 import { Image } from 'expo-image';
-import { Text } from '../components/ui/text';
+import { Text } from '../../components/ui/text';
 import { Stack, useLocalSearchParams, useRouter } from 'expo-router';
-import ChatModule from '../components/chat-screen/chat-module';
-import CameraModule from '../components/chat-screen/camera-module';
+import ChatModule from '../../components/chat-screen/chat-module';
+import CameraModule from '../../components/chat-screen/camera-module';
 import { useEffect, useState } from 'react';
-import { Message } from '../assets/types/chat/message';
+import { Message } from '../../assets/types/chat/message';
 import { AllFeaturesEnabled, ChatRoomProvider } from '@ably/chat';
-import useUserStore from '../store/userStore';
+import useUserStore from '../../store/userStore';
 
 
 export default function ChatScreen() {

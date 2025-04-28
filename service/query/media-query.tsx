@@ -10,13 +10,13 @@ export const useMediaQuery = (params: {
     IsSortASC?: boolean
     SelectedColumns?: string[]
 }) => {
-    const queryKey = ['medias', params];
+    const queryKey = ['medias', params]
 
     const queryFn = async ({ pageParam = 1 }) => {
         return GetAllMedias({ PageIndex: pageParam, ...params });
-    };
+    }
 
-    return { queryKey, queryFn };
+    return { queryKey, queryFn }
 };
 
 export const useNewMediaQuery = (params: {
@@ -30,22 +30,20 @@ export const useNewMediaQuery = (params: {
     IsSortASC?: boolean
     SelectedColumns?: string[]
 }) => {
-    const queryKey = ['new medias', params];
+    const queryKey = ['new medias', params]
     const queryFn = async () => {
-        return GetAllMedias(params);
-    };
+        return GetAllMedias(params)
+    }
 
-    return { queryKey, queryFn };
+    return { queryKey, queryFn }
 };
 
 
-export const useMediaByIdQuery = (params: {
-    Id: string
-}) => {
-    const queryKey = ['media by id', params];
+export const useMediaByIdQuery = (id: string) => {
+    const queryKey = ['media by id', id]
     const queryFn = async () => {
-        return GetMediaById(params);
-    };
+        return GetMediaById(id)
+    }
 
-    return { queryKey, queryFn };
+    return { queryKey, queryFn }
 }

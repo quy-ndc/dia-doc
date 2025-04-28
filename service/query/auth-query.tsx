@@ -9,6 +9,11 @@ export const useLoginPatientMutation = () => {
     return useMutation({
         mutationFn: (data: LoginPatientRequest) => LoginPatient(data),
         onSuccess: (data) => {
+            Toast.show({
+                type: 'success',
+                text1: 'Đăng nhập thành công',
+                visibilityTime: 2000
+            })
             return data;
         },
         onError: (error) => {
@@ -16,7 +21,7 @@ export const useLoginPatientMutation = () => {
                 type: 'error',
                 text1: 'Đăng nhập thất bại',
                 visibilityTime: 2000
-              })
+            })
             return error;
         }
     })

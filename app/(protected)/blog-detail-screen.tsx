@@ -2,10 +2,10 @@ import * as React from 'react';
 import { View, ScrollView, RefreshControl } from 'react-native';
 import { useLocalSearchParams } from 'expo-router';
 import { useQuery } from '@tanstack/react-query';
-import { useMediaByIdQuery } from '../service/query/media-query';
-import { BlogPost } from '../assets/types/media/blog-post';
-import BlogDetailItem from '../components/common/blog-item/blog-detail';
-import { Skeleton } from '../components/ui/skeleton';
+import { useMediaByIdQuery } from '../../service/query/media-query';
+import { BlogPost } from '../../assets/types/media/blog-post';
+import BlogDetailItem from '../../components/common/blog-item/blog-detail';
+import { Skeleton } from '../../components/ui/skeleton';
 import { useCallback, useState } from 'react';
 
 export default function BlogDetailScreen() {
@@ -13,9 +13,7 @@ export default function BlogDetailScreen() {
     const { id } = useLocalSearchParams()
 
     const { data, isLoading, refetch, remove } = useQuery(
-        useMediaByIdQuery({
-            Id: id as string
-        })
+        useMediaByIdQuery(id as string)
     )
 
     const [refreshing, setRefreshing] = useState(false);
@@ -52,7 +50,6 @@ export default function BlogDetailScreen() {
             <View className='flex-col gap-5 justify-center w-full px-3 pb-10'>
                 {data && (
                     <BlogDetailItem
-                        id={item.id}
                         avatar={item.user.imageUrl}
                         name={item.user.fullName}
                         title={item.title}
@@ -64,7 +61,6 @@ export default function BlogDetailScreen() {
                         bookmarked={false}
                     />
                 )}
-
                 <View className='flex-col gap-7'>
                     {/* <BlogComment /> */}
                 </View>

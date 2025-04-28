@@ -1,13 +1,6 @@
 import axios, { AxiosError } from "axios";
 import { router, useRouter } from "expo-router";
 import useUserStore from "../store/userStore";
-import { Linking } from "react-native";
-
-
-const getUser = () => {
-    const { user } = useUserStore()
-    return user;
-}
 
 const axiosServices = axios.create({
     timeout: 50000,
@@ -19,9 +12,9 @@ const handleUnauthorized = () => {
 
 axiosServices.interceptors.request.use(
     function (config) {
-        const accessToken = getUser().accessToken;
-        if (accessToken !== '') {
-            config.headers["Authorization"] = `Bearer ${accessToken}`;
+        const { user } = useUserStore.getState()
+        if (user.accessToken !== '') {
+            config.headers["Authorization"] = `Bearer ${user.accessToken}`
         }
         // config.headers["Authorization"] = `Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJVc2VySWQiOiIwMTkzZTk5OS04Nzg0LTdmNmQtZTJjMy04Yjk3N2NkZDMzZWEiLCJFbWFpbCI6ImdhbWVhYm92ZTE4QGdtYWlsLmNvbSIsIlJvbGUiOiI0IiwiU2Vzc2lvbklkIjoiMDE5M2YxOTEtYzM2OS03OTVjLTJlYzEtNWMyNGE4MzU0NTMwIiwibmJmIjoxNzM1ODI5NDI3LCJleHAiOjE3MzU4MzEyMjcsImlhdCI6MTczNTgyOTQyNywiaXNzIjoiaHR0cHM6Ly9sb2NhbGhvc3Q6NzIxNyIsImF1ZCI6Imh0dHBzOi8vbG9jYWxob3N0OjcyMTcifQ.AcjRP-e3vMdb2nLC4n3llr778FQosFvelwoecFpEVvA`;
         config.headers["Content-Type"] = "application/json";
@@ -66,9 +59,9 @@ const axiosUpload = axios.create({
 
 axiosUpload.interceptors.request.use(
     function (config) {
-        const accessToken = getUser().accessToken;
-        if (accessToken !== '') {
-            config.headers["Authorization"] = `Bearer ${accessToken}`;
+        const { user } = useUserStore.getState()
+        if (user.accessToken !== '') {
+            config.headers["Authorization"] = `Bearer ${user.accessToken}`;
         }
         config.headers["Content-Type"] = "multipart/form-data";
         return config;

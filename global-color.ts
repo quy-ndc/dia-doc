@@ -6,4 +6,12 @@ export enum GlobalColor {
     TOAST_INFO = '#85aaff',
     LIGHT_THEME_COL = 'white',
     DARK_THEME_COL = 'black',
+    TYPE_1_BG = '#22c55e1A',
+    TYPE_1_BORDER = '#22c55e',
+    TYPE_2_BG = '#eab3081A',
+    TYPE_2_BORDER = '#eab308',
+    TYPE_3_BG = '#3b82f61A',
+    TYPE_3_BORDER = '#3b82f6',
+    TYPE_4_BG = '#ef44441A',
+    TYPE_4_BORDER = '#ef4444',
 }

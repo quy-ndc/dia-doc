@@ -9,7 +9,7 @@ import { useState } from 'react';
 import PatientAuthenModule from '../components/authen-screen/patient-authen-module';
 import DoctorAuthenModule from '../components/authen-screen/doctor-authen-module';
 
-const { height } = Dimensions.get('window');
+const { height } = Dimensions.get('window')
 
 export default function AuthenScreen() {
 
@@ -28,7 +28,6 @@ export default function AuthenScreen() {
       visibilityTime: 6000
     })
   }
-
 
   return (
     <ScrollView>

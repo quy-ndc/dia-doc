@@ -4,9 +4,8 @@ import { useEffect, useState } from "react";
 import { useMicrophonePermissions } from "expo-camera";
 import Toast from "react-native-toast-message";
 import { Text } from '../../components/ui/text'
-import Voice, { SpeechRecognizedEvent, SpeechResultsEvent, SpeechErrorEvent, } from "@react-native-voice/voice";
+import Voice from "@react-native-voice/voice";
 import { MicOff } from "../../lib/icons/MicOff";
-import IconButton from "../common/icon-button";
 import { Check } from "../../lib/icons/Check";
 import { X } from "../../lib/icons/X";
 

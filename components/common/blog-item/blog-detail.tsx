@@ -8,11 +8,14 @@ import BookmarkButton from "./bookmark-button";
 import RenderHTML from 'react-native-render-html';
 import { GlobalColor } from "../../../global-color";
 import { getBlogTagColor } from "../../../util/get-blog-tag-color";
+import SpeechButton from "./blog-speech-button";
+import SpeechInfoButton from "./blog-speech-info";
 
 
 type Prop = {
     title: string
     content: string
+    contentHtml: string
     image: string
     createDate: string
     category: string
@@ -29,6 +32,7 @@ export default function BlogDetailItem({
     name,
     title,
     content,
+    contentHtml,
     image,
     category,
     liked,
@@ -55,15 +59,21 @@ export default function BlogDetailItem({
             <Text className={`text-xl px-1 font-semibold tracking-wider`}>
                 {title}
             </Text>
-            <View className="flex-row w-full gap-4 px-1 pt-4">
-                <Image
-                    style={styles.avatar}
-                    source={avatar}
-                    contentFit="cover"
-                />
-                <View className="flex-col gap-[0.5]">
-                    <Text className="text-base font-bold tracking-wider">{name}</Text>
-                    <Text className="text-sm tracking-wider text-[var(--fade-text-color)]">{formatDateBlog(createDate)}</Text>
+            <View className="flex-row w-full justify-between items-center">
+                <View className="flex-row gap-4 px-1 pt-4">
+                    <Image
+                        style={styles.avatar}
+                        source={avatar}
+                        contentFit="cover"
+                    />
+                    <View className="flex-col gap-[0.5]">
+                        <Text className="text-base font-bold tracking-wider">{name}</Text>
+                        <Text className="text-sm tracking-wider text-[var(--fade-text-color)]">{formatDateBlog(createDate)}</Text>
+                    </View>
+                </View>
+                <View className="flex-row items-center">
+                    {/* <SpeechInfoButton /> */}
+                    <SpeechButton content={content} />
                 </View>
             </View>
             <View className="flex w-full justify-center items-center">
@@ -87,7 +97,7 @@ export default function BlogDetailItem({
             </View>
             <RenderHTML
                 contentWidth={width}
-                source={{ html: content }}
+                source={{ html: contentHtml }}
                 baseStyle={{
                     color: textColor,
                     letterSpacing: 0.3

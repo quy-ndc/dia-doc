@@ -2,6 +2,7 @@ export type BlogPost = {
     id: string
     title: string
     content: string
+    contentHtml: string
     imageUrl: string
     references?: string
     createdDate: string

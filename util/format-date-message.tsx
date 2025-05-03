@@ -17,8 +17,8 @@ export const formatDateMessage = (isoString: string): string => {
     ) {
         return time;
     } else if (date.getFullYear() === now.getFullYear()) {
-        return `${day}-${month} - ${time}`;
+        return `${day}/${month} - ${time}`;
     } else {
-        return `${day}-${month}-${year} - ${time}`;
+        return `${day}/${month}-${year} - ${time}`;
     }
 };

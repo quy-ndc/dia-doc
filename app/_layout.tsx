@@ -30,14 +30,14 @@ export default function RootLayout() {
 
   const router = useRouter()
 
-  const hasMounted = React.useRef(false);
-  const { colorScheme, isDarkColorScheme } = useColorScheme();
-  const [isColorSchemeLoaded, setIsColorSchemeLoaded] = React.useState(false);
+  const hasMounted = React.useRef(false)
+  const { colorScheme, isDarkColorScheme } = useColorScheme()
+  const [isColorSchemeLoaded, setIsColorSchemeLoaded] = React.useState(false)
   const { user } = useUserStore()
 
-  useEffect(() => {
-    createNotificationChannel();
-  }, []);
+  // useEffect(() => {
+  //   createNotificationChannel();
+  // }, [])
 
   useEffect(() => {
     requestUserPermission();
@@ -55,14 +55,14 @@ export default function RootLayout() {
             id: 'default',
           },
         },
-      });
+      })
 
-      Alert.alert('New Notification', JSON.stringify(remoteMessage));
+      Alert.alert('New Notification', JSON.stringify(remoteMessage))
       console.log(JSON.stringify(remoteMessage))
-    });
+    })
 
     return unsubscribeOnMessage;
-  }, []);
+  }, [])
 
   async function requestUserPermission() {
     const authStatus = await getApp().messaging().requestPermission();
@@ -129,11 +129,11 @@ export default function RootLayout() {
             <Stack>
               <Stack.Screen name='authen-screen' options={{ headerShown: false }} />
               <Stack.Screen name='set-up-screen' options={{ headerShown: false }} />
-              <Stack.Screen name='(main)' options={{ headerShown: false }} />
               <Stack.Screen name='(protected)' options={{ headerShown: false }} />
-              <Stack.Screen name='chat-screen' options={{ headerTitle: '' }} />
-              <Stack.Screen name='edit-profile-page' options={{ headerTitle: '' }} />
-              <Stack.Screen name='blog-detail-screen' options={{ headerTitle: '', presentation: 'modal', animation: 'slide_from_bottom', gestureDirection: 'horizontal' }} />
+              {/* <Stack.Screen name='(main)' options={{ headerShown: false }} /> */}
+              {/* <Stack.Screen name='chat-screen' options={{ headerTitle: '' }} /> */}
+              {/* <Stack.Screen name='edit-profile-page' options={{ headerTitle: '' }} /> */}
+              {/* <Stack.Screen name='blog-detail-screen' options={{ headerTitle: '', presentation: 'modal', animation: 'slide_from_bottom', gestureDirection: 'horizontal' }} /> */}
               <Stack.Screen name='+not-found' options={{ headerShown: false }} />
             </Stack>
             <NetworkOverlay />

@@ -143,6 +143,11 @@ export default function PatientAuthenModule() {
                     set up
                 </Text>
             </Pressable>
+            <Pressable onPress={() => router.push('/(main)')}>
+                <Text>
+                    home
+                </Text>
+            </Pressable>
         </View>
     );
 }

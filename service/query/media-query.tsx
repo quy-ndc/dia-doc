@@ -1,4 +1,4 @@
-import { GetAllMedias, GetMediaById } from "../api/media-service";
+import { GetAllCategories, GetAllMedias, GetMediaById } from "../api/media-service";
 
 export const useMediaQuery = (params: {
     PageSize: number
@@ -17,7 +17,7 @@ export const useMediaQuery = (params: {
     }
 
     return { queryKey, queryFn }
-};
+}
 
 export const useNewMediaQuery = (params: {
     PageIndex: number
@@ -43,6 +43,15 @@ export const useMediaByIdQuery = (id: string) => {
     const queryKey = ['media by id', id]
     const queryFn = async () => {
         return GetMediaById(id)
+    }
+
+    return { queryKey, queryFn }
+}
+
+export const useCategoryQuery = () => {
+    const queryKey = ['categories']
+    const queryFn = async () => {
+        return GetAllCategories()
     }
 
     return { queryKey, queryFn }

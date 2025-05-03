@@ -6,11 +6,13 @@ import { Animated as RNAnimated } from 'react-native';
 import BlogItem from '../../../components/common/blog-item/blog-item';
 import { ChevronUp } from '../../../lib/icons/ChevronUp';
 import { useMediaQuery } from '../../../service/query/media-query';
-import { useInfiniteQuery, useQuery } from '@tanstack/react-query';
+import { useInfiniteQuery } from '@tanstack/react-query';
 import { BlogPost } from '../../../assets/types/media/blog-post';
 import { Text } from '../../../components/ui/text'
 import SpinningIcon from '../../../components/common/icons/spinning-icon';
 import { Loader } from '../../../lib/icons/Loader';
+import FilterButton from '../../../components/blog-screen/filter-button';
+import SearchButton from '../../../components/blog-screen/search-button';
 
 
 export default function BlogScreen() {
@@ -18,8 +20,10 @@ export default function BlogScreen() {
     const listRef = useRef<FlashList<BlogPost>>(null);
     const opacity = useRef(new RNAnimated.Value(0)).current;
 
-    const [refreshing, setRefreshing] = useState(false);
-    const [showScrollButton, setShowScrollButton] = useState(false);
+    const [refreshing, setRefreshing] = useState(false)
+    const [showScrollButton, setShowScrollButton] = useState(false)
+
+    const [category, setCategory] = useState('')
 
     const {
         data,
@@ -80,14 +84,18 @@ export default function BlogScreen() {
                     <Text className='text-base font-semibold tracking-wider capitalize'>Đang tải...</Text>
                 </View>
             ) : (
-                <>
+                <View className='flex-1 flex-col w-full'>
+                    <View className='flex-row w-full items-center px-4 py-1'>
+                        <FilterButton category={category} setCategory={setCategory} />
+                        <SearchButton />
+                    </View>
                     <FlashList<BlogPost>
                         data={allItems}
                         ref={listRef}
                         keyExtractor={(_, index) => index.toString()}
                         renderItem={({ item }) =>
                             <BlogItem
-                                id={item.id}
+                                id={item.id || ''}
                                 title={item.title}
                                 image={item.imageUrl}
                                 createDate={item.createdDate}
@@ -126,7 +134,7 @@ export default function BlogScreen() {
                             <ChevronUp className='text-[var(--go-up-btn-icon)]' size={18} />
                         </Pressable>
                     </RNAnimated.View>
-                </>
+                </View>
             )}
         </View>
     );

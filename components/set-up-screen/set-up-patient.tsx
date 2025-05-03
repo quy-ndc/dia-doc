@@ -33,7 +33,29 @@ export default function SetUpPatient({ setRole, mode }: Prop) {
     const { user } = useUserStore()
 
     const [show, setShow] = useState<boolean>(false)
-    const [date, setDate] = useState<Date>(new Date())
+
+    const bloodOptions = [
+        { label: 'A+', value: BloodType.A_POSITIVE.toString() },
+        { label: 'A-', value: BloodType.A_NEGATIVE.toString() },
+        { label: 'B+', value: BloodType.B_POSITIVE.toString() },
+        { label: 'B-', value: BloodType.B_NEGATIVE.toString() },
+        { label: 'AB+', value: BloodType.AB_POSITIVE.toString() },
+        { label: 'AB-', value: BloodType.AB_NEGATIVE.toString() },
+        { label: 'O+', value: BloodType.O_POSITIVE.toString() },
+        { label: 'O-', value: BloodType.O_NEGATIVE.toString() },
+    ]
+
+    const diaTypes = [
+        { label: 'Loại 1', value: DiaType.TYPE_1.toString() },
+        { label: 'Loại 2', value: DiaType.TYPE_2.toString() },
+        { label: 'Loại thai kỳ', value: DiaType.GESTATIONAL.toString() },
+        { label: 'Loại khác', value: DiaType.OTHER.toString() },
+    ]
+
+    const genderOptions = [
+        { label: 'Nam', value: GenderNumber.MALE.toString() },
+        { label: 'Nữ', value: GenderNumber.FAMALE.toString() },
+    ]
 
     const schema = yup.object({
         weight: yup
@@ -75,15 +97,19 @@ export default function SetUpPatient({ setRole, mode }: Prop) {
         }
     })
 
-    const onChange = (event: DateTimePickerEvent, selectedDate?: Date) => {
-        setShow(false);
-        if (selectedDate) {
-            setDate(selectedDate);
-        }
-    }
-
-    const onSubmit = (data: any) => {
+    const onSubmit = async (data: any) => {
         console.log('Form values:', data);
+        const req = {
+            dateOfBirth: data.date,
+            genderType: data.gender,
+            bloodType: data.blood,
+            weight: data.weight,
+            height: data.height,
+            diabetesType: data.type,
+            userId: user.id,
+            medicalRecord: null
+        }
+        console.log(req)
         // try {
         //     const req = {
         //         dateOfBirth: 'asdasd',
@@ -91,6 +117,7 @@ export default function SetUpPatient({ setRole, mode }: Prop) {
         //         bloodType: 0,
         //         weight: 111,
         //         height: 111,
+        //         diabetesType: data.type,
         //         userId: 'asdasd',
         //         medicalRecord: null
         //     }
@@ -109,6 +136,8 @@ export default function SetUpPatient({ setRole, mode }: Prop) {
         //     })
         // }
     }
+
+    console.log(show)
 
     return (
         <ScrollView
@@ -143,75 +172,96 @@ export default function SetUpPatient({ setRole, mode }: Prop) {
                             control={control}
                             name="blood"
                             rules={{ required: 'Chọn loại máu' }}
-                            render={({ field: { onChange, value } }) => (
-                                <View className='flex-col gap-1'>
-                                    <SetUpFields
-                                        label='Loại máu'
-                                        length={0.42}
-                                        object={
-                                            <Select
-                                                value={value ? { label: value, value: value } : undefined}
-                                                onValueChange={(option) => onChange(option?.value)}
-                                            >
-                                                <SelectTrigger>
-                                                    <SelectValue
-                                                        className='text-foreground text-sm native:text-lg'
-                                                        placeholder='Loại máu'
-                                                    />
-                                                </SelectTrigger>
-                                                <SelectContent style={{ width: width * 0.42 }}>
-                                                    <SelectGroup>
-                                                        <SelectItem label='A+' value={BloodType.A_POSITIVE.toString()} />
-                                                        <SelectItem label='A-' value={BloodType.A_NEGATIVE.toString()} />
-                                                        <SelectItem label='B+' value={BloodType.B_POSITIVE.toString()} />
-                                                        <SelectItem label='B-' value={BloodType.B_NEGATIVE.toString()} />
-                                                        <SelectItem label='AB+' value={BloodType.AB_POSITIVE.toString()} />
-                                                        <SelectItem label='AB-' value={BloodType.AB_NEGATIVE.toString()} />
-                                                        <SelectItem label='O+' value={BloodType.O_POSITIVE.toString()} />
-                                                        <SelectItem label='O-' value={BloodType.O_NEGATIVE.toString()} />
-                                                    </SelectGroup>
-                                                </SelectContent>
-                                            </Select>
-                                        }
-                                    />
-                                    {errors.blood && <Text className='text-red-500 tracking-wider'>{errors.blood.message}</Text>}
-                                </View>
-                            )}
+                            render={({ field: { onChange, value } }) => {
+                                const selectedOption = bloodOptions.find((option) => option.value === value)
+                                return (
+                                    <View className="flex-col gap-1">
+                                        <SetUpFields
+                                            label="Loại máu"
+                                            length={0.42}
+                                            object={
+                                                <Select
+                                                    value={selectedOption}
+                                                    onValueChange={(option) => onChange(option?.value)}
+                                                >
+                                                    <SelectTrigger>
+                                                        <SelectValue
+                                                            className="text-foreground text-sm native:text-lg"
+                                                            placeholder="Loại máu"
+                                                        >
+                                                            {selectedOption?.label ?? ''}
+                                                        </SelectValue>
+                                                    </SelectTrigger>
+                                                    <SelectContent style={{ width: width * 0.42 }}>
+                                                        <SelectGroup>
+                                                            {bloodOptions.map((option) => (
+                                                                <SelectItem
+                                                                    key={option.value}
+                                                                    label={option.label}
+                                                                    value={option.value}
+                                                                />
+                                                            ))}
+                                                        </SelectGroup>
+                                                    </SelectContent>
+                                                </Select>
+                                            }
+                                        />
+                                        {errors.blood && (
+                                            <Text className="text-red-500 tracking-wider">
+                                                {errors.blood.message}
+                                            </Text>
+                                        )}
+                                    </View>
+                                )
+                            }}
                         />
+
                         <Controller
                             control={control}
                             name="type"
                             rules={{ required: 'Chọn loại tiểu đường' }}
-                            render={({ field: { onChange, value } }) => (
-                                <View className='flex-col gap-1'>
-                                    <SetUpFields
-                                        label='Loại tiểu đường'
-                                        length={0.42}
-                                        object={
-                                            <Select
-                                                value={value ? { label: value, value: value } : undefined}
-                                                onValueChange={(option) => onChange(option?.value)}
-                                            >
-                                                <SelectTrigger>
-                                                    <SelectValue
-                                                        className='text-foreground text-sm native:text-lg'
-                                                        placeholder='Loại tiểu đường'
-                                                    />
-                                                </SelectTrigger>
-                                                <SelectContent style={{ width: width * 0.42 }}>
-                                                    <SelectGroup>
-                                                        <SelectItem label='Loại 1' value={DiaType.TYPE_1.toString()} />
-                                                        <SelectItem label='Loại 2' value={DiaType.TYPE_2.toString()} />
-                                                        <SelectItem label='Loại thai kỳ' value={DiaType.GESTATIONAL.toString()} />
-                                                        <SelectItem label='Loại khác' value={DiaType.OTHER.toString()} />
-                                                    </SelectGroup>
-                                                </SelectContent>
-                                            </Select>
-                                        }
-                                    />
-                                    {errors.type && <Text className='text-red-500 tracking-wider'>{errors.type.message}</Text>}
-                                </View>
-                            )}
+                            render={({ field: { onChange, value } }) => {
+                                const selectedOption = diaTypes.find((option) => option.value === value)
+                                return (
+                                    <View className="flex-col gap-1">
+                                        <SetUpFields
+                                            label="Loại tiểu đường"
+                                            length={0.42}
+                                            object={
+                                                <Select
+                                                    value={selectedOption}
+                                                    onValueChange={(option) => onChange(option?.value)}
+                                                >
+                                                    <SelectTrigger>
+                                                        <SelectValue
+                                                            className="text-foreground text-sm native:text-lg"
+                                                            placeholder="Loại tiểu đường"
+                                                        >
+                                                            {selectedOption?.label ?? ''}
+                                                        </SelectValue>
+                                                    </SelectTrigger>
+                                                    <SelectContent style={{ width: width * 0.42 }}>
+                                                        <SelectGroup>
+                                                            {diaTypes.map((option) => (
+                                                                <SelectItem
+                                                                    key={option.value}
+                                                                    label={option.label}
+                                                                    value={option.value}
+                                                                />
+                                                            ))}
+                                                        </SelectGroup>
+                                                    </SelectContent>
+                                                </Select>
+                                            }
+                                        />
+                                        {errors.type && (
+                                            <Text className="text-red-500 tracking-wider">
+                                                {errors.type.message}
+                                            </Text>
+                                        )}
+                                    </View>
+                                )
+                            }}
                         />
                     </View>
                     <View className='flex-row justify-between'>
@@ -219,34 +269,48 @@ export default function SetUpPatient({ setRole, mode }: Prop) {
                             control={control}
                             name="gender"
                             rules={{ required: 'Chọn giới tính' }}
-                            render={({ field: { onChange, value } }) => (
-                                <View className='flex-col gap-1'>
-                                    <SetUpFields
-                                        label='Giới tính'
-                                        length={0.42}
-                                        object={
-                                            <Select
-                                                value={value ? { label: value, value: value } : undefined}
-                                                onValueChange={(option) => onChange(option?.value)}
-                                            >
-                                                <SelectTrigger className='w-full'>
-                                                    <SelectValue
-                                                        className='text-foreground text-sm native:text-lg'
-                                                        placeholder='Giới tính'
-                                                    />
-                                                </SelectTrigger>
-                                                <SelectContent style={{ width: width * 0.4 }}>
-                                                    <SelectGroup>
-                                                        <SelectItem label='Nam' value={GenderNumber.MALE.toString()} />
-                                                        <SelectItem label='Nữ' value={GenderNumber.FAMALE.toString()} />
-                                                    </SelectGroup>
-                                                </SelectContent>
-                                            </Select>
-                                        }
-                                    />
-                                    {errors.gender && <Text className='text-red-500 tracking-wider'>{errors.gender.message}</Text>}
-                                </View>
-                            )}
+                            render={({ field: { onChange, value } }) => {
+                                const selectedOption = genderOptions.find((option) => option.value === value)
+                                return (
+                                    <View className="flex-col gap-1">
+                                        <SetUpFields
+                                            label="Giới tính"
+                                            length={0.42}
+                                            object={
+                                                <Select
+                                                    value={selectedOption}
+                                                    onValueChange={(option) => onChange(option?.value)}
+                                                >
+                                                    <SelectTrigger className="w-full">
+                                                        <SelectValue
+                                                            className="text-foreground text-sm native:text-lg"
+                                                            placeholder="Giới tính"
+                                                        >
+                                                            {selectedOption?.label ?? ''}
+                                                        </SelectValue>
+                                                    </SelectTrigger>
+                                                    <SelectContent style={{ width: width * 0.4 }}>
+                                                        <SelectGroup>
+                                                            {genderOptions.map((option) => (
+                                                                <SelectItem
+                                                                    key={option.value}
+                                                                    label={option.label}
+                                                                    value={option.value}
+                                                                />
+                                                            ))}
+                                                        </SelectGroup>
+                                                    </SelectContent>
+                                                </Select>
+                                            }
+                                        />
+                                        {errors.gender && (
+                                            <Text className="text-red-500 tracking-wider">
+                                                {errors.gender.message}
+                                            </Text>
+                                        )}
+                                    </View>
+                                )
+                            }}
                         />
                         <Controller
                             control={control}
@@ -277,8 +341,7 @@ export default function SetUpPatient({ setRole, mode }: Prop) {
                                             value={value ? new Date(value) : new Date()}
                                             mode="date"
                                             display="spinner"
-                                            onChange={(event, selectedDate) => {
-                                                setShow(false)
+                                            onChange={(_, selectedDate) => {
                                                 if (selectedDate) {
                                                     onChange(selectedDate.toISOString())
                                                 }
@@ -304,6 +367,7 @@ export default function SetUpPatient({ setRole, mode }: Prop) {
                                                 value={value.toString()}
                                                 onChangeText={onChange}
                                                 onBlur={onBlur}
+                                                maxLength={3}
                                                 keyboardType='numeric'
                                             />
                                         }
@@ -348,8 +412,8 @@ export default function SetUpPatient({ setRole, mode }: Prop) {
                             </Pressable>
                             <Pressable
                                 className='flex-row items-center gap-2 px-4 py-3 rounded-md active:bg-[var(--click-bg)]'
-                                // onPress={handleSubmit(onSubmit)}
-                                onPress={() => router.push('/(main)')}
+                                onPress={handleSubmit(onSubmit)}
+                            // onPress={() => router.push('/(main)')}
                             >
                                 <Text className='text-base font-boldd tracking-wider capitalize'>Xác Nhận</Text>
                                 <Check className='text-foreground' size={20} />

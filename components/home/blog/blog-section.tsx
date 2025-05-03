@@ -13,25 +13,24 @@ import { useNewMediaQuery } from "../../../service/query/media-query";
 import SpinningIcon from "../../common/icons/spinning-icon";
 import { Loader } from "../../../lib/icons/Loader";
 
-
-const { width } = Dimensions.get('window')
+const { width } = Dimensions.get('window');
 
 export default function HomeBlogSection() {
-
+    
     const router = useRouter();
 
-    const { data, isLoading } = useQuery(
+    const { data, isLoading, isError } = useQuery(
         useNewMediaQuery({
             PageIndex: 1,
             PageSize: 5,
         })
-    )
+    );
 
-    if (data) {
-        console.log(data.data.value.data.items)
+    const items: BlogPost[] = data?.data?.value?.data?.items || [];
+
+    if ((!isLoading && (isError || items.length === 0))) {
+        return null;
     }
-
-    const items: BlogPost[] = data ? data?.data.value.data.items : []
 
     return (
         <View className="flex-col gap-5 justify-center items-center pb-7">

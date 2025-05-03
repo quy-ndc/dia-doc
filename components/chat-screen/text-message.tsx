@@ -23,7 +23,7 @@ export function TextMessage({ content, time, isOwn }: Prop) {
     }, [showTime]);
 
     return (
-        <View className="flex-col gap-2 justify-center items-center">
+        <View className="flex-col py-1 justify-center items-center">
             <Animated.View
                 style={{ opacity: opacityAnim }}
                 className={`flex-row w-full justify-between items-center ${!showTime && 'hidden'}`}
@@ -38,10 +38,10 @@ export function TextMessage({ content, time, isOwn }: Prop) {
             <View className="flex-row justify-between w-full my-2">
                 {isOwn && <View />}
                 <Pressable
-                    className={`flex justify-center items-center max-w-[70%] px-4 py-1.5 rounded-3xl ${isOwn ? 'bg-[--own-message-bg]' : 'bg-[--ownt-message-bg]'}`}
+                    className={`flex justify-center items-center max-w-[70%] px-4 py-1.5 rounded-2xl ${isOwn ? 'bg-[--own-message-bg]' : 'bg-[--ownt-message-bg]'}`}
                     onPress={() => setShowTime(!showTime)}
                 >
-                    <Text className={`text-lg text-center tracking-wider ${isOwn ? 'text-[--own-message-text]' : 'text-[--ownt-message-text]'}`}>
+                    <Text className={`text-lg tracking-wider ${isOwn ? 'text-[--own-message-text]' : 'text-[--ownt-message-text]'}`}>
                         {content}
                     </Text>
                 </Pressable>

@@ -10,13 +10,10 @@ import { ImageMessage } from './image-message';
 import CameraAccess from './camera-access';
 import { Animated as RNAnimated } from 'react-native';
 import { ChevronDown } from '../../lib/icons/ChevronDown';
-import { OrderBy, useChatConnection, useMessages } from '@ably/chat';
-import { Text } from '../../components/ui/text'
+import { OrderBy, useChatConnection, useMessages, usePresence, usePresenceListener } from '@ably/chat';
 import { AtSign } from '../../lib/icons/AtSign';
 import VoiceRecord from './voice-record';
 import { ChevronRight } from '../../lib/icons/ChevronRight';
-import { ChevronUp } from '../../lib/icons/ChevronUp';
-import { Button } from '../ui/button';
 import useUserStore from '../../store/userStore';
 
 type Prop = {
@@ -42,9 +39,9 @@ export default function ChatModule({
 }: Prop) {
 
     const { user } = useUserStore()
-    const [showScrollButton, setShowScrollButton] = useState(false);
-    const scrollViewRef = useRef<ScrollView>(null);
-    const opacity = useRef(new RNAnimated.Value(0)).current;
+    const [showScrollButton, setShowScrollButton] = useState(false)
+    const scrollViewRef = useRef<ScrollView>(null)
+    const opacity = useRef(new RNAnimated.Value(0)).current
     const [showUtil, setShowUtil] = useState(true)
 
     const ownId = user.id
@@ -89,17 +86,25 @@ export default function ChatModule({
 
     const scrollToTop = () => {
         scrollViewRef.current?.scrollToEnd({ animated: true });
-    };
+    }
 
-    const { get } = useMessages();
+    const { get } = useMessages()
 
     const { send } = useMessages({
         listener: (message) => {
-            // handleSendMessage(message.message.text)
-            onReceived(message.message.text, message.message.createdAt.toISOString(), message.message.clientId)
-            console.log('Received message: ', message);
+            onReceived(
+                message.message.text,
+                message.message.createdAt.toISOString(),
+                message.message.clientId,
+            )
+            console.log('Received message: ', message)
         },
     })
+
+    const handleSend = () => {
+        send({ text: newMessage })
+        setNewMessage('')
+    }
 
     const handleGetMessages = () => {
         get({ limit: 100, orderBy: OrderBy.OldestFirst })
@@ -108,13 +113,22 @@ export default function ChatModule({
                     clientId: item.clientId,
                     text: item.text,
                     time: item.createdAt.toISOString()
-                })));
-            });
+                })))
+            })
     }
 
     useEffect(() => {
         handleGetMessages()
     }, [])
+
+
+    // const { presenceData, error } = usePresenceListener({
+    //     listener: (event) => {
+    //         console.log('Presence event: ', event);
+    //     },
+    // })
+
+    // console.log('data', presenceData)
 
     return (
         <KeyboardAvoidingView
@@ -122,6 +136,7 @@ export default function ChatModule({
             style={{ flex: 1 }}
         >
             <View className='relative h-full w-full items-center justify-center'>
+
                 {/* <Pressable className="absolute top-2 left-1/2 -translate-x-1/2 flex-row gap-2 items-center z-50 px-4 py-2 rounded-full bg-blue-500 active:bg-blue-400">
                     <Text className='text-white text-sm font-semibold tracking-widest'>Tin nhắn mới</Text>
                     <ChevronUp className='text-white' size={17} />
@@ -181,13 +196,16 @@ export default function ChatModule({
                         onFocus={() => setShowUtil(false)}
                         placeholder="Aa"
                         returnKeyType="send"
-                        // onSubmitEditing={() => handleSendMessage(newMessage)}
                         multiline
                         autoCapitalize='sentences'
                     />
                     <Pressable
-                        className='p-4 rounded-full active:bg-[var(--click-bg)]'
-                        onPress={() => {send({ text: newMessage })}}
+                        className={`
+                            p-4 rounded-full active:bg-[var(--click-bg)] disabled:opacity
+                            ${newMessage == '' && 'opacity-50'}
+                        `}
+                        onPress={handleSend}
+                        disabled={newMessage == ''}
                     >
                         {/* <SpinningLoader cn='text-foreground' /> */}
                         <SendHorizontal className='text-foreground' size={20} />
@@ -210,7 +228,6 @@ export default function ChatModule({
                         <ChevronDown className='text-[var(--go-up-btn-icon)]' size={22} />
                     </Pressable>
                 </RNAnimated.View>
-
             </View>
         </KeyboardAvoidingView>
     );

@@ -13,8 +13,7 @@ export const createQueryString = (params: Record<string, any>): string => {
     });
 
     return urlParams.toString();
-};
-
+}
 
 const apiPrefixV1 = 'api/v1'
 
@@ -36,5 +35,8 @@ const endpointMedia = {
     GET_MEDIA_BY_ID: `${MEDIA_SERVICE_ENDPOINT}/${apiPrefixV1}/posts`
 }
 
+const endpointCategory = {
+    GET_ALL_CATEGORY: `${MEDIA_SERVICE_ENDPOINT}/${apiPrefixV1}/categories`
+}
 
-export { endpointUser, endppointAuth, endpointMedia }
+export { endpointUser, endppointAuth, endpointMedia, endpointCategory }

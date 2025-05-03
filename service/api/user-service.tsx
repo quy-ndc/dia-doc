@@ -31,32 +31,26 @@ export const GetUserProfile = async () => {
     }
 }
 
-export const UpdateUserProfile = async ({
-    dateOfBirth,
-    genderType,
-    bloodType,
-    weight,
-    height,
-    userId,
-    medicalRecord
-}: {
+export const UpdateUserProfile = async (param: {
     dateOfBirth: string,
     genderType: number,
     bloodType: number,
     weight: number,
     height: number,
+    diabetesType: number,
     userId: string,
     medicalRecord?: any
 }) => {
     try {
         const response = await axios.put(`${endpointUser.EDIT_USER}`, {
-            dateOfBirth: dateOfBirth,
-            genderType: genderType,
-            bloodType: bloodType,
-            weight: weight,
-            height: height,
-            userId: userId,
-            medicalRecord: medicalRecord
+            dateOfBirth: param.dateOfBirth,
+            genderType: param.genderType,
+            bloodType: param.bloodType,
+            weight: param.weight,
+            height: param.height,
+            diabetesType: param.diabetesType,
+            userId: param.userId,
+            medicalRecord: param.medicalRecord
         })
 
         return {
@@ -83,4 +77,3 @@ export const UpdateUserProfile = async ({
         }
     }
 }
-

@@ -10,11 +10,14 @@ import { ImageMessage } from './image-message';
 import CameraAccess from './camera-access';
 import { Animated as RNAnimated } from 'react-native';
 import { ChevronDown } from '../../lib/icons/ChevronDown';
-import { OrderBy, useChatConnection, useMessages, usePresence, usePresenceListener } from '@ably/chat';
+import { OrderBy, useChatConnection, useMessages, useOccupancy, usePresence, usePresenceListener } from '@ably/chat';
 import { AtSign } from '../../lib/icons/AtSign';
 import VoiceRecord from './voice-record';
 import { ChevronRight } from '../../lib/icons/ChevronRight';
 import useUserStore from '../../store/userStore';
+import { Text } from '../../components/ui/text'
+import { UserState } from '../../assets/enum/user-status';
+import { useAppState } from '../../util/hook/useAppState';
 
 type Prop = {
     setIsCameraOn: (state: boolean) => void
@@ -23,8 +26,8 @@ type Prop = {
     messages: Message[]
     handleSendMessage: (newMessage: string) => void
     handleSendImage: (image: string) => void
-    onHistory: (historyItems: Array<{ clientId: string; text: string, time: string }>) => void
-    onReceived: (text: string, time: string, id: string) => void
+    onHistory: (historyItems: Message[]) => void
+    onReceived: (message: Message) => void
 }
 
 export default function ChatModule({
@@ -43,6 +46,7 @@ export default function ChatModule({
     const scrollViewRef = useRef<ScrollView>(null)
     const opacity = useRef(new RNAnimated.Value(0)).current
     const [showUtil, setShowUtil] = useState(true)
+    const isBackground = useAppState()
 
     const ownId = user.id
 
@@ -92,43 +96,72 @@ export default function ChatModule({
 
     const { send } = useMessages({
         listener: (message) => {
-            onReceived(
-                message.message.text,
-                message.message.createdAt.toISOString(),
-                message.message.clientId,
-            )
+            onReceived({
+                id: message.message.clientId,
+                type: message.message.metadata.type as 'text' | 'image',
+                content: message.message.text,
+                name: message.message.metadata.name as string,
+                avatar: message.message.metadata.avatar as string,
+                time: message.message.createdAt.toISOString()
+            })
             console.log('Received message: ', message)
         },
     })
 
     const handleSend = () => {
-        send({ text: newMessage })
+        send({
+            text: newMessage,
+            metadata: {
+                name: user.fullname,
+                avatar: user.avatar
+            }
+        })
         setNewMessage('')
     }
 
-    const handleGetMessages = () => {
-        get({ limit: 100, orderBy: OrderBy.OldestFirst })
-            .then((result) => {
-                onHistory(result.items.map(item => ({
-                    clientId: item.clientId,
-                    text: item.text,
-                    time: item.createdAt.toISOString()
-                })))
-            })
-    }
+    // const handleGetMessages = () => {
+    //     get({ limit: 100, orderBy: OrderBy.OldestFirst })
+    //         .then((result) => {
+    //             onHistory(result.items.map(item => ({
+    //                 clientId: item.clientId,
+    //                 text: item.text,
+    //                 time: item.createdAt.toISOString()
+    //             })))
+    //         })
+    // }
+
+    // useEffect(() => {
+    //     handleGetMessages()
+    // }, [])
+
+    const { presenceData, error } = usePresenceListener({
+        listener: (event) => {
+            console.log('Presence event: ', event);
+        },
+    })
+
+    const { update } = usePresence({
+        enterWithData: { status: UserState.ONLINE },
+        leaveWithData: { status: UserState.OFFLINE },
+    })
 
     useEffect(() => {
-        handleGetMessages()
-    }, [])
+        if (isBackground) {
+            update({ status: UserState.OFFLINE })
+        } else {
+            update({ status: UserState.ONLINE })
+        }
+    }, [isBackground])
 
-
-    // const { presenceData, error } = usePresenceListener({
-    //     listener: (event) => {
-    //         console.log('Presence event: ', event);
+    // const { connections, presenceMembers } = useOccupancy({
+    //     listener: (occupancyEvent) => {
+    //         console.log('Number of users connected is: ', occupancyEvent.connections);
+    //         console.log('Number of members present is: ', occupancyEvent.presenceMembers);
     //     },
     // })
 
-    // console.log('data', presenceData)
+    // console.log(presenceData)
+    // console.log('error', error)
 
     return (
         <KeyboardAvoidingView
@@ -164,6 +197,8 @@ export default function ChatModule({
                                 isOwn={message.id == ownId}
                             />
                     ))}
+                    {/* <Text>Number of users connected is: {connections}</Text>
+                    <Text>Number of members present is: {presenceMembers}</Text> */}
                     {/* <Text>{currentStatus}</Text>
                     <Text>{connectionStatus}</Text>
                     <Button variant={'default'} onPress={() => send({ text: 'Hello, World!' })}>

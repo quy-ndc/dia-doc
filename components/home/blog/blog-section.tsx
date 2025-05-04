@@ -16,7 +16,7 @@ import { Loader } from "../../../lib/icons/Loader";
 const { width } = Dimensions.get('window');
 
 export default function HomeBlogSection() {
-    
+
     const router = useRouter();
 
     const { data, isLoading, isError } = useQuery(
@@ -26,10 +26,10 @@ export default function HomeBlogSection() {
         })
     );
 
-    const items: BlogPost[] = data?.data?.value?.data?.items || [];
+    const items: BlogPost[] = data?.data?.value?.data?.items || []
 
     if ((!isLoading && (isError || items.length === 0))) {
-        return null;
+        return null
     }
 
     return (

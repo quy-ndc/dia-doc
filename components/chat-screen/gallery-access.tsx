@@ -13,21 +13,21 @@ export default function GalleryAccess({ onImagePick }: Prop) {
     const pickImageAsync = async () => {
         const response = await ImagePicker.requestMediaLibraryPermissionsAsync();
 
-        // if (!response.canAskAgain) {
-        //     Toast.show({
-        //         type: 'error',
-        //         text1: 'Bạn cần cấp quyền trong cài đặt để truy cập thư viện',
-        //         text2: 'Nhấn vào thông báo này để truy cập cài đặt',
-        //         visibilityTime: 3000,
-        //         onPress: () => Linking.openSettings(),
-        //     })
-        // } else {
-        //     Toast.show({
-        //         type: 'error',
-        //         text1: 'Bạn cần cấp quyền để truy cập thư viện',
-        //         visibilityTime: 2000
-        //     })
-        // }
+        if (!response.canAskAgain) {
+            Toast.show({
+                type: 'error',
+                text1: 'Bạn cần cấp quyền trong cài đặt để truy cập thư viện',
+                text2: 'Nhấn vào thông báo này để truy cập cài đặt',
+                visibilityTime: 3000,
+                onPress: () => Linking.openSettings(),
+            })
+        } else {
+            Toast.show({
+                type: 'error',
+                text1: 'Bạn cần cấp quyền để truy cập thư viện',
+                visibilityTime: 2000
+            })
+        }
 
         let result = await ImagePicker.launchImageLibraryAsync({
             mediaTypes: ['images'],

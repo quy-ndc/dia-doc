@@ -1,10 +1,11 @@
 import axios from "axios";
 import { endpointUser } from "../endpoint";
+import axiosServices from "../axios";
 
 export const GetUserProfile = async () => {
 
     try {
-        const response = await axios.get(`${endpointUser.GET_CURRENT_USER}`)
+        const response = await axiosServices.get(`${endpointUser.GET_CURRENT_USER}`)
 
         return {
             success: true,
@@ -42,7 +43,7 @@ export const UpdateUserProfile = async (param: {
     medicalRecord?: any
 }) => {
     try {
-        const response = await axios.put(`${endpointUser.EDIT_USER}`, {
+        const response = await axiosServices.put(`${endpointUser.EDIT_USER}`, {
             dateOfBirth: param.dateOfBirth,
             genderType: param.genderType,
             bloodType: param.bloodType,

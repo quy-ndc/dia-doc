@@ -19,8 +19,8 @@ export function TextMessage({ content, time, isOwn }: Prop) {
             toValue: showTime ? 1 : 0,
             duration: 250,
             useNativeDriver: true,
-        }).start();
-    }, [showTime]);
+        }).start()
+    }, [showTime])
 
     return (
         <View className="flex-col py-1 justify-center items-center">

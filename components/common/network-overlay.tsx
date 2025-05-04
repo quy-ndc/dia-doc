@@ -23,9 +23,9 @@ export default function NetworkOverlay() {
             setVisible(true);
             setStatusText("Không có tín hiệu");
         }
-    }, [isConnected]);
+    }, [isConnected])
 
-    if (!visible) return null;
+    if (!visible) return null
 
     return (
         <View

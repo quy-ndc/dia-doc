@@ -24,6 +24,7 @@ export default function BlogScreen() {
     const [showScrollButton, setShowScrollButton] = useState(false)
 
     const [category, setCategory] = useState('')
+    const [search, setSearch] = useState('')
 
     const {
         data,
@@ -36,6 +37,9 @@ export default function BlogScreen() {
     } = useInfiniteQuery({
         ...useMediaQuery({
             PageSize: 5,
+            CategoryId: category,
+            // Content: search,
+            Title: search
         }),
         getNextPageParam: (lastPage) => {
             const currentPage = lastPage.data?.value?.data?.pageIndex || 1;
@@ -85,9 +89,11 @@ export default function BlogScreen() {
                 </View>
             ) : (
                 <View className='flex-1 flex-col w-full'>
-                    <View className='flex-row w-full items-center px-4 py-1'>
-                        <FilterButton category={category} setCategory={setCategory} />
-                        <SearchButton />
+                    <View className='flex-row w-full justify-between items-center px-4 py-1'>
+                        <View className='flex-row gap-2 items-center'>
+                            <FilterButton category={category} setCategory={setCategory} />
+                            <SearchButton search={search} setSearch={setSearch} />
+                        </View>
                     </View>
                     <FlashList<BlogPost>
                         data={allItems}

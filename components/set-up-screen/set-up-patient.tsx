@@ -1,11 +1,11 @@
 import * as React from 'react';
 import { View, Dimensions, ScrollView, Pressable } from 'react-native';
 import { Text } from '../ui/text';
-import { Option, Select, SelectContent, SelectGroup, SelectItem, SelectTrigger, SelectValue } from '../ui/select';
+import { Select, SelectContent, SelectGroup, SelectItem, SelectTrigger, SelectValue } from '../ui/select';
 import { useState } from 'react';
 import { Input } from '../ui/input';
 import SetUpFields from './set-up-fields';
-import DateTimePicker, { DateTimePickerEvent } from '@react-native-community/datetimepicker';
+import DateTimePicker from '@react-native-community/datetimepicker';
 import { PencilLine } from '../../lib/icons/PencilLine';
 import IconButton from '../common/icon-button';
 import { useForm, Controller } from 'react-hook-form';
@@ -14,12 +14,13 @@ import * as yup from 'yup';
 import { ChevronLeft } from '../../lib/icons/ChevronLeft';
 import { Check } from '../../lib/icons/Check';
 import useUserStore from '../../store/userStore';
-import { BloodType } from '../../assets/enum/blood';
-import { DiaType } from '../../assets/enum/dia-type';
-import { GenderNumber } from '../../assets/enum/gender';
 import { UpdateUserProfile } from '../../service/api/user-service';
 import Toast from 'react-native-toast-message';
 import { router } from 'expo-router';
+import { bloodTypes } from '../../assets/data/blood-types';
+import { diaTypes } from '../../assets/data/dia-types';
+import { genders } from '../../assets/data/genders';
+import { useEditPatientMutation } from '../../service/query/user-query';
 
 const { width } = Dimensions.get('window');
 
@@ -34,28 +35,7 @@ export default function SetUpPatient({ setRole, mode }: Prop) {
 
     const [show, setShow] = useState<boolean>(false)
 
-    const bloodOptions = [
-        { label: 'A+', value: BloodType.A_POSITIVE.toString() },
-        { label: 'A-', value: BloodType.A_NEGATIVE.toString() },
-        { label: 'B+', value: BloodType.B_POSITIVE.toString() },
-        { label: 'B-', value: BloodType.B_NEGATIVE.toString() },
-        { label: 'AB+', value: BloodType.AB_POSITIVE.toString() },
-        { label: 'AB-', value: BloodType.AB_NEGATIVE.toString() },
-        { label: 'O+', value: BloodType.O_POSITIVE.toString() },
-        { label: 'O-', value: BloodType.O_NEGATIVE.toString() },
-    ]
-
-    const diaTypes = [
-        { label: 'Loại 1', value: DiaType.TYPE_1.toString() },
-        { label: 'Loại 2', value: DiaType.TYPE_2.toString() },
-        { label: 'Loại thai kỳ', value: DiaType.GESTATIONAL.toString() },
-        { label: 'Loại khác', value: DiaType.OTHER.toString() },
-    ]
-
-    const genderOptions = [
-        { label: 'Nam', value: GenderNumber.MALE.toString() },
-        { label: 'Nữ', value: GenderNumber.FAMALE.toString() },
-    ]
+    const { mutateAsync, isLoading } = useEditPatientMutation()
 
     const schema = yup.object({
         weight: yup
@@ -98,46 +78,34 @@ export default function SetUpPatient({ setRole, mode }: Prop) {
     })
 
     const onSubmit = async (data: any) => {
-        console.log('Form values:', data);
-        const req = {
-            dateOfBirth: data.date,
-            genderType: data.gender,
-            bloodType: data.blood,
-            weight: data.weight,
-            height: data.height,
-            diabetesType: data.type,
-            userId: user.id,
-            medicalRecord: null
+        try {
+            const response = await mutateAsync({
+                dateOfBirth: 'asdasd',
+                genderType: 0,
+                bloodType: 0,
+                weight: 111,
+                height: 111,
+                diabetesType: data.type,
+                userId: 'asdasd',
+                medicalRecord: null
+            })
+            if (response.success) {
+                Toast.show({
+                    type: 'success',
+                    text1: 'Cập nhật thành công',
+                    visibilityTime: 2000
+                })
+            }
+            console.log(response)
+        } catch (e) {
+            console.log(e)
+            Toast.show({
+                type: 'error',
+                text1: 'Cập nhật thất bại',
+                visibilityTime: 2000
+            })
         }
-        console.log(req)
-        // try {
-        //     const req = {
-        //         dateOfBirth: 'asdasd',
-        //         genderType: 0,
-        //         bloodType: 0,
-        //         weight: 111,
-        //         height: 111,
-        //         diabetesType: data.type,
-        //         userId: 'asdasd',
-        //         medicalRecord: null
-        //     }
-        //     console.log(req)
-        //     const response = await UpdateUserProfile(req)
-        //     if (response) {
-        //         // setLoading(false)
-        //     }
-        //     console.log(response)
-        // } catch (e) {
-        //     console.log(e)
-        //     Toast.show({
-        //         type: 'error',
-        //         text1: 'Cập nhật thất bại',
-        //         visibilityTime: 2000
-        //     })
-        // }
     }
-
-    console.log(show)
 
     return (
         <ScrollView
@@ -166,14 +134,14 @@ export default function SetUpPatient({ setRole, mode }: Prop) {
                                 />
                             }
                         />
-                    </View>
+                    </View> 
                     <View className='flex-row justify-between'>
                         <Controller
                             control={control}
                             name="blood"
                             rules={{ required: 'Chọn loại máu' }}
                             render={({ field: { onChange, value } }) => {
-                                const selectedOption = bloodOptions.find((option) => option.value === value)
+                                const selectedOption = bloodTypes.find((option) => option.value === value)
                                 return (
                                     <View className="flex-col gap-1">
                                         <SetUpFields
@@ -194,7 +162,7 @@ export default function SetUpPatient({ setRole, mode }: Prop) {
                                                     </SelectTrigger>
                                                     <SelectContent style={{ width: width * 0.42 }}>
                                                         <SelectGroup>
-                                                            {bloodOptions.map((option) => (
+                                                            {bloodTypes.map((option) => (
                                                                 <SelectItem
                                                                     key={option.value}
                                                                     label={option.label}
@@ -270,7 +238,7 @@ export default function SetUpPatient({ setRole, mode }: Prop) {
                             name="gender"
                             rules={{ required: 'Chọn giới tính' }}
                             render={({ field: { onChange, value } }) => {
-                                const selectedOption = genderOptions.find((option) => option.value === value)
+                                const selectedOption = genders.find((option) => option.value === value)
                                 return (
                                     <View className="flex-col gap-1">
                                         <SetUpFields
@@ -291,7 +259,7 @@ export default function SetUpPatient({ setRole, mode }: Prop) {
                                                     </SelectTrigger>
                                                     <SelectContent style={{ width: width * 0.4 }}>
                                                         <SelectGroup>
-                                                            {genderOptions.map((option) => (
+                                                            {genders.map((option) => (
                                                                 <SelectItem
                                                                     key={option.value}
                                                                     label={option.label}
@@ -341,12 +309,14 @@ export default function SetUpPatient({ setRole, mode }: Prop) {
                                             value={value ? new Date(value) : new Date()}
                                             mode="date"
                                             display="spinner"
-                                            onChange={(_, selectedDate) => {
-                                                if (selectedDate) {
-                                                    onChange(selectedDate.toISOString())
+                                            onChange={(event, selectedDate) => {
+                                                setShow(false);
+                                                if (event.type === 'set' && selectedDate) {
+                                                    onChange(selectedDate.toISOString());
                                                 }
                                             }}
                                         />
+
                                     )}
                                 </View>
                             )}

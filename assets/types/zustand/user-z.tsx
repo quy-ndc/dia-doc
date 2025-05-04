@@ -11,6 +11,7 @@ export type User = {
     refreshToken: string
     id: string
     fullname: string
+    avatar: string
     phone: string
     blood: number
     diaType: number

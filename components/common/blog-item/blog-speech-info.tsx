@@ -27,6 +27,13 @@ export default function SpeechInfoButton() {
         })
     }
 
+    const step = [
+        'Truy cập cài đặt',
+        'Nhấn vào tìm kiếm',
+        'Nhập "Ngôn ngữ"',
+        ''
+    ]
+
     return (
         <>
             <IconButton
@@ -52,7 +59,7 @@ export default function SpeechInfoButton() {
                         <View className='flex-col items-center gap-3 p-5'>
                             <Text className='text-base tracking-wider text-center'>Nếu phần mềm đang không nói Tiếng Việt hãy làm các bước sau</Text>
                             <Text className='text-lg font-bold tracking-widest capitalize'>
-                                Cài đặt  &gt;  awd
+                                Cài đặt &gt; awd
                             </Text>
                             <View className='flex-row justify-between items-center w-full'>
                                 <View />

@@ -8,7 +8,7 @@ const axiosServices = axios.create({
 
 const handleUnauthorized = () => {
     router.push('/authen-screen');
-};
+}
 
 axiosServices.interceptors.request.use(
     function (config) {

@@ -1,13 +1,14 @@
 import axios from "axios";
 import { endppointAuth } from "../endpoint";
 import { LoginDoctorRequest, LoginPatientRequest } from "../type/auth-type";
+import axiosServices from "../axios";
 
 
 
 export const LoginPatient = async (request: LoginPatientRequest) => {
 
     try {
-        const response = await axios.post(`${endppointAuth.LOGIN_PATIENT}`, {
+        const response = await axiosServices.post(`${endppointAuth.LOGIN_PATIENT}`, {
             zaloIdentityId: request.zaloIdentityId,
             fullName: request.fullName,
             avatar: request.avatar
@@ -41,7 +42,7 @@ export const LoginPatient = async (request: LoginPatientRequest) => {
 export const LoginDoctor = async (request: LoginDoctorRequest): Promise<any> => {
 
     try {
-        const response = await axios.post(`${endppointAuth.LOGIN_DOCTOR}`, {
+        const response = await axiosServices.post(`${endppointAuth.LOGIN_DOCTOR}`, {
             email: request.email,
             password: request.password
         });

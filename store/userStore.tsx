@@ -10,6 +10,7 @@ const defaultUser: User = {
   refreshToken: '',
   id: '',
   fullname: '',
+  avatar: '',
   phone: '',
   blood: 0,
   diaType: 0,

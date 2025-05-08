@@ -55,7 +55,7 @@ export default function BlogScreen() {
         setRefreshing(true);
         remove();
         refetch().finally(() => setRefreshing(false));
-    }, [refetch]);
+    }, [refetch])
 
     const scrollToTop = () => {
         listRef.current?.scrollToIndex({ index: 0, animated: true });
@@ -105,6 +105,7 @@ export default function BlogScreen() {
                                 title={item.title}
                                 image={item.imageUrl}
                                 createDate={item.createdDate}
+                                view={item.view || 0}
                                 category={item.category.name}
                                 name={item.user.fullName}
                                 avatar={item.user.imageUrl}

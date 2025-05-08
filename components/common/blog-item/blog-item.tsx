@@ -1,6 +1,6 @@
 import { Image } from "expo-image";
 import { useRouter } from "expo-router";
-import { View, StyleSheet, Pressable } from "react-native";
+import { View, StyleSheet, Pressable, useColorScheme } from "react-native";
 import { Text } from '../../../components/ui/text'
 import { formatDateBlog } from "../../../util/format-date-post";
 import LikeButton from "./like-button";
@@ -8,6 +8,8 @@ import CommentButton from "./comment-button";
 import BookmarkButton from "./bookmark-button";
 import { truncateText } from "../../../util/truncate-text";
 import { getBlogTagColor } from "../../../util/get-blog-tag-color";
+import { Eye } from "../../../lib/icons/Eye";
+import { GlobalColor } from "../../../global-color";
 
 
 type Prop = {
@@ -19,6 +21,7 @@ type Prop = {
     name: string
     avatar: string
     liked: boolean
+    view: number
     bookmarked: boolean
 }
 
@@ -31,10 +34,12 @@ export default function BlogItem({
     category,
     liked,
     createDate,
+    view,
     bookmarked
 }: Prop) {
 
     const router = useRouter()
+    const theme = useColorScheme()
 
     const handleBlogClick = () => {
         router.push({
@@ -42,6 +47,9 @@ export default function BlogItem({
             params: { id: id }
         })
     }
+
+    const viewBg = theme == 'dark' ? GlobalColor.VIEW_BG_DARK : GlobalColor.VIEW_BG_LIGHT
+    const viewBorder = theme == 'dark' ? GlobalColor.VIEW_BORDER_DARK : GlobalColor.VIEW_BORDER_LIGHT
 
     const tagBorder = getBlogTagColor(category).borderColor
     const tagBg = getBlogTagColor(category).backgroundColor
@@ -67,13 +75,20 @@ export default function BlogItem({
                     <Text className="text-lg font-semibold tracking-wider">
                         {truncateText(title, 90)}
                     </Text>
-                    <View className="self-start">
+                    <View className="flex-row gap-3 items-center">
                         <Text
                             style={{ backgroundColor: tagBg, color: tagBorder, borderColor: tagBorder }}
                             className={`text-center text-sm font-semibold px-3 py-1 border rounded-full tracking-wider capitalize`}
                         >
                             {category}
                         </Text>
+                        <View
+                            style={{ backgroundColor: viewBg, borderColor: viewBorder }}
+                            className="flex-row items-center gap-2 px-3 py-1 border rounded-full"
+                        >
+                            <Eye className="text-foreground" size={15} />
+                            <Text className="text-sm font-semibold">{view}</Text>
+                        </View>
                     </View>
                 </View>
                 <Image

@@ -9,6 +9,7 @@ import { useState } from 'react';
 import { Message } from '../../assets/types/chat/message';
 import { AllFeaturesEnabled, ChatRoomProvider } from '@ably/chat';
 import useUserStore from '../../store/userStore';
+import { ChannelProvider } from 'ably/react';
 
 
 export default function ChatScreen() {
@@ -82,16 +83,18 @@ export default function ChatScreen() {
                 />
             </Modal>
             <ChatRoomProvider id="thu-duc" options={AllFeaturesEnabled}>
-                <ChatModule
-                    setIsCameraOn={setIsCameraOn}
-                    newMessage={newMessage}
-                    setNewMessage={setNewMessage}
-                    messages={messages}
-                    handleSendMessage={handleSendMessage}
-                    handleSendImage={handleImageMessage}
-                    onHistory={handleHistory}
-                    onReceived={handleReceive}
-                />
+                <ChannelProvider channelName="message-read-latest">
+                    <ChatModule
+                        setIsCameraOn={setIsCameraOn}
+                        newMessage={newMessage}
+                        setNewMessage={setNewMessage}
+                        messages={messages}
+                        handleSendMessage={handleSendMessage}
+                        handleSendImage={handleImageMessage}
+                        onHistory={handleHistory}
+                        onReceived={handleReceive}
+                    />
+                </ChannelProvider>
             </ChatRoomProvider>
         </>
     );

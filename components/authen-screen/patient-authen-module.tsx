@@ -72,7 +72,7 @@ export default function PatientAuthenModule() {
             ZaloKit.logout()
             const code = await ZaloKit.login(Constants.AUTH_VIA_WEB)
             if (code.accessToken) {
-                const profile = await ZaloKit.getUserProfile();
+                const profile = await ZaloKit.getUserProfile()
                 if (profile && profile.id) {
                     const response = await mutateAsync({
                         zaloIdentityId: profile.id,

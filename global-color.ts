@@ -14,4 +14,8 @@ export enum GlobalColor {
     TYPE_3_BORDER = '#3b82f6',
     TYPE_4_BG = '#ef44441A',
     TYPE_4_BORDER = '#ef4444',
+    VIEW_BG_DARK = 'rgba(255, 255, 255, 0.1)',
+    VIEW_BORDER_DARK = 'rgba(255, 255, 255, 0.2)',
+    VIEW_BG_LIGHT = 'rgba(0, 0, 0, 0.05)',
+    VIEW_BORDER_LIGHT = 'rgba(0, 0, 0, 0.1)'
 }

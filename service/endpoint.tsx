@@ -1,4 +1,4 @@
-import { AUTH_SERVICE_ENDPOINT, MEDIA_SERVICE_ENDPOINT, USER_SERVICE_ENDPOINT } from '@env'
+import { AUTH_SERVICE_ENDPOINT, MEDIA_SERVICE_ENDPOINT, USER_SERVICE_ENDPOINT, CHAT_SERVICE_ENDPOINT } from '@env'
 
 export const createQueryString = (params: Record<string, any>): string => {
     const urlParams = new URLSearchParams();
@@ -39,4 +39,11 @@ const endpointCategory = {
     GET_ALL_CATEGORY: `${MEDIA_SERVICE_ENDPOINT}/${apiPrefixV1}/categories`
 }
 
-export { endpointUser, endppointAuth, endpointMedia, endpointCategory }
+const endpointChat = {
+    GET_ALL_GROUP_CHAT: `${CHAT_SERVICE_ENDPOINT}/${apiPrefixV1}/groups`,
+    GET_ALL_MESSAGES: `${CHAT_SERVICE_ENDPOINT}/${apiPrefixV1}/chats/messages`,
+    SEND_MESSAGE: `${CHAT_SERVICE_ENDPOINT}/${apiPrefixV1}/chats/groups`
+}
+
+
+export { endpointUser, endppointAuth, endpointMedia, endpointCategory, endpointChat }

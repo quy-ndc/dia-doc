@@ -1,22 +1,19 @@
-import axios from "axios"
-import { createQueryString, endpointCategory, endpointMedia } from "../endpoint"
+import { MessageType } from "../../assets/enum/message-type"
 import axiosServices from "../axios"
+import { createQueryString, endpointChat } from "../endpoint"
+import axios from 'axios'
 
-export const GetAllMedias = async (params: {
-    PageIndex: number
-    PageSize: number
-    Title?: string
-    Content?: string
-    CategoryId?: string
-    UserCreatedId?: string
-    SortType?: number
-    IsSortASC?: boolean
-    electedColumns?: string[]
+export const GetAllChatGroups = async (params: {
+    Cursor?: string
+    PageSize?: number
+    Sort?: string
+    Direction?: string
+    Search?: string
 }) => {
 
     try {
         const queryString = createQueryString(params)
-        const response = await axiosServices.get(`${endpointMedia.GET_ALL_MEDIAS}?${queryString}`)
+        const response = await axiosServices.get(`${endpointChat.GET_ALL_GROUP_CHAT}?${queryString}`)
 
         return {
             success: true,
@@ -42,10 +39,18 @@ export const GetAllMedias = async (params: {
     }
 }
 
-export const GetMediaById = async (id: string) => {
+export const GetAllChatMessages = async (params: {
+    groupId: string
+    Cursor?: string
+    PageSize?: number
+    Sort?: string
+    Direction?: string
+    Search?: string
+}) => {
 
     try {
-        const response = await axiosServices.get(`${endpointMedia.GET_MEDIA_BY_ID}/${id}`)
+        const queryString = createQueryString(params)
+        const response = await axiosServices.get(`${endpointChat.GET_ALL_MESSAGES}?${queryString}`)
 
         return {
             success: true,
@@ -71,10 +76,17 @@ export const GetMediaById = async (id: string) => {
     }
 }
 
-export const GetAllCategories = async () => {
-
+export const SendMessage = async (request: {
+    groupId: string
+    content: string
+    type: MessageType
+}) => {
+        
     try {
-        const response = await axiosServices.get(`${endpointCategory.GET_ALL_CATEGORY}`)
+        const response = await axiosServices.post(`${endpointChat.SEND_MESSAGE}/${request.groupId}/messages`, {
+            contet: request.content,
+            type: request.type
+        })
 
         return {
             success: true,
@@ -98,5 +110,4 @@ export const GetAllCategories = async () => {
             };
         }
     }
-
-} 
+}

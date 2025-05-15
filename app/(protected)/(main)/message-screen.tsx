@@ -1,25 +1,17 @@
-import { FlashList } from '@shopify/flash-list';
-import * as React from 'react';
-import { useCallback, useState } from 'react';
-import {
-    Dimensions,
-    RefreshControl,
-    ScrollView,
-    View,
-    ActivityIndicator,
-    Text,
-    Pressable,
-} from 'react-native';
-import ChatItem from '../../../components/chat-screen/chat-item';
-import { useGroupChatQuery } from '../../../service/query/chat-query';
-import { useQuery } from '@tanstack/react-query';
-import { GroupChat } from '../../../assets/types/chat/group';
-import SpinningIcon from '../../../components/common/icons/spinning-icon';
-import { Loader } from '../../../lib/icons/Loader';
-import { RefreshCcw } from '../../../lib/icons/RefreshCcw';
-import { AllFeaturesEnabled, ChatRoomProvider } from '@ably/chat';
+import { FlashList } from '@shopify/flash-list'
+import * as React from 'react'
+import { useCallback, useState } from 'react'
+import { Dimensions, RefreshControl, ScrollView, View, Text, Pressable } from 'react-native'
+import ChatItem from '../../../components/chat-screen/chat-item'
+import { useGroupChatQuery } from '../../../service/query/chat-query'
+import { useQuery } from '@tanstack/react-query'
+import { GroupChat } from '../../../assets/types/chat/group'
+import SpinningIcon from '../../../components/common/icons/spinning-icon'
+import { Loader } from '../../../lib/icons/Loader'
+import { RefreshCcw } from '../../../lib/icons/RefreshCcw'
+import { AllFeaturesEnabled, ChatRoomProvider } from '@ably/chat'
 
-const { width } = Dimensions.get('window');
+const { width } = Dimensions.get('window')
 
 export default function MessagesScreen() {
 
@@ -110,5 +102,5 @@ export default function MessagesScreen() {
                 />
             </View>
         </ScrollView >
-    );
+    )
 }

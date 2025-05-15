@@ -1,6 +1,6 @@
-import * as React from 'react';
-import { Pressable } from 'react-native';
-import { Text } from '../../../components/ui/text';
+import * as React from 'react'
+import { Pressable } from 'react-native'
+import { Text } from '../../../components/ui/text'
 
 
 type Prop = {
@@ -19,5 +19,5 @@ export default function QuickButton({ icon, title, onPress }: Prop) {
             {icon}
             <Text className='text-base font-medium tracking-wider'>{title}</Text>
         </Pressable>
-    );
+    )
 }

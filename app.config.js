@@ -2,7 +2,7 @@ const {
   appDelegateContent,
   mainActivityContent,
   mainApplicationContent,
-} = require("./zalokitStrings");
+} = require("./zalokitStrings") 
 
 export default {
   expo: {
@@ -48,9 +48,9 @@ export default {
         {
           android: {
             extraProguardRules: `
-              -keep class com.zing.zalo.**{ *; }
-              -keep enum com.zing.zalo.**{ *; }
-              -keep interface com.zing.zalo.**{ *; }
+              -keep class com.zing.zalo.**{ *  }
+              -keep enum com.zing.zalo.**{ *  }
+              -keep interface com.zing.zalo.**{ *  }
             `,
           },
         },
@@ -78,4 +78,4 @@ export default {
     },
     owner: "quyndc"
   }
-};
+} 

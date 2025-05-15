@@ -1,232 +1,232 @@
-@tailwind base;
-@tailwind components;
-@tailwind utilities;
+@tailwind base 
+@tailwind components 
+@tailwind utilities 
 
 @layer base {
   :root {
-    --background: 0 0% 100%;
-    --foreground: 240 10% 3.9%;
-    --card: 0 0% 100%;
-    --card-foreground: 240 10% 3.9%;
-    --popover: 0 0% 100%;
-    --popover-foreground: 240 10% 3.9%;
-    --primary: 240 5.9% 10%;
-    --primary-foreground: 0 0% 98%;
-    --secondary: 240 4.8% 95.9%;
-    --secondary-foreground: 240 5.9% 10%;
-    --muted: 240 4.8% 95.9%;
-    --muted-foreground: 240 3.8% 46.1%;
-    --accent: 240 4.8% 95.9%;
-    --accent-foreground: 240 5.9% 10%;
-    --destructive: 0 84.2% 60.2%;
-    --destructive-foreground: 0 0% 98%;
-    --border: 240 5.9% 90%;
-    --input: 240 5.9% 90%;
-    --ring: 240 5.9% 10%;
+    --background: 0 0% 100% 
+    --foreground: 240 10% 3.9% 
+    --card: 0 0% 100% 
+    --card-foreground: 240 10% 3.9% 
+    --popover: 0 0% 100% 
+    --popover-foreground: 240 10% 3.9% 
+    --primary: 240 5.9% 10% 
+    --primary-foreground: 0 0% 98% 
+    --secondary: 240 4.8% 95.9% 
+    --secondary-foreground: 240 5.9% 10% 
+    --muted: 240 4.8% 95.9% 
+    --muted-foreground: 240 3.8% 46.1% 
+    --accent: 240 4.8% 95.9% 
+    --accent-foreground: 240 5.9% 10% 
+    --destructive: 0 84.2% 60.2% 
+    --destructive-foreground: 0 0% 98% 
+    --border: 240 5.9% 90% 
+    --input: 240 5.9% 90% 
+    --ring: 240 5.9% 10% 
 
 
     /* Container background color on click */
-    --click-bg: rgba(86, 86, 86, 0.1);
+    --click-bg: rgba(86, 86, 86, 0.1) 
 
     /* Color that matches the theme */
-    --same-theme-col: white;
+    --same-theme-col: white 
 
     /* Color that is opposite of the theme */
-    --oppo-theme-col: black;
+    --oppo-theme-col: black 
 
     /* Text with faded texture */
-    --fade-text-color: gray;
+    --fade-text-color: gray 
 
     /* Background of sent text */
-    --own-message-bg: rgb(59, 130, 246);
+    --own-message-bg: rgb(59, 130, 246) 
 
     /* Text color of sent text */
-    --own-message-text: white;
+    --own-message-text: white 
 
     /* Background of received text */
-    --ownt-message-bg: rgba(189, 189, 189, 0.383);
+    --ownt-message-bg: rgba(189, 189, 189, 0.383) 
 
     /* Text color of received text */
-    --ownt-message-text: black;
+    --ownt-message-text: black 
 
     /* Icon color of quick access button */
-    --quick-access-icon-color: #195eff;
+    --quick-access-icon-color: #195eff 
 
     /* Background color of blog post */
-    --blog-bg: rgba(139, 139, 139, 0.06);
+    --blog-bg: rgba(139, 139, 139, 0.06) 
 
     /* Color of the border of a Blog post item in the home page */
-    --blog-border-color: rgba(119, 119, 119, 0.15);
+    --blog-border-color: rgba(119, 119, 119, 0.15) 
 
     /* Color of the lightning icon in the quick access section */
-    --quick-access-title-icon-color: orange;
+    --quick-access-title-icon-color: orange 
 
     /* Color of the sparkles icon in the blog section */
-    --blog-title-icon-color: rgb(228, 228, 0);
+    --blog-title-icon-color: rgb(228, 228, 0) 
 
     /* Color of the like button when not liked */
-    --not-liked: black;
+    --not-liked: black 
 
     /* Color of the like button when liked */
-    --liked: blue;
+    --liked: blue 
 
     /* Carousel indicator color */
-    --carousel-color: black;
+    --carousel-color: black 
 
     /* Click background when the image is in detail mode */
-    --detail-click-bg: rgba(42, 42, 42, 0.4);
+    --detail-click-bg: rgba(42, 42, 42, 0.4) 
 
     /* Background of the type of diebetes in profile screen */
-    --dia-type-bg: #195eff;
+    --dia-type-bg: #195eff 
 
     /* Color of the go to top buttun in blog screen */
-    --go-up-btn-bg: black;
+    --go-up-btn-bg: black 
 
     /* The color of the icon inside the go up button */
-    --go-up-btn-icon: white;
+    --go-up-btn-icon: white 
 
     /* Color of info button text and icon in authen page */
-    --info-text: #2a6aff;
+    --info-text: #2a6aff 
 
     /* Background of the input field of the chat screen */
-    --input-bg: rgba(234, 234, 234, 0.781);
+    --input-bg: rgba(234, 234, 234, 0.781) 
 
     /* Background of the cameara buttons when clicked */
-    --camera-click-bg: rgba(145, 145, 145, 0.502);
+    --camera-click-bg: rgba(145, 145, 145, 0.502) 
 
     /* Background of the go up button when clicked */
-    --go-up-click-bg: rgba(44, 44, 44, 0.875);
+    --go-up-click-bg: rgba(44, 44, 44, 0.875) 
 
     /* Background of the notification modal */
-    --noti-bg: #ffffff;
+    --noti-bg: #ffffff 
 
     /* Border of the divider in noti modal */
-    --noti-divider: rgb(219, 219, 219);
+    --noti-divider: rgb(219, 219, 219) 
 
     /* Background for type 1 category */
-    --type1-bg: #B22222;
+    --type1-bg: #B22222 
 
     /* Background for type 2 category */
-    --type2-bg: #1E3A8A;
+    --type2-bg: #1E3A8A 
 
     /* Background for type 3 category */
-    --type3-bg: #cb8b00;
+    --type3-bg: #cb8b00 
 
     /* Background for type 4 category */
-    --type4-bg: #15a75e;
+    --type4-bg: #15a75e 
     
   }
 
   .dark:root {
-    --background: 240 10% 3.9%;
-    --foreground: 0 0% 98%;
-    --card: 240 10% 3.9%;
-    --card-foreground: 0 0% 98%;
-    --popover: 240 10% 3.9%;
-    --popover-foreground: 0 0% 98%;
-    --primary: 0 0% 98%;
-    --primary-foreground: 240 5.9% 10%;
-    --secondary: 240 3.7% 15.9%;
-    --secondary-foreground: 0 0% 98%;
-    --muted: 240 3.7% 15.9%;
-    --muted-foreground: 240 5% 64.9%;
-    --accent: 240 3.7% 15.9%;
-    --accent-foreground: 0 0% 98%;
-    --destructive: 0 72% 51%;
-    --destructive-foreground: 0 0% 98%;
-    --border: 240 3.7% 15.9%;
-    --input: 240 3.7% 15.9%;
-    --ring: 240 4.9% 83.9%;
+    --background: 240 10% 3.9% 
+    --foreground: 0 0% 98% 
+    --card: 240 10% 3.9% 
+    --card-foreground: 0 0% 98% 
+    --popover: 240 10% 3.9% 
+    --popover-foreground: 0 0% 98% 
+    --primary: 0 0% 98% 
+    --primary-foreground: 240 5.9% 10% 
+    --secondary: 240 3.7% 15.9% 
+    --secondary-foreground: 0 0% 98% 
+    --muted: 240 3.7% 15.9% 
+    --muted-foreground: 240 5% 64.9% 
+    --accent: 240 3.7% 15.9% 
+    --accent-foreground: 0 0% 98% 
+    --destructive: 0 72% 51% 
+    --destructive-foreground: 0 0% 98% 
+    --border: 240 3.7% 15.9% 
+    --input: 240 3.7% 15.9% 
+    --ring: 240 4.9% 83.9% 
 
 
     /* Container background color on click */
-    --click-bg: rgb(42, 42, 42);
+    --click-bg: rgb(42, 42, 42) 
 
     /* Color that matches the theme */
-    --same-theme-col: black;
+    --same-theme-col: black 
 
     /* Color that is opposite of the theme */
-    --oppo-theme-col: white;
+    --oppo-theme-col: white 
 
     /* Text with faded texture */
-    --fade-text-color: gray;
+    --fade-text-color: gray 
 
     /* Background of sent text */
-    --own-message-bg: rgb(37, 99, 235);
+    --own-message-bg: rgb(37, 99, 235) 
 
     /* Text color of sent text */
-    --own-message-text: white;
+    --own-message-text: white 
 
     /* Background of received text */
-    --ownt-message-bg: rgba(90, 90, 90, 0.894);
+    --ownt-message-bg: rgba(90, 90, 90, 0.894) 
 
     /* Text color of received text */
-    --ownt-message-text: white;
+    --ownt-message-text: white 
 
     /* Icon color of quick access button */
-    --quick-access-icon-color: #84bcfd;
+    --quick-access-icon-color: #84bcfd 
 
     /* Background color of blog post */
-    --blog-bg: #111111b7;
+    --blog-bg: #111111b7 
 
     /* Color of the border of a Blog post item in the home page */
-    --blog-border-color: rgba(238, 238, 238, 0.15);
+    --blog-border-color: rgba(238, 238, 238, 0.15) 
 
     /* Color of the lightning icon in the quick access section */
-    --quick-access-title-icon-color: orange;
+    --quick-access-title-icon-color: orange 
 
     /* Color of the sparkles icon in the blog section */
-    --blog-title-icon-color: yellow;
+    --blog-title-icon-color: yellow 
 
     /* Color of the like button when not liked */
-    --not-liked: #fff;
+    --not-liked: #fff 
 
     /* Color of the like button when liked */
-    --liked: rgb(0, 89, 255);
+    --liked: rgb(0, 89, 255) 
 
     /* Carousel indicator color */
-    --carousel-color: white;
+    --carousel-color: white 
 
     /* Click background when the image is in detail mode */
-    --detail-click-bg: rgba(42, 42, 42, 0.4);
+    --detail-click-bg: rgba(42, 42, 42, 0.4) 
 
     /* Background of the type of diebetes in profile screen */
-    --dia-type-bg: #2969ff;
+    --dia-type-bg: #2969ff 
 
     /* Color of the go to top buttun in blog screen */
-    --go-up-btn-bg: white;
+    --go-up-btn-bg: white 
 
     /* The color of the icon inside the go up button */
-    --go-up-btn-icon: black;
+    --go-up-btn-icon: black 
 
     /* Color of info button text and icon in authen page */
-    --info-text: #85aaff;
+    --info-text: #85aaff 
 
     /* Background of the input field of the chat screen */
-    --input-bg: rgba(32, 32, 32, 0.952);
+    --input-bg: rgba(32, 32, 32, 0.952) 
 
     /* Background of the cameara buttons when clicked */
-    --camera-click-bg: rgba(145, 145, 145, 0.502);
+    --camera-click-bg: rgba(145, 145, 145, 0.502) 
 
     /* Background of the go up button when clicked */
-    --go-up-click-bg: rgba(209, 209, 209);
+    --go-up-click-bg: rgba(209, 209, 209) 
 
     /* Background of the notification modal */
-    --noti-bg: #111;
+    --noti-bg: #111 
 
     /* Border of the divider in noti modal */
-    --noti-divider: #333;
+    --noti-divider: #333 
     
     /* Background for type 1 category */
-    --type1-bg: #FF4C4C;
+    --type1-bg: #FF4C4C 
   
     /* Background for type 2 category */
-    --type2-bg: #4C9BFF;
+    --type2-bg: #4C9BFF 
 
     /* Background for type 3 category */
-    --type3-bg: #d1b33a;
+    --type3-bg: #d1b33a 
 
     /* Background for type 4 category */
-    --type4-bg: #10bb71;
+    --type4-bg: #10bb71 
   }
 }

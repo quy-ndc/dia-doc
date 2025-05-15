@@ -2,11 +2,9 @@ import * as React from 'react'
 import { View, ScrollView, Pressable, RefreshControl, ActivityIndicator } from 'react-native'
 import { Text } from '../../../components/ui/text'
 import { Image } from 'expo-image'
-import { formatDateDiagnose } from '../../../util/format-date-diagnose'
 import BasicInfo from '../../../components/profile-screen/basic-info'
 import IconButton from '../../../components/common/icon-button'
 import { PencilLine } from '../../../lib/icons/PencilLine'
-import { Phone } from '../../../lib/icons/Phone'
 import { useRouter } from 'expo-router'
 import { useQuery } from '@tanstack/react-query'
 import { useUserProfile } from '../../../service/query/user-query'
@@ -44,7 +42,7 @@ export default function ProfileScreen() {
         )
     }
 
-    if (!profile) {
+    if (!profile || isError) {
         return (
             <ScrollView
                 className="flex-1 w-full"
@@ -114,7 +112,7 @@ export default function ProfileScreen() {
                     <Text className='text-xl font-bold tracking-wider'>Thông tin cơ bản</Text>
                     <View className='flex-col gap-5 items-center'>
                         <View className='flex-row w-full items-center'>
-                            <BasicInfo title='Tuổi' value={getAge('2010-08-22T00:00:00.000Z')} />
+                            <BasicInfo title='Tuổi' value={getAge(profile.dateOfBirth)} />
                             <BasicInfo title='Giới tính' value={getGenderString(profile.gender)} />
                         </View>
                         <View className='flex-row w-full items-center'>

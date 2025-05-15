@@ -54,9 +54,6 @@ export default function ChatModule({
 }: Prop) {
 
     const { publish } = useChannel(CHAT_LATEST_MESSAGE_CHANNEL)
-
-    console.log('room', CHAT_LATEST_MESSAGE_CHANNEL)
-
     const { user } = useUserStore()
     const [showScrollButton, setShowScrollButton] = useState(false)
     const scrollViewRef = useRef<ScrollView>(null)
@@ -127,11 +124,9 @@ export default function ChatModule({
     const handleScroll = (event: any) => {
         const offsetY = event.nativeEvent.contentOffset.y
 
-        const isScrollingUp = offsetY < lastOffsetY
-
-        if (isScrollingUp && offsetY < 300 && !showScrollButton) {
+        if (offsetY < 300 && !showScrollButton) {
             toggleVisibility(true)
-        } else if (!isScrollingUp && offsetY > 300 && showScrollButton) {
+        } else if (offsetY > 300 && showScrollButton) {
             toggleVisibility(false)
         }
 
@@ -141,8 +136,6 @@ export default function ChatModule({
                 fetchNextPage()
             }
         }
-
-        setLastOffsetY(offsetY)
     }
 
     useEffect(() => {

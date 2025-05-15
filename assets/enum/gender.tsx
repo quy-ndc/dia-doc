@@ -9,5 +9,5 @@ export const GenderString: Record<GenderNumber, string> = {
 }
 
 export function getGenderString(gender: GenderNumber): string {
-    return GenderString[gender] || 'Không xác định';
+    return GenderString[gender] || 'Không xác định' 
 }

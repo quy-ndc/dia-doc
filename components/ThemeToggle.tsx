@@ -1,16 +1,16 @@
-import { setAndroidNavigationBar } from '../lib/android-navigation-bar';
-import { MoonStar } from '../lib/icons/MoonStar';
-import { Sun } from '../lib/icons/Sun';
-import { useColorScheme } from '../lib/useColorScheme';
-import IconButton from './common/icon-button';
+import { setAndroidNavigationBar } from '../lib/android-navigation-bar'
+import { MoonStar } from '../lib/icons/MoonStar'
+import { Sun } from '../lib/icons/Sun'
+import { useColorScheme } from '../lib/useColorScheme'
+import IconButton from './common/icon-button'
 
 export function ThemeToggle() {
-  const { isDarkColorScheme, setColorScheme } = useColorScheme();
+  const { isDarkColorScheme, setColorScheme } = useColorScheme()
 
   function toggleColorScheme() {
-    const newTheme = isDarkColorScheme ? 'light' : 'dark';
-    setColorScheme(newTheme);
-    setAndroidNavigationBar(newTheme);
+    const newTheme = isDarkColorScheme ? 'light' : 'dark'
+    setColorScheme(newTheme)
+    setAndroidNavigationBar(newTheme)
   }
 
   return (
@@ -23,5 +23,5 @@ export function ThemeToggle() {
       possition='other'
       onPress={toggleColorScheme}
     />
-  );
+  )
 }

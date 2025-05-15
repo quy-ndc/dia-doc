@@ -1,29 +1,29 @@
-import * as React from 'react';
-import { View, StyleSheet, Pressable, Dimensions } from 'react-native';
-import { Camera } from '../../lib/icons/Camera';
-import { CameraType, CameraView } from 'expo-camera';
-import { Repeat2 } from '../../lib/icons/Repeat2';
-import { useRef, useState } from 'react';
+import * as React from 'react' 
+import { View, StyleSheet, Pressable, Dimensions } from 'react-native' 
+import { Camera } from '../../lib/icons/Camera' 
+import { CameraType, CameraView } from 'expo-camera' 
+import { Repeat2 } from '../../lib/icons/Repeat2' 
+import { useRef, useState } from 'react' 
 import { Image } from 'expo-image'
-import { X } from '../../lib/icons/X';
-import { Lightbulb } from '../../lib/icons/Lightbulb';
-import { LightbulbOff } from '../../lib/icons/LightbulbOff';
-import IconButton from '../common/icon-button';
+import { X } from '../../lib/icons/X' 
+import { Lightbulb } from '../../lib/icons/Lightbulb' 
+import { LightbulbOff } from '../../lib/icons/LightbulbOff' 
+import IconButton from '../common/icon-button' 
 import { Text } from '../ui/text'
-import { SendHorizontal } from '../../lib/icons/SendHorizontal';
-import { ArrowLeft } from '../../lib/icons/ArrowLeft';
+import { SendHorizontal } from '../../lib/icons/SendHorizontal' 
+import { ArrowLeft } from '../../lib/icons/ArrowLeft' 
 
 type Prop = {
     setIsCameraOn: (state: boolean) => void
     handleSendImage: (image: string) => void
 }
 
-const { width, height } = Dimensions.get('window');
+const { width, height } = Dimensions.get('window') 
 
 export default function CameraModule({ setIsCameraOn, handleSendImage }: Prop) {
 
     const cameraRef = useRef<CameraView | null>(null)
-    const [facing, setFacing] = useState<CameraType>('back');
+    const [facing, setFacing] = useState<CameraType>('back') 
     const [torch, setTorch] = useState(false)
     const [preview, setPreview] = useState<any>(null)
     const [loading, setLoading] = useState(false)
@@ -33,7 +33,7 @@ export default function CameraModule({ setIsCameraOn, handleSendImage }: Prop) {
     }
 
     function toggleCameraFacing() {
-        setFacing(current => (current === 'back' ? 'front' : 'back'));
+        setFacing(current => (current === 'back' ? 'front' : 'back')) 
     }
 
     const handleTakePhoto = async () => {
@@ -144,5 +144,5 @@ const styles = StyleSheet.create({
         width: width,
         height: height * 0.9
     },
-});
+}) 
 

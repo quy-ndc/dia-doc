@@ -1,22 +1,20 @@
-import * as React from 'react';
-import { Dimensions, Modal, Pressable } from 'react-native';
+import * as React from 'react'
+import { Dimensions, Modal, Pressable } from 'react-native'
 import { Text } from '../../ui/text'
-import { Ellipsis } from '../../../lib/icons/Ellipsis';
-import IconButton from '../../common/icon-button';
-import { useState } from 'react';
-import { Trash2 } from '../../../lib/icons/Trash2';
-import { X } from '../../../lib/icons/X';
-import useNotificationStore from '../../../store/notificationStore';
-import { SystemNotification } from '../../../assets/types/notification/notification';
-import { NotificatinType } from '../../../assets/enum/notification';
-import DefaultNotification from './noti-default';
-import PostNotification from './noti-post';
+import { useState } from 'react'
+import { Trash2 } from '../../../lib/icons/Trash2'
+import { X } from '../../../lib/icons/X'
+import useNotificationStore from '../../../store/notificationStore'
+import { SystemNotification } from '../../../assets/types/notification/notification'
+import { NotificatinType } from '../../../assets/enum/notification'
+import DefaultNotification from './noti-default'
+import PostNotification from './noti-post'
 
 type Prop = {
     notification: SystemNotification
 }
 
-const { width } = Dimensions.get('window');
+const { width } = Dimensions.get('window')
 
 export default function NotificationItem({ notification }: Prop) {
 
@@ -28,7 +26,6 @@ export default function NotificationItem({ notification }: Prop) {
         removeNoti(notification)
         setVisible(false)
     }
-
 
     const renderNoti = () => {
         switch (notification.type) {
@@ -79,5 +76,5 @@ export default function NotificationItem({ notification }: Prop) {
                 </Pressable>
             </Modal>
         </>
-    );
+    )
 }

@@ -1,8 +1,8 @@
-import * as React from 'react';
-import { View, Dimensions } from 'react-native';
-import { Text } from '../../components/ui/text';
+import * as React from 'react'
+import { View, Dimensions } from 'react-native'
+import { Text } from '../../components/ui/text'
 
-const { width } = Dimensions.get('window');
+const { width } = Dimensions.get('window')
 
 type Prop = {
     label: string
@@ -20,5 +20,5 @@ export default function SetUpFields({ label, object, length }: Prop) {
             <Text className='text-lg font-bold tracking-widest'>{label}</Text>
             {object}
         </View>
-    );
+    )
 }

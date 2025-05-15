@@ -1,8 +1,8 @@
-import * as React from 'react';
-import { View, Pressable, Linking } from 'react-native';
-import { Camera } from '../../lib/icons/Camera';
-import { PermissionResponse, useCameraPermissions } from 'expo-camera';
-import Toast from 'react-native-toast-message';
+import * as React from 'react' 
+import { View, Pressable, Linking } from 'react-native' 
+import { Camera } from '../../lib/icons/Camera' 
+import { useCameraPermissions } from 'expo-camera' 
+import Toast from 'react-native-toast-message' 
 
 type Prop = {
     setIsCameraOn: (state: boolean) => void
@@ -10,13 +10,13 @@ type Prop = {
 
 export default function CameraAccess({ setIsCameraOn }: Prop) {
 
-    const [permission, requestPermission] = useCameraPermissions();
+    const [permission, requestPermission] = useCameraPermissions() 
 
     const grantPermission = async () => {
-        const response = await requestPermission();
+        const response = await requestPermission() 
 
         if (response.granted) {
-            setIsCameraOn(true);
+            setIsCameraOn(true) 
         } else if (!response.canAskAgain) {
             Toast.show({
                 type: 'error',
@@ -32,11 +32,9 @@ export default function CameraAccess({ setIsCameraOn }: Prop) {
                 visibilityTime: 2000
             })
         }
-    };
+    } 
 
-    if (!permission) {
-        return <View />
-    }
+    if (!permission) return <View />
 
     return (
         <Pressable

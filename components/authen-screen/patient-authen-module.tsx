@@ -16,6 +16,7 @@ import useUserStore from '../../store/userStore'
 const { width } = Dimensions.get('window')
 
 export default function PatientAuthenModule() {
+
     const router = useRouter()
     const { user, setUser } = useUserStore()
 
@@ -152,13 +153,13 @@ export default function PatientAuthenModule() {
                 )}
                 <Text className="font-bold">Đăng nhập bằng Zalo qua trình duyệt</Text>
             </Button>
-
+            {/* 
             <Pressable onPress={() => router.push('/set-up-screen')}>
                 <Text>set up</Text>
             </Pressable>
             <Pressable onPress={() => router.push('/(main)')}>
                 <Text>home</Text>
-            </Pressable>
+            </Pressable> */}
         </View>
     )
 }

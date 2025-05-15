@@ -1,4 +1,4 @@
-import { GlobalColor } from "../global-color";
+import { GlobalColor } from "../global-color" 
 
 export const getBlogTagColor = (tag: string) => {
     switch (tag.toLowerCase()) {

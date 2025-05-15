@@ -1,15 +1,14 @@
-import * as React from 'react';
-import { Pressable } from 'react-native';
+import * as React from 'react'
+import { Pressable } from 'react-native'
 import { Text } from '../../ui/text'
-import { Ellipsis } from '../../../lib/icons/Ellipsis';
-import IconButton from '../../common/icon-button';
-import { BlogPayload, SystemNotification } from '../../../assets/types/notification/notification';
+import { Ellipsis } from '../../../lib/icons/Ellipsis'
+import IconButton from '../../common/icon-button'
+import { BlogPayload, SystemNotification } from '../../../assets/types/notification/notification'
 
 type Prop = {
     setVisible: (visible: boolean) => void
     notification: SystemNotification
 }
-
 
 export default function PostNotification({ setVisible, notification }: Prop) {
 
@@ -30,5 +29,5 @@ export default function PostNotification({ setVisible, notification }: Prop) {
                 />
             </Pressable>
         </>
-    );
+    )
 }

@@ -1,5 +1,5 @@
-import notifee, { AndroidImportance } from "@notifee/react-native";
-import { Notification } from '../../assets/enum/notification';
+import notifee, { AndroidImportance } from "@notifee/react-native" 
+import { Notification } from '../../assets/enum/notification' 
 
 
 export async function createNotificationChannel() {
@@ -7,5 +7,5 @@ export async function createNotificationChannel() {
         id: Notification.NOTIFEE_CHANNEL_ID,
         name: Notification.NOTIFEE_CHANNEL_NAME,
         importance: AndroidImportance.HIGH,
-    });
+    }) 
 }

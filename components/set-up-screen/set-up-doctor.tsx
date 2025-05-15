@@ -1,26 +1,26 @@
-import * as React from 'react';
-import { View, Dimensions, ScrollView, Pressable, Alert } from 'react-native';
-import { Text } from '../../components/ui/text';
-import { Option, Select, SelectContent, SelectGroup, SelectItem, SelectTrigger, SelectValue } from '../../components/ui/select';
-import { useState } from 'react';
-import { Input } from '../../components/ui/input';
-import SetUpFields from '../../components/set-up-screen/set-up-fields';
-import DateTimePicker, { DateTimePickerEvent } from '@react-native-community/datetimepicker';
-import { PencilLine } from '../../lib/icons/PencilLine';
-import IconButton from '../../components/common/icon-button';
-import { useForm, Controller } from 'react-hook-form';
-import { yupResolver } from '@hookform/resolvers/yup';
-import * as yup from 'yup';
-import { ChevronLeft } from '../../lib/icons/ChevronLeft';
-import { Check } from '../../lib/icons/Check';
-import { router } from 'expo-router';
+import * as React from 'react'
+import { View, Dimensions, ScrollView, Pressable, Alert } from 'react-native'
+import { Text } from '../../components/ui/text'
+import { Option, Select, SelectContent, SelectGroup, SelectItem, SelectTrigger, SelectValue } from '../../components/ui/select'
+import { useState } from 'react'
+import { Input } from '../../components/ui/input'
+import SetUpFields from '../../components/set-up-screen/set-up-fields'
+import DateTimePicker, { DateTimePickerEvent } from '@react-native-community/datetimepicker'
+import { PencilLine } from '../../lib/icons/PencilLine'
+import IconButton from '../../components/common/icon-button'
+import { useForm, Controller } from 'react-hook-form'
+import { yupResolver } from '@hookform/resolvers/yup'
+import * as yup from 'yup'
+import { ChevronLeft } from '../../lib/icons/ChevronLeft'
+import { Check } from '../../lib/icons/Check'
+import { router } from 'expo-router'
 
-const { width } = Dimensions.get('window');
+const { width } = Dimensions.get('window')
 
 type Prop = {
-    setRole: (role: string) => void;
+    setRole: (role: string) => void
     mode: 'edit' | 'set-up'
-};
+}
 
 export default function SetUpDoctor({ setRole, mode }: Prop) {
 
@@ -45,7 +45,7 @@ export default function SetUpDoctor({ setRole, mode }: Prop) {
             .required('Không đước trống')
             .matches(/^\d+$/, 'Chỉ được chứa số')
             .test('is-greater-than-zero', 'Số phải lớn hơn 0', value => Number(value) > 0)
-    }).required();
+    }).required()
 
     const { control, handleSubmit, formState: { errors } } = useForm({
         resolver: yupResolver(schema),
@@ -54,7 +54,7 @@ export default function SetUpDoctor({ setRole, mode }: Prop) {
             phone: '0333476554',
             exp: '1'
         }
-    });
+    })
 
     const [gender, setGender] = useState<Option>({ label: 'Nam', value: 'male' })
     const [show, setShow] = useState<boolean>(false)
@@ -62,9 +62,9 @@ export default function SetUpDoctor({ setRole, mode }: Prop) {
     const [spec, setSpec] = useState<Option>({ label: 'Nội khoa', value: 'internal-medicine' })
 
     const onChange = (event: DateTimePickerEvent, selectedDate?: Date) => {
-        setShow(false);
+        setShow(false)
         if (selectedDate) {
-            setDate(selectedDate);
+            setDate(selectedDate)
         }
     }
 
@@ -77,7 +77,7 @@ export default function SetUpDoctor({ setRole, mode }: Prop) {
             DOB: ${date}
             Spec: ${spec}
             Exp: ${data.exp}
-            `);
+            `)
     }
 
     return (
@@ -268,5 +268,5 @@ export default function SetUpDoctor({ setRole, mode }: Prop) {
                 </View>
             </View>
         </ScrollView>
-    );
+    )
 }

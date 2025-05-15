@@ -1,15 +1,15 @@
-import { Image } from "expo-image";
-import { View, StyleSheet, Dimensions, useColorScheme } from "react-native";
+import { Image } from "expo-image"
+import { View, StyleSheet, Dimensions, useColorScheme } from "react-native"
 import { Text } from '../../../components/ui/text'
-import { formatDateBlog } from "../../../util/format-date-post";
-import LikeButton from "./like-button";
-import CommentButton from "./comment-button";
-import BookmarkButton from "./bookmark-button";
-import RenderHTML from 'react-native-render-html';
-import { GlobalColor } from "../../../global-color";
-import { getBlogTagColor } from "../../../util/get-blog-tag-color";
-import SpeechButton from "./blog-speech-button";
-import SpeechInfoButton from "./blog-speech-info";
+import { formatDateBlog } from "../../../util/format-date-post"
+import LikeButton from "./like-button"
+import CommentButton from "./comment-button"
+import BookmarkButton from "./bookmark-button"
+import RenderHTML from 'react-native-render-html'
+import { GlobalColor } from "../../../global-color"
+import { getBlogTagColor } from "../../../util/get-blog-tag-color"
+import SpeechButton from "./blog-speech-button"
+import SpeechInfoButton from "./blog-speech-info"
 
 
 type Prop = {
@@ -25,7 +25,7 @@ type Prop = {
     bookmarked: boolean
 }
 
-const { width } = Dimensions.get('window');
+const { width } = Dimensions.get('window')
 
 export default function BlogDetailItem({
     avatar,
@@ -123,4 +123,4 @@ const styles = StyleSheet.create({
         height: 35,
         borderRadius: 10000,
     }
-});
+})

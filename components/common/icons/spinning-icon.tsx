@@ -1,6 +1,6 @@
-import * as React from 'react';
-import { Animated, Easing } from 'react-native';
-import { useEffect, useRef } from 'react';
+import * as React from 'react'
+import { Animated, Easing } from 'react-native'
+import { useEffect, useRef } from 'react'
 
 type Prop = {
     icon: React.ReactNode
@@ -8,7 +8,7 @@ type Prop = {
 
 export default function SpinningIcon({ icon }: Prop) {
 
-    const spinValue = useRef(new Animated.Value(0)).current;
+    const spinValue = useRef(new Animated.Value(0)).current
 
     useEffect(() => {
         const spinAnimation = Animated.loop(
@@ -18,20 +18,20 @@ export default function SpinningIcon({ icon }: Prop) {
                 easing: Easing.linear,
                 useNativeDriver: true,
             })
-        );
-        spinAnimation.start();
-    }, []);
+        )
+        spinAnimation.start()
+    }, [])
 
     const spin = spinValue.interpolate({
         inputRange: [0, 1],
         outputRange: ["0deg", "360deg"],
-    });
+    })
 
 
     return (
         <Animated.View style={{ transform: [{ rotate: spin }] }}>
             {icon}
         </Animated.View>
-    );
+    )
 }
 

@@ -1,5 +1,5 @@
-import * as React from 'react';
-import { Dimensions, View } from 'react-native';
+import * as React from 'react'
+import { Dimensions, View } from 'react-native'
 import { Text } from '../../../components/ui/text'
 
 type Prop = {
@@ -19,5 +19,5 @@ export default function SectionTitle({ icon, title }: Prop) {
             {icon}
             <Text className='text-lg font-bold tracking-widest capitalize'>{title}</Text>
         </View>
-    );
+    )
 }

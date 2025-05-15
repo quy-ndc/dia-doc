@@ -1,11 +1,11 @@
-import axios, { AxiosError } from "axios";
-import { router } from "expo-router";
-import useUserStore from "../store/userStore";
-import Toast from "react-native-toast-message";
+import axios, { AxiosError } from "axios" 
+import { router } from "expo-router" 
+import useUserStore from "../store/userStore" 
+import Toast from "react-native-toast-message" 
 
 const axiosServices = axios.create({
     timeout: 50000,
-});
+}) 
 
 const handleUnauthorized = () => {
     router.replace('/authen-screen')
@@ -28,7 +28,7 @@ axiosServices.interceptors.request.use(
     function (error) {
         return Promise.reject(error)
     }
-);
+) 
 
 axiosServices.interceptors.response.use(
     (res) => {
@@ -36,9 +36,9 @@ axiosServices.interceptors.response.use(
             res.headers["content-type"]?.includes("application/json") &&
             res.data
         ) {
-            res.data = res.data;
+            res.data = res.data 
         }
-        return res;
+        return res 
     },
     async (err) => {
         if (err.response) {
@@ -46,39 +46,39 @@ axiosServices.interceptors.response.use(
                 "Response error:",
                 err.response.status,
                 err.response.data
-            );
+            ) 
 
             if (err.response && err.response.status === 401) {
                 handleUnauthorized()
             }
         } else {
-            console.error("Error:", err.message);
+            console.error("Error:", err.message) 
         }
-        return Promise.reject(err);
+        return Promise.reject(err) 
     }
-);
+) 
 
 const axiosUpload = axios.create({
     timeout: 50000,
-});
+}) 
 
 axiosUpload.interceptors.request.use(
     function (config) {
         const { user } = useUserStore.getState()
         if (user.accessToken !== '') {
-            config.headers["Authorization"] = `Bearer ${user.accessToken}`;
+            config.headers["Authorization"] = `Bearer ${user.accessToken}` 
         }
-        config.headers["Content-Type"] = "multipart/form-data";
-        return config;
+        config.headers["Content-Type"] = "multipart/form-data" 
+        return config 
     },
     function (error) {
-        return Promise.reject(error);
+        return Promise.reject(error) 
     }
-);
+) 
 
 export function isAxiosError<T>(error: unknown): error is AxiosError<T> {
-    return axios.isAxiosError(error);
+    return axios.isAxiosError(error) 
 }
 
-export const axiosClientUpload = axiosUpload;
-export default axiosServices;
+export const axiosClientUpload = axiosUpload 
+export default axiosServices 

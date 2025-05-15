@@ -5,6 +5,9 @@ import { useRouter } from 'expo-router';
 import { Image } from 'expo-image'
 import { truncateText } from '../../util/truncate-text';
 import { formatDateBlog } from '../../util/format-date-post';
+import { useMessages } from '@ably/chat';
+import { useEffect, useState } from 'react';
+import { MessageType } from '../../assets/enum/message-type';
 
 type Prop = {
     id: string
@@ -13,10 +16,11 @@ type Prop = {
     user?: string
     time?: string
     message?: string
+    type?: MessageType
     hasNewMessage?: boolean
 }
 
-export default function ChatItem({ id, img, name, user, time, message, hasNewMessage }: Prop) {
+export default function ChatItem({ id, img, name, user, time, message, type, hasNewMessage }: Prop) {
 
     const router = useRouter()
 
@@ -30,6 +34,23 @@ export default function ChatItem({ id, img, name, user, time, message, hasNewMes
             }
         })
     }
+
+    const displayMessage = message
+        ? `${user?.trim().split(' ').pop()}: ${type === 1 ? 'Đã gửi một ảnh' : truncateText(message, 25)}`
+        : 'Nhóm này chưa có tin nhắn'
+
+    const [latestMessage, setLatestMessage] = useState(displayMessage)
+
+    useEffect(() => (
+        setLatestMessage(displayMessage)
+    ), [])
+
+    const { } = useMessages({
+        listener: (message) => {
+            setLatestMessage(message.message.text)
+            console.log('Received message: ', message)
+        },
+    })
 
     return (
         <Pressable
@@ -48,11 +69,9 @@ export default function ChatItem({ id, img, name, user, time, message, hasNewMes
                         <Text className={`text-sm tracking-wider ${hasNewMessage && 'font-bold'}`}>{formatDateBlog(time)}</Text>
                     )}
                 </View>
-                {message && (
-                    <Text className={`${hasNewMessage ? 'font-bold' : 'opacity-[60%]'}`}>
-                        {truncateText(`${user}: ${message}`, 38)}
-                    </Text>
-                )}
+                <Text className={`text-base tracking-wider ${hasNewMessage ? 'font-bold' : 'opacity-[60%]'}`}>
+                    {latestMessage}
+                </Text>
             </View>
         </Pressable>
     );

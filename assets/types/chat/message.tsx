@@ -1,8 +1,14 @@
+import { MessageType } from "../../enum/message-type"
+
 export type Message = {
     id: string
-    type: 'image' | 'text'
     content: string
-    time: string,
-    name: string,
-    avatar: string
+    type: MessageType
+    createdDate: string,
+    isRead: boolean,
+    user: {
+        id: string
+        avatar: string
+        fullName: string
+    }
 }

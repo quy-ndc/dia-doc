@@ -81,10 +81,10 @@ export const SendMessage = async (request: {
     content: string
     type: MessageType
 }) => {
-        
+
     try {
         const response = await axiosServices.post(`${endpointChat.SEND_MESSAGE}/${request.groupId}/messages`, {
-            contet: request.content,
+            content: request.content,
             type: request.type
         })
 

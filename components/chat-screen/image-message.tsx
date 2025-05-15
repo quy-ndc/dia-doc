@@ -6,19 +6,25 @@ import { X } from '../../lib/icons/X';
 import { ImageZoom } from '@likashefqet/react-native-image-zoom';
 import { GestureHandlerRootView } from 'react-native-gesture-handler';
 import { GlobalColor } from '../../global-color';
-
+import { Text } from '../../components/ui/text'
+import { formatDateMessage } from '../../util/format-date-message';
 
 type Prop = {
-    content: string;
-    isOwn: boolean;
+    content: string
+    name: string
+    avatar: string
+    time: string
+    isOwn: boolean
 }
 
 
-export function ImageMessage({ content, isOwn }: Prop) {
+export function ImageMessage({ content, name, time, avatar, isOwn }: Prop) {
 
     const theme = useColorScheme()
 
     const [modallVisible, setModalVisible] = useState(false)
+
+    const userName = name ? name?.trim().split(' ').pop() : 'N/A'
 
     const onImageClick = () => {
         setModalVisible(!modallVisible)
@@ -30,11 +36,26 @@ export function ImageMessage({ content, isOwn }: Prop) {
 
 
     return (
-        <View className='flex-col gap-4 justify-center items-center'>
+        <View className='flex-col py-1 justify-center items-center'>
+            <View
+                className={`flex-row w-full justify-between items-center`}
+            >
+                {isOwn && <View />}
+                <View
+                    className={`flex-row gap-4`}
+                >
+                    {!isOwn && (
+                        <Text className='text-sm font-semibold tracking-wider'>{userName}</Text>
+                    )}
+                    <Text className={`text-sm text-[--fade-text-color] tracking-widest`}>
+                        {formatDateMessage(time)}
+                    </Text>
+                </View>
+                {!isOwn && <View />}
+            </View>
+
             <View className='flex-row justify-between w-full my-1'>
-                {isOwn && (
-                    <View />
-                )}
+                {isOwn && (<View />)}
                 <Modal visible={modallVisible} animationType='slide'>
                     <View className="flex-row justify-between items-center bg-[var(--same-theme-col)]">
                         <Pressable
@@ -57,24 +78,29 @@ export function ImageMessage({ content, isOwn }: Prop) {
                         />
                     </GestureHandlerRootView>
                 </Modal>
-                <Pressable
-                    className={`w-[70%] py-4`}
-                    onPress={onImageClick}
-                >
-                    <Image
-                        style={{
-                            width: '100%',
-                            minHeight: 300,
-                            maxHeight: 350,
-                            borderRadius: 20,
-                        }}
-                        source={content}
-                        contentFit='cover'
-                    />
-                </Pressable>
-                {!isOwn && (
-                    <View />
-                )}
+                <View className='flex-row gap-2'>
+                    {!isOwn && (
+                        <Image
+                            style={{ width: 30, height: 30, borderRadius: 1000 }}
+                            source={avatar}
+                            contentFit='contain'
+                        />
+                    )}
+                    <Pressable onPress={onImageClick}>
+                        <Image
+                            style={{
+                                width: '100%',
+                                minWidth: 250,
+                                minHeight: 300,
+                                maxHeight: 350,
+                                borderRadius: 20
+                            }}
+                            source={content}
+                            contentFit='cover'
+                        />
+                    </Pressable>
+                </View>
+                {!isOwn && (<View />)}
             </View>
         </View>
     );

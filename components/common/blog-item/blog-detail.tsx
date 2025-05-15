@@ -83,7 +83,7 @@ export default function BlogDetailItem({
                     source={image}
                 />
             </View>
-            <View className="flex-row justify-between items-center gap-1 px-1 pb-3">
+            {/* <View className="flex-row justify-between items-center gap-1 px-1 pb-3">
                 <View className="flex-row gap-1 items-center">
                     <LikeButton liked={liked} />
                     <CommentButton
@@ -94,7 +94,7 @@ export default function BlogDetailItem({
                         liked={liked}
                     />
                 </View>
-            </View>
+            </View> */}
             <RenderHTML
                 contentWidth={width}
                 source={{ html: contentHtml }}

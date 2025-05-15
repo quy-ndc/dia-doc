@@ -7,33 +7,36 @@ import { useState } from 'react';
 import { Trash2 } from '../../../lib/icons/Trash2';
 import { X } from '../../../lib/icons/X';
 import useNotificationStore from '../../../store/notificationStore';
-import {
-    AlertDialog,
-    AlertDialogAction,
-    AlertDialogCancel,
-    AlertDialogContent,
-    AlertDialogDescription,
-    AlertDialogFooter,
-    AlertDialogHeader,
-    AlertDialogTitle,
-    AlertDialogTrigger,
-} from '../../../components/ui/alert-dialog';
+import { SystemNotification } from '../../../assets/types/notification/notification';
+import { NotificatinType } from '../../../assets/enum/notification';
+import DefaultNotification from './noti-default';
+import PostNotification from './noti-post';
 
 type Prop = {
-    text: string
+    notification: SystemNotification
 }
 
 const { width } = Dimensions.get('window');
 
-export default function NotificationItem({ text }: Prop) {
+export default function NotificationItem({ notification }: Prop) {
 
     const [visible, setVisible] = useState(false)
 
     const { removeNoti } = useNotificationStore()
 
     const onNotiDelete = () => {
-        removeNoti(text)
+        removeNoti(notification)
         setVisible(false)
+    }
+
+
+    const renderNoti = () => {
+        switch (notification.type) {
+            case NotificatinType.DEFAULT:
+                return <DefaultNotification setVisible={setVisible} notification={notification} />
+            case NotificatinType.POST:
+                return <PostNotification setVisible={setVisible} notification={notification} />
+        }
     }
 
     return (
@@ -42,13 +45,7 @@ export default function NotificationItem({ text }: Prop) {
                 className='px-4 py-3 w-full flex-row justify-between items-center active:bg-[var(--click-bg)]'
                 onLongPress={() => setVisible(true)}
             >
-                <Text className="text-white">{text}</Text>
-                <IconButton
-                    icon={<Ellipsis className='text-foreground' size={20} />}
-                    buttonSize={2}
-                    possition={'other'}
-                    onPress={() => setVisible(true)}
-                />
+                {renderNoti()}
             </Pressable>
             <Modal
                 visible={visible}

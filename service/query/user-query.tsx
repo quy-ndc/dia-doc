@@ -1,5 +1,5 @@
 import { useMutation } from "@tanstack/react-query";
-import { UpdateUserProfile } from "../api/user-service";
+import { GetUserProfile, UpdateUserProfile } from "../api/user-service";
 
 export const useEditPatientMutation = () => {
     return useMutation({
@@ -10,7 +10,6 @@ export const useEditPatientMutation = () => {
             weight: number,
             height: number,
             diabetesType: number,
-            userId: string,
             medicalRecord?: any
         }) => UpdateUserProfile(params),
         onSuccess: (data) => {
@@ -20,4 +19,13 @@ export const useEditPatientMutation = () => {
             return error;
         }
     })
+}
+
+export const useUserProfile = () => {
+    const queryKey = ['patient profile']
+    const queryFn = async () => {
+        return GetUserProfile()
+    }
+
+    return { queryKey, queryFn }
 }

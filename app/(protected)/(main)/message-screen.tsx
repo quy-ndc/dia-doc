@@ -17,6 +17,7 @@ import { GroupChat } from '../../../assets/types/chat/group';
 import SpinningIcon from '../../../components/common/icons/spinning-icon';
 import { Loader } from '../../../lib/icons/Loader';
 import { RefreshCcw } from '../../../lib/icons/RefreshCcw';
+import { AllFeaturesEnabled, ChatRoomProvider } from '@ably/chat';
 
 const { width } = Dimensions.get('window');
 
@@ -92,19 +93,22 @@ export default function MessagesScreen() {
                     data={groups}
                     keyExtractor={(_, index) => index.toString()}
                     renderItem={({ item }) => (
-                        <ChatItem
-                            id={item.id}
-                            img={item.avatar}
-                            name={item.name}
-                            user={item.message ? item.message.user.fullName : undefined}
-                            message={item.message ? item.message.content : undefined}
-                            time={item.message ? item.message.createdDate : undefined}
-                            hasNewMessage={item.message ? item.message.isRead : false}
-                        />
+                        <ChatRoomProvider id={item.id} options={AllFeaturesEnabled}>
+                            <ChatItem
+                                id={item.id}
+                                img={item.avatar}
+                                name={item.name}
+                                user={item.message ? item.message.user.fullName : undefined}
+                                message={item.message ? item.message.content : undefined}
+                                type={item.message ? item.message.type : undefined}
+                                time={item.message ? item.message.createdDate : undefined}
+                                hasNewMessage={item.message ? item.message.isRead : false}
+                            />
+                        </ChatRoomProvider>
                     )}
                     estimatedItemSize={100}
                 />
             </View>
-        </ScrollView>
+        </ScrollView >
     );
 }

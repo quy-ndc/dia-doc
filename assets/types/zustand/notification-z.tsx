@@ -1,10 +1,12 @@
+import { SystemNotification } from "../notification/notification"
+
 export type NotiZState = {
-    notification: string[];
-    addNoti: (item: string) => void;
-    removeNoti: (item: string) => void;
-    resetNoti: () => void;
-    notiCount: number;
-    increaseCount: () => void;
-    decreaseCount: () => void;
-    clearCount: () => void;
-};
+    notification: SystemNotification[]
+    addNoti: (item: SystemNotification) => void
+    removeNoti: (item: SystemNotification) => void
+    resetNoti: () => void
+    notiCount: number
+    increaseCount: () => void
+    decreaseCount: () => void
+    clearCount: () => void
+}

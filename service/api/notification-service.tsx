@@ -1,22 +1,16 @@
 import axios from "axios"
-import { createQueryString, endpointCategory, endpointMedia } from "../endpoint"
 import axiosServices from "../axios"
+import { createQueryString, endpointNoti } from "../endpoint"
 
-export const GetAllMedias = async (params: {
-    PageIndex: number
-    PageSize: number
-    Title?: string
-    Content?: string
-    CategoryId?: string
-    UserCreatedId?: string
-    SortType?: number
-    IsSortASC?: boolean
-    electedColumns?: string[]
+
+export const GetAllNotifications = async (params: {
+    Cursor?: string
+    PageSize?: number
 }) => {
 
     try {
         const queryString = createQueryString(params)
-        const response = await axiosServices.get(`${endpointMedia.GET_ALL_MEDIAS}?${queryString}`)
+        const response = await axiosServices.get(`${endpointNoti.GET_ALL_NOTIFICATION}?${queryString}`)
 
         return {
             success: true,
@@ -42,10 +36,10 @@ export const GetAllMedias = async (params: {
     }
 }
 
-export const GetMediaById = async (id: string) => {
+export const UpdateNotification = async (data: string[]) => {
 
     try {
-        const response = await axiosServices.get(`${endpointMedia.GET_MEDIA_BY_ID}/${id}`)
+        const response = await axiosServices.patch(`${endpointNoti.UPDATE_NOTIFICATION}`, { data })
 
         return {
             success: true,
@@ -71,43 +65,11 @@ export const GetMediaById = async (id: string) => {
     }
 }
 
-export const GetAllCategories = async () => {
+
+export const DeleteNotification = async (id: string) => {
 
     try {
-        const response = await axiosServices.get(`${endpointCategory.GET_ALL_CATEGORY}`)
-
-        return {
-            success: true,
-            status: response.status,
-            data: response.data,
-        }
-    } catch (error) {
-        if (axios.isAxiosError(error) && error.response) {
-            return {
-                success: false,
-                status: error.response.status,
-                message: error.response.data.message || 'An error occurred',
-                data: error.response.data
-            };
-        } else {
-            return {
-                success: false,
-                status: 500,
-                message: 'An unexpected error occurred',
-                data: null
-            };
-        }
-    }
-}
-
-export const GetTopMedias = async (params: {
-    NumberOfPosts: number,
-    NumberOfDays: number
-}) => {
-
-    try {
-        const queryString = createQueryString(params)
-        const response = await axiosServices.get(`${endpointMedia.GET_TOP_MEDIAS}?${queryString}`)
+        const response = await axiosServices.delete(`${endpointNoti.DELETE_NOTIFICATION}/${id}`)
 
         return {
             success: true,

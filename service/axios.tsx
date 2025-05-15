@@ -1,13 +1,19 @@
 import axios, { AxiosError } from "axios";
-import { router, useRouter } from "expo-router";
+import { router } from "expo-router";
 import useUserStore from "../store/userStore";
+import Toast from "react-native-toast-message";
 
 const axiosServices = axios.create({
     timeout: 50000,
 });
 
 const handleUnauthorized = () => {
-    router.push('/authen-screen');
+    router.replace('/authen-screen')
+    Toast.show({
+        type: 'error',
+        text1: 'Phiên đăng nhập hết hạn',
+        visibilityTime: 2000
+    })
 }
 
 axiosServices.interceptors.request.use(
@@ -16,12 +22,11 @@ axiosServices.interceptors.request.use(
         if (user.accessToken !== '') {
             config.headers["Authorization"] = `Bearer ${user.accessToken}`
         }
-        // config.headers["Authorization"] = `Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJVc2VySWQiOiIwMTkzZTk5OS04Nzg0LTdmNmQtZTJjMy04Yjk3N2NkZDMzZWEiLCJFbWFpbCI6ImdhbWVhYm92ZTE4QGdtYWlsLmNvbSIsIlJvbGUiOiI0IiwiU2Vzc2lvbklkIjoiMDE5M2YxOTEtYzM2OS03OTVjLTJlYzEtNWMyNGE4MzU0NTMwIiwibmJmIjoxNzM1ODI5NDI3LCJleHAiOjE3MzU4MzEyMjcsImlhdCI6MTczNTgyOTQyNywiaXNzIjoiaHR0cHM6Ly9sb2NhbGhvc3Q6NzIxNyIsImF1ZCI6Imh0dHBzOi8vbG9jYWxob3N0OjcyMTcifQ.AcjRP-e3vMdb2nLC4n3llr778FQosFvelwoecFpEVvA`;
-        config.headers["Content-Type"] = "application/json";
-        return config;
+        config.headers["Content-Type"] = "application/json"
+        return config
     },
     function (error) {
-        return Promise.reject(error);
+        return Promise.reject(error)
     }
 );
 

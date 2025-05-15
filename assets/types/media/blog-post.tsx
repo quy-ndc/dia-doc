@@ -17,5 +17,6 @@ export type BlogPost = {
         fullName: string
         imageUrl: string
     }
+    wordCount: number
     isBookmarked: boolean
 }

@@ -21,6 +21,7 @@ import { bloodTypes } from '../../assets/data/blood-types';
 import { diaTypes } from '../../assets/data/dia-types';
 import { genders } from '../../assets/data/genders';
 import { useEditPatientMutation } from '../../service/query/user-query';
+import { User } from '../../assets/types/zustand/user-z';
 
 const { width } = Dimensions.get('window');
 
@@ -31,7 +32,7 @@ type Prop = {
 
 export default function SetUpPatient({ setRole, mode }: Prop) {
 
-    const { user } = useUserStore()
+    const { user, setUser } = useUserStore()
 
     const [show, setShow] = useState<boolean>(false)
 
@@ -80,16 +81,31 @@ export default function SetUpPatient({ setRole, mode }: Prop) {
     const onSubmit = async (data: any) => {
         try {
             const response = await mutateAsync({
-                dateOfBirth: 'asdasd',
-                genderType: 0,
-                bloodType: 0,
-                weight: 111,
-                height: 111,
-                diabetesType: data.type,
-                userId: 'asdasd',
+                dateOfBirth: data.date,
+                genderType: Number(data.gender),
+                bloodType: Number(data.blood),
+                weight: Number(data.weight),
+                height: Number(data.height),
+                diabetesType: Number(data.type),
                 medicalRecord: null
             })
             if (response.success) {
+                const newUser: User = {
+                    isAuthenticated: true,
+                    isSetUp: false,
+                    accessToken: response.data.value.data.authToken.accessToken || '',
+                    refreshToken: response.data.value.data.authToken.refreshToken || '',
+                    id: response.data.value.data.authUser.id || '',
+                    fullname: response.data.value.data.authUser.fullName || '',
+                    avatar: response.data.value.data.authUser.avatarUrl || '',
+                    phone: '',
+                    blood: 0,
+                    diaType: 0,
+                    gender: 0,
+                    bod: '',
+                    weight: 0,
+                    height: 0
+                }
                 Toast.show({
                     type: 'success',
                     text1: 'Cập nhật thành công',
@@ -134,7 +150,7 @@ export default function SetUpPatient({ setRole, mode }: Prop) {
                                 />
                             }
                         />
-                    </View> 
+                    </View>
                     <View className='flex-row justify-between'>
                         <Controller
                             control={control}

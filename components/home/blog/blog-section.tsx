@@ -23,6 +23,7 @@ type Prop = {
 }
 
 export default function HomeBlogSection({ isLoading, isError, items, onRefresh, refreshing }: Prop) {
+
     const router = useRouter()
 
     return (
@@ -56,18 +57,7 @@ export default function HomeBlogSection({ isLoading, isError, items, onRefresh, 
                             data={items}
                             keyExtractor={(_, index) => index.toString()}
                             renderItem={({ item }) => (
-                                <BlogItem
-                                    id={item.id}
-                                    title={item.title}
-                                    image={item.imageUrl}
-                                    createDate={item.createdDate}
-                                    view={item.view}
-                                    category={item.category.name}
-                                    name={item.user.fullName}
-                                    avatar={item.user.imageUrl}
-                                    liked={false}
-                                    bookmarked={item.isBookmarked}
-                                />
+                                <BlogItem blogPost={item} />
                             )}
                             estimatedItemSize={100}
                         />

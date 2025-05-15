@@ -5,19 +5,42 @@ import { Text } from '../../components/ui/text';
 import { Stack, useLocalSearchParams } from 'expo-router';
 import ChatModule from '../../components/chat-screen/chat-module';
 import CameraModule from '../../components/chat-screen/camera-module';
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import { Message } from '../../assets/types/chat/message';
 import { AllFeaturesEnabled, ChatRoomProvider } from '@ably/chat';
-import useUserStore from '../../store/userStore';
 import { ChannelProvider } from 'ably/react';
+import { useChatMessagesQuery } from '../../service/query/chat-query';
+import { useInfiniteQuery } from '@tanstack/react-query';
+import { MessageType } from '../../assets/enum/message-type';
 
 
 export default function ChatScreen() {
 
-    const { title, image } = useLocalSearchParams();
-    const { user } = useUserStore()
+    const { id, title, image } = useLocalSearchParams()
     const [messages, setMessages] = useState<Message[]>([])
     const [newMessage, setNewMessage] = useState('')
+
+    const {
+        data,
+        hasNextPage,
+        isFetchingNextPage,
+        fetchNextPage,
+        refetch,
+        remove,
+        isLoading,
+    } = useInfiniteQuery({
+        ...useChatMessagesQuery({
+            groupId: id as string,
+            PageSize: 30
+        }),
+        getNextPageParam: (lastPage) => {
+            const groups = lastPage.data?.value?.groups
+            return groups?.hasNextPage ? groups.nextCursor : undefined
+        },
+        keepPreviousData: false,
+    })
+
+    const allMessages: Message[] = data?.pages.flatMap(page => page.data?.value.messages.items || []) || []
 
     const handleHistory = (messages: Message[]) => {
         setMessages(prev => [...messages, ...prev]);
@@ -27,33 +50,30 @@ export default function ChatScreen() {
         setMessages((prevMessages) => [...prevMessages, receivedMessage])
     }
 
-    const handleSendMessage = (newMessage: string) => {
-        if (newMessage.trim()) {
-            const messageToSend: Message = {
-                id: user.id,
-                type: 'text',
-                content: newMessage,
-                time: new Date(Date.now()).toISOString(),
-                name: user.fullname,
-                avatar: user.avatar
-            }
-            setMessages((prevMessages) => [...prevMessages, messageToSend])
-            setNewMessage('');
-        }
+    const handleSendMessage = (newMessage: Message) => {
+        setMessages((prevMessages) => [...prevMessages, newMessage])
+        setNewMessage('')
     }
 
-    const handleImageMessage = (url: string) => {
-        const messageToSend: Message = {
-            id: user.id,
-            type: 'image',
-            content: url,
-            time: new Date(Date.now()).toISOString(),
-            name: user.fullname,
-            avatar: user.avatar
+    useEffect(() => {
+        if (allMessages.length > 0) {
+            handleHistory(allMessages)
         }
-        setMessages((prevMessages) => [...prevMessages, messageToSend]);
-        setNewMessage('');
-    }
+    }, [data])
+
+    // const handleImageMessage = (url: string) => {
+    //     const messageToSend: Message = {
+    //         id: user.id,
+    //         type: MessageType.PICTURE,
+    //         content: url,
+    //         createdDate: new Date(Date.now()).toISOString(),
+    //         isRead: false,
+    //         name: user.fullname,
+    //         avatar: user.avatar
+    //     }
+    //     setMessages((prevMessages) => [...prevMessages, messageToSend]);
+    //     setNewMessage('');
+    // }
 
     const [isCameraOn, setIsCameraOn] = useState(false)
 
@@ -72,7 +92,7 @@ export default function ChatScreen() {
                         </View>
                 }}
             />
-            <Modal
+            {/* <Modal
                 visible={isCameraOn}
                 animationType='fade'
                 onRequestClose={() => setIsCameraOn(false)}
@@ -81,16 +101,17 @@ export default function ChatScreen() {
                     setIsCameraOn={setIsCameraOn}
                     handleSendImage={handleImageMessage}
                 />
-            </Modal>
-            <ChatRoomProvider id="thu-duc" options={AllFeaturesEnabled}>
+            </Modal> */}
+            <ChatRoomProvider id={id} options={AllFeaturesEnabled}>
                 <ChannelProvider channelName="message-read-latest">
                     <ChatModule
+                        groupId={id as string}
                         setIsCameraOn={setIsCameraOn}
-                        newMessage={newMessage}
-                        setNewMessage={setNewMessage}
-                        messages={messages}
-                        handleSendMessage={handleSendMessage}
-                        handleSendImage={handleImageMessage}
+                        // newMessage={newMessage}
+                        // setNewMessage={setNewMessage}
+                        // messages={messages}
+                        // handleSendMessage={handleSendMessage}
+                        // handleSendImage={handleImageMessage}
                         onHistory={handleHistory}
                         onReceived={handleReceive}
                     />

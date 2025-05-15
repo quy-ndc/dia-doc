@@ -1,4 +1,4 @@
-import { GetAllCategories, GetAllMedias, GetMediaById } from "../api/media-service";
+import { GetAllCategories, GetAllMedias, GetMediaById, GetTopMedias } from "../api/media-service";
 
 export const useMediaQuery = (params: {
     PageSize: number
@@ -36,13 +36,25 @@ export const useNewMediaQuery = (params: {
     }
 
     return { queryKey, queryFn }
-};
-
+}
 
 export const useMediaByIdQuery = (id: string) => {
     const queryKey = ['media by id', id]
     const queryFn = async () => {
         return GetMediaById(id)
+    }
+
+    return { queryKey, queryFn }
+}
+
+
+export const useTopMediaQuery = (params: {
+    NumberOfPosts: number,
+    NumberOfDays: number
+}) => {
+    const queryKey = ['top medias', params]
+    const queryFn = async () => {
+        return GetTopMedias(params)
     }
 
     return { queryKey, queryFn }

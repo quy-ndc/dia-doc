@@ -39,7 +39,6 @@ export const UpdateUserProfile = async (param: {
     weight: number,
     height: number,
     diabetesType: number,
-    userId: string,
     medicalRecord?: any
 }) => {
     try {
@@ -50,7 +49,6 @@ export const UpdateUserProfile = async (param: {
             weight: param.weight,
             height: param.height,
             diabetesType: param.diabetesType,
-            userId: param.userId,
             medicalRecord: param.medicalRecord
         })
 

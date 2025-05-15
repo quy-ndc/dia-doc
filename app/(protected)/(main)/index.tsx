@@ -4,7 +4,7 @@ import QuickAccess from '../../../components/home/quick-access/quick-access';
 import HomeBlogSection from '../../../components/home/blog/blog-section';
 import { useCallback, useState } from 'react';
 import { useQuery } from '@tanstack/react-query';
-import { useNewMediaQuery } from '../../../service/query/media-query';
+import { useNewMediaQuery, useTopMediaQuery } from '../../../service/query/media-query';
 import { BlogPost } from '../../../assets/types/media/blog-post';
 
 
@@ -13,9 +13,9 @@ export default function HomeScreen() {
     const [refreshing, setRefreshing] = useState(false)
 
     const { data, isLoading, isError, refetch, remove } = useQuery(
-        useNewMediaQuery({
-            PageIndex: 1,
-            PageSize: 5,
+        useTopMediaQuery({
+            NumberOfDays: 30,
+            NumberOfPosts: 5
         })
     )
 
@@ -25,7 +25,7 @@ export default function HomeScreen() {
         refetch().finally(() => setRefreshing(false))
     }, [refetch])
 
-    const items: BlogPost[] = data?.data?.value?.data?.items || []
+    const items: BlogPost[] = data?.data?.value?.data || []
 
     return (
         <>

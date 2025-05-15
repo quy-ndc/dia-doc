@@ -1,24 +1,24 @@
-import { FlashList } from '@shopify/flash-list';
-import * as React from 'react';
-import { useCallback, useRef, useState } from 'react';
-import { View, RefreshControl, Pressable } from 'react-native';
-import { Animated as RNAnimated } from 'react-native';
-import BlogItem from '../../../components/common/blog-item/blog-item';
-import { ChevronUp } from '../../../lib/icons/ChevronUp';
-import { useMediaQuery } from '../../../service/query/media-query';
-import { useInfiniteQuery } from '@tanstack/react-query';
-import { BlogPost } from '../../../assets/types/media/blog-post';
+import { FlashList } from '@shopify/flash-list'
+import * as React from 'react'
+import { useCallback, useRef, useState } from 'react'
+import { View, RefreshControl, Pressable } from 'react-native'
+import { Animated as RNAnimated } from 'react-native'
+import BlogItem from '../../../components/common/blog-item/blog-item'
+import { ChevronUp } from '../../../lib/icons/ChevronUp'
+import { useMediaQuery } from '../../../service/query/media-query'
+import { useInfiniteQuery } from '@tanstack/react-query'
+import { BlogPost } from '../../../assets/types/media/blog-post'
 import { Text } from '../../../components/ui/text'
-import SpinningIcon from '../../../components/common/icons/spinning-icon';
-import { Loader } from '../../../lib/icons/Loader';
-import FilterButton from '../../../components/blog-screen/filter-button';
-import SearchButton from '../../../components/blog-screen/search-button';
+import SpinningIcon from '../../../components/common/icons/spinning-icon'
+import { Loader } from '../../../lib/icons/Loader'
+import FilterButton from '../../../components/blog-screen/filter-button'
+import SearchButton from '../../../components/blog-screen/search-button'
 
 
 export default function BlogScreen() {
 
-    const listRef = useRef<FlashList<BlogPost>>(null);
-    const opacity = useRef(new RNAnimated.Value(0)).current;
+    const listRef = useRef<FlashList<BlogPost>>(null)
+    const opacity = useRef(new RNAnimated.Value(0)).current
 
     const [refreshing, setRefreshing] = useState(false)
     const [showScrollButton, setShowScrollButton] = useState(false)
@@ -38,13 +38,13 @@ export default function BlogScreen() {
         ...useMediaQuery({
             PageSize: 5,
             CategoryId: category,
-            // Content: search,
+            Content: search,
             Title: search
         }),
         getNextPageParam: (lastPage) => {
-            const currentPage = lastPage.data?.value?.data?.pageIndex || 1;
-            const totalPages = lastPage.data?.value?.data?.totalPages || 1;
-            return currentPage < totalPages ? currentPage + 1 : undefined;
+            const currentPage = lastPage.data?.value?.data?.pageIndex || 1
+            const totalPages = lastPage.data?.value?.data?.totalPages || 1
+            return currentPage < totalPages ? currentPage + 1 : undefined
         },
         keepPreviousData: false
     })
@@ -52,13 +52,13 @@ export default function BlogScreen() {
     const allItems: BlogPost[] = data?.pages.flatMap(page => page.data?.value.data.items) || []
 
     const onRefresh = useCallback(() => {
-        setRefreshing(true);
-        remove();
-        refetch().finally(() => setRefreshing(false));
+        setRefreshing(true)
+        remove()
+        refetch().finally(() => setRefreshing(false))
     }, [refetch])
 
     const scrollToTop = () => {
-        listRef.current?.scrollToIndex({ index: 0, animated: true });
+        listRef.current?.scrollToIndex({ index: 0, animated: true })
     }
 
     const toggleVisibility = (visible: boolean) => {
@@ -67,16 +67,16 @@ export default function BlogScreen() {
             duration: 300,
             useNativeDriver: true,
         }).start(() => {
-            setShowScrollButton(visible);
-        });
+            setShowScrollButton(visible)
+        })
     }
 
     const handleScroll = (event: any) => {
-        const offsetY = event.nativeEvent.contentOffset.y;
+        const offsetY = event.nativeEvent.contentOffset.y
         if (offsetY > 400 && !showScrollButton) {
-            toggleVisibility(true);
+            toggleVisibility(true)
         } else if (offsetY <= 400 && showScrollButton) {
-            toggleVisibility(false);
+            toggleVisibility(false)
         }
     }
 
@@ -100,18 +100,7 @@ export default function BlogScreen() {
                         ref={listRef}
                         keyExtractor={(_, index) => index.toString()}
                         renderItem={({ item }) =>
-                            <BlogItem
-                                id={item.id || ''}
-                                title={item.title}
-                                image={item.imageUrl}
-                                createDate={item.createdDate}
-                                view={item.view || 0}
-                                category={item.category.name}
-                                name={item.user.fullName}
-                                avatar={item.user.imageUrl}
-                                liked={false}
-                                bookmarked={item.isBookmarked}
-                            />
+                            <BlogItem blogPost={item} />
                         }
                         estimatedItemSize={100}
                         refreshControl={<RefreshControl refreshing={refreshing} onRefresh={onRefresh} />}
@@ -119,7 +108,7 @@ export default function BlogScreen() {
                         scrollEventThrottle={16}
                         onEndReached={() => {
                             if (hasNextPage && !isFetchingNextPage) {
-                                fetchNextPage();
+                                fetchNextPage()
                             }
                         }}
                         onEndReachedThreshold={0.5}
@@ -144,7 +133,7 @@ export default function BlogScreen() {
                 </View>
             )}
         </View>
-    );
+    )
 }
 
 

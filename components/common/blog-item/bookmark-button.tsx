@@ -1,7 +1,6 @@
 import { Bookmark } from '../../../lib/icons/Bookmark';
-import { useEffect, useState } from "react";
+import { useState } from "react";
 import { Pressable } from 'react-native';
-import { Text } from '../../../components/ui/text'
 
 
 type Prop = {
@@ -25,7 +24,7 @@ export default function BookmarkButton({ bookmarked, detail }: Prop) {
             <Bookmark
                 className={`text-foreground`}
                 fill={isBookmarked ? 'white' : 'none'}
-                size={17}
+                size={19}
             />
         </Pressable>
     );

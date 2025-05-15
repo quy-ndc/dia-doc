@@ -24,7 +24,10 @@ export default function FilterButton({ category, setCategory }: Prop) {
     const [open, setOpen] = useState(false)
     const [current, setCurrent] = useState(category)
 
-    const { data, isLoading } = useQuery((useCategoryQuery()))
+    const { data, isLoading } = useQuery({
+        ...useCategoryQuery(),
+        enabled: open
+    });
 
     const categories: Category[] = data?.data.value.data || []
 

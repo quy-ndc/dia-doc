@@ -1,14 +1,14 @@
-import * as SwitchPrimitives from '@rn-primitives/switch'
-import * as React from 'react'
-import { Platform } from 'react-native'
+import * as SwitchPrimitives from '@rn-primitives/switch';
+import * as React from 'react';
+import { Platform } from 'react-native';
 import Animated, {
     interpolateColor,
     useAnimatedStyle,
     useDerivedValue,
     withTiming,
-} from 'react-native-reanimated'
-import { useColorScheme } from '../../lib/useColorScheme'
-import { cn } from '../../lib/utils'
+} from 'react-native-reanimated';
+import { useColorScheme } from '../../lib/useColorScheme';
+import { cn } from '../../lib/utils';
 
 const SwitchWeb = React.forwardRef<SwitchPrimitives.RootRef, SwitchPrimitives.RootProps>(
     ({ className, ...props }, ref) => (
@@ -30,9 +30,9 @@ const SwitchWeb = React.forwardRef<SwitchPrimitives.RootRef, SwitchPrimitives.Ro
             />
         </SwitchPrimitives.Root>
     )
-)
+);
 
-SwitchWeb.displayName = 'SwitchWeb'
+SwitchWeb.displayName = 'SwitchWeb';
 
 const RGB_COLORS = {
     light: {
@@ -43,12 +43,12 @@ const RGB_COLORS = {
         primary: 'rgb(250, 250, 250)',
         input: 'rgb(39, 39, 42)',
     },
-} as const
+} as const;
 
 const SwitchNative = React.forwardRef<SwitchPrimitives.RootRef, SwitchPrimitives.RootProps>(
     ({ className, ...props }, ref) => {
-        const { colorScheme } = useColorScheme()
-        const translateX = useDerivedValue(() => (props.checked ? 18 : 0))
+        const { colorScheme } = useColorScheme();
+        const translateX = useDerivedValue(() => (props.checked ? 18 : 0));
         const animatedRootStyle = useAnimatedStyle(() => {
             return {
                 backgroundColor: interpolateColor(
@@ -56,11 +56,11 @@ const SwitchNative = React.forwardRef<SwitchPrimitives.RootRef, SwitchPrimitives
                     [0, 18],
                     [RGB_COLORS[colorScheme].input, RGB_COLORS[colorScheme].primary]
                 ),
-            }
-        })
+            };
+        });
         const animatedThumbStyle = useAnimatedStyle(() => ({
             transform: [{ translateX: withTiming(translateX.value, { duration: 200 }) }],
-        }))
+        }));
         return (
             <Animated.View
                 style={animatedRootStyle}
@@ -82,14 +82,14 @@ const SwitchNative = React.forwardRef<SwitchPrimitives.RootRef, SwitchPrimitives
                     </Animated.View>
                 </SwitchPrimitives.Root>
             </Animated.View>
-        )
+        );
     }
-)
-SwitchNative.displayName = 'SwitchNative'
+);
+SwitchNative.displayName = 'SwitchNative';
 
 const Switch = Platform.select({
     web: SwitchWeb,
     default: SwitchNative,
-})
+});
 
-export { Switch }
+export { Switch };

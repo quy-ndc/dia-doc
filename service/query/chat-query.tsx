@@ -57,7 +57,7 @@ export const useSendMessageMutation = () => {
                 text1: 'Gửi tin nhắn thất bại',
                 visibilityTime: 2000
             })
-            return error 
+            return error;
         }
     })
 }

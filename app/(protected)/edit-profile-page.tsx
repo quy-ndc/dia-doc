@@ -1,7 +1,7 @@
-import * as React from 'react' 
-import { useState } from 'react' 
-import SetUpPatient from '../../components/set-up-screen/set-up-patient' 
-import SetUpDoctor from '../../components/set-up-screen/set-up-doctor' 
+import * as React from 'react';
+import { useState } from 'react';
+import SetUpPatient from '../../components/set-up-screen/set-up-patient';
+import SetUpDoctor from '../../components/set-up-screen/set-up-doctor';
 
 
 export default function EditProfileScreen() {
@@ -16,5 +16,5 @@ export default function EditProfileScreen() {
                 <SetUpDoctor setRole={setRole} mode='edit' />
             )}
         </>
-    ) 
+    );
 }

@@ -1,13 +1,13 @@
-import * as React from 'react' 
-import { useState } from 'react' 
-import { Modal, Pressable, View, useColorScheme } from 'react-native' 
-import { Image } from 'expo-image' 
-import { X } from '../../lib/icons/X' 
-import { ImageZoom } from '@likashefqet/react-native-image-zoom' 
-import { GestureHandlerRootView } from 'react-native-gesture-handler' 
-import { GlobalColor } from '../../global-color' 
+import * as React from 'react';
+import { useState } from 'react';
+import { Modal, Pressable, View, useColorScheme } from 'react-native';
+import { Image } from 'expo-image';
+import { X } from '../../lib/icons/X';
+import { ImageZoom } from '@likashefqet/react-native-image-zoom';
+import { GestureHandlerRootView } from 'react-native-gesture-handler';
+import { GlobalColor } from '../../global-color';
 import { Text } from '../../components/ui/text'
-import { formatDateMessage } from '../../util/format-date-message' 
+import { formatDateMessage } from '../../util/format-date-message';
 
 type Prop = {
     content: string
@@ -103,5 +103,5 @@ export function ImageMessage({ content, name, time, avatar, isOwn }: Prop) {
                 {!isOwn && (<View />)}
             </View>
         </View>
-    ) 
+    );
 }

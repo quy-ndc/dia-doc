@@ -1,6 +1,6 @@
-import * as React from 'react'
-import { View } from 'react-native'
-import { Text } from '../../components/ui/text'
+import * as React from 'react';
+import { View } from 'react-native';
+import { Text } from '../../components/ui/text';
 
 
 type Prop = {
@@ -16,5 +16,5 @@ export default function BasicInfo({ title, value, unit }: Prop) {
             <Text className='text-lg font-bold tracking-widest capitalize'>{title}</Text>
             <Text className='text-base tracking-widest text-[var(--fade-text-color)]'>{value} {unit}</Text>
         </View>
-    )
+    );
 }

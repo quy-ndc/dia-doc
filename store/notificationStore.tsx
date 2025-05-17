@@ -1,7 +1,7 @@
-import AsyncStorage from '@react-native-async-storage/async-storage' 
-import { create } from 'zustand' 
-import { createJSONStorage, persist } from 'zustand/middleware' 
-import { NotiZState } from '../assets/types/zustand/notification-z' 
+import AsyncStorage from '@react-native-async-storage/async-storage';
+import { create } from 'zustand';
+import { createJSONStorage, persist } from 'zustand/middleware';
+import { NotiZState } from '../assets/types/zustand/notification-z';
 
 
 const useNotificationStore = create<NotiZState>()(
@@ -23,6 +23,6 @@ const useNotificationStore = create<NotiZState>()(
             storage: createJSONStorage(() => AsyncStorage),
         }
     )
-) 
+);
 
-export default useNotificationStore 
+export default useNotificationStore;

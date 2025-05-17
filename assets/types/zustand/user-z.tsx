@@ -2,7 +2,7 @@ export type UserZState = {
     user: User
     setUser: (user: User) => void
     logout: () => void
-} 
+};
 
 export type User = {
     isAuthenticated: boolean

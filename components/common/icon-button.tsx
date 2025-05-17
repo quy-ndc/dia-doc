@@ -1,10 +1,10 @@
-import { Pressable, PressableProps } from 'react-native'
+import { Pressable, PressableProps } from 'react-native';
 
 type Prop = PressableProps & {
-    icon: React.ReactNode
-    buttonSize: number
+    icon: React.ReactNode;
+    buttonSize: number;
     possition: 'camera' | 'other'
-}
+};
 
 export default function IconButton({ icon, buttonSize, possition, ...pressableProps }: Prop) {
     return (
@@ -14,5 +14,5 @@ export default function IconButton({ icon, buttonSize, possition, ...pressablePr
         >
             {icon}
         </Pressable>
-    )
+    );
 }

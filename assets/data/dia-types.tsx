@@ -1,4 +1,4 @@
-import { DiaType } from "../enum/dia-type" 
+import { DiaType } from "../enum/dia-type";
 
 export const diaTypes = [
     { label: 'Loại 1', value: DiaType.TYPE_1.toString() },

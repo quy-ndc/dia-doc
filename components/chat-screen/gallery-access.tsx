@@ -1,8 +1,8 @@
-import * as React from 'react' 
-import * as ImagePicker from 'expo-image-picker' 
-import { Linking, Pressable } from 'react-native' 
-import { Images } from '../../lib/icons/Images' 
-import Toast from 'react-native-toast-message' 
+import * as React from 'react';
+import * as ImagePicker from 'expo-image-picker';
+import { Linking, Pressable } from 'react-native';
+import { Images } from '../../lib/icons/Images';
+import Toast from 'react-native-toast-message';
 
 type Prop = {
     onImagePick: (message: string) => void
@@ -11,7 +11,7 @@ type Prop = {
 export default function GalleryAccess({ onImagePick }: Prop) {
 
     const pickImageAsync = async () => {
-        const response = await ImagePicker.requestMediaLibraryPermissionsAsync() 
+        const response = await ImagePicker.requestMediaLibraryPermissionsAsync();
 
         if (!response.canAskAgain) {
             Toast.show({
@@ -35,12 +35,12 @@ export default function GalleryAccess({ onImagePick }: Prop) {
             quality: 1,
             allowsMultipleSelection: true,
             orderedSelection: true
-        }) 
+        });
 
         if (!result.canceled) {
             onImagePick(result.assets[0].uri)
         }
-    } 
+    };
 
     return (
         <Pressable
@@ -49,5 +49,5 @@ export default function GalleryAccess({ onImagePick }: Prop) {
         >
             <Images className='text-foreground' size={20} />
         </Pressable>
-    ) 
+    );
 }

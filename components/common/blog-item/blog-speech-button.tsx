@@ -1,10 +1,10 @@
-import * as React from 'react'
-import { Platform } from 'react-native'
-import { useEffect, useState } from 'react'
-import IconButton from '../../common/icon-button'
-import { Headphones } from '../../../lib/icons/Headphones'
-import * as Speech from 'expo-speech'
-import { Pause } from '../../../lib/icons/Pause'
+import * as React from 'react';
+import { Platform } from 'react-native';
+import { useEffect, useState } from 'react';
+import IconButton from '../../common/icon-button';
+import { Headphones } from '../../../lib/icons/Headphones';
+import * as Speech from 'expo-speech';
+import { Pause } from '../../../lib/icons/Pause';
 
 
 type Prop = {

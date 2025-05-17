@@ -1,4 +1,4 @@
-import { BloodType } from "../enum/blood" 
+import { BloodType } from "../enum/blood";
 
 export const bloodTypes = [
     { label: 'A+', value: BloodType.A_POSITIVE.toString() },

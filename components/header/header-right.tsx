@@ -1,17 +1,15 @@
-import * as React from 'react'
-import { View } from 'react-native'
-import { useRouter } from 'expo-router'
-import { ThemeToggle } from '../ThemeToggle'
+import * as React from 'react';
+import { Pressable, StyleSheet, View } from 'react-native';
+import { useRouter } from 'expo-router';
+import { ThemeToggle } from '../ThemeToggle';
 import { Image } from 'expo-image'
 import Notification from './notification/noti-access'
-import IconButton from '../common/icon-button'
-import LogoutButton from './logout-button'
-import useUserStore from '../../store/userStore'
+import IconButton from '../common/icon-button';
+import LogoutButton from './logout-button';
 
 export default function HeaderRight() {
 
     const router = useRouter()
-    const { user } = useUserStore()
 
     return (
         <View className='flex-row pr-2 items-center'>
@@ -21,14 +19,18 @@ export default function HeaderRight() {
             <IconButton
                 icon={
                     <Image
-                        style={{ width: 28, height: 28, borderRadius: 1000 }}
-                        source={user.avatar}
+                        style={{
+                            width: 28,
+                            height: 28,
+                            borderRadius: 1000,
+                        }}
+                        source={`https://res.cloudinary.com/dcjdtlnbl/image/upload/v1729103768/female-shirt-category_pl5o1d.jpg`}
                     />
                 }
                 buttonSize={3}
-                onPress={() => router.push('/profile-screen')}
+                onPress={() => router.push('/authen-screen')}
                 possition='other'
             />
         </View>
-    )
+    );
 }

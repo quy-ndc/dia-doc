@@ -1,13 +1,13 @@
-import * as React from 'react' 
-import { View, ScrollView, RefreshControl, Text, Pressable } from 'react-native' 
-import { router, useLocalSearchParams } from 'expo-router' 
-import { useQuery } from '@tanstack/react-query' 
-import { useMediaByIdQuery } from '../../service/query/media-query' 
-import { BlogPost } from '../../assets/types/media/blog-post' 
-import BlogDetailItem from '../../components/common/blog-item/blog-detail' 
-import { Skeleton } from '../../components/ui/skeleton' 
-import { useCallback, useState } from 'react' 
-import { ChevronLeft } from '../../lib/icons/ChevronLeft' 
+import * as React from 'react';
+import { View, ScrollView, RefreshControl, Text, Pressable } from 'react-native';
+import { router, useLocalSearchParams } from 'expo-router';
+import { useQuery } from '@tanstack/react-query';
+import { useMediaByIdQuery } from '../../service/query/media-query';
+import { BlogPost } from '../../assets/types/media/blog-post';
+import BlogDetailItem from '../../components/common/blog-item/blog-detail';
+import { Skeleton } from '../../components/ui/skeleton';
+import { useCallback, useState } from 'react';
+import { ChevronLeft } from '../../lib/icons/ChevronLeft';
 
 export default function BlogDetailScreen() {
     const { id } = useLocalSearchParams()
@@ -24,7 +24,7 @@ export default function BlogDetailScreen() {
         refetch().finally(() => setRefreshing(false))
     }, [refetch])
 
-    const item: BlogPost | null = data?.data?.value?.data ?? null 
+    const item: BlogPost | null = data?.data?.value?.data ?? null;
 
     if (isLoading) {
         return (

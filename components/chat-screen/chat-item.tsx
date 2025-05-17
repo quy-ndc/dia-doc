@@ -47,7 +47,8 @@ export default function ChatItem({ id, img, name, user, time, message, type, has
 
     const { } = useMessages({
         listener: (message) => {
-            setLatestMessage(message.message.text)
+            const name = message.message.metadata.name as string
+            setLatestMessage(`${name.trim().split(' ').pop()}: ${message.message.text}`)
             console.log('Received message: ', message)
         },
     })

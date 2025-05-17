@@ -114,7 +114,7 @@ export default function ProfileScreen() {
                     <Text className='text-xl font-bold tracking-wider'>Thông tin cơ bản</Text>
                     <View className='flex-col gap-5 items-center'>
                         <View className='flex-row w-full items-center'>
-                            <BasicInfo title='Tuổi' value={getAge('2010-08-22T00:00:00.000Z')} />
+                            <BasicInfo title='Tuổi' value={getAge(profile.dateOfBirth)} />
                             <BasicInfo title='Giới tính' value={getGenderString(profile.gender)} />
                         </View>
                         <View className='flex-row w-full items-center'>

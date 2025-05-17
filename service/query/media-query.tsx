@@ -1,4 +1,6 @@
-import { GetAllCategories, GetAllMedias, GetMediaById, GetTopMedias } from "../api/media-service";
+import { useMutation } from "@tanstack/react-query";
+import { GetAllCategories, GetAllMedias, GetMediaById, GetTopMedias, UploadImage } from "../api/media-service";
+import Toast from "react-native-toast-message";
 
 export const useMediaQuery = (params: {
     PageSize: number
@@ -67,4 +69,21 @@ export const useCategoryQuery = () => {
     }
 
     return { queryKey, queryFn }
+}
+
+export const useUploadImageMutation = () => {
+    return useMutation({
+        mutationFn: (data: FormData) => UploadImage(data),
+        onSuccess: (data) => {
+            return data
+        },
+        onError: (error) => {
+            Toast.show({
+                type: 'error',
+                text1: 'Gửi hình ảnh thất bại',
+                visibilityTime: 2000
+            })
+            return error;
+        }
+    })
 }

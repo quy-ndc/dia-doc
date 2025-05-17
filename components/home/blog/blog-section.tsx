@@ -66,7 +66,7 @@ export default function HomeBlogSection({ isLoading, isError, items, onRefresh, 
                         className="flex-row items-center gap-5"
                         style={{ width: width * 0.5 }}
                         variant={"ghost"}
-                        onPress={() => router.push('/(main)/blog-screen')}
+                        onPress={() => router.push('/blog-screen')}
                     >
                         <Text className="text-xl font-bold">Xem thêm</Text>
                         <ChevronDown className="text-foreground" size={20} />

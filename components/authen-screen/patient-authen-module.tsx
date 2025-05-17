@@ -95,7 +95,7 @@ export default function PatientAuthenModule() {
         setUser(userData)
 
         if (userData.isSetUp) {
-            router.replace('/(main)')
+            router.replace('/(protected)/(main)')
         } else {
             router.replace('/set-up-screen')
         }
@@ -156,7 +156,7 @@ export default function PatientAuthenModule() {
             <Pressable onPress={() => router.push('/set-up-screen')}>
                 <Text>set up</Text>
             </Pressable>
-            <Pressable onPress={() => router.push('/(main)')}>
+            <Pressable onPress={() => router.push('/(protected)/(main)')}>
                 <Text>home</Text>
             </Pressable>
         </View>

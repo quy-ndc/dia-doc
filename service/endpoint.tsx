@@ -33,7 +33,8 @@ const endpointUser = {
 const endpointMedia = {
     GET_ALL_MEDIAS: `${MEDIA_SERVICE_ENDPOINT}/${apiPrefixV1}/posts`,
     GET_MEDIA_BY_ID: `${MEDIA_SERVICE_ENDPOINT}/${apiPrefixV1}/posts`,
-    GET_TOP_MEDIAS: `${MEDIA_SERVICE_ENDPOINT}/${apiPrefixV1}/posts/top-view`
+    GET_TOP_MEDIAS: `${MEDIA_SERVICE_ENDPOINT}/${apiPrefixV1}/posts/top-view`,
+    UPDATE_IMAGE: `${NOTIFICATION_SERVICE_ENDPOINT}/${apiPrefixV1}/media`
 }
 
 const endpointCategory = {
@@ -49,7 +50,7 @@ const endpointChat = {
 const endpointNoti = {
     GET_ALL_NOTIFICATION: `${NOTIFICATION_SERVICE_ENDPOINT}/${apiPrefixV1}/notifications/user`,
     UPDATE_NOTIFICATION: `${NOTIFICATION_SERVICE_ENDPOINT}/${apiPrefixV1}/notifications`,
-    DELETE_NOTIFICATION: `${NOTIFICATION_SERVICE_ENDPOINT}/${apiPrefixV1}/notifications`
+    DELETE_NOTIFICATION: `${NOTIFICATION_SERVICE_ENDPOINT}/${apiPrefixV1}/notifications`,
 }
 
 export { endpointUser, endppointAuth, endpointMedia, endpointCategory, endpointChat, endpointNoti }

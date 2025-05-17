@@ -1,5 +1,5 @@
 import * as React from 'react';
-import { Pressable, StyleSheet, View } from 'react-native';
+import { View } from 'react-native';
 import { useRouter } from 'expo-router';
 import { ThemeToggle } from '../ThemeToggle';
 import { Image } from 'expo-image'
@@ -28,7 +28,7 @@ export default function HeaderRight() {
                     />
                 }
                 buttonSize={3}
-                onPress={() => router.push('/authen-screen')}
+                onPress={() => router.push('/profile-screen')}
                 possition='other'
             />
         </View>

@@ -55,8 +55,6 @@ export default function ChatModule({
 
     const { publish } = useChannel(CHAT_LATEST_MESSAGE_CHANNEL)
 
-    console.log('room', CHAT_LATEST_MESSAGE_CHANNEL)
-
     const { user } = useUserStore()
     const [showScrollButton, setShowScrollButton] = useState(false)
     const scrollViewRef = useRef<ScrollView>(null)
@@ -136,7 +134,6 @@ export default function ChatModule({
         }
 
         if (offsetY <= 200) {
-            console.log("Top reached")
             if (hasNextPage && !isFetchingNextPage) {
                 fetchNextPage()
             }
@@ -149,7 +146,7 @@ export default function ChatModule({
         if (scrollViewRef.current) {
             setTimeout(() => {
                 scrollViewRef.current?.scrollToEnd({ animated: true })
-            }, 10)
+            }, 50)
         }
     }, [messages])
 
@@ -308,7 +305,7 @@ export default function ChatModule({
                 <View className='flex-row gap-1 justify-center items-center pt-2 pb-2'>
                     <View className={`flex-row items-center ${!showUtil && 'hidden'}`}>
                         {/* <CameraAccess setIsCameraOn={(state) => setIsCameraOn(state)} /> */}
-                        {/* <GalleryAccess onImagePick={(image) => handleSendImage(image)} /> */}
+                        <GalleryAccess onImagePick={(image) => console.log(image)} />
                         <VoiceRecord setNewMessage={setNewMessage} />
                         <Pressable
                             className='px-3 py-4 rounded-xl active:bg-[var(--click-bg)]'

@@ -49,7 +49,7 @@ export default function BlogDetailScreen() {
                     </Text>
                     <Pressable
                         className='flex-row justify-center items-center gap-2 active:bg-[--click-bg] px-4 py-2 rounded-2xl border border-[var(--oppe-theme-col)]'
-                        onPress={() => router.push('/(main)')}
+                        onPress={() => router.back}
                     >
                         <ChevronLeft className='text-foreground' size={20} />
                         < Text className='text-[var(--oppo-theme-col)] text-lg font-semibold tracking-wider'>Quay lại</Text>

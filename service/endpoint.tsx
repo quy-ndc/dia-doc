@@ -1,18 +1,18 @@
 import { AUTH_SERVICE_ENDPOINT, MEDIA_SERVICE_ENDPOINT, USER_SERVICE_ENDPOINT, CHAT_SERVICE_ENDPOINT, NOTIFICATION_SERVICE_ENDPOINT } from '@env'
 
 export const createQueryString = (params: Record<string, any>): string => {
-    const urlParams = new URLSearchParams();
+    const urlParams = new URLSearchParams() 
 
     Object.keys(params).forEach(key => {
-        const value = params[key];
+        const value = params[key] 
         if (Array.isArray(value)) {
-            value.forEach(val => urlParams.append(key, val));
+            value.forEach(val => urlParams.append(key, val)) 
         } else if (value !== undefined && value !== null) {
-            urlParams.append(key, value);
+            urlParams.append(key, value) 
         }
-    });
+    }) 
 
-    return urlParams.toString();
+    return urlParams.toString() 
 }
 
 const apiPrefixV1 = 'api/v1'

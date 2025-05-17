@@ -1,9 +1,9 @@
-import * as React from 'react';
-import { useState, useEffect, useRef } from 'react';
-import { Pressable, View, Animated } from 'react-native';
-import { Text } from '../ui/text';
-import { formatDateMessage } from '../../util/format-date-message';
-import { Image } from 'expo-image';
+import * as React from 'react' 
+import { useState, useEffect, useRef } from 'react' 
+import { Pressable, View, Animated } from 'react-native' 
+import { Text } from '../ui/text' 
+import { formatDateMessage } from '../../util/format-date-message' 
+import { Image } from 'expo-image' 
 
 
 type Prop = {
@@ -12,7 +12,7 @@ type Prop = {
     content: string
     time: string
     isOwn: boolean
-};
+} 
 
 export function TextMessage({ name, image, content, time, isOwn }: Prop) {
     const [showTime, setShowTime] = useState(false)
@@ -71,5 +71,5 @@ export function TextMessage({ name, image, content, time, isOwn }: Prop) {
                 {!isOwn && <View />}
             </View>
         </View>
-    );
+    ) 
 }

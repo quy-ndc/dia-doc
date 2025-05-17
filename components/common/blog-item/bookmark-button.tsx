@@ -1,6 +1,6 @@
-import { Bookmark } from '../../../lib/icons/Bookmark';
-import { useState } from "react";
-import { Pressable } from 'react-native';
+import { Bookmark } from '../../../lib/icons/Bookmark'
+import { useState } from "react"
+import { Pressable } from 'react-native'
 
 
 type Prop = {
@@ -11,11 +11,7 @@ type Prop = {
 export default function BookmarkButton({ bookmarked, detail }: Prop) {
 
     const [isBookmarked, setIsBookmarked] = useState(bookmarked)
-
-    // useEffect(() => {
-    //     setIsBookmarked(bookmarked)
-    // }, [])
-
+    
     return (
         <Pressable
             className={`flex-row gap-3 items-center p-3 rounded-lg ${detail ? 'active:bg-[var(--detail-click-bg)]' : 'active:bg-[var(--click-bg)]'}`}
@@ -27,5 +23,5 @@ export default function BookmarkButton({ bookmarked, detail }: Prop) {
                 size={19}
             />
         </Pressable>
-    );
+    )
 }

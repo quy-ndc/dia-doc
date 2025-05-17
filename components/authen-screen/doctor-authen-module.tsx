@@ -1,34 +1,34 @@
-import * as React from 'react';
-import { Pressable, View } from 'react-native';
+import * as React from 'react'
+import { Pressable, View } from 'react-native'
 import { Text } from '../ui/text'
-import { Input } from '../ui/input';
-import { useEffect, useState } from 'react';
-import { LogIn } from '../../lib/icons/Login';
-import { Eye } from '../../lib/icons/Eye';
-import { EyeOff } from '../../lib/icons/EyeOff';
-import * as yup from 'yup';
-import { Controller, useForm } from 'react-hook-form';
-import { yupResolver } from '@hookform/resolvers/yup';
-import { useRouter } from 'expo-router';
-import { useLoginDoctorMutation } from '../../service/query/auth-query';
-import Toast from 'react-native-toast-message';
-import { Loader } from '../../lib/icons/Loader';
-import SpinningIcon from '../common/icons/spinning-icon';
-import { Button } from '../ui/button';
+import { Input } from '../ui/input'
+import { useEffect, useState } from 'react'
+import { LogIn } from '../../lib/icons/Login'
+import { Eye } from '../../lib/icons/Eye'
+import { EyeOff } from '../../lib/icons/EyeOff'
+import * as yup from 'yup'
+import { Controller, useForm } from 'react-hook-form'
+import { yupResolver } from '@hookform/resolvers/yup'
+import { useRouter } from 'expo-router'
+import { useLoginDoctorMutation } from '../../service/query/auth-query'
+import Toast from 'react-native-toast-message'
+import { Loader } from '../../lib/icons/Loader'
+import SpinningIcon from '../common/icons/spinning-icon'
+import { Button } from '../ui/button'
 
 
 export default function DoctorAuthenModule() {
 
-    const router = useRouter();
+    const router = useRouter()
 
-    const { mutateAsync, isLoading, isError, data } = useLoginDoctorMutation();
+    const { mutateAsync, isLoading, isError, data } = useLoginDoctorMutation()
 
     const schema = yup.object({
         email: yup.string()
             .required('Không được trống')
             .email('Email không hợp lệ'),
         password: yup.string().required('Không đước trống')
-    }).required();
+    }).required()
 
     const { control, handleSubmit, formState: { errors } } = useForm({
         resolver: yupResolver(schema),
@@ -36,7 +36,7 @@ export default function DoctorAuthenModule() {
             email: '',
             password: ''
         }
-    });
+    })
 
     const [show, setShow] = useState(false)
 
@@ -132,5 +132,5 @@ export default function DoctorAuthenModule() {
             </View>
 
         </View>
-    );
+    )
 }

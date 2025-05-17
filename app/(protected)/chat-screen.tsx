@@ -1,17 +1,17 @@
-import * as React from 'react';
-import { Modal, View } from 'react-native';
-import { Image } from 'expo-image';
-import { Text } from '../../components/ui/text';
-import { Stack, useLocalSearchParams } from 'expo-router';
-import ChatModule from '../../components/chat-screen/chat-module';
-import CameraModule from '../../components/chat-screen/camera-module';
-import { useEffect, useState } from 'react';
-import { Message } from '../../assets/types/chat/message';
-import { AllFeaturesEnabled, ChatRoomProvider } from '@ably/chat';
-import { ChannelProvider } from 'ably/react';
-import { useChatMessagesQuery } from '../../service/query/chat-query';
-import { useInfiniteQuery } from '@tanstack/react-query';
-import { MessageType } from '../../assets/enum/message-type';
+import * as React from 'react' 
+import { Modal, View } from 'react-native' 
+import { Image } from 'expo-image' 
+import { Text } from '../../components/ui/text' 
+import { Stack, useLocalSearchParams } from 'expo-router' 
+import ChatModule from '../../components/chat-screen/chat-module' 
+import CameraModule from '../../components/chat-screen/camera-module' 
+import { useEffect, useState } from 'react' 
+import { Message } from '../../assets/types/chat/message' 
+import { AllFeaturesEnabled, ChatRoomProvider } from '@ably/chat' 
+import { ChannelProvider } from 'ably/react' 
+import { useChatMessagesQuery } from '../../service/query/chat-query' 
+import { useInfiniteQuery } from '@tanstack/react-query' 
+import { MessageType } from '../../assets/enum/message-type' 
 
 
 export default function ChatScreen() {
@@ -43,7 +43,7 @@ export default function ChatScreen() {
     const allMessages: Message[] = data?.pages.flatMap(page => page.data?.value.messages.items || []) || []
 
     const handleHistory = (messages: Message[]) => {
-        setMessages(prev => [...messages, ...prev]);
+        setMessages(prev => [...messages, ...prev]) 
     }
 
     const handleReceive = (receivedMessage: Message) => {
@@ -71,8 +71,8 @@ export default function ChatScreen() {
     //         name: user.fullname,
     //         avatar: user.avatar
     //     }
-    //     setMessages((prevMessages) => [...prevMessages, messageToSend]);
-    //     setNewMessage('');
+    //     setMessages((prevMessages) => [...prevMessages, messageToSend]) 
+    //     setNewMessage('') 
     // }
 
     const [isCameraOn, setIsCameraOn] = useState(false)
@@ -118,5 +118,5 @@ export default function ChatScreen() {
                 </ChannelProvider>
             </ChatRoomProvider>
         </>
-    );
+    ) 
 }

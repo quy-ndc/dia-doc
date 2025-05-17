@@ -1,6 +1,6 @@
-import axios from "axios";
-import { endpointUser } from "../endpoint";
-import axiosServices from "../axios";
+import axios from "axios" 
+import { endpointUser } from "../endpoint" 
+import axiosServices from "../axios" 
 
 export const GetUserProfile = async () => {
 
@@ -20,7 +20,7 @@ export const GetUserProfile = async () => {
                 status: e.response.status,
                 message: e.response.data.message || 'An error occurred',
                 data: e.response.data
-            };
+            } 
         }
 
         return {
@@ -56,7 +56,7 @@ export const UpdateUserProfile = async (param: {
             success: true,
             status: response.status,
             data: response.data
-        };
+        } 
 
     } catch (e) {
         if (axios.isAxiosError(e) && e.response) {

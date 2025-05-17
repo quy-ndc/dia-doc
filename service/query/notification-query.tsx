@@ -23,7 +23,7 @@ export const useUpdateNotificationMutation = () => {
             return data
         },
         onError: (error) => {
-            return error;
+            return error 
         }
     })
 }
@@ -35,7 +35,7 @@ export const useDeleteNotificationMutation = () => {
             return data
         },
         onError: (error) => {
-            return error;
+            return error 
         }
     })
 }

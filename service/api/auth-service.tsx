@@ -1,7 +1,7 @@
-import axios from "axios";
-import { endppointAuth } from "../endpoint";
-import { LoginDoctorRequest, LoginPatientRequest } from "../type/auth-type";
-import axiosServices from "../axios";
+import axios from "axios" 
+import { endppointAuth } from "../endpoint" 
+import { LoginDoctorRequest, LoginPatientRequest } from "../type/auth-type" 
+import axiosServices from "../axios" 
 
 
 
@@ -18,7 +18,7 @@ export const LoginPatient = async (request: LoginPatientRequest) => {
             success: true,
             status: response.status,
             data: response.data
-        };
+        } 
 
     } catch (e) {
         if (axios.isAxiosError(e) && e.response) {
@@ -27,7 +27,7 @@ export const LoginPatient = async (request: LoginPatientRequest) => {
                 status: e.response.status,
                 message: e.response.data.message || 'An error occurred',
                 data: e.response.data
-            };
+            } 
         }
 
         return {
@@ -35,7 +35,7 @@ export const LoginPatient = async (request: LoginPatientRequest) => {
             status: 500,
             message: 'An error occurred',
             data: null
-        };
+        } 
     }
 }
 
@@ -45,13 +45,13 @@ export const LoginDoctor = async (request: LoginDoctorRequest): Promise<any> => 
         const response = await axiosServices.post(`${endppointAuth.LOGIN_DOCTOR}`, {
             email: request.email,
             password: request.password
-        });
+        }) 
 
         return {
             success: true,
             status: response.status,
             data: response.data
-        };
+        } 
     } catch (e) {
         if (axios.isAxiosError(e) && e.response) {
             return {
@@ -59,7 +59,7 @@ export const LoginDoctor = async (request: LoginDoctorRequest): Promise<any> => 
                 status: e.response.status,
                 message: e.response.data.message || 'An error occurred',
                 data: e.response.data
-            };
+            } 
         }
 
         return {
@@ -67,6 +67,6 @@ export const LoginDoctor = async (request: LoginDoctorRequest): Promise<any> => 
             status: 500,
             message: 'An error occurred',
             data: null
-        };
+        } 
     }
 }

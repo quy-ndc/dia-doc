@@ -11,15 +11,15 @@
     
     REQUEST NOTIFICATION PERMISSION
     async function requestUserPermission() {
-        const authStatus = await getApp().messaging().requestPermission();
+        const authStatus = await getApp().messaging().requestPermission() 
         const enabled =
             authStatus === messaging.AuthorizationStatus.AUTHORIZED ||
-            authStatus === messaging.AuthorizationStatus.PROVISIONAL;
+            authStatus === messaging.AuthorizationStatus.PROVISIONAL 
 
         if (enabled) {
-            console.log('Notification permission granted.');
+            console.log('Notification permission granted.') 
         } else {
-            Alert.alert('Permissions required', 'Please enable notifications.');
+            Alert.alert('Permissions required', 'Please enable notifications.') 
         }
     }
 

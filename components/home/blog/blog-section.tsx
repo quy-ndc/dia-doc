@@ -1,16 +1,16 @@
-import { Dimensions, Pressable, View } from "react-native";
-import SectionTitle from "../common/section-title";
-import { Sparkles } from '../../../lib/icons/Sparkles';
-import { Button } from "../../../components/ui/button";
-import { Text } from "../../../components/ui/text";
-import { ChevronDown } from "../../../lib/icons/ChevronDown";
-import { useRouter } from "expo-router";
-import BlogItem from "../../common/blog-item/blog-item";
-import { FlashList } from "@shopify/flash-list";
-import { BlogPost } from "../../../assets/types/media/blog-post";
-import SpinningIcon from "../../common/icons/spinning-icon";
-import { Loader } from "../../../lib/icons/Loader";
-import { RefreshCcw } from "../../../lib/icons/RefreshCcw";
+import { Dimensions, Pressable, View } from "react-native"
+import SectionTitle from "../common/section-title"
+import { Sparkles } from '../../../lib/icons/Sparkles'
+import { Button } from "../../../components/ui/button"
+import { Text } from "../../../components/ui/text"
+import { ChevronDown } from "../../../lib/icons/ChevronDown"
+import { useRouter } from "expo-router"
+import BlogItem from "../../common/blog-item/blog-item"
+import { FlashList } from "@shopify/flash-list"
+import { BlogPost } from "../../../assets/types/media/blog-post"
+import SpinningIcon from "../../common/icons/spinning-icon"
+import { Loader } from "../../../lib/icons/Loader"
+import { RefreshCcw } from "../../../lib/icons/RefreshCcw"
 
 const { width } = Dimensions.get('window')
 
@@ -74,5 +74,5 @@ export default function HomeBlogSection({ isLoading, isError, items, onRefresh, 
                 </>
             )}
         </View>
-    );
+    )
 }

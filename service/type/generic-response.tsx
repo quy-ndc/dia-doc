@@ -13,8 +13,8 @@ export type SuccessResponse<T> = {
 }
 
 export type ErrorResponse = {
-    detail: string;
-    errorCode: string;
-    status: number;
-    title: string;
+    detail: string 
+    errorCode: string 
+    status: number 
+    title: string 
 }

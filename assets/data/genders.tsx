@@ -1,4 +1,4 @@
-import { GenderNumber } from "../enum/gender";
+import { GenderNumber } from "../enum/gender" 
 
 export const genders = [
     { label: 'Nam', value: GenderNumber.MALE.toString() },

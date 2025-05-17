@@ -99,17 +99,13 @@ export default function BlogScreen() {
                         data={allItems}
                         ref={listRef}
                         keyExtractor={(_, index) => index.toString()}
-                        renderItem={({ item }) =>
-                            <BlogItem blogPost={item} />
-                        }
+                        renderItem={({ item }) => <BlogItem blogPost={item} />}
                         estimatedItemSize={100}
                         refreshControl={<RefreshControl refreshing={refreshing} onRefresh={onRefresh} />}
                         onScroll={handleScroll}
                         scrollEventThrottle={16}
                         onEndReached={() => {
-                            if (hasNextPage && !isFetchingNextPage) {
-                                fetchNextPage()
-                            }
+                            if (hasNextPage && !isFetchingNextPage) fetchNextPage()
                         }}
                         onEndReachedThreshold={0.5}
                     />

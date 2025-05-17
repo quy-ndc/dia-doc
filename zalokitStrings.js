@@ -8,66 +8,66 @@ const appDelegateContent = `
 
 - (BOOL)application:(UIApplication *)application didFinishLaunchingWithOptions:(NSDictionary *)launchOptions
 {
-  self.moduleName = @"main";
+  self.moduleName = @"main" 
 
   // You can add your custom initial props in the dictionary below.
   // They will be passed down to the ViewController used by React Native.
-  self.initialProps = @{};
+  self.initialProps = @{} 
 
-  [[ZaloSDK sharedInstance] initializeWithAppId:@"350132100575839532"];
+  [[ZaloSDK sharedInstance] initializeWithAppId:@"350132100575839532"] 
 
-  return [super application:application didFinishLaunchingWithOptions:launchOptions];
+  return [super application:application didFinishLaunchingWithOptions:launchOptions] 
 }
 
 - (BOOL)application:(UIApplication *)application openURL:(nonnull NSURL *)url options:(nonnull NSDictionary<NSString *,id> *)options {
-  return [[ZDKApplicationDelegate sharedInstance] application:application openURL:url options:options];
+  return [[ZDKApplicationDelegate sharedInstance] application:application openURL:url options:options] 
 }
 
 - (NSURL *)sourceURLForBridge:(RCTBridge *)bridge
 {
-  return [self bundleURL];
+  return [self bundleURL] 
 }
 
 - (NSURL *)bundleURL
 {
 #if DEBUG
-  return [[RCTBundleURLProvider sharedSettings] jsBundleURLForBundleRoot:@".expo/.virtual-metro-entry"];
+  return [[RCTBundleURLProvider sharedSettings] jsBundleURLForBundleRoot:@".expo/.virtual-metro-entry"] 
 #else
-  return [[NSBundle mainBundle] URLForResource:@"main" withExtension:@"jsbundle"];
+  return [[NSBundle mainBundle] URLForResource:@"main" withExtension:@"jsbundle"] 
 #endif
 }
 
 // Linking API
 - (BOOL)application:(UIApplication *)application openURL:(NSURL *)url options:(NSDictionary<UIApplicationOpenURLOptionsKey,id> *)options {
-  return [super application:application openURL:url options:options] || [RCTLinkingManager application:application openURL:url options:options];
+  return [super application:application openURL:url options:options] || [RCTLinkingManager application:application openURL:url options:options] 
 }
 
 // Universal Links
 - (BOOL)application:(UIApplication *)application continueUserActivity:(nonnull NSUserActivity *)userActivity restorationHandler:(nonnull void (^)(NSArray<id<UIUserActivityRestoring>> * _Nullable))restorationHandler {
-  BOOL result = [RCTLinkingManager application:application continueUserActivity:userActivity restorationHandler:restorationHandler];
-  return [super application:application continueUserActivity:userActivity restorationHandler:restorationHandler] || result;
+  BOOL result = [RCTLinkingManager application:application continueUserActivity:userActivity restorationHandler:restorationHandler] 
+  return [super application:application continueUserActivity:userActivity restorationHandler:restorationHandler] || result 
 }
 
 // Explicitly define remote notification delegates to ensure compatibility with some third-party libraries
 - (void)application:(UIApplication *)application didRegisterForRemoteNotificationsWithDeviceToken:(NSData *)deviceToken
 {
-  return [super application:application didRegisterForRemoteNotificationsWithDeviceToken:deviceToken];
+  return [super application:application didRegisterForRemoteNotificationsWithDeviceToken:deviceToken] 
 }
 
 // Explicitly define remote notification delegates to ensure compatibility with some third-party libraries
 - (void)application:(UIApplication *)application didFailToRegisterForRemoteNotificationsWithError:(NSError *)error
 {
-  return [super application:application didFailToRegisterForRemoteNotificationsWithError:error];
+  return [super application:application didFailToRegisterForRemoteNotificationsWithError:error] 
 }
 
 // Explicitly define remote notification delegates to ensure compatibility with some third-party libraries
 - (void)application:(UIApplication *)application didReceiveRemoteNotification:(NSDictionary *)userInfo fetchCompletionHandler:(void (^)(UIBackgroundFetchResult))completionHandler
 {
-  return [super application:application didReceiveRemoteNotification:userInfo fetchCompletionHandler:completionHandler];
+  return [super application:application didReceiveRemoteNotification:userInfo fetchCompletionHandler:completionHandler] 
 }
 
 @end
-`;
+` 
 
 const mainActivityContent = `
 package com.quyndc.diadoc
@@ -88,7 +88,7 @@ class MainActivity : ReactActivity() {
     // Set the theme to AppTheme BEFORE onCreate to support
     // coloring the background, status bar, and navigation bar.
     // This is required for expo-splash-screen.
-    // setTheme(R.style.AppTheme);
+    // setTheme(R.style.AppTheme) 
     // @generated begin expo-splashscreen - expo prebuild (DO NOT MODIFY) sync-f3ff59a738c56c9a6119210cb55f0b613eb8b6af
     SplashScreenManager.registerOnActivity(this)
     // @generated end expo-splashscreen
@@ -135,7 +135,7 @@ class MainActivity : ReactActivity() {
       super.invokeDefaultOnBackPressed()
   }
 }
-`;
+` 
 
 const mainApplicationContent = `
 package com.quyndc.diadoc
@@ -164,7 +164,7 @@ class MainApplication : Application(), ReactApplication {
           override fun getPackages(): List<ReactPackage> {
             val packages = PackageList(this).packages
             // Packages that cannot be autolinked yet can be added manually here, for example:
-            // packages.add(new MyReactNativePackage());
+            // packages.add(new MyReactNativePackage()) 
             return packages
           }
 
@@ -195,10 +195,10 @@ class MainApplication : Application(), ReactApplication {
     ApplicationLifecycleDispatcher.onConfigurationChanged(this, newConfig)
   }
 }
-`;
+` 
 
 module.exports = {
     appDelegateContent,
     mainActivityContent,
     mainApplicationContent,
-};
+} 

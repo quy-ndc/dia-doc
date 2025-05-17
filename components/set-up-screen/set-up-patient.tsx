@@ -1,42 +1,45 @@
-import * as React from 'react';
-import { View, Dimensions, ScrollView, Pressable } from 'react-native';
-import { Text } from '../ui/text';
-import { Select, SelectContent, SelectGroup, SelectItem, SelectTrigger, SelectValue } from '../ui/select';
-import { useState } from 'react';
-import { Input } from '../ui/input';
-import SetUpFields from './set-up-fields';
-import DateTimePicker from '@react-native-community/datetimepicker';
-import { PencilLine } from '../../lib/icons/PencilLine';
-import IconButton from '../common/icon-button';
-import { useForm, Controller } from 'react-hook-form';
-import { yupResolver } from '@hookform/resolvers/yup';
-import * as yup from 'yup';
-import { ChevronLeft } from '../../lib/icons/ChevronLeft';
-import { Check } from '../../lib/icons/Check';
-import useUserStore from '../../store/userStore';
-import { UpdateUserProfile } from '../../service/api/user-service';
-import Toast from 'react-native-toast-message';
-import { router } from 'expo-router';
-import { bloodTypes } from '../../assets/data/blood-types';
-import { diaTypes } from '../../assets/data/dia-types';
-import { genders } from '../../assets/data/genders';
-import { useEditPatientMutation } from '../../service/query/user-query';
-import { User } from '../../assets/types/zustand/user-z';
+import * as React from 'react'
+import { View, Dimensions, ScrollView, Pressable } from 'react-native'
+import { Text } from '../ui/text'
+import { Select, SelectContent, SelectGroup, SelectItem, SelectTrigger, SelectValue } from '../ui/select'
+import { useEffect, useState } from 'react'
+import { Input } from '../ui/input'
+import SetUpFields from './set-up-fields'
+import DateTimePicker from '@react-native-community/datetimepicker'
+import { PencilLine } from '../../lib/icons/PencilLine'
+import IconButton from '../common/icon-button'
+import { useForm, Controller } from 'react-hook-form'
+import { yupResolver } from '@hookform/resolvers/yup'
+import * as yup from 'yup'
+import { ChevronLeft } from '../../lib/icons/ChevronLeft'
+import { Check } from '../../lib/icons/Check'
+import useUserStore from '../../store/userStore'
+import Toast from 'react-native-toast-message'
+import { router } from 'expo-router'
+import { bloodTypes } from '../../assets/data/blood-types'
+import { diaTypes } from '../../assets/data/dia-types'
+import { genders } from '../../assets/data/genders'
+import { useEditPatientMutation } from '../../service/query/user-query'
+import { User } from '../../assets/types/zustand/user-z'
+import SpinningIcon from '../common/icons/spinning-icon'
+import { Loader } from '../../lib/icons/Loader'
+import { Patient } from '../../assets/types/user/patient'
 
-const { width } = Dimensions.get('window');
+const { width } = Dimensions.get('window')
 
 type Prop = {
-    setRole: (role: string) => void;
+    setRole: (role: string) => void
     mode: 'edit' | 'set-up'
-};
+}
 
 export default function SetUpPatient({ setRole, mode }: Prop) {
 
     const { user, setUser } = useUserStore()
 
     const [show, setShow] = useState<boolean>(false)
+    const [loginTrigger, setLoginTrigger] = useState(false)
 
-    const { mutateAsync, isLoading } = useEditPatientMutation()
+    const { mutateAsync, isLoading, data, isSuccess, isError } = useEditPatientMutation()
 
     const schema = yup.object({
         weight: yup
@@ -64,7 +67,7 @@ export default function SetUpPatient({ setRole, mode }: Prop) {
             .max(new Date(), 'Ngày ở tương lai')
             .min(new Date('1900-01-01'), 'Ngày quá cũ')
             .required('Chọn ngày'),
-    }).required();
+    }).required()
 
     const { control, handleSubmit, formState: { errors } } = useForm({
         resolver: yupResolver(schema),
@@ -80,7 +83,8 @@ export default function SetUpPatient({ setRole, mode }: Prop) {
 
     const onSubmit = async (data: any) => {
         try {
-            const response = await mutateAsync({
+            setLoginTrigger(true)
+            await mutateAsync({
                 dateOfBirth: data.date,
                 genderType: Number(data.gender),
                 bloodType: Number(data.blood),
@@ -89,39 +93,53 @@ export default function SetUpPatient({ setRole, mode }: Prop) {
                 diabetesType: Number(data.type),
                 medicalRecord: null
             })
-            if (response.success) {
-                const newUser: User = {
-                    isAuthenticated: true,
-                    isSetUp: false,
-                    accessToken: response.data.value.data.authToken.accessToken || '',
-                    refreshToken: response.data.value.data.authToken.refreshToken || '',
-                    id: response.data.value.data.authUser.id || '',
-                    fullname: response.data.value.data.authUser.fullName || '',
-                    avatar: response.data.value.data.authUser.avatarUrl || '',
-                    phone: '',
-                    blood: 0,
-                    diaType: 0,
-                    gender: 0,
-                    bod: '',
-                    weight: 0,
-                    height: 0
-                }
-                Toast.show({
-                    type: 'success',
-                    text1: 'Cập nhật thành công',
-                    visibilityTime: 2000
-                })
-            }
-            console.log(response)
         } catch (e) {
             console.log(e)
             Toast.show({
                 type: 'error',
-                text1: 'Cập nhật thất bại',
+                text1: 'Thiết lập hồ sơ thất bại',
                 visibilityTime: 2000
             })
         }
     }
+
+    useEffect(() => {
+        if (!isSuccess || !data) return
+
+        const result: Patient = data.data.value.data.patient
+        const userData: User = {
+            ...user,
+            isAuthenticated: true,
+            isSetUp: true,
+            id: result.id,
+            blood: result.bloodType,
+            diaType: result.diabetesType,
+            gender: result.gender,
+            bod: result.dateOfBirth,
+            weight: result.weight,
+            height: result.height
+        }
+
+        setUser(userData)
+        router.replace('/(main)')
+        Toast.show({
+            type: 'success',
+            text1: 'Thiết lập hồ sơ thành công',
+            visibilityTime: 2000
+        })
+    }, [isSuccess])
+
+    useEffect(() => {
+        if (!isError || !loginTrigger) return
+
+        Toast.show({
+            type: 'error',
+            text1: 'Thiết lập hồ sơ thất bại',
+            visibilityTime: 2000
+        })
+
+        setLoginTrigger(false)
+    }, [isError])
 
     return (
         <ScrollView
@@ -326,9 +344,9 @@ export default function SetUpPatient({ setRole, mode }: Prop) {
                                             mode="date"
                                             display="spinner"
                                             onChange={(event, selectedDate) => {
-                                                setShow(false);
+                                                setShow(false)
                                                 if (event.type === 'set' && selectedDate) {
-                                                    onChange(selectedDate.toISOString());
+                                                    onChange(selectedDate.toISOString())
                                                 }
                                             }}
                                         />
@@ -390,24 +408,34 @@ export default function SetUpPatient({ setRole, mode }: Prop) {
                         <View />
                         <View className='flex-row gap-2 justify-center items-center'>
                             <Pressable
-                                className='flex-row items-center gap-2 pr-4 pl-2 py-3 rounded-md active:bg-[var(--click-bg)]'
-                                onPress={() => setRole('')}
+                                className={`flex-row items-center gap-2 pr-4 pl-2 py-3 rounded-md active:bg-[var(--click-bg)] ${isLoading && 'opacity-50'}`}
+                                disabled={isLoading}
+                                onPress={mode == 'set-up' ? () => setRole('') : () => router.back()}
                             >
-                                <ChevronLeft className='text-foreground' size={20} />
+                                {isLoading ? (
+                                    <SpinningIcon icon={<Loader className='text-foreground' size={20} />} />
+                                ) : (
+                                    <ChevronLeft className='text-foreground' size={20} />
+                                )}
                                 <Text className='text-base font-boldd tracking-wider capitalize'>Quay lại</Text>
                             </Pressable>
                             <Pressable
-                                className='flex-row items-center gap-2 px-4 py-3 rounded-md active:bg-[var(--click-bg)]'
+                                className={`flex-row items-center gap-2 px-4 py-3 rounded-md active:bg-[var(--click-bg)] ${isLoading && 'opacity-50'}`}
+                                disabled={isLoading}
                                 onPress={handleSubmit(onSubmit)}
                             // onPress={() => router.push('/(main)')}
                             >
                                 <Text className='text-base font-boldd tracking-wider capitalize'>Xác Nhận</Text>
-                                <Check className='text-foreground' size={20} />
+                                {isLoading ? (
+                                    <SpinningIcon icon={<Loader className='text-foreground' size={20} />} />
+                                ) : (
+                                    <Check className='text-foreground' size={20} />
+                                )}
                             </Pressable>
                         </View>
                     </View>
                 </View>
             </View>
         </ScrollView>
-    );
+    )
 }

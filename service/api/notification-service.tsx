@@ -24,14 +24,14 @@ export const GetAllNotifications = async (params: {
                 status: error.response.status,
                 message: error.response.data.message || 'An error occurred',
                 data: error.response.data
-            };
+            } 
         } else {
             return {
                 success: false,
                 status: 500,
                 message: 'An unexpected error occurred',
                 data: null
-            };
+            } 
         }
     }
 }
@@ -53,14 +53,14 @@ export const UpdateNotification = async (data: string[]) => {
                 status: error.response.status,
                 message: error.response.data.message || 'An error occurred',
                 data: error.response.data
-            };
+            } 
         } else {
             return {
                 success: false,
                 status: 500,
                 message: 'An unexpected error occurred',
                 data: null
-            };
+            } 
         }
     }
 }
@@ -83,14 +83,14 @@ export const DeleteNotification = async (id: string) => {
                 status: error.response.status,
                 message: error.response.data.message || 'An error occurred',
                 data: error.response.data
-            };
+            } 
         } else {
             return {
                 success: false,
                 status: 500,
                 message: 'An unexpected error occurred',
                 data: null
-            };
+            } 
         }
     }
 }

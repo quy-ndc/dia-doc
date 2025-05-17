@@ -8,15 +8,15 @@
 #   http://developer.android.com/guide/developing/tools/proguard.html
 
 # react-native-reanimated
--keep class com.swmansion.reanimated.** { *; }
--keep class com.facebook.react.turbomodule.** { *; }
+-keep class com.swmansion.reanimated.** { *  }
+-keep class com.facebook.react.turbomodule.** { *  }
 
 # Add any project specific keep options here:
 
 # @generated begin expo-build-properties - expo prebuild (DO NOT MODIFY)
 
-              -keep class com.zing.zalo.**{ *; }
-              -keep enum com.zing.zalo.**{ *; }
-              -keep interface com.zing.zalo.**{ *; }
+              -keep class com.zing.zalo.**{ *  }
+              -keep enum com.zing.zalo.**{ *  }
+              -keep interface com.zing.zalo.**{ *  }
             
 # @generated end expo-build-properties

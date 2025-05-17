@@ -1,17 +1,17 @@
-import { Stack } from 'expo-router';
-import useUserStore from '../../store/userStore';
-import { Redirect } from 'expo-router';
+import { Stack } from 'expo-router'
+import useUserStore from '../../store/userStore'
+import { Redirect } from 'expo-router'
 
 export default function ProtectedLayout() {
-    const { user } = useUserStore();
+    const { user } = useUserStore()
 
-    //   if (!user.isAuthenticated) {
-    //     return <Redirect href="/authen-screen" />;
-    //   }
+    if (!user.isAuthenticated) {
+        return <Redirect href="/authen-screen" />
+    }
 
-    //   if (user.isAuthenticated && !user.isSetUp) {
-    //     return <Redirect href="/set-up-screen" />;
-    //   }
+    if (user.isAuthenticated && !user.isSetUp) {
+        return <Redirect href="/set-up-screen" />
+    }
 
     return (
         <Stack>
@@ -28,5 +28,5 @@ export default function ProtectedLayout() {
                 }}
             />
         </Stack>
-    );
+    )
 }

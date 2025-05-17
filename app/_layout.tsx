@@ -1,34 +1,32 @@
-import '../global.css';
-import { DarkTheme, DefaultTheme, Theme, ThemeProvider } from '@react-navigation/native';
-import { Stack, useRouter } from 'expo-router';
-import { StatusBar } from 'expo-status-bar';
-import * as React from 'react';
-import { Platform, Alert, PermissionsAndroid } from 'react-native';
-import { NAV_THEME } from '../lib/constants';
-import { useColorScheme } from '../lib/useColorScheme';
-import { PortalHost } from '@rn-primitives/portal';
-import { setAndroidNavigationBar } from '../lib/android-navigation-bar';
-import { ReactQueryProvider } from '../util/provider/react-query-provider';
-import Toast from 'react-native-toast-message';
-import { toastConfig } from '../components/common/toast-config/toast-config';
-import AblyWrapper from '../util/provider/ably-provider';
-import messaging from '@react-native-firebase/messaging';
-import { useEffect } from 'react';
-import { getApp } from '@react-native-firebase/app';
-import NetworkOverlay from '../components/common/network-overlay';
-import { Vibration } from 'react-native';
-import notifee from '@notifee/react-native';
-import { createNotificationChannel } from '../util/notification/create-noti-channel';
-import useUserStore from '../store/userStore';
+import '../global.css'
+import { DarkTheme, DefaultTheme, Theme, ThemeProvider } from '@react-navigation/native'
+import { Stack } from 'expo-router'
+import { StatusBar } from 'expo-status-bar'
+import * as React from 'react'
+import { Platform, Alert, PermissionsAndroid } from 'react-native'
+import { NAV_THEME } from '../lib/constants'
+import { useColorScheme } from '../lib/useColorScheme'
+import { PortalHost } from '@rn-primitives/portal'
+import { setAndroidNavigationBar } from '../lib/android-navigation-bar'
+import { ReactQueryProvider } from '../util/provider/react-query-provider'
+import Toast from 'react-native-toast-message'
+import { toastConfig } from '../components/common/toast-config/toast-config'
+import AblyWrapper from '../util/provider/ably-provider'
+import messaging from '@react-native-firebase/messaging'
+import { useEffect } from 'react'
+import { getApp } from '@react-native-firebase/app'
+import NetworkOverlay from '../components/common/network-overlay'
+import { Vibration } from 'react-native'
+import notifee from '@notifee/react-native'
+import { createNotificationChannel } from '../util/notification/create-noti-channel'
+import useUserStore from '../store/userStore'
 
-const LIGHT_THEME: Theme = { ...DefaultTheme, colors: NAV_THEME.light };
-const DARK_THEME: Theme = { ...DarkTheme, colors: NAV_THEME.dark };
+const LIGHT_THEME: Theme = { ...DefaultTheme, colors: NAV_THEME.light }
+const DARK_THEME: Theme = { ...DarkTheme, colors: NAV_THEME.dark }
 
-export { ErrorBoundary } from 'expo-router';
+export { ErrorBoundary } from 'expo-router'
 
 export default function RootLayout() {
-
-  const router = useRouter()
 
   const hasMounted = React.useRef(false)
   const { colorScheme, isDarkColorScheme } = useColorScheme()
@@ -36,14 +34,14 @@ export default function RootLayout() {
   const { user } = useUserStore()
 
   // useEffect(() => {
-  //   createNotificationChannel();
+  //   createNotificationChannel()
   // }, [])
 
   useEffect(() => {
-    requestUserPermission();
+    requestUserPermission()
 
     const unsubscribeOnMessage = getApp().messaging().onMessage(async remoteMessage => {
-      Vibration.vibrate();
+      Vibration.vibrate()
 
       await notifee.displayNotification({
         title: remoteMessage.notification?.title,
@@ -61,14 +59,14 @@ export default function RootLayout() {
       console.log(JSON.stringify(remoteMessage))
     })
 
-    return unsubscribeOnMessage;
+    return unsubscribeOnMessage
   }, [])
 
   async function requestUserPermission() {
-    const authStatus = await getApp().messaging().requestPermission();
+    const authStatus = await getApp().messaging().requestPermission()
     const enabled =
       authStatus === messaging.AuthorizationStatus.AUTHORIZED ||
-      authStatus === messaging.AuthorizationStatus.PROVISIONAL;
+      authStatus === messaging.AuthorizationStatus.PROVISIONAL
 
     if (!enabled) {
       // Toast.show({
@@ -81,21 +79,21 @@ export default function RootLayout() {
     if (Platform.OS === 'android' && Platform.Version >= 33) {
       const result = await PermissionsAndroid.request(
         PermissionsAndroid.PERMISSIONS.POST_NOTIFICATIONS
-      );
+      )
       if (result === PermissionsAndroid.RESULTS.GRANTED) {
       } else {
-        // Alert.alert('Notification Permission Required', 'Please enable notifications in settings.');
+        // Alert.alert('Notification Permission Required', 'Please enable notifications in settings.')
       }
     }
   }
 
   async function getDeviceToken() {
     try {
-      const token = await getApp().messaging().getToken();
-      console.log('FCM Token:', token);
-      return token;
+      const token = await getApp().messaging().getToken()
+      console.log('FCM Token:', token)
+      return token
     } catch (error) {
-      console.error('Error getting FCM token:', error);
+      console.error('Error getting FCM token:', error)
     }
   }
 
@@ -105,19 +103,19 @@ export default function RootLayout() {
 
   useIsomorphicLayoutEffect(() => {
     if (hasMounted.current) {
-      return;
+      return
     }
 
     if (Platform.OS === 'web') {
-      document.documentElement.classList.add('bg-background');
+      document.documentElement.classList.add('bg-background')
     }
-    setAndroidNavigationBar(colorScheme);
-    setIsColorSchemeLoaded(true);
-    hasMounted.current = true;
+    setAndroidNavigationBar(colorScheme)
+    setIsColorSchemeLoaded(true)
+    hasMounted.current = true
   }, [])
 
   if (!isColorSchemeLoaded) {
-    return null;
+    return null
   }
 
   return (
@@ -130,10 +128,6 @@ export default function RootLayout() {
               <Stack.Screen name='authen-screen' options={{ headerShown: false }} />
               <Stack.Screen name='set-up-screen' options={{ headerShown: false }} />
               <Stack.Screen name='(protected)' options={{ headerShown: false }} />
-              {/* <Stack.Screen name='(main)' options={{ headerShown: false }} /> */}
-              {/* <Stack.Screen name='chat-screen' options={{ headerTitle: '' }} /> */}
-              {/* <Stack.Screen name='edit-profile-page' options={{ headerTitle: '' }} /> */}
-              {/* <Stack.Screen name='blog-detail-screen' options={{ headerTitle: '', presentation: 'modal', animation: 'slide_from_bottom', gestureDirection: 'horizontal' }} /> */}
               <Stack.Screen name='+not-found' options={{ headerShown: false }} />
             </Stack>
             <NetworkOverlay />
@@ -143,8 +137,8 @@ export default function RootLayout() {
       </AblyWrapper>
       <Toast config={toastConfig} />
     </>
-  );
+  )
 }
 
 const useIsomorphicLayoutEffect =
-  Platform.OS === 'web' && typeof window === 'undefined' ? React.useEffect : React.useLayoutEffect;
+  Platform.OS === 'web' && typeof window === 'undefined' ? React.useEffect : React.useLayoutEffect

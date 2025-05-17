@@ -1,13 +1,13 @@
-import * as React from 'react' 
-import { View, Pressable } from 'react-native' 
-import { Text } from '../../components/ui/text' 
-import { useRouter } from 'expo-router' 
+import * as React from 'react';
+import { View, Pressable } from 'react-native';
+import { Text } from '../../components/ui/text';
+import { useRouter } from 'expo-router';
 import { Image } from 'expo-image'
-import { truncateText } from '../../util/truncate-text' 
-import { formatDateBlog } from '../../util/format-date-post' 
-import { useMessages } from '@ably/chat' 
-import { useEffect, useState } from 'react' 
-import { MessageType } from '../../assets/enum/message-type' 
+import { truncateText } from '../../util/truncate-text';
+import { formatDateBlog } from '../../util/format-date-post';
+import { useMessages } from '@ably/chat';
+import { useEffect, useState } from 'react';
+import { MessageType } from '../../assets/enum/message-type';
 
 type Prop = {
     id: string
@@ -47,8 +47,8 @@ export default function ChatItem({ id, img, name, user, time, message, type, has
 
     const { } = useMessages({
         listener: (message) => {
-            const name = message.message.metadata.name as string
-            setLatestMessage(`${name.trim().split(' ').pop()} ${message.message.text}`)
+            setLatestMessage(message.message.text)
+            console.log('Received message: ', message)
         },
     })
 
@@ -74,5 +74,5 @@ export default function ChatItem({ id, img, name, user, time, message, type, has
                 </Text>
             </View>
         </Pressable>
-    ) 
+    );
 }

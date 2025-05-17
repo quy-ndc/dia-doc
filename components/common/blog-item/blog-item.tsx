@@ -1,17 +1,17 @@
-import { Image } from "expo-image" 
-import { useRouter } from "expo-router" 
-import { View, Pressable, useColorScheme } from "react-native" 
+import { Image } from "expo-image";
+import { useRouter } from "expo-router";
+import { View, StyleSheet, Pressable, useColorScheme } from "react-native";
 import { Text } from '../../../components/ui/text'
-import { formatDateBlog } from "../../../util/format-date-post" 
-import LikeButton from "./like-button" 
-import CommentButton from "./comment-button" 
-import BookmarkButton from "./bookmark-button" 
-import { truncateText } from "../../../util/truncate-text" 
-import { getBlogTagColor } from "../../../util/get-blog-tag-color" 
-import { Eye } from "../../../lib/icons/Eye" 
-import { GlobalColor } from "../../../global-color" 
-import { BlogPost } from "../../../assets/types/media/blog-post" 
-import { calculateReadTime } from "../../../util/readtime-calc" 
+import { formatDateBlog } from "../../../util/format-date-post";
+import LikeButton from "./like-button";
+import CommentButton from "./comment-button";
+import BookmarkButton from "./bookmark-button";
+import { truncateText } from "../../../util/truncate-text";
+import { getBlogTagColor } from "../../../util/get-blog-tag-color";
+import { Eye } from "../../../lib/icons/Eye";
+import { GlobalColor } from "../../../global-color";
+import { BlogPost } from "../../../assets/types/media/blog-post";
+import { calculateReadTime } from "../../../util/readtime-calc";
 
 
 type Prop = {
@@ -97,6 +97,7 @@ export default function BlogItem({ blogPost }: Prop) {
                     />
                 </View> */}
                 <View />
+
             </View>
         </Pressable>
     )

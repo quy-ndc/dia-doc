@@ -1,15 +1,15 @@
-import * as React from 'react' 
-import { ListFilter } from '../../lib/icons/ListFilter' 
-import { Dimensions, Modal, Pressable, View } from 'react-native' 
+import * as React from 'react';
+import { ListFilter } from '../../lib/icons/ListFilter';
+import { Dimensions, Modal, Pressable, View } from 'react-native';
 import { Text } from '../../components/ui/text'
-import { useState } from 'react' 
-import { useQuery } from '@tanstack/react-query' 
-import { useCategoryQuery } from '../../service/query/media-query' 
-import IconButton from '../common/icon-button' 
-import { Category } from '../../assets/types/media/category' 
-import SpinningIcon from '../common/icons/spinning-icon' 
-import { Loader } from '../../lib/icons/Loader' 
-import { RefreshCcw } from '../../lib/icons/RefreshCcw' 
+import { useState } from 'react';
+import { useQuery } from '@tanstack/react-query';
+import { useCategoryQuery } from '../../service/query/media-query';
+import IconButton from '../common/icon-button';
+import { Category } from '../../assets/types/media/category';
+import SpinningIcon from '../common/icons/spinning-icon';
+import { Loader } from '../../lib/icons/Loader';
+import { RefreshCcw } from '../../lib/icons/RefreshCcw';
 
 
 const { height, width } = Dimensions.get('window')
@@ -27,7 +27,7 @@ export default function FilterButton({ category, setCategory }: Prop) {
     const { data, isLoading } = useQuery({
         ...useCategoryQuery(),
         enabled: open
-    }) 
+    });
 
     const categories: Category[] = data?.data.value.data || []
 

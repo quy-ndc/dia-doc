@@ -1,8 +1,8 @@
-import { useEffect, useRef, useState } from "react" 
-import { AppState } from "react-native" 
+import { useEffect, useRef, useState } from "react";
+import { AppState } from "react-native";
 
 export const useAppState = () => {
-    const appState = useRef(AppState.currentState) 
+    const appState = useRef(AppState.currentState);
     const [isBackground, setIsBackground] = useState(appState.current !== 'active')
 
     useEffect(() => {
@@ -12,11 +12,11 @@ export const useAppState = () => {
             if (isNowBackground !== isBackground) {
                 setIsBackground(isNowBackground)
             }
-            appState.current = nextAppState 
+            appState.current = nextAppState;
         })
 
         return () => {
-            subscription.remove() 
+            subscription.remove();
         }
     }, [isBackground])
 

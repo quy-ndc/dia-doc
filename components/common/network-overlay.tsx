@@ -1,27 +1,27 @@
-import React, { useEffect, useState } from "react"
-import { View, Text, Platform, Dimensions } from "react-native"
-import useNetworkStore from "../../store/networkStore"
+import React, { useEffect, useState } from "react";
+import { View, Text, Platform, Dimensions } from "react-native";
+import useNetworkStore from "../../store/networkStore";
 
-const { height } = Dimensions.get("window")
+const { height } = Dimensions.get("window");
 
 export default function NetworkOverlay() {
-    const isConnected = useNetworkStore((state) => state.isConnected)
-    const [visible, setVisible] = useState(!isConnected)
-    const [statusText, setStatusText] = useState("Không có tín hiệu")
-    const [loading, setLoading] = useState(false)
+    const isConnected = useNetworkStore((state) => state.isConnected);
+    const [visible, setVisible] = useState(!isConnected);
+    const [statusText, setStatusText] = useState("Không có tín hiệu");
+    const [loading, setLoading] = useState(false);
 
     useEffect(() => {
         if (isConnected) {
-            setLoading(true)
-            setStatusText("Đã kết nối!")
+            setLoading(true);
+            setStatusText("Đã kết nối!");
 
             setTimeout(() => {
-                setLoading(false)
-                setVisible(false)
-            }, 1500)
+                setLoading(false);
+                setVisible(false);
+            }, 1500);
         } else {
-            setVisible(true)
-            setStatusText("Không có tín hiệu")
+            setVisible(true);
+            setStatusText("Không có tín hiệu");
         }
     }, [isConnected])
 
@@ -41,5 +41,5 @@ export default function NetworkOverlay() {
                 </Text>
             </View>
         </View>
-    )
+    );
 }

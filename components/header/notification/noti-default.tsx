@@ -1,9 +1,9 @@
-import * as React from 'react'
-import { Pressable } from 'react-native'
+import * as React from 'react';
+import { Pressable } from 'react-native';
 import { Text } from '../../ui/text'
-import { Ellipsis } from '../../../lib/icons/Ellipsis'
-import IconButton from '../../common/icon-button'
-import { DefaultPayload, SystemNotification } from '../../../assets/types/notification/notification'
+import { Ellipsis } from '../../../lib/icons/Ellipsis';
+import IconButton from '../../common/icon-button';
+import { DefaultPayload, SystemNotification } from '../../../assets/types/notification/notification';
 
 type Prop = {
     setVisible: (visible: boolean) => void
@@ -30,5 +30,5 @@ export default function DefaultNotification({ setVisible, notification }: Prop) 
                 />
             </Pressable>
         </>
-    )
+    );
 }

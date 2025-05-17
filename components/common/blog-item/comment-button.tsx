@@ -1,7 +1,7 @@
 import { Text } from '../../../components/ui/text'
-import { MessageSquareText } from '../../../lib/icons/MessageSquareText'
-import { Pressable } from 'react-native'
-import { useRouter } from 'expo-router'
+import { MessageSquareText } from '../../../lib/icons/MessageSquareText';
+import { Pressable } from 'react-native';
+import { useRouter } from 'expo-router';
 
 type Prop = {
     avatar: string
@@ -42,5 +42,5 @@ export default function CommentButton({ avatar, title, name, image, liked, detai
             <MessageSquareText className={detail ? `text-white` : `text-foreground`} size={17} />
             <Text className={`text-base font-bold ${detail && 'text-white'}`}>20</Text>
         </Pressable>
-    )
+    );
 }

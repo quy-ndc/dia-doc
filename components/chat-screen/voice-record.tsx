@@ -1,33 +1,33 @@
-import { Dimensions, Linking, Modal, Pressable, View } from "react-native" 
-import { Mic } from "../../lib/icons/Mic" 
-import { useEffect, useState } from "react" 
-import { useMicrophonePermissions } from "expo-camera" 
-import Toast from "react-native-toast-message" 
+import { Dimensions, Linking, Modal, Pressable, View } from "react-native";
+import { Mic } from "../../lib/icons/Mic";
+import { useEffect, useState } from "react";
+import { useMicrophonePermissions } from "expo-camera";
+import Toast from "react-native-toast-message";
 import { Text } from '../../components/ui/text'
-import Voice from "@react-native-voice/voice" 
-import { MicOff } from "../../lib/icons/MicOff" 
-import { Check } from "../../lib/icons/Check" 
-import { X } from "../../lib/icons/X" 
+import Voice from "@react-native-voice/voice";
+import { MicOff } from "../../lib/icons/MicOff";
+import { Check } from "../../lib/icons/Check";
+import { X } from "../../lib/icons/X";
 
 type Prop = {
-    setNewMessage: (newMessage: string) => void 
+    setNewMessage: (newMessage: string) => void;
 }
 
-const { width, height } = Dimensions.get('window') 
+const { width, height } = Dimensions.get('window');
 
 export default function VoiceRecord({ setNewMessage }: Prop) {
 
     const [permission, requestPermission] = useMicrophonePermissions()
     const [visible, setVisible] = useState(false)
     const [isRecording, setIsRecording] = useState(false)
-    const [results, setResults] = useState('') 
-    const [canSubmit, setCanSubmit] = useState(false) 
+    const [results, setResults] = useState('');
+    const [canSubmit, setCanSubmit] = useState(false);
 
     const grantPermission = async () => {
-        const response = await requestPermission() 
+        const response = await requestPermission();
 
         if (response.granted) {
-            setVisible(true) 
+            setVisible(true);
         } else if (!response.canAskAgain) {
             Toast.show({
                 type: 'error',
@@ -43,13 +43,13 @@ export default function VoiceRecord({ setNewMessage }: Prop) {
                 visibilityTime: 2000
             })
         }
-    } 
+    };
 
     const onStartRecord = async () => {
         try {
             setCanSubmit(false)
             setResults('')
-            await Voice.start("vi-VN") 
+            await Voice.start("vi-VN");
             setVisible(true)
             setIsRecording(true)
         } catch (e) {
@@ -64,7 +64,7 @@ export default function VoiceRecord({ setNewMessage }: Prop) {
 
     const onStopRecord = async () => {
         try {
-            await Voice.stop() 
+            await Voice.stop();
             setIsRecording(false)
         } catch (e) {
             console.log(e)
@@ -78,7 +78,7 @@ export default function VoiceRecord({ setNewMessage }: Prop) {
 
     const onCancelRecord = async () => {
         try {
-            await Voice.destroy() 
+            await Voice.destroy();
             setIsRecording(false)
             setVisible(false)
             setResults('')
@@ -89,42 +89,42 @@ export default function VoiceRecord({ setNewMessage }: Prop) {
 
     const onConfirm = async () => {
         setNewMessage(results)
-        await Voice.destroy() 
+        await Voice.destroy();
         setIsRecording(false)
         setVisible(false)
     }
 
     useEffect(() => {
         Voice.onSpeechError = (e) => {
-            console.log("onSpeechError: ", e) 
+            console.log("onSpeechError: ", e);
             Toast.show({
                 type: 'error',
                 text1: 'Có sự cố xảy ra khi ghi âm',
                 visibilityTime: 3000,
             })
-        } 
+        };
 
         Voice.onSpeechResults = (e) => {
-            console.log("onSpeechResults: ", e) 
+            console.log("onSpeechResults: ", e);
             setResults(e.value ? e.value[0] : '')
             setCanSubmit(true)
             // setNewMessage(e.value ? e.value[0] :  '')
-        } 
+        };
 
         Voice.onSpeechPartialResults = (e) => {
-            console.log("onSpeechPartialResults: ", e) 
+            console.log("onSpeechPartialResults: ", e);
             setResults(e.value ? e.value[0] : '')
-        } 
+        };
 
         Voice.onSpeechVolumeChanged = (e) => {
-            console.log("onSpeechVolumeChanged: ", e) 
-            // setPitch(e.value) 
-        } 
+            console.log("onSpeechVolumeChanged: ", e);
+            // setPitch(e.value);
+        };
 
         return () => {
-            Voice.destroy().then(Voice.removeAllListeners) 
-        } 
-    }, []) 
+            Voice.destroy().then(Voice.removeAllListeners);
+        };
+    }, []);
 
     if (!permission) {
         return <View />
@@ -190,5 +190,5 @@ export default function VoiceRecord({ setNewMessage }: Prop) {
                 </Pressable>
             </Modal>
         </>
-    ) 
+    );
 }

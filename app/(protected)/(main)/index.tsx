@@ -1,11 +1,11 @@
-import * as React from 'react' 
-import { View, ScrollView, RefreshControl } from 'react-native' 
-import QuickAccess from '../../../components/home/quick-access/quick-access' 
-import HomeBlogSection from '../../../components/home/blog/blog-section' 
-import { useCallback, useState } from 'react' 
-import { useQuery } from '@tanstack/react-query' 
-import { useTopMediaQuery } from '../../../service/query/media-query' 
-import { BlogPost } from '../../../assets/types/media/blog-post' 
+import * as React from 'react';
+import { View, ScrollView, RefreshControl } from 'react-native';
+import QuickAccess from '../../../components/home/quick-access/quick-access';
+import HomeBlogSection from '../../../components/home/blog/blog-section';
+import { useCallback, useState } from 'react';
+import { useQuery } from '@tanstack/react-query';
+import { useNewMediaQuery, useTopMediaQuery } from '../../../service/query/media-query';
+import { BlogPost } from '../../../assets/types/media/blog-post';
 
 
 export default function HomeScreen() {
@@ -46,5 +46,5 @@ export default function HomeScreen() {
                 </View>
             </ScrollView>
         </>
-    ) 
+    );
 }

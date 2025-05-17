@@ -1,14 +1,14 @@
-import { Tabs } from 'expo-router'
-import { User } from '../../../lib/icons/User'
-import { MessageCircleMore } from '../../../lib/icons/MessageCircleMore'
-import HeaderRight from '../../../components/header/header-right'
-import { Home } from '../../../lib/icons/Home'
-import { Newspaper } from '../../../lib/icons/Newspaper'
-import { Dimensions, Platform, useColorScheme } from 'react-native'
-import { GlobalColor } from '../../../global-color'
+import { Tabs } from 'expo-router';
+import { User } from '../../../lib/icons/User';
+import { MessageCircleMore } from '../../../lib/icons/MessageCircleMore';
+import HeaderRight from '../../../components/header/header-right';
+import { Home } from '../../../lib/icons/Home';
+import { Newspaper } from '../../../lib/icons/Newspaper';
+import { Dimensions, Platform, useColorScheme } from 'react-native';
+import { GlobalColor } from '../../../global-color';
 
 
-const { height } = Dimensions.get('window')
+const { height } = Dimensions.get('window');
 
 export default function MainLayout() {
 
@@ -80,5 +80,5 @@ export default function MainLayout() {
                 }}
             />
         </Tabs>
-    )
+    );
 }

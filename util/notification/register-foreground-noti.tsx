@@ -1,12 +1,12 @@
-import messaging from '@react-native-firebase/messaging' 
-import { Vibration } from 'react-native' 
-import notifee from '@notifee/react-native' 
-import { Notification } from '../../assets/enum/notification' 
+import messaging from '@react-native-firebase/messaging';
+import { Vibration } from 'react-native';
+import notifee from '@notifee/react-native';
+import { Notification } from '../../assets/enum/notification';
 
 
 export function registerForegroundNotificationHandler() {
     return messaging().onMessage(async remoteMessage => {
-        Vibration.vibrate(500) 
+        Vibration.vibrate(500);
 
         await notifee.displayNotification({
             title: remoteMessage.notification?.title,
@@ -25,6 +25,6 @@ export function registerForegroundNotificationHandler() {
                     },
                 ]
             },
-        }) 
-    }) 
+        });
+    });
 }

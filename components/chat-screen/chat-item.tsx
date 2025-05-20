@@ -8,6 +8,7 @@ import { formatDateBlog } from '../../util/format-date-post';
 import { useMessages } from '@ably/chat';
 import { useEffect, useState } from 'react';
 import { MessageType } from '../../assets/enum/message-type';
+import { useMessageStore } from '../../store/useMessage';
 
 type Prop = {
     id: string
@@ -24,6 +25,8 @@ export default function ChatItem({ id, img, name, user, time, message, type, has
 
     const router = useRouter()
 
+    const { getLatestMessage } = useMessageStore()
+
     const handleChatSelect = () => {
         router.push({
             pathname: '/chat-screen',
@@ -35,23 +38,9 @@ export default function ChatItem({ id, img, name, user, time, message, type, has
         })
     }
 
-    const displayMessage = message
-        ? `${user?.trim().split(' ').pop()}: ${type === 1 ? 'Đã gửi một ảnh' : truncateText(message, 25)}`
+    const displayMessage = getLatestMessage(id)
+        ? `${getLatestMessage(id)?.user.fullName.trim().split(' ').pop()}: ${type === 1 ? 'Đã gửi một ảnh' : truncateText(getLatestMessage(id)?.content as string, 25)}`
         : 'Nhóm này chưa có tin nhắn'
-
-    const [latestMessage, setLatestMessage] = useState(displayMessage)
-
-    useEffect(() => (
-        setLatestMessage(displayMessage)
-    ), [])
-
-    const { } = useMessages({
-        listener: (message) => {
-            const name = message.message.metadata.name as string
-            setLatestMessage(`${name.trim().split(' ').pop()}: ${message.message.text}`)
-            console.log('Received message: ', message)
-        },
-    })
 
     return (
         <Pressable
@@ -71,7 +60,7 @@ export default function ChatItem({ id, img, name, user, time, message, type, has
                     )}
                 </View>
                 <Text className={`text-base tracking-wider ${hasNewMessage ? 'font-bold' : 'opacity-[60%]'}`}>
-                    {latestMessage}
+                    {displayMessage}
                 </Text>
             </View>
         </Pressable>

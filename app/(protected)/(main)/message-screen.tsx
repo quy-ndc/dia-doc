@@ -1,32 +1,32 @@
-import { FlashList } from '@shopify/flash-list';
-import * as React from 'react';
-import { useCallback, useState } from 'react';
+import { FlashList } from '@shopify/flash-list'
+import * as React from 'react'
+import { useCallback, useEffect, useState } from 'react'
 import {
     Dimensions,
     RefreshControl,
     ScrollView,
     View,
-    ActivityIndicator,
     Text,
     Pressable,
-} from 'react-native';
-import ChatItem from '../../../components/chat-screen/chat-item';
-import { useGroupChatQuery } from '../../../service/query/chat-query';
-import { useQuery } from '@tanstack/react-query';
-import { GroupChat } from '../../../assets/types/chat/group';
-import SpinningIcon from '../../../components/common/icons/spinning-icon';
-import { Loader } from '../../../lib/icons/Loader';
-import { RefreshCcw } from '../../../lib/icons/RefreshCcw';
-import { AllFeaturesEnabled, ChatRoomProvider } from '@ably/chat';
+} from 'react-native'
+import ChatItem from '../../../components/chat-screen/chat-item'
+import { useGroupChatQuery } from '../../../service/query/chat-query'
+import { useQuery } from '@tanstack/react-query'
+import { GroupChat } from '../../../assets/types/chat/group'
+import SpinningIcon from '../../../components/common/icons/spinning-icon'
+import { Loader } from '../../../lib/icons/Loader'
+import { RefreshCcw } from '../../../lib/icons/RefreshCcw'
+import { AllFeaturesEnabled, ChatRoomProvider } from '@ably/chat'
+import { useMessageStore } from '../../../store/useMessage'
 
-const { width } = Dimensions.get('window');
+const { width } = Dimensions.get('window')
 
 export default function MessagesScreen() {
 
     const [refreshing, setRefreshing] = useState(false)
+    const { addGroups, setLatestMessage } = useMessageStore()
 
-    const {
-        data,
+    const { data,
         isLoading,
         isError,
         remove,
@@ -34,12 +34,25 @@ export default function MessagesScreen() {
     } = useQuery(useGroupChatQuery({}))
 
     const groups: GroupChat[] = data?.data?.value?.groups?.items || []
+    const groupIds: string[] = groups.map(group => group.id)
 
     const onRefresh = useCallback(() => {
         setRefreshing(true)
         remove()
         refetch().finally(() => setRefreshing(false))
     }, [refetch])
+
+    useEffect(() => {
+        if (groupIds.length > 0 && data && !isLoading) {
+            addGroups(groupIds)
+
+            groups.forEach(group => {
+                if (group.message) {
+                    setLatestMessage(group.id, group.message)
+                }
+            })
+        }
+    }, [data])
 
     if (isLoading) {
         return (
@@ -110,5 +123,5 @@ export default function MessagesScreen() {
                 />
             </View>
         </ScrollView >
-    );
+    )
 }

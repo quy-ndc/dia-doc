@@ -13,7 +13,7 @@ type Prop = {
 export default function GalleryAccess({ onImagePick }: Prop) {
 
     const { data, isLoading, mutateAsync, isSuccess, isError } = useUploadImageMutation()
-    console.log('data', data)
+    // console.log('data', data)
 
     const pickImageAsync = async () => {
         const response = await ImagePicker.requestMediaLibraryPermissionsAsync()

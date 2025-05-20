@@ -20,6 +20,8 @@ import { Vibration } from 'react-native';
 import notifee from '@notifee/react-native';
 import { createNotificationChannel } from '../util/notification/create-noti-channel';
 import useUserStore from '../store/userStore';
+import { ChannelProvider } from 'ably/react';
+import { GLOBAL_CHAT_EVENT_CHANNEL } from '@env';
 
 const LIGHT_THEME: Theme = { ...DefaultTheme, colors: NAV_THEME.light };
 const DARK_THEME: Theme = { ...DarkTheme, colors: NAV_THEME.dark };
@@ -123,23 +125,21 @@ export default function RootLayout() {
   return (
     <>
       <AblyWrapper>
-        <ThemeProvider value={isDarkColorScheme ? DARK_THEME : LIGHT_THEME}>
-          <StatusBar style={isDarkColorScheme ? 'light' : 'dark'} />
-          <ReactQueryProvider>
-            <Stack>
-              <Stack.Screen name='authen-screen' options={{ headerShown: false }} />
-              <Stack.Screen name='set-up-screen' options={{ headerShown: false }} />
-              <Stack.Screen name='(protected)' options={{ headerShown: false }} />
-              {/* <Stack.Screen name='(main)' options={{ headerShown: false }} /> */}
-              {/* <Stack.Screen name='chat-screen' options={{ headerTitle: '' }} /> */}
-              {/* <Stack.Screen name='edit-profile-page' options={{ headerTitle: '' }} /> */}
-              {/* <Stack.Screen name='blog-detail-screen' options={{ headerTitle: '', presentation: 'modal', animation: 'slide_from_bottom', gestureDirection: 'horizontal' }} /> */}
-              <Stack.Screen name='+not-found' options={{ headerShown: false }} />
-            </Stack>
-            <NetworkOverlay />
-          </ReactQueryProvider>
-          <PortalHost />
-        </ThemeProvider>
+        <ChannelProvider channelName={GLOBAL_CHAT_EVENT_CHANNEL}>
+          <ThemeProvider value={isDarkColorScheme ? DARK_THEME : LIGHT_THEME}>
+            <StatusBar style={isDarkColorScheme ? 'light' : 'dark'} />
+            <ReactQueryProvider>
+              <Stack>
+                <Stack.Screen name='authen-screen' options={{ headerShown: false }} />
+                <Stack.Screen name='set-up-screen' options={{ headerShown: false }} />
+                <Stack.Screen name='(protected)' options={{ headerShown: false }} />
+                <Stack.Screen name='+not-found' options={{ headerShown: false }} />
+              </Stack>
+              <NetworkOverlay />
+            </ReactQueryProvider>
+            <PortalHost />
+          </ThemeProvider>
+        </ChannelProvider>
       </AblyWrapper>
       <Toast config={toastConfig} />
     </>

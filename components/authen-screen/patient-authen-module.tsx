@@ -72,7 +72,7 @@ export default function PatientAuthenModule() {
     }
 
     useEffect(() => {
-        if (!isSuccess || !data) return
+        if (!isSuccess || !data || !data.data.value) return
 
         const result = data.data.value.data
         const userData: User = {

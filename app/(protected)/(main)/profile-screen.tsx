@@ -10,7 +10,7 @@ import { Phone } from '../../../lib/icons/Phone'
 import { useRouter } from 'expo-router'
 import { useQuery } from '@tanstack/react-query'
 import { useUserProfile } from '../../../service/query/user-query'
-import { useCallback, useState } from 'react'
+import { useCallback, useEffect, useState } from 'react'
 import { Patient } from '../../../assets/types/user/patient'
 import { getAge } from '../../../util/getAge'
 import { getGenderString } from '../../../assets/enum/gender'
@@ -19,11 +19,14 @@ import SpinningIcon from '../../../components/common/icons/spinning-icon'
 import { Loader } from '../../../lib/icons/Loader'
 import { calculateBMI } from '../../../util/calculate-bmi'
 import { RefreshCcw } from '../../../lib/icons/RefreshCcw'
+import useUserStore from '../../../store/userStore'
+import { User } from '../../../assets/types/zustand/user-z'
 
 
 export default function ProfileScreen() {
 
     const router = useRouter()
+    const { user, setUser } = useUserStore()
     const [refreshing, setRefreshing] = useState(false)
 
     const { data, isLoading, remove, refetch, isError } = useQuery(useUserProfile())
@@ -44,7 +47,7 @@ export default function ProfileScreen() {
         )
     }
 
-    if (!profile) {
+    if (!profile || isError) {
         return (
             <ScrollView
                 className="flex-1 w-full"
@@ -71,6 +74,21 @@ export default function ProfileScreen() {
         )
     }
 
+    // useEffect(() => {
+    //     if (!profile) return
+    //     const currentUser: User = {
+    //         ...user,
+    //         avatar: profile.user.avatar.publicUrl,
+    //         diaType: profile.diabetesType,
+    //         bod: profile.dateOfBirth,
+    //         gender: profile.gender,
+    //         weight: profile.weight,
+    //         height: profile.height,
+    //         blood: profile.bloodType
+    //     }
+    //     setUser(currentUser)
+    // }, [profile])
+ 
     return (
         <ScrollView refreshControl={<RefreshControl refreshing={refreshing} onRefresh={onRefresh} />}>
             <View className='flex-col gap-4 px-5'>

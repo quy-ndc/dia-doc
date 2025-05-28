@@ -19,7 +19,6 @@ import NetworkOverlay from '../components/common/network-overlay';
 import { Vibration } from 'react-native';
 import notifee from '@notifee/react-native';
 import { createNotificationChannel } from '../util/notification/create-noti-channel';
-import useUserStore from '../store/userStore';
 import { ChannelProvider } from 'ably/react';
 import { GLOBAL_CHAT_EVENT_CHANNEL } from '@env';
 
@@ -30,12 +29,9 @@ export { ErrorBoundary } from 'expo-router';
 
 export default function RootLayout() {
 
-  const router = useRouter()
-
   const hasMounted = React.useRef(false)
   const { colorScheme, isDarkColorScheme } = useColorScheme()
   const [isColorSchemeLoaded, setIsColorSchemeLoaded] = React.useState(false)
-  const { user } = useUserStore()
 
   // useEffect(() => {
   //   createNotificationChannel();

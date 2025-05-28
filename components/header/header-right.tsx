@@ -6,10 +6,12 @@ import { Image } from 'expo-image'
 import Notification from './notification/noti-access'
 import IconButton from '../common/icon-button';
 import LogoutButton from './logout-button';
+import useUserStore from '../../store/userStore';
 
 export default function HeaderRight() {
 
     const router = useRouter()
+    const { user } = useUserStore()
 
     return (
         <View className='flex-row pr-2 items-center'>
@@ -24,7 +26,7 @@ export default function HeaderRight() {
                             height: 28,
                             borderRadius: 1000,
                         }}
-                        source={`https://res.cloudinary.com/dcjdtlnbl/image/upload/v1729103768/female-shirt-category_pl5o1d.jpg`}
+                        source={user.avatar}
                     />
                 }
                 buttonSize={3}

@@ -25,6 +25,7 @@ import { RefreshCcw } from '../../lib/icons/RefreshCcw'
 import { useMessageStore } from '../../store/useMessage'
 import { FlashList } from '@shopify/flash-list'
 import { useDebounce } from '../../util/hook/useDebounce'
+import { usePresence } from '@ably/chat'
 
 
 type Prop = {
@@ -61,7 +62,7 @@ export default function ChatModule({
     } = useInfiniteQuery({
         ...useChatMessagesQuery({
             groupId: groupId,
-            PageSize: 20
+            PageSize: 15
         }),
         getNextPageParam: (lastPage) => {
             const messages = lastPage.data?.value?.messages
@@ -156,6 +157,11 @@ export default function ChatModule({
             })
         }
     }
+
+    const { } = usePresence({
+        enterWithData: { status: 'Online' },
+        leaveWithData: { status: 'Offline' },
+    });
 
     return (
         <KeyboardAvoidingView

@@ -7,7 +7,7 @@ import { useRouter } from 'expo-router'
 import ZaloKit, { Constants } from 'react-native-zalo-kit'
 import SpinningIcon from '../common/icons/spinning-icon'
 import { Loader } from '../../lib/icons/Loader'
-import { useEffect, useState } from 'react'
+import { useEffect, useRef, useState } from 'react'
 import { Toast } from 'react-native-toast-message/lib/src/Toast'
 import { useLoginPatientMutation } from '../../service/query/auth-query'
 import { User } from '../../assets/types/zustand/user-z'
@@ -26,10 +26,7 @@ export default function PatientAuthenModule() {
         data,
         isLoading,
         isSuccess,
-        isError
     } = useLoginPatientMutation()
-
-    const [loginTrigger, setLoginTrigger] = useState(false)
 
     const zaloLogin = async () => {
         try {
@@ -38,7 +35,6 @@ export default function PatientAuthenModule() {
             if (code.accessToken) {
                 const profile = await ZaloKit.getUserProfile()
                 if (profile && profile.id) {
-                    setLoginTrigger(true)
                     await mutateAsync({
                         zaloIdentityId: profile.id,
                         fullName: profile.name,
@@ -58,7 +54,6 @@ export default function PatientAuthenModule() {
             if (code.accessToken) {
                 const profile = await ZaloKit.getUserProfile()
                 if (profile && profile.id) {
-                    setLoginTrigger(true)
                     await mutateAsync({
                         zaloIdentityId: profile.id,
                         fullName: profile.name,
@@ -72,7 +67,9 @@ export default function PatientAuthenModule() {
     }
 
     useEffect(() => {
-        if (!isSuccess || !data || !data.data.value) return
+        if (!isSuccess || !data || data.status !== 200) {
+            return
+        }
 
         const result = data.data.value.data
         const userData: User = {
@@ -99,25 +96,7 @@ export default function PatientAuthenModule() {
         } else {
             router.replace('/set-up-screen')
         }
-
-        Toast.show({
-            type: 'success',
-            text1: 'Đăng nhập thành công',
-            visibilityTime: 2000
-        })
     }, [isSuccess])
-
-    useEffect(() => {
-        if (!isError || !loginTrigger) return
-
-        Toast.show({
-            type: 'error',
-            text1: 'Đăng nhập thất bại',
-            visibilityTime: 2000
-        })
-
-        setLoginTrigger(false)
-    }, [isError])
 
     return (
         <View className="flex gap-3 items-center">
@@ -152,13 +131,12 @@ export default function PatientAuthenModule() {
                 )}
                 <Text className="font-bold">Đăng nhập bằng Zalo qua trình duyệt</Text>
             </Button>
-
-            <Pressable onPress={() => router.push('/set-up-screen')}>
+            {/* <Pressable onPress={() => router.push('/set-up-screen')}>
                 <Text>set up</Text>
             </Pressable>
             <Pressable onPress={() => router.push('/(protected)/(main)')}>
                 <Text>home</Text>
-            </Pressable>
+            </Pressable> */}
         </View>
     )
 }

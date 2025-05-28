@@ -14,8 +14,11 @@ export const useMediaQuery = (params: {
 }) => {
     const queryKey = ['medias', params]
 
-    const queryFn = async ({ pageParam = 1 }) => {
-        return GetAllMedias({ PageIndex: pageParam, ...params });
+    const queryFn = async ({ pageParam = undefined }) => {
+        return GetAllMedias({
+            ...params,
+            Cursor: pageParam,
+        })
     }
 
     return { queryKey, queryFn }

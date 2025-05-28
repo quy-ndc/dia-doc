@@ -36,15 +36,14 @@ export default function BlogScreen() {
         isLoading,
     } = useInfiniteQuery({
         ...useMediaQuery({
-            PageSize: 5,
+            PageSize: 7,
             CategoryId: category,
             Content: search,
             Title: search
         }),
         getNextPageParam: (lastPage) => {
-            const currentPage = lastPage.data?.value?.data?.pageIndex || 1
-            const totalPages = lastPage.data?.value?.data?.totalPages || 1
-            return currentPage < totalPages ? currentPage + 1 : undefined
+            const posts = lastPage.data.value.data
+            return posts.hasNextPage ? posts.nextCursor : undefined
         },
         keepPreviousData: false
     })

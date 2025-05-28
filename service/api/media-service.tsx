@@ -3,7 +3,7 @@ import { createQueryString, endpointCategory, endpointMedia } from "../endpoint"
 import axiosServices, { axiosClientUpload } from "../axios"
 
 export const GetAllMedias = async (params: {
-    PageIndex: number
+    Cursor?: string
     PageSize: number
     Title?: string
     Content?: string
@@ -11,7 +11,6 @@ export const GetAllMedias = async (params: {
     UserCreatedId?: string
     SortType?: number
     IsSortASC?: boolean
-    electedColumns?: string[]
 }) => {
 
     try {

@@ -60,8 +60,7 @@ export default function NotificationAccess() {
     const handleLoadMore = () => {
         if (hasNextPage && !isFetchingNextPage) {
             fetchNextPage().then(res => {
-                const newItems: SystemNotification[] =
-                    res.data?.pages?.at(-1)?.data?.value?.notifications?.items || []
+                const newItems: SystemNotification[] = res.data?.pages?.at(-1)?.data?.value?.notifications?.items || []
                 newItems.forEach(item => addNoti(item))
             })
         }

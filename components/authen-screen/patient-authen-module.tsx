@@ -7,11 +7,12 @@ import { useRouter } from 'expo-router'
 import ZaloKit, { Constants } from 'react-native-zalo-kit'
 import SpinningIcon from '../common/icons/spinning-icon'
 import { Loader } from '../../lib/icons/Loader'
-import { useEffect, useRef, useState } from 'react'
-import { Toast } from 'react-native-toast-message/lib/src/Toast'
+import { useEffect } from 'react'
 import { useLoginPatientMutation } from '../../service/query/auth-query'
 import { User } from '../../assets/types/zustand/user-z'
 import useUserStore from '../../store/userStore'
+import { Image } from 'expo-image'
+
 
 const { width } = Dimensions.get('window')
 
@@ -21,12 +22,7 @@ export default function PatientAuthenModule() {
 
     console.log(user)
 
-    const {
-        mutateAsync,
-        data,
-        isLoading,
-        isSuccess,
-    } = useLoginPatientMutation()
+    const { mutateAsync, data, isLoading, isSuccess } = useLoginPatientMutation()
 
     const zaloLogin = async () => {
         try {
@@ -99,38 +95,32 @@ export default function PatientAuthenModule() {
     }, [isSuccess])
 
     return (
-        <View className="flex gap-3 items-center">
-            <Button
-                className="flex-row gap-3 items-center"
-                style={styles.button}
-                variant="ghost"
-                size="lg"
+        <View className="flex gap-4 items-center">
+            <Pressable
+                style={[
+                    { width: width * 0.85 },
+                    { opacity: isLoading ? 0.5 : 1 }
+                ]}
+                className="flex-row gap-2 px-4 py-3 justify-center items-center bg-[var(--oppo-theme-col)] border border-[var(--same-theme-col)] rounded-full active:bg-[var(--oppo-click-bg)]"
                 disabled={isLoading}
                 onPress={zaloLogin}
             >
-                {isLoading ? (
-                    <SpinningIcon icon={<Loader className="text-foreground" size={20} />} />
-                ) : (
-                    <LogIn className="text-foreground" size={20} />
-                )}
-                <Text className="text-lg font-bold">Đăng nhập bằng Zalo qua ứng dụng</Text>
-            </Button>
-
-            <Button
-                className="flex-row gap-3 items-center"
-                style={styles.button}
-                variant="ghost"
-                size="lg"
+                <SpinningIcon icon={<Loader className={`text-foreground ${isLoading ? '' : 'hidden'}`} size={19} />} />
+                <Text className="text-base text-[var(--same-theme-col)] font-semibold tracking-wider">Tiếp tục với Zalo App</Text>
+            </Pressable>
+            <Pressable
+                style={[
+                    { width: width * 0.85 },
+                    { opacity: isLoading ? 0.5 : 1 }
+                ]}
+                className="flex-row gap-2 px-4 py-3 justify-center items-center border border-[var(--oppo-theme-col)] rounded-full active:bg-[var(--click-bg)]"
                 disabled={isLoading}
                 onPress={zaloLoginWeb}
             >
-                {isLoading ? (
-                    <SpinningIcon icon={<Loader className="text-foreground" size={20} />} />
-                ) : (
-                    <LogIn className="text-foreground" size={20} />
-                )}
-                <Text className="font-bold">Đăng nhập bằng Zalo qua trình duyệt</Text>
-            </Button>
+                <SpinningIcon icon={<Loader className={`text-foreground ${isLoading ? '' : 'hidden'}`} size={19} />} />
+                <Text className="text-base font-semibold tracking-wider">Tiếp tục với Zalo trên Web</Text>
+            </Pressable>
+
             {/* <Pressable onPress={() => router.push('/set-up-screen')}>
                 <Text>set up</Text>
             </Pressable>
@@ -140,10 +130,3 @@ export default function PatientAuthenModule() {
         </View>
     )
 }
-
-const styles = StyleSheet.create({
-    button: {
-        height: 50,
-        width: width * 0.9
-    }
-})

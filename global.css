@@ -28,6 +28,9 @@
     /* Container background color on click */
     --click-bg: rgba(86, 86, 86, 0.1);
 
+    /* Oppo container background color on click */
+    --oppo-click-bg: #2a2a2a;
+
     /* Color that matches the theme */
     --same-theme-col: white;
 
@@ -114,7 +117,12 @@
 
     /* Background for type 4 category */
     --type4-bg: #15a75e;
-    
+
+    /* Backgroumd of feature items in authen page */
+    --feature-bg: rgba(240, 240, 240, 0.53); 
+
+    /* Backgroumd of feature items icon in authen page */
+    --feature-icon-bg: #e0f2ff;
   }
 
   .dark:root {
@@ -141,6 +149,9 @@
 
     /* Container background color on click */
     --click-bg: rgb(42, 42, 42);
+
+    /* Oppo container background color on click */
+    --oppo-click-bg: #e6e6e6;
 
     /* Color that matches the theme */
     --same-theme-col: black;
@@ -216,10 +227,10 @@
 
     /* Border of the divider in noti modal */
     --noti-divider: #333;
-    
+
     /* Background for type 1 category */
     --type1-bg: #FF4C4C;
-  
+
     /* Background for type 2 category */
     --type2-bg: #4C9BFF;
 
@@ -228,5 +239,11 @@
 
     /* Background for type 4 category */
     --type4-bg: #10bb71;
+
+    /* Backgroumd of feature items in authen page */
+    --feature-bg: #111;
+    
+    /* Backgroumd of feature items icon in authen page */
+    --feature-icon-bg: rgb(25, 128, 255);
   }
 }

@@ -116,19 +116,19 @@ export default function DoctorAuthenModule() {
             </View>
             <View className='flex-row w-full justify-between items-center'>
                 <View />
-                <Button
-                    className='flex-row gap-2 items-center'
-                    variant={'ghost'}
-                    onPress={handleSubmit(onLogin)}
+                <Pressable
+                    style={{ opacity: isLoading ? 0.5 : 1 }}
+                    className="flex-row gap-2 px-5 py-3 justify-center items-center bg-[var(--oppo-theme-col)] border border-[var(--same-theme-col)] rounded-full active:bg-[var(--oppo-click-bg)]"
                     disabled={isLoading}
+                    onPress={handleSubmit(onLogin)}
                 >
-                    <Text className='text-lg font-bold tracking-wider capitalize'>Đăng nhập</Text>
+                    <Text className="text-base text-[var(--same-theme-col)] font-semibold tracking-wider">Đăng nhập</Text>
                     {isLoading ? (
-                        <SpinningIcon icon={<Loader className='text-foreground' size={19} />} />
+                        <SpinningIcon icon={<Loader className='text-[var(--same-theme-col)]' size={19} />} />
                     ) : (
-                        <LogIn className="text-foreground" size={19} />
+                        <LogIn className="text-[var(--same-theme-col)]" size={19} />
                     )}
-                </Button>
+                </Pressable>
             </View>
 
         </View>

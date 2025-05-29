@@ -21,6 +21,7 @@ import { calculateBMI } from '../../../util/calculate-bmi'
 import { RefreshCcw } from '../../../lib/icons/RefreshCcw'
 import useUserStore from '../../../store/userStore'
 import { User } from '../../../assets/types/zustand/user-z'
+import { getDiaTypeName } from '../../../assets/enum/dia-type'
 
 
 export default function ProfileScreen() {
@@ -74,21 +75,6 @@ export default function ProfileScreen() {
         )
     }
 
-    // useEffect(() => {
-    //     if (!profile) return
-    //     const currentUser: User = {
-    //         ...user,
-    //         avatar: profile.user.avatar.publicUrl,
-    //         diaType: profile.diabetesType,
-    //         bod: profile.dateOfBirth,
-    //         gender: profile.gender,
-    //         weight: profile.weight,
-    //         height: profile.height,
-    //         blood: profile.bloodType
-    //     }
-    //     setUser(currentUser)
-    // }, [profile])
- 
     return (
         <ScrollView refreshControl={<RefreshControl refreshing={refreshing} onRefresh={onRefresh} />}>
             <View className='flex-col gap-4 px-5'>
@@ -119,7 +105,7 @@ export default function ProfileScreen() {
                     <Text className='text-xl font-bold tracking-wider'>Loại tiểu đường</Text>
                     <View className='flex-row justify-between items-center'>
                         <Pressable className='px-5 py-2 rounded-lg bg-[var(--dia-type-bg)]'>
-                            <Text className='text-white text-lg font-bold tracking-wider'>Loại 1</Text>
+                            <Text className='text-white text-lg font-bold tracking-wider'>{getDiaTypeName(profile.diabetesType)}</Text>
                         </Pressable>
                     </View>
                     {/* <View className='flex-col gap-1'>

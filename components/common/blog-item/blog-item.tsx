@@ -1,6 +1,6 @@
 import { Image } from "expo-image";
 import { useRouter } from "expo-router";
-import { View, StyleSheet, Pressable, useColorScheme } from "react-native";
+import { View, Pressable, useColorScheme } from "react-native";
 import { Text } from '../../../components/ui/text'
 import { formatDateBlog } from "../../../util/format-date-post";
 import LikeButton from "./like-button";
@@ -38,7 +38,7 @@ export default function BlogItem({ blogPost }: Prop) {
 
     return (
         <Pressable
-            className="flex-col gap-5 active:bg-[--click-bg] border-b border-[var(--blog-border-color)]"
+            className="flex-col gap-5 border-b border-[var(--blog-border-color)] active:bg-[--click-bg]"
             onPress={handleBlogClick}
         >
             <View className="flex-row justify-between items-center gap-5 px-4 pt-4">

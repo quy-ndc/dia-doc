@@ -14,10 +14,15 @@ import { SystemNotification } from '../../../assets/types/notification/notificat
 import SpinningIcon from '../../common/icons/spinning-icon'
 import { Loader } from '../../../lib/icons/Loader'
 import { RefreshCcw } from '../../../lib/icons/RefreshCcw'
+import QuickButton from '../../home/quick-access/quick-button'
 
 const { height, width } = Dimensions.get('window')
 
-export default function NotificationAccess() {
+type Prop = {
+    position: 'header' | 'quick'
+}
+
+export default function NotificationAccess({ position }: Prop) {
 
     const [open, setOpen] = useState(false)
     const [refreshing, setRefreshing] = useState(false)
@@ -140,24 +145,37 @@ export default function NotificationAccess() {
                 </Pressable>
             </Modal>
 
-            <View className='relative'>
-                <Pressable
-                    className={`p-3 items-center justify-center rounded-full active:bg-[var(--click-bg)]`}
+            {position == 'header' ? (
+                <View className='relative'>
+                    <Pressable
+                        className={`p-3 items-center justify-center rounded-full active:bg-[var(--click-bg)]`}
+                        onPress={onModalOpen}
+                    >
+                        <Bell className="text-foreground" size={21} strokeWidth={1.25} />
+                    </Pressable>
+                    {notiCount > 0 && notiCount < 10 && (
+                        <View className='absolute top-0 right-0 px-2 py-1 rounded-full bg-red-500 items-center'>
+                            <Text className='text-xs font-bold'>{notiCount}</Text>
+                        </View>
+                    )}
+                    {notiCount > 9 && (
+                        <View className='absolute top-0 right-[-8] px-2 py-1 rounded-full bg-red-500 items-center'>
+                            <Text className='text-xs font-bold'>9 +</Text>
+                        </View>
+                    )}
+                </View>
+            ) : (
+                <QuickButton
+                    icon={
+                        <View className='flex p-3 justify-center items-center rounded-full bg-[var(--yellow-quick-access-bg)]'>
+                            <Bell className='text-foreground' size={17} />
+                        </View>
+                    }
+                    title='Thông báo'
                     onPress={onModalOpen}
-                >
-                    <Bell className="text-foreground" size={21} strokeWidth={1.25} />
-                </Pressable>
-                {notiCount > 0 && notiCount < 10 && (
-                    <View className='absolute top-0 right-0 px-2 py-1 rounded-full bg-red-500 items-center'>
-                        <Text className='text-xs font-bold'>{notiCount}</Text>
-                    </View>
-                )}
-                {notiCount > 9 && (
-                    <View className='absolute top-0 right-[-8] px-2 py-1 rounded-full bg-red-500 items-center'>
-                        <Text className='text-xs font-bold'>9 +</Text>
-                    </View>
-                )}
-            </View>
+                />
+            )}
+
         </>
     )
 }

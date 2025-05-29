@@ -13,11 +13,11 @@ export default function QuickButton({ icon, title, onPress }: Prop) {
 
     return (
         <Pressable
-            className='flex-col gap-2 w-[30%] justify-center items-center px-4 py-2 rounded-xl active:bg-[--click-bg]'
+            className='flex-col gap-2 justify-center items-center px-4 py-2 rounded-xl active:bg-[--click-bg]'
             onPress={onPress}
         >
             {icon}
-            <Text className='text-base font-medium tracking-wider'>{title}</Text>
+            <Text className='text-sm font-medium tracking-wider'>{title}</Text>
         </Pressable>
     );
 }

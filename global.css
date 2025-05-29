@@ -106,23 +106,23 @@
     /* Border of the divider in noti modal */
     --noti-divider: rgb(219, 219, 219);
 
-    /* Background for type 1 category */
-    --type1-bg: #B22222;
-
-    /* Background for type 2 category */
-    --type2-bg: #1E3A8A;
-
-    /* Background for type 3 category */
-    --type3-bg: #cb8b00;
-
-    /* Background for type 4 category */
-    --type4-bg: #15a75e;
-
     /* Backgroumd of feature items in authen page */
-    --feature-bg: rgba(240, 240, 240, 0.53); 
+    --feature-bg: rgba(240, 240, 240, 0.53);
 
     /* Backgroumd of feature items icon in authen page */
     --feature-icon-bg: #e0f2ff;
+
+    /* Green shade quick access background */
+    --green-quick-access-bg: #22c55e2d;
+
+    /* Yellow shade quick access background */
+    --yellow-quick-access-bg: #eab2082a;
+
+    /* Blue shade quick access background */
+    --blue-quick-access-bg: #3b83f62d;
+
+    /* Red shade quick access background */
+    --red-quick-access-bg: #ef44442e;
   }
 
   .dark:root {
@@ -228,22 +228,22 @@
     /* Border of the divider in noti modal */
     --noti-divider: #333;
 
-    /* Background for type 1 category */
-    --type1-bg: #FF4C4C;
-
-    /* Background for type 2 category */
-    --type2-bg: #4C9BFF;
-
-    /* Background for type 3 category */
-    --type3-bg: #d1b33a;
-
-    /* Background for type 4 category */
-    --type4-bg: #10bb71;
-
     /* Backgroumd of feature items in authen page */
     --feature-bg: #111;
-    
+
     /* Backgroumd of feature items icon in authen page */
     --feature-icon-bg: rgb(25, 128, 255);
+
+    /* Green shade quick access background */
+    --green-quick-access-bg: rgba(45, 205, 104, 0.757);
+
+    /* Yellow shade quick access background */
+    --yellow-quick-access-bg: #eacc08c0;
+
+    /* Blue shade quick access background */
+    --blue-quick-access-bg: rgba(59, 131, 246, 0.772);
+
+    /* Red shade quick access background */
+    --red-quick-access-bg: rgba(239, 68, 68, 0.76);
   }
 }

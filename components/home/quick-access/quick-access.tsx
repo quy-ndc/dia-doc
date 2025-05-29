@@ -7,6 +7,8 @@ import { Newspaper } from '../../../lib/icons/Newspaper';
 import { User } from '../../../lib/icons/User';
 import SectionTitle from '../common/section-title';
 import { Zap } from '../../../lib/icons/Zap';
+import { Bell } from '../../../lib/icons/Bell';
+import NotificationAccess from '../../header/notification/noti-access';
 
 
 export default function QuickAccess() {
@@ -19,20 +21,33 @@ export default function QuickAccess() {
                 icon={<Zap className='text-[var(--quick-access-title-icon-color)]' size={18} />}
                 title='Truy cập Nhanh'
             />
-             
-            <View className='flex flex-wrap flex-row justify-between gap-3 px-5'>
+
+            <View className='flex flex-row justify-between px-2'>
                 <QuickButton
-                    icon={<MessageCircleMore className='text-[var(--quick-access-icon-color)]' size={23} />}
+                    icon={
+                        <View className='flex p-3 justify-center items-center rounded-full bg-[var(--green-quick-access-bg)]'>
+                            <MessageCircleMore className='text-foreground' size={17} />
+                        </View>
+                    }
                     title='Tin nhắn'
                     onPress={() => router.push('/message-screen')}
                 />
                 <QuickButton
-                    icon={<Newspaper className='text-[var(--quick-access-icon-color)]' size={23} />}
+                    icon={
+                        <View className='flex p-3 justify-center items-center rounded-full bg-[var(--blue-quick-access-bg)]'>
+                            <Newspaper className='text-foreground' size={17} />
+                        </View>
+                    }
                     title='Bài viết'
                     onPress={() => router.push('/blog-screen')}
                 />
+                <NotificationAccess position='quick' />
                 <QuickButton
-                    icon={<User className='text-[var(--quick-access-icon-color)]' size={23} />}
+                    icon={
+                        <View className='flex p-3 justify-center items-center rounded-full bg-[var(--red-quick-access-bg)]'>
+                            <User className='text-foreground' size={17} />
+                        </View>
+                    }
                     title='Hồ sơ'
                     onPress={() => router.push('/profile-screen')}
                 />

@@ -17,7 +17,7 @@ export default function HeaderRight() {
         <View className='flex-row pr-2 items-center'>
             <LogoutButton />
             <ThemeToggle />
-            <Notification />
+            <Notification position='header' />
             <IconButton
                 icon={
                     <Image

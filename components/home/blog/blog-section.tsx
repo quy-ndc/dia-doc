@@ -1,4 +1,4 @@
-import { Dimensions, Pressable, View } from "react-native";
+import { Dimensions, Pressable, ScrollView, View } from "react-native";
 import SectionTitle from "../common/section-title";
 import { Sparkles } from '../../../lib/icons/Sparkles';
 import { Button } from "../../../components/ui/button";
@@ -11,6 +11,7 @@ import { BlogPost } from "../../../assets/types/media/blog-post";
 import SpinningIcon from "../../common/icons/spinning-icon";
 import { Loader } from "../../../lib/icons/Loader";
 import { RefreshCcw } from "../../../lib/icons/RefreshCcw";
+import FeatureBlogItem from "../../common/blog-item/feature-blog-item";
 
 const { width } = Dimensions.get('window')
 
@@ -52,25 +53,25 @@ export default function HomeBlogSection({ isLoading, isError, items, onRefresh, 
                 </View>
             ) : (
                 <>
-                    <View style={{ width: width }}>
+                    <ScrollView style={{ width: width }}>
+                        {/* <FeatureBlogItem blogPost={items[0]} /> */}
                         <FlashList<BlogPost>
                             data={items}
                             keyExtractor={(_, index) => index.toString()}
-                            renderItem={({ item }) => (
+                            renderItem={({ item }) =>
                                 <BlogItem blogPost={item} />
-                            )}
+                            }
                             estimatedItemSize={100}
                         />
-                    </View>
-                    <Button
-                        className="flex-row items-center gap-5"
-                        style={{ width: width * 0.5 }}
-                        variant={"ghost"}
+                    </ScrollView>
+                    <Pressable
+                        style={{ width: width * 0.4 }}
+                        className="flex-row gap-2 px-4 py-2 justify-center items-center border border-[var(--oppo-theme-col)] rounded-full active:bg-[var(--click-bg)]"
                         onPress={() => router.push('/blog-screen')}
                     >
-                        <Text className="text-xl font-bold">Xem thêm</Text>
-                        <ChevronDown className="text-foreground" size={20} />
-                    </Button>
+                        <Text className="text-base font-semibold tracking-wider">Xem thêm</Text>
+                        <ChevronDown className="text-foreground" size={18} />
+                    </Pressable>
                 </>
             )}
         </View>

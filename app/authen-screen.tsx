@@ -8,14 +8,12 @@ import { ArrowRightLeft } from '../lib/icons/ArrowRightLeft'
 import { useState } from 'react'
 import PatientAuthenModule from '../components/authen-screen/patient-authen-module'
 import DoctorAuthenModule from '../components/authen-screen/doctor-authen-module'
-import { ThemeToggle } from '../components/ThemeToggle'
 import FeatureItem from '../components/authen-screen/feature-item'
 import { Bot } from '../lib/icons/Bot'
 import { Newspaper } from '../lib/icons/Newspaper'
 import { MessageCircleMore } from '../lib/icons/MessageCircleMore'
 import { User } from '../lib/icons/User'
-
-const { height } = Dimensions.get('window')
+// import { ThemeToggle } from '../components/ThemeToggle'
 
 export default function AuthenScreen() {
 
@@ -41,17 +39,17 @@ export default function AuthenScreen() {
       className="flex-1 justify-between gap-10 px-10"
     >
       <View className='absolute top-[50] left-[20] z-10'>
-        {/* <Pressable
+        <Pressable
           className='flex-row px-5 py-3 gap-3 items-center rounded-md active:bg-[var(--click-bg)]'
           onPress={onInfo}
         >
           <CircleAlert className='text-[var(--info-text)]' size={19} />
           <Text className="text-lg text-[var(--info-text)] font-bold">Lưu ý</Text>
-        </Pressable> */}
-        <ThemeToggle />
+        </Pressable>
+        {/* <ThemeToggle /> */}
       </View>
 
-      <View className='absolute top-[50] right-[20] z-10'>
+      {/* <View className='absolute top-[50] right-[20] z-10'>
         <Pressable
           className='flex-row px-5 py-3 gap-3 items-center rounded-md active:bg-[var(--click-bg)]'
           onPress={onModeChange}
@@ -63,7 +61,7 @@ export default function AuthenScreen() {
           )}
           <ArrowRightLeft className='text-foreground' size={20} />
         </Pressable>
-      </View>
+      </View> */}
 
       <View className='flex-col gap-2 items-center'>
         <View className="flex-col gap-2 justify-center items-center">
@@ -94,11 +92,11 @@ export default function AuthenScreen() {
           topText='Nhóm hỗ trợ'
           bottomText='Tham gia cộng đồng bệnh nhân'
         />
-        <FeatureItem
+        {/* <FeatureItem
           icon={<User className='text-foreground' size={22} />}
           topText='Hồ sơ cá nhân'
           bottomText='Quản lý thông tin sức khỏe của bạn'
-        />
+        /> */}
       </View>
 
       {mode == 'patient' ? (

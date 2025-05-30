@@ -37,6 +37,9 @@
     /* Color that is opposite of the theme */
     --oppo-theme-col: black;
 
+    /* Main color */
+    --main-color: #248fca;
+
     /* Text with faded texture */
     --fade-text-color: gray;
 
@@ -51,9 +54,6 @@
 
     /* Text color of received text */
     --ownt-message-text: black;
-
-    /* Icon color of quick access button */
-    --quick-access-icon-color: #195eff;
 
     /* Background color of blog post */
     --blog-bg: rgba(139, 139, 139, 0.06);
@@ -106,23 +106,20 @@
     /* Border of the divider in noti modal */
     --noti-divider: rgb(219, 219, 219);
 
-    /* Backgroumd of feature items in authen page */
-    --feature-bg: rgba(240, 240, 240, 0.53);
+    /* Green shade background */
+    --green-dynamic-bg: #22c55e2d;
 
-    /* Backgroumd of feature items icon in authen page */
-    --feature-icon-bg: #e0f2ff;
+    /* Yellow shade background */
+    --yellow-dynamic-bg: #eab2082a;
 
-    /* Green shade quick access background */
-    --green-quick-access-bg: #22c55e2d;
+    /* Blue shade background */
+    --blue-dynamic-bg: #3b83f62d;
 
-    /* Yellow shade quick access background */
-    --yellow-quick-access-bg: #eab2082a;
+    /* Red shade background */
+    --red-dynamic-bg: #ef44442e;
 
-    /* Blue shade quick access background */
-    --blue-quick-access-bg: #3b83f62d;
-
-    /* Red shade quick access background */
-    --red-quick-access-bg: #ef44442e;
+    /* Pink shade background */
+    --pink-dynamic-bg: #ef3acb2e;
   }
 
   .dark:root {
@@ -158,6 +155,9 @@
 
     /* Color that is opposite of the theme */
     --oppo-theme-col: white;
+    
+    /* Main color */
+    --main-color: #248fca;
 
     /* Text with faded texture */
     --fade-text-color: gray;
@@ -173,9 +173,6 @@
 
     /* Text color of received text */
     --ownt-message-text: white;
-
-    /* Icon color of quick access button */
-    --quick-access-icon-color: #84bcfd;
 
     /* Background color of blog post */
     --blog-bg: #111111b7;
@@ -228,22 +225,19 @@
     /* Border of the divider in noti modal */
     --noti-divider: #333;
 
-    /* Backgroumd of feature items in authen page */
-    --feature-bg: #111;
+    /* Green shade background */
+    --green-dynamic-bg: rgba(45, 205, 104, 0.757);
 
-    /* Backgroumd of feature items icon in authen page */
-    --feature-icon-bg: rgb(25, 128, 255);
+    /* Yellow shade background */
+    --yellow-dynamic-bg: #eacc08c0;
 
-    /* Green shade quick access background */
-    --green-quick-access-bg: rgba(45, 205, 104, 0.757);
+    /* Blue shade background */
+    --blue-dynamic-bg: rgba(59, 131, 246, 0.757);
 
-    /* Yellow shade quick access background */
-    --yellow-quick-access-bg: #eacc08c0;
+    /* Red shade background */
+    --red-dynamic-bg: rgba(239, 68, 68, 0.757);
 
-    /* Blue shade quick access background */
-    --blue-quick-access-bg: rgba(59, 131, 246, 0.772);
-
-    /* Red shade quick access background */
-    --red-quick-access-bg: rgba(239, 68, 68, 0.76);
+    /* Pink shade background */
+    --pink-dynamic-bg: rgba(239, 68, 222, 0.757);
   }
 }

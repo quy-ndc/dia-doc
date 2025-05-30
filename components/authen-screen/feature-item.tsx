@@ -15,9 +15,9 @@ export default function FeatureItem({ icon, topText, bottomText }: Prop) {
     return (
         <View
             style={{ width: width * 0.85 }}
-            className='flex-row px-4 py-3 gap-3 items-center bg-[var(--feature-bg)] rounded-md'
+            className='flex-row px-4 py-3 gap-3 items-center bg-[var(--blog-bg)] rounded-md'
         >
-            <View className='p-3 justify-center items-center bg-[var(--feature-icon-bg)] rounded-full'>
+            <View className='p-3 justify-center items-center bg-[var(--blue-dynamic-bg)] rounded-full'>
                 {icon}
             </View>
             <View className='flex-col gap-1'>

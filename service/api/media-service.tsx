@@ -4,9 +4,8 @@ import axiosServices, { axiosClientUpload } from "../axios"
 
 export const GetAllMedias = async (params: {
     Cursor?: string
+    SearchContent?: string
     PageSize: number
-    Title?: string
-    Content?: string
     CategoryId?: string
     UserCreatedId?: string
     SortType?: number

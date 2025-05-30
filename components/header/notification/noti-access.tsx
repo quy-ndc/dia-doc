@@ -167,7 +167,7 @@ export default function NotificationAccess({ position }: Prop) {
             ) : (
                 <QuickButton
                     icon={
-                        <View className='flex p-3 justify-center items-center rounded-full bg-[var(--yellow-quick-access-bg)]'>
+                        <View className='flex p-3 justify-center items-center rounded-full bg-[var(--yellow-dynamic-bg)]'>
                             <Bell className='text-foreground' size={17} />
                         </View>
                     }

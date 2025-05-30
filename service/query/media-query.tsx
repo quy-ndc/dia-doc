@@ -4,8 +4,7 @@ import Toast from "react-native-toast-message";
 
 export const useMediaQuery = (params: {
     PageSize: number
-    Title?: string
-    Content?: string
+    SearchContent?: string
     CategoryId?: string
     UserCreatedId?: string
     SortType?: number
@@ -27,8 +26,7 @@ export const useMediaQuery = (params: {
 export const useNewMediaQuery = (params: {
     PageIndex: number
     PageSize: number
-    Title?: string
-    Content?: string
+    SearchContent?: string
     CategoryId?: string
     UserCreatedId?: string
     SortType?: number

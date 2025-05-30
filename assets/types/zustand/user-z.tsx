@@ -1,3 +1,5 @@
+import { UserRole } from "../../enum/user-role";
+
 export type UserZState = {
     user: User
     setUser: (user: User) => void
@@ -10,6 +12,7 @@ export type User = {
     accessToken: string
     refreshToken: string
     id: string
+    role: UserRole
     fullname: string
     avatar: string
     phone: string

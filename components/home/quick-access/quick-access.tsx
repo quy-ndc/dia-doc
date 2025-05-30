@@ -18,14 +18,14 @@ export default function QuickAccess() {
     return (
         <View className='flex-col gap-5'>
             <SectionTitle
-                icon={<Zap className='text-[var(--quick-access-title-icon-color)]' size={18} />}
+                icon={<Zap className='text-yellow-400' size={18} />}
                 title='Truy cập Nhanh'
             />
 
             <View className='flex flex-row justify-between px-2'>
                 <QuickButton
                     icon={
-                        <View className='flex p-3 justify-center items-center rounded-full bg-[var(--green-quick-access-bg)]'>
+                        <View className='flex p-3 justify-center items-center rounded-full bg-[var(--green-dynamic-bg)]'>
                             <MessageCircleMore className='text-foreground' size={17} />
                         </View>
                     }
@@ -34,7 +34,7 @@ export default function QuickAccess() {
                 />
                 <QuickButton
                     icon={
-                        <View className='flex p-3 justify-center items-center rounded-full bg-[var(--blue-quick-access-bg)]'>
+                        <View className='flex p-3 justify-center items-center rounded-full bg-[var(--blue-dynamic-bg)]'>
                             <Newspaper className='text-foreground' size={17} />
                         </View>
                     }
@@ -44,7 +44,7 @@ export default function QuickAccess() {
                 <NotificationAccess position='quick' />
                 <QuickButton
                     icon={
-                        <View className='flex p-3 justify-center items-center rounded-full bg-[var(--red-quick-access-bg)]'>
+                        <View className='flex p-3 justify-center items-center rounded-full bg-[var(--red-dynamic-bg)]'>
                             <User className='text-foreground' size={17} />
                         </View>
                     }

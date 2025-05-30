@@ -2,6 +2,7 @@ import AsyncStorage from '@react-native-async-storage/async-storage'
 import { create } from 'zustand'
 import { createJSONStorage, persist } from 'zustand/middleware'
 import { User, UserZState } from '../assets/types/zustand/user-z'
+import { UserRole } from '../assets/enum/user-role'
 
 const defaultUser: User = {
   isAuthenticated: false,
@@ -9,6 +10,7 @@ const defaultUser: User = {
   accessToken: '',
   refreshToken: '',
   id: '',
+  role: UserRole.PATIENT,
   fullname: '',
   avatar: '',
   phone: '',

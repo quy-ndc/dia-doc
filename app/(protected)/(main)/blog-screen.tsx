@@ -38,8 +38,7 @@ export default function BlogScreen() {
         ...useMediaQuery({
             PageSize: 7,
             CategoryId: category,
-            Content: search,
-            Title: search
+            SearchContent: search
         }),
         getNextPageParam: (lastPage) => {
             const posts = lastPage.data.value.data

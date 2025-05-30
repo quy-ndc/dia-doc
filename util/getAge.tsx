@@ -14,5 +14,5 @@ export function getAge(dateOfBirth: string | Date): string {
         return `${months} tháng`
     }
 
-    return `${years} tuổi ${months} tháng`
+    return `${years} tuổi`
 }

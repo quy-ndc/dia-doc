@@ -1,8 +1,6 @@
 import * as React from 'react'
 import { Dimensions, Pressable, View, StyleSheet } from 'react-native'
 import { Text } from '../ui/text'
-import { Button } from '../ui/button'
-import { LogIn } from '../../lib/icons/Login'
 import { useRouter } from 'expo-router'
 import ZaloKit, { Constants } from 'react-native-zalo-kit'
 import SpinningIcon from '../common/icons/spinning-icon'
@@ -11,7 +9,7 @@ import { useEffect } from 'react'
 import { useLoginPatientMutation } from '../../service/query/auth-query'
 import { User } from '../../assets/types/zustand/user-z'
 import useUserStore from '../../store/userStore'
-import { Image } from 'expo-image'
+import { UserRole } from '../../assets/enum/user-role'
 
 
 const { width } = Dimensions.get('window')
@@ -74,6 +72,7 @@ export default function PatientAuthenModule() {
             accessToken: result.authToken.accessToken || '',
             refreshToken: result.authToken.refreshToken || '',
             id: result.authUser.id || '',
+            role: UserRole.PATIENT,
             fullname: result.authUser.fullName || '',
             avatar: result.authUser.avatarUrl || '',
             phone: '',

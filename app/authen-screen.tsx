@@ -70,7 +70,7 @@ export default function AuthenScreen() {
             source={require('../assets/images/logo.png')}
             contentFit="contain"
           />
-          <Text className="text-3xl font-bold text-[#248fca] tracking-wider  capitalize">Bác Sĩ Tiểu Đường</Text>
+          <Text className="text-3xl font-bold text-[#248fca] tracking-wider capitalize">Bác Sĩ Tiểu Đường</Text>
         </View>
         <Text className='text-base font-semibold tracking-wider'>Trợ lý AI cho bệnh nhân tiểu đường</Text>
         <Text className='text-sm text-[--fade-text-color] tracking-wider'>Chăm sóc sức khỏe toàn diện và hiệu quả</Text>
@@ -78,17 +78,17 @@ export default function AuthenScreen() {
 
       <View className='flex-col gap-4 items-center'>
         <FeatureItem
-          icon={<Bot className='text-foreground' size={22} />}
+          icon={<Bot className='text-foreground' size={20} />}
           topText='Tư vấn AI thông minh'
           bottomText='Hỗ trợ 24/7 từ trí tuệ nhân tạo'
         />
         <FeatureItem
-          icon={<Newspaper className='text-foreground' size={22} />}
+          icon={<Newspaper className='text-foreground' size={20} />}
           topText='Bài viết y khoa'
           bottomText='Cập nhật kiến thức sức khỏe mới nhất'
         />
         <FeatureItem
-          icon={<MessageCircleMore className='text-foreground' size={22} />}
+          icon={<MessageCircleMore className='text-foreground' size={20} />}
           topText='Nhóm hỗ trợ'
           bottomText='Tham gia cộng đồng bệnh nhân'
         />

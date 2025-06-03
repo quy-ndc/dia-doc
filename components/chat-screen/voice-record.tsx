@@ -3,7 +3,7 @@ import { Mic } from "../../lib/icons/Mic";
 import { useEffect, useState } from "react";
 import { useMicrophonePermissions } from "expo-camera";
 import Toast from "react-native-toast-message";
-import { Text } from '../../components/ui/text'
+import { Text } from '../ui/text'
 import Voice from "@react-native-voice/voice";
 import { MicOff } from "../../lib/icons/MicOff";
 import { Check } from "../../lib/icons/Check";

@@ -1,7 +1,6 @@
 import { Dimensions, Pressable, ScrollView, View } from "react-native";
 import SectionTitle from "../common/section-title";
 import { Sparkles } from '../../../lib/icons/Sparkles';
-import { Button } from "../../../components/ui/button";
 import { Text } from "../../../components/ui/text";
 import { ChevronDown } from "../../../lib/icons/ChevronDown";
 import { useRouter } from "expo-router";
@@ -9,9 +8,9 @@ import BlogItem from "../../common/blog-item/blog-item";
 import { FlashList } from "@shopify/flash-list";
 import { BlogPost } from "../../../assets/types/media/blog-post";
 import SpinningIcon from "../../common/icons/spinning-icon";
-import { Loader } from "../../../lib/icons/Loader";
 import { RefreshCcw } from "../../../lib/icons/RefreshCcw";
 import FeatureBlogItem from "../../common/blog-item/feature-blog-item";
+import BlogSkeleton from "../../common/skeleton/blog-skeleton";
 
 const { width } = Dimensions.get('window')
 
@@ -35,7 +34,7 @@ export default function HomeBlogSection({ isLoading, isError, items, onRefresh, 
             />
 
             {isLoading ? (
-                <SpinningIcon icon={<Loader className='text-foreground' size={30} />} />
+                <BlogSkeleton />
             ) : isError || items.length === 0 ? (
                 <View className="flex-col gap-2 items-center">
                     <Text className="text-muted-foreground text-lg font-semibold italic tracking-wider">Không có bài viết để hiển thị</Text>
@@ -53,10 +52,10 @@ export default function HomeBlogSection({ isLoading, isError, items, onRefresh, 
                 </View>
             ) : (
                 <>
-                    <View style={{ width: width }}>
-                        {/* <FeatureBlogItem blogPost={items[0]} /> */}
+                    <View style={{ width: width }} className="px-2">
+                        <FeatureBlogItem blogPost={items[0]} />
                         <FlashList<BlogPost>
-                            data={items}
+                            data={items.slice(1)}
                             keyExtractor={(_, index) => index.toString()}
                             renderItem={({ item }) =>
                                 <BlogItem blogPost={item} />

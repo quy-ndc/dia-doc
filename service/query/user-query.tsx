@@ -1,5 +1,6 @@
-import { QueryClient, useMutation, useQueryClient } from "@tanstack/react-query";
+import { useMutation, useQueryClient } from "@tanstack/react-query";
 import { GetUserProfile, UpdateUserProfile } from "../api/user-service";
+import { QueryKeys } from "../../assets/enum/query";
 
 export const useEditPatientMutation = () => {
     const queryClient = useQueryClient();
@@ -14,7 +15,7 @@ export const useEditPatientMutation = () => {
             medicalRecord?: any
         }) => UpdateUserProfile(params),
         onSuccess: (data) => {
-            queryClient.invalidateQueries({ queryKey: ['user'] })
+            queryClient.invalidateQueries({ queryKey: [QueryKeys.USER] })
             return data;
         },
         onError: (error) => {

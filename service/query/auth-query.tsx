@@ -13,9 +13,10 @@ export const useLoginPatientMutation = () => {
                 Toast.show({
                     type: 'error',
                     text1: 'Đăng nhập thất bại',
+                    text2: 'Vui lòng thử lại sau',
                     visibilityTime: 2000,
                 })
-            }else {
+            } else {
                 Toast.show({
                     type: 'success',
                     text1: 'Đăng nhập thành công',

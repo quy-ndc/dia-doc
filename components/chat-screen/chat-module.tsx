@@ -1,7 +1,7 @@
 import * as React from 'react'
 import { View, KeyboardAvoidingView, Platform, ScrollView, Pressable, RefreshControl } from 'react-native'
 import { useCallback, useEffect, useRef, useState } from 'react'
-import { Input } from '../../components/ui/input'
+import { Input } from '../ui/input'
 import { Message } from '../../assets/types/chat/message'
 import { TextMessage } from './text-message'
 import { SendHorizontal } from '../../lib/icons/SendHorizontal'
@@ -14,7 +14,7 @@ import { AtSign } from '../../lib/icons/AtSign'
 import VoiceRecord from './voice-record'
 import { ChevronRight } from '../../lib/icons/ChevronRight'
 import useUserStore from '../../store/userStore'
-import { Text } from '../../components/ui/text'
+import { Text } from '../ui/text'
 import { MessageType } from '../../assets/enum/message-type'
 import { useChatMessagesQuery, useSendMessageMutation } from '../../service/query/chat-query'
 import Toast from 'react-native-toast-message'
@@ -49,7 +49,6 @@ export default function ChatModule({
     const [scrollOffsetY, setScrollOffsetY] = useState(0)
     const debouncedOffsetY = useDebounce(scrollOffsetY, 500)
 
-
     const {
         data,
         hasNextPage,
@@ -62,7 +61,7 @@ export default function ChatModule({
     } = useInfiniteQuery({
         ...useChatMessagesQuery({
             groupId: groupId,
-            PageSize: 15
+            PageSize: 20
         }),
         getNextPageParam: (lastPage) => {
             const messages = lastPage.data?.value?.messages

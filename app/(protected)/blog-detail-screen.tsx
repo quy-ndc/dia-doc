@@ -5,9 +5,9 @@ import { useQuery } from '@tanstack/react-query';
 import { useMediaByIdQuery } from '../../service/query/media-query';
 import { BlogPost } from '../../assets/types/media/blog-post';
 import BlogDetailItem from '../../components/common/blog-item/blog-detail';
-import { Skeleton } from '../../components/ui/skeleton';
 import { useCallback, useState } from 'react';
 import { ChevronLeft } from '../../lib/icons/ChevronLeft';
+import BlogDetailSkeleton from '../../components/common/skeleton/blog-detail-skeleton';
 
 export default function BlogDetailScreen() {
     const { id } = useLocalSearchParams()
@@ -28,11 +28,7 @@ export default function BlogDetailScreen() {
 
     if (isLoading) {
         return (
-            <View className='flex-1 w-full flex-col gap-3 items-center'>
-                {[...Array(10)].map((_, i) => (
-                    <Skeleton key={i} className='h-6 w-[95%]' />
-                ))}
-            </View>
+            <BlogDetailSkeleton />
         )
     }
 
@@ -44,15 +40,15 @@ export default function BlogDetailScreen() {
                 refreshControl={<RefreshControl refreshing={refreshing} onRefresh={onRefresh} />}
             >
                 <View className='flex-col gap-4 items-center'>
-                    <Text className='text-[var(--oppo-theme-col)] text-center text-xl px-4 tracking-wider capitalize'>
+                    <Text className='text-[var(--oppo-theme-col)] text-center text-lg px-4 tracking-wider capitalize'>
                         {isError ? 'Đã xảy ra lỗi. Vui lòng thử lại.' : 'Không tìm thấy bài viết.'}
                     </Text>
                     <Pressable
-                        className='flex-row justify-center items-center gap-2 active:bg-[--click-bg] px-4 py-2 rounded-2xl border border-[var(--oppe-theme-col)]'
-                        onPress={() => router.back}
+                        className='flex-row justify-center items-center gap-2 px-4 py-2 rounded-full bg-[var(--oppo-theme-col)] border border-[var(--oppe-theme-col)] active:bg-[--oppo-click-bg]'
+                        onPress={() => router.push('/(protected)/(main)')}
                     >
-                        <ChevronLeft className='text-foreground' size={20} />
-                        < Text className='text-[var(--oppo-theme-col)] text-lg font-semibold tracking-wider'>Quay lại</Text>
+                        <ChevronLeft className='text-[var(--same-theme-col)]' size={18} />
+                        <Text className='text-[var(--same-theme-col)] text-sm font-semibold tracking-wider'>Quay lại</Text>
                     </Pressable>
                 </View>
             </ScrollView>

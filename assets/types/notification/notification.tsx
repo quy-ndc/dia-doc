@@ -9,9 +9,9 @@ export type SystemNotification = {
 }
 
 export type BlogPayload = {
-    PostId: string,
-    Title: string,
-    Thumbnail: string
+    postId: string,
+    title: string,
+    thumbnail: string
 }
 
 export type DefaultPayload = {

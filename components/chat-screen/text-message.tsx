@@ -5,7 +5,6 @@ import { Text } from '../ui/text';
 import { formatDateMessage } from '../../util/format-date-message';
 import { Image } from 'expo-image';
 
-
 type Prop = {
     name: string
     image: string

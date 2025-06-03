@@ -27,9 +27,23 @@ export default function NotificationAccess({ position }: Prop) {
     const [open, setOpen] = useState(false)
     const [refreshing, setRefreshing] = useState(false)
 
-    const { notification, notiCount, addNoti, removeNoti, resetNoti, increaseCount, decreaseCount, clearCount } = useNotificationStore()
+    const {
+        notification,
+        notiCount,
+        setNoti,
+        addNoti,
+        addNotis,
+        removeNoti,
+        resetNoti,
+        increaseCount,
+        decreaseCount,
+        clearCount
+    } = useNotificationStore()
 
     const onModalOpen = () => {
+        if (!open) {
+            setOpen(false)
+        }
         setOpen(true)
         clearCount()
     }
@@ -55,12 +69,16 @@ export default function NotificationAccess({ position }: Prop) {
     })
 
     useEffect(() => {
-        if (!open || !data) return
-
-        const flatData = data.pages.flatMap(page => page.data?.value?.notifications?.items || [])
-        resetNoti()
-        flatData.forEach(item => addNoti(item))
-    }, [data, open])
+        if (!data) return
+        const notifications: SystemNotification[] = data.pages.at(-1)?.data?.value?.notifications?.items ?? []
+        if (notifications.length) {
+            if (data.pages.length === 1) {
+                setNoti(notifications)
+            } else {
+                addNotis(notifications)
+            }
+        }
+    }, [data])
 
     const handleLoadMore = () => {
         if (hasNextPage && !isFetchingNextPage) {
@@ -130,15 +148,17 @@ export default function NotificationAccess({ position }: Prop) {
                                     </View>
                                 </ScrollView>
                             ) : (
-                                <FlashList<SystemNotification>
-                                    data={notification}
-                                    keyExtractor={(_, index) => index.toString()}
-                                    renderItem={({ item }) => <NotificationItem notification={item} />}
-                                    estimatedItemSize={100}
-                                    onEndReached={handleLoadMore}
-                                    refreshControl={<RefreshControl refreshing={refreshing} onRefresh={onRefresh} />}
-                                    scrollEventThrottle={16}
-                                />
+                                <View className='flex-1 flex-col w-full'>
+                                    <FlashList<SystemNotification>
+                                        data={notification}
+                                        keyExtractor={(_, index) => index.toString()}
+                                        renderItem={({ item }) => <NotificationItem notification={item} />}
+                                        estimatedItemSize={100}
+                                        onEndReached={handleLoadMore}
+                                        refreshControl={<RefreshControl refreshing={refreshing} onRefresh={onRefresh} />}
+                                        scrollEventThrottle={16}
+                                    />
+                                </View>
                             )}
                         </View>
                     </Pressable>

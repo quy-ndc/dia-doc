@@ -3,6 +3,8 @@ import { create } from 'zustand'
 import { createJSONStorage, persist } from 'zustand/middleware'
 import { User, UserZState } from '../assets/types/zustand/user-z'
 import { UserRole } from '../assets/enum/user-role'
+import { QueryClient } from '@tanstack/react-query'
+import { invalidateQuery } from '../util/invalidate-queries'
 
 const defaultUser: User = {
   isAuthenticated: false,
@@ -27,7 +29,10 @@ const useUserStore = create<UserZState>()(
     (set) => ({
       user: defaultUser,
       setUser: (user) => set({ user }),
-      logout: () => set({ user: defaultUser }),
+      logout: (queryClient: QueryClient) => {
+        invalidateQuery(queryClient)
+        set({ user: defaultUser })
+      }
     }),
     {
       name: 'user-storage',

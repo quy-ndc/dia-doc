@@ -1,8 +1,6 @@
 import * as React from 'react';
 import { Dimensions, Modal, Pressable } from 'react-native';
 import { Text } from '../../ui/text'
-import { Ellipsis } from '../../../lib/icons/Ellipsis';
-import IconButton from '../../common/icon-button';
 import { useState } from 'react';
 import { Trash2 } from '../../../lib/icons/Trash2';
 import { X } from '../../../lib/icons/X';
@@ -42,7 +40,7 @@ export default function NotificationItem({ notification }: Prop) {
     return (
         <>
             <Pressable
-                className='px-4 py-3 w-full flex-row justify-between items-center active:bg-[var(--click-bg)]'
+                className='pb-3 w-full flex-row justify-between items-center active:bg-[var(--click-bg)]'
                 onLongPress={() => setVisible(true)}
             >
                 {renderNoti()}

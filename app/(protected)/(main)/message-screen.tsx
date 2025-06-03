@@ -18,6 +18,7 @@ import { Loader } from '../../../lib/icons/Loader'
 import { RefreshCcw } from '../../../lib/icons/RefreshCcw'
 import { AllFeaturesEnabled, ChatRoomProvider } from '@ably/chat'
 import { useMessageStore } from '../../../store/useMessage'
+import GroupChatSkeleton from '../../../components/common/skeleton/chat-group-skeletion'
 
 const { width } = Dimensions.get('window')
 
@@ -56,9 +57,7 @@ export default function MessagesScreen() {
 
     if (isLoading) {
         return (
-            <View className="flex-1 justify-center items-center">
-                <SpinningIcon icon={<Loader className='text-foreground' size={30} />} />
-            </View>
+            <GroupChatSkeleton />
         )
     }
 
@@ -96,9 +95,7 @@ export default function MessagesScreen() {
         <ScrollView
             className="w-full pb-5"
             contentContainerStyle={{ alignItems: 'center' }}
-            refreshControl={
-                <RefreshControl refreshing={refreshing} onRefresh={onRefresh} />
-            }
+            refreshControl={<RefreshControl refreshing={refreshing} onRefresh={onRefresh} />}
             decelerationRate={'normal'}
         >
             <View style={{ width: width }}>
@@ -106,18 +103,16 @@ export default function MessagesScreen() {
                     data={groups}
                     keyExtractor={(_, index) => index.toString()}
                     renderItem={({ item }) => (
-                        <ChatRoomProvider id={item.id} options={AllFeaturesEnabled}>
-                            <ChatItem
-                                id={item.id}
-                                img={item.avatar}
-                                name={item.name}
-                                user={item.message ? item.message.user.fullName : undefined}
-                                message={item.message ? item.message.content : undefined}
-                                type={item.message ? item.message.type : undefined}
-                                time={item.message ? item.message.createdDate : undefined}
-                                hasNewMessage={item.message ? item.message.isRead : false}
-                            />
-                        </ChatRoomProvider>
+                        <ChatItem
+                            id={item.id}
+                            img={item.avatar}
+                            name={item.name}
+                            user={item.message ? item.message.user.fullName : undefined}
+                            message={item.message ? item.message.content : undefined}
+                            type={item.message ? item.message.type : undefined}
+                            time={item.message ? item.message.createdDate : undefined}
+                            hasNewMessage={item.message ? item.message.isRead : false}
+                        />
                     )}
                     estimatedItemSize={100}
                 />

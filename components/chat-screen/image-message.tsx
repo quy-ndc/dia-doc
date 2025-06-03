@@ -6,7 +6,7 @@ import { X } from '../../lib/icons/X';
 import { ImageZoom } from '@likashefqet/react-native-image-zoom';
 import { GestureHandlerRootView } from 'react-native-gesture-handler';
 import { GlobalColor } from '../../global-color';
-import { Text } from '../../components/ui/text'
+import { Text } from '../ui/text'
 import { formatDateMessage } from '../../util/format-date-message';
 
 type Prop = {

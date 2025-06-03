@@ -47,7 +47,7 @@ export default function BlogDetailItem({
     const color = getBlogTagColor(category).borderColor
 
     return (
-        <View className="flex-col gap-3 pt-3">
+        <View className="flex-col gap-3">
             <View className="w-full flex-row justify-between items-center">
                 <Text
                     style={{ color: color }}

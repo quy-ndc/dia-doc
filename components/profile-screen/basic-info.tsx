@@ -8,9 +8,10 @@ type Prop = {
     title: string
     value: string
     unit?: string
+    extra?: React.ReactNode
 }
 
-export default function BasicInfo({ backgroundColor, icon, title, value, unit }: Prop) {
+export default function BasicInfo({ backgroundColor, icon, title, value, unit, extra }: Prop) {
 
     return (
         <View className='flex-row gap-3 basis-1/2 items-center'>
@@ -23,6 +24,7 @@ export default function BasicInfo({ backgroundColor, icon, title, value, unit }:
             <View className='flex-col gap-1'>
                 <Text className='text-base font-bold tracking-widest capitalize'>{title}</Text>
                 <Text className='text-sm tracking-widest text-[var(--fade-text-color)]'>{value} {unit}</Text>
+                {extra}
             </View>
         </View>
     );

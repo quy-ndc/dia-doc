@@ -1,12 +1,10 @@
 import * as React from 'react';
 import { View, Pressable } from 'react-native';
-import { Text } from '../../components/ui/text';
+import { Text } from '../ui/text';
 import { useRouter } from 'expo-router';
 import { Image } from 'expo-image'
 import { truncateText } from '../../util/truncate-text';
 import { formatDateBlog } from '../../util/format-date-post';
-import { useMessages } from '@ably/chat';
-import { useEffect, useState } from 'react';
 import { MessageType } from '../../assets/enum/message-type';
 import { useMessageStore } from '../../store/useMessage';
 
@@ -45,7 +43,7 @@ export default function ChatItem({ id, img, name, user, time, message, type, has
     return (
         <Pressable
             onPress={handleChatSelect}
-            className={`flex-row justify-between py-5 px-3 active:bg-[var(--click-bg)]`}
+            className={`flex-row justify-between pb-2 px-3 active:bg-[var(--click-bg)]`}
         >
             <Image
                 style={{ width: 60, height: 60, borderRadius: 1000 }}

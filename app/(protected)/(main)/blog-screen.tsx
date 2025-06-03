@@ -9,10 +9,11 @@ import { useMediaQuery } from '../../../service/query/media-query'
 import { useInfiniteQuery } from '@tanstack/react-query'
 import { BlogPost } from '../../../assets/types/media/blog-post'
 import { Text } from '../../../components/ui/text'
-import SpinningIcon from '../../../components/common/icons/spinning-icon'
-import { Loader } from '../../../lib/icons/Loader'
 import FilterButton from '../../../components/blog-screen/filter-button'
 import SearchButton from '../../../components/blog-screen/search-button'
+import BlogSkeleton from '../../../components/common/skeleton/blog-skeleton'
+import SpinningIcon from '../../../components/common/icons/spinning-icon'
+import { RefreshCcw } from '../../../lib/icons/RefreshCcw'
 
 
 export default function BlogScreen() {
@@ -81,13 +82,25 @@ export default function BlogScreen() {
     return (
         <View className='flex-1 w-full pb-5'>
             {isLoading ? (
-                <View className='flex-1 w-full h-full flex-col gap-3 justify-center items-center'>
-                    <SpinningIcon icon={<Loader className='text-foreground' size={30} />} />
-                    <Text className='text-base font-semibold tracking-wider capitalize'>Đang tải...</Text>
+                <BlogSkeleton />
+            ) : allItems.length === 0 ? (
+                <View className="flex-col gap-2 items-center">
+                    <Text className="text-muted-foreground text-lg font-semibold italic tracking-wider">Không có bài viết để hiển thị</Text>
+                    <Pressable
+                        className="flex-row gap-2 items-center px-4 py-2 rounded-full active:bg-[var(--click-bg)]"
+                        onPress={onRefresh}
+                    >
+                        <Text className="text-base font-semibold tracking-wider capitalize">Thử lại</Text>
+                        {refreshing ? (
+                            <SpinningIcon icon={<RefreshCcw className="text-foreground" size={15} />} />
+                        ) : (
+                            <RefreshCcw className="text-foreground" size={15} />
+                        )}
+                    </Pressable>
                 </View>
             ) : (
-                <View className='flex-1 flex-col w-full'>
-                    <View className='flex-row w-full justify-between items-center px-4 py-1'>
+                <View className='flex-1 flex-col px-2 w-full'>
+                    <View className='flex-row w-full justify-between items-center py-1'>
                         <View className='flex-row gap-2 items-center'>
                             <FilterButton category={category} setCategory={setCategory} />
                             <SearchButton search={search} setSearch={setSearch} />

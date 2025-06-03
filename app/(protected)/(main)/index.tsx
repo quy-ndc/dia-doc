@@ -35,7 +35,7 @@ export default function HomeScreen() {
                 decelerationRate={'normal'}
                 refreshControl={<RefreshControl refreshing={refreshing} onRefresh={onRefresh} />}
             >
-                <View className='flex-col items-center gap-10'>
+                <View className='flex-col items-center gap-6'>
                     <QuickAccess />
                     <HomeBlogSection
                         isLoading={isLoading}

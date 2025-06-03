@@ -1,6 +1,7 @@
 import { useMutation } from "@tanstack/react-query";
 import { GetAllCategories, GetAllMedias, GetMediaById, GetTopMedias, UploadImage } from "../api/media-service";
 import Toast from "react-native-toast-message";
+import { QueryKeys } from "../../assets/enum/query";
 
 export const useMediaQuery = (params: {
     PageSize: number
@@ -11,7 +12,7 @@ export const useMediaQuery = (params: {
     IsSortASC?: boolean
     SelectedColumns?: string[]
 }) => {
-    const queryKey = ['medias', params]
+    const queryKey = [QueryKeys.MEDIAS, params]
 
     const queryFn = async ({ pageParam = undefined }) => {
         return GetAllMedias({
@@ -33,7 +34,7 @@ export const useNewMediaQuery = (params: {
     IsSortASC?: boolean
     SelectedColumns?: string[]
 }) => {
-    const queryKey = ['new medias', params]
+    const queryKey = [QueryKeys.NEW_MEDIAS, params]
     const queryFn = async () => {
         return GetAllMedias(params)
     }
@@ -42,7 +43,7 @@ export const useNewMediaQuery = (params: {
 }
 
 export const useMediaByIdQuery = (id: string) => {
-    const queryKey = ['media by id', id]
+    const queryKey = [QueryKeys.MEDIA_BY_ID, id]
     const queryFn = async () => {
         return GetMediaById(id)
     }
@@ -55,7 +56,7 @@ export const useTopMediaQuery = (params: {
     NumberOfPosts: number,
     NumberOfDays: number
 }) => {
-    const queryKey = ['top medias', params]
+    const queryKey = [QueryKeys.TOP_MEDIAS, params]
     const queryFn = async () => {
         return GetTopMedias(params)
     }
@@ -64,7 +65,7 @@ export const useTopMediaQuery = (params: {
 }
 
 export const useCategoryQuery = () => {
-    const queryKey = ['categories']
+    const queryKey = [QueryKeys.CATEGORIES]
     const queryFn = async () => {
         return GetAllCategories()
     }

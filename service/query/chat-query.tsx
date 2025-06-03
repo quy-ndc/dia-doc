@@ -2,6 +2,7 @@ import { useInfiniteQuery, useMutation } from "@tanstack/react-query"
 import { GetAllChatGroups, GetAllChatMessages, SendMessage } from "../api/chat-service"
 import { MessageType } from "../../assets/enum/message-type"
 import Toast from "react-native-toast-message"
+import { QueryKeys } from "../../assets/enum/query"
 
 export const useGroupChatQuery = (params: {
     Cursor?: string
@@ -10,7 +11,7 @@ export const useGroupChatQuery = (params: {
     Direction?: string
     Search?: string
 }) => {
-    const queryKey = ['group chat', params]
+    const queryKey = [QueryKeys.GROUP_CHATS, params]
     const queryFn = async () => {
         return GetAllChatGroups(params)
     }
@@ -25,7 +26,7 @@ export const useChatMessagesQuery = (params: {
     Direction?: string
     Search?: string
 }) => {
-    const queryKey = ['chatMessages', params]
+    const queryKey = [QueryKeys.CHAT_MESSAGES, params]
 
     const queryFn = async ({ pageParam = undefined }) => {
         return GetAllChatMessages({

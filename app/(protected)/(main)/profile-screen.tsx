@@ -12,10 +12,9 @@ import { useCallback, useState } from 'react'
 import { Patient } from '../../../assets/types/user/patient'
 import { getAge } from '../../../util/getAge'
 import { getGenderString } from '../../../assets/enum/gender'
-import { getBloodTypeString } from '../../../assets/enum/blood'
+import { getBloodTypeRarity, getBloodTypeString } from '../../../assets/enum/blood'
 import SpinningIcon from '../../../components/common/icons/spinning-icon'
 import { Loader } from '../../../lib/icons/Loader'
-import { calculateBMI } from '../../../util/calculate-bmi'
 import { RefreshCcw } from '../../../lib/icons/RefreshCcw'
 import { getDiaTypeName } from '../../../assets/enum/dia-type'
 import { Heart } from '../../../lib/icons/Heart'
@@ -30,6 +29,10 @@ import { TrendingUp } from '../../../lib/icons/TrendingUp'
 import { Droplet } from '../../../lib/icons/Droplet'
 import useUserStore from '../../../store/userStore'
 import { UserRole } from '../../../assets/enum/user-role'
+import { calculateBMI } from '../../../util/calculate-bmi'
+import { getBmiStatus } from '../../../util/get-bmi-status'
+import LogoutButton from '../../../components/profile-screen/logout-button'
+import ProfileSkeleton from '../../../components/common/skeleton/profile-skeleton'
 
 
 export default function ProfileScreen() {
@@ -50,9 +53,7 @@ export default function ProfileScreen() {
 
     if (isLoading) {
         return (
-            <View className="flex-1 justify-center items-center">
-                <SpinningIcon icon={<Loader className='text-foreground' size={25} />} />
-            </View>
+            <ProfileSkeleton />
         )
     }
 
@@ -85,9 +86,9 @@ export default function ProfileScreen() {
 
     return (
         <ScrollView refreshControl={<RefreshControl refreshing={refreshing} onRefresh={onRefresh} />}>
-            <View className='flex-col gap-4 px-5'>
-                <View className='flex-row justify-between items-center'>
-                    <View className='flex-row gap-4 items-center px-4 py-4'>
+            <View className='flex-col gap-4 px-3'>
+                <View className='flex-row p-3 justify-between items-center'>
+                    <View className='flex-row gap-4 items-center'>
                         <Image
                             style={{ width: 55, height: 55, borderRadius: 1000 }}
                             source={profile.user.avatar.publicUrl}
@@ -176,16 +177,19 @@ export default function ProfileScreen() {
                                 icon={<TrendingUp color={GlobalColor.ORANGE_NEON_BORDER} size={20} />}
                                 title='BMI'
                                 value={calculateBMI(profile.weight, profile.height).toString()}
+                                extra={getBmiStatus(calculateBMI(profile.weight, profile.height))}
                             />
                             <BasicInfo
                                 backgroundColor={GlobalColor.RED_NEON_BG}
                                 icon={<Droplet color={GlobalColor.RED_NEON_BORDER} size={20} />}
                                 title='Nhóm máu'
                                 value={getBloodTypeString(profile.bloodType)}
+                                extra={getBloodTypeRarity(profile.bloodType)}
                             />
                         </View>
                     </View>
                 </View>
+                <LogoutButton />
             </View>
         </ScrollView>
     )

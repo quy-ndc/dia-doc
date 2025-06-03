@@ -38,11 +38,11 @@ export default function BlogItem({ blogPost }: Prop) {
 
     return (
         <Pressable
-            className="flex-col gap-5 border-b border-[var(--blog-border-color)] active:bg-[--click-bg]"
+            className="flex-col p-2 mb-4 gap-5 bg-[var(--blog-bg)] rounded-xl active:bg-[--click-bg]"
             onPress={handleBlogClick}
         >
-            <View className="flex-row justify-between items-center gap-5 px-4 pt-4">
-                <View className="flex-row gap-5 items-center">
+            <View className="flex-row justify-between items-center gap-5">
+                <View className="flex-row gap-3 items-center">
                     <Image
                         style={{ width: 35, height: 35, borderRadius: 10000 }}
                         source={blogPost.user.imageUrl}
@@ -58,10 +58,10 @@ export default function BlogItem({ blogPost }: Prop) {
                     <BookmarkButton bookmarked={blogPost.isBookmarked} />
                 </View>
             </View>
-            <View className="flex-row justify-between px-5 items-center">
+            <View className="flex-row justify-between items-center">
                 <View className="flex-1 flex-col gap-4 mr-3">
-                    <Text className="text-lg font-semibold tracking-wider">
-                        {truncateText(blogPost.title, 90)}
+                    <Text className="text-base font-semibold tracking-wider">
+                        {truncateText(blogPost.title, 100)}
                     </Text>
                     <View className="flex-row gap-3 items-center">
                         <Text
@@ -85,8 +85,8 @@ export default function BlogItem({ blogPost }: Prop) {
                     source={blogPost.imageUrl}
                 />
             </View>
-            <View className="flex-row justify-between items-center gap-1 px-3 pb-3">
-                {/* <View className="flex-row gap-1 items-center">
+            {/* <View className="flex-row justify-between items-center gap-1 px-3 pb-3">
+                <View className="flex-row gap-1 items-center">
                     <LikeButton liked={true} />
                     <CommentButton
                         avatar={blogPost.user.imageUrl}
@@ -95,10 +95,9 @@ export default function BlogItem({ blogPost }: Prop) {
                         image={blogPost.imageUrl}
                         liked={true}
                     />
-                </View> */}
+                </View>
                 <View />
-
-            </View>
+            </View> */}
         </Pressable>
     )
 }

@@ -6,6 +6,8 @@ export enum GlobalColor {
     TOAST_INFO = '#85aaff',
     LIGHT_THEME_COL = 'white',
     DARK_THEME_COL = 'black',
+    HALF_LIGHT_THEME_COL = 'rgba(255, 255, 255, 0.5)',
+    HALF_DARK_THEME_COL = 'rgba(0, 0, 0, 0.5)',
     GREEN_NEON_BG = '#22c55e1A',
     GREEN_NEON_BORDER = '#22c55e',
     YELLOW_NEON_BG = '#eab3081A',

@@ -1,3 +1,5 @@
+import { Text } from '../../components/ui/text'
+
 export enum BloodType {
     A_POSITIVE = 0,
     A_NEGATIVE = 1,
@@ -22,4 +24,24 @@ export const BloodTypeString: Record<BloodType, string> = {
 
 export function getBloodTypeString(bloodType: BloodType): string {
     return BloodTypeString[bloodType] || 'Không xác định'
+}
+
+export function getBloodTypeRarity(bloodType: BloodType): JSX.Element {
+    const label = BloodTypeString[bloodType] || 'Không xác định'
+    const isRare = (() => {
+        switch (bloodType) {
+            case BloodType.O_POSITIVE:
+            case BloodType.A_POSITIVE:
+            case BloodType.B_POSITIVE:
+                return false
+            default:
+                return true
+        }
+    })()
+
+    return (
+        <Text style={{ color: isRare ? '#8b5cf6' : '#22c55e', fontWeight: '500', fontSize: 12, letterSpacing: 0.5 }}>
+            {isRare ? 'Hiếm' : 'Phổ biến'}
+        </Text>
+    )
 }

@@ -1,29 +1,22 @@
 import { FlashList } from '@shopify/flash-list'
 import * as React from 'react'
 import { useCallback, useEffect, useState } from 'react'
-import {
-    Dimensions,
-    RefreshControl,
-    ScrollView,
-    View,
-    Text,
-    Pressable,
-} from 'react-native'
+import { Dimensions, RefreshControl, ScrollView, View, Text, Pressable } from 'react-native'
 import ChatItem from '../../../components/chat-screen/chat-item'
 import { useGroupChatQuery } from '../../../service/query/chat-query'
-import { useQuery } from '@tanstack/react-query'
+import { useQuery, useQueryClient } from '@tanstack/react-query'
 import { GroupChat } from '../../../assets/types/chat/group'
 import SpinningIcon from '../../../components/common/icons/spinning-icon'
-import { Loader } from '../../../lib/icons/Loader'
 import { RefreshCcw } from '../../../lib/icons/RefreshCcw'
-import { AllFeaturesEnabled, ChatRoomProvider } from '@ably/chat'
 import { useMessageStore } from '../../../store/useMessage'
-import GroupChatSkeleton from '../../../components/common/skeleton/chat-group-skeletion'
+import GroupChatSkeleton from '../../../components/common/skeleton/chat-group-skeleton'
+import { QueryKeys } from '../../../assets/enum/query'
 
 const { width } = Dimensions.get('window')
 
 export default function MessagesScreen() {
 
+    const queryClient = useQueryClient();
     const [refreshing, setRefreshing] = useState(false)
     const { addGroups, setLatestMessage } = useMessageStore()
 
@@ -39,6 +32,7 @@ export default function MessagesScreen() {
 
     const onRefresh = useCallback(() => {
         setRefreshing(true)
+        queryClient.invalidateQueries({ queryKey: [QueryKeys.CHAT_MESSAGES] })
         remove()
         refetch().finally(() => setRefreshing(false))
     }, [refetch])

@@ -1,19 +1,16 @@
 import * as React from 'react'
-import { View, StyleSheet, Dimensions, Platform, Pressable, ScrollView } from 'react-native'
+import { View, Pressable } from 'react-native'
 import { Image } from 'expo-image'
-import { Text } from '../components/ui/text'
+import { Text } from '../../components/ui/text'
 import Toast from 'react-native-toast-message'
-import { CircleAlert } from '../lib/icons/CircleAlert'
-import { ArrowRightLeft } from '../lib/icons/ArrowRightLeft'
+import { CircleAlert } from '../../lib/icons/CircleAlert'
 import { useState } from 'react'
-import PatientAuthenModule from '../components/authen-screen/patient-authen-module'
-import DoctorAuthenModule from '../components/authen-screen/doctor-authen-module'
-import FeatureItem from '../components/authen-screen/feature-item'
-import { Bot } from '../lib/icons/Bot'
-import { Newspaper } from '../lib/icons/Newspaper'
-import { MessageCircleMore } from '../lib/icons/MessageCircleMore'
-import { User } from '../lib/icons/User'
-// import { ThemeToggle } from '../components/ThemeToggle'
+import PatientAuthenModule from '../../components/authen-screen/patient-authen-module'
+import DoctorAuthenModule from '../../components/authen-screen/doctor-authen-module'
+import FeatureItem from '../../components/authen-screen/feature-item'
+import { Bot } from '../../lib/icons/Bot'
+import { Newspaper } from '../../lib/icons/Newspaper'
+import { MessageCircleMore } from '../../lib/icons/MessageCircleMore'
 
 export default function AuthenScreen() {
 
@@ -46,7 +43,6 @@ export default function AuthenScreen() {
           <CircleAlert className='text-[var(--info-text)]' size={19} />
           <Text className="text-lg text-[var(--info-text)] font-bold">Lưu ý</Text>
         </Pressable>
-        {/* <ThemeToggle /> */}
       </View>
 
       {/* <View className='absolute top-[50] right-[20] z-10'>
@@ -67,7 +63,7 @@ export default function AuthenScreen() {
         <View className="flex-col gap-2 justify-center items-center">
           <Image
             style={{ width: 100, height: 100 }}
-            source={require('../assets/images/logo.png')}
+            source={require('../../assets/images/logo.png')}
             contentFit="contain"
           />
           <Text className="text-3xl font-bold text-[#248fca] tracking-wider capitalize">Bác Sĩ Tiểu Đường</Text>

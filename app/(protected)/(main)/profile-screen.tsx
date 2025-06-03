@@ -107,7 +107,10 @@ export default function ProfileScreen() {
                     />
                 </View>
 
-                <View className='flex-row justify-between items-center gap-3 p-5 bg-[var(--blog-bg)] rounded-lg'>
+                <View
+                    style={{ backgroundColor: GlobalColor.PINK_NEON_BG }}
+                    className='flex-row justify-between items-center gap-3 p-5 bg-[var(--blog-bg)] rounded-lg'
+                >
                     <View className='flex-row gap-4 items-center'>
                         <LinearGradient
                             colors={['#f48fb1', '#ff4081', '#ec407a']}
@@ -123,7 +126,7 @@ export default function ProfileScreen() {
                             <Text className='text-sm text-[var(--fade-text-color)] tracking-wider'>Phân loại bệnh</Text>
                         </View>
                     </View>
-                    <Text
+                    <Text   
                         style={{
                             backgroundColor: GlobalColor.PINK_NEON_BG,
                             color: GlobalColor.PINK_NEON_BORDER,

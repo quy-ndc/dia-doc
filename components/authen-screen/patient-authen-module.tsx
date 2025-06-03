@@ -1,5 +1,5 @@
 import * as React from 'react'
-import { Dimensions, Pressable, View, StyleSheet } from 'react-native'
+import { Dimensions, Pressable, View } from 'react-native'
 import { Text } from '../ui/text'
 import { useRouter } from 'expo-router'
 import ZaloKit, { Constants } from 'react-native-zalo-kit'
@@ -10,7 +10,6 @@ import { useLoginPatientMutation } from '../../service/query/auth-query'
 import { User } from '../../assets/types/zustand/user-z'
 import useUserStore from '../../store/userStore'
 import { UserRole } from '../../assets/enum/user-role'
-
 
 const { width } = Dimensions.get('window')
 

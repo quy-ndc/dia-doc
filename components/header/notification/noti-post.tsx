@@ -33,8 +33,7 @@ export default function PostNotification({ setVisible, notification }: Prop) {
     return (
         <Pressable
             style={{ borderLeftColor: GlobalColor.BLUE_NEON_BORDER, borderLeftWidth: 2, backgroundColor: GlobalColor.BLUE_NEON_BG }}
-            className='px-4 py-3 w-full flex-col gap-3 border-l justify-between active:bg-[var(--click-bg)]'
-            onLongPress={() => setVisible(true)}
+            className='px-4 py-3 w-full flex-col gap-3 border-l justify-between active:active:opacity-70'
             onPress={onNotiPress}
         >
             <View className='flex-row w-full gap-2 justify-between items-center'>

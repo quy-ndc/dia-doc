@@ -120,4 +120,8 @@ export const useMessageStore = create<MessageStore>((set, get) => ({
         const group = get().groups[groupId]
         return group?.latestMessage
     },
+
+    clear: () => {
+        set({ groups: {} })
+    }
 }))

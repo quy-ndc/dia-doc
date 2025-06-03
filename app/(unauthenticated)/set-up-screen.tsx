@@ -1,22 +1,13 @@
 import * as React from 'react';
 import { View, Pressable } from 'react-native';
-import { Text } from '../components/ui/text';
-import SetUpPatient from '../components/set-up-screen/set-up-patient';
+import { Text } from '../../components/ui/text';
+import SetUpPatient from '../../components/set-up-screen/set-up-patient';
 import { useState } from 'react';
-import SetUpDoctor from '../components/set-up-screen/set-up-doctor';
+import SetUpDoctor from '../../components/set-up-screen/set-up-doctor';
 
 
 export default function SetUpScreen() {
-
-    // useEffect(() => {
-    //     const getDeviceID = async () => {
-    //         const uniqueId = await DeviceInfo.getUniqueId();
-    //         console.log("Device Unique ID:", uniqueId);
-    //     };
-
-    //     getDeviceID();
-    // }, []);
-
+    
     const [preview, setPreview] = useState<'patient' | 'doctor'>('patient')
     const [role, setRole] = useState('')
 

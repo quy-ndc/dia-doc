@@ -15,6 +15,7 @@ import SpinningIcon from '../../common/icons/spinning-icon'
 import { Loader } from '../../../lib/icons/Loader'
 import { RefreshCcw } from '../../../lib/icons/RefreshCcw'
 import QuickButton from '../../home/quick-access/quick-button'
+import NotificationSkeleton from '../../common/skeleton/notification-skeleton'
 
 const { height, width } = Dimensions.get('window')
 
@@ -123,7 +124,7 @@ export default function NotificationAccess({ position }: Prop) {
                         </View>
                         <View className='flex-1 w-full items-center justify-center'>
                             {isLoading ? (
-                                <SpinningIcon icon={<Loader className='text-foreground' size={30} />} />
+                                <NotificationSkeleton />
                             ) : !notification.length ? (
                                 <ScrollView
                                     className="flex-1 w-full"
@@ -154,7 +155,11 @@ export default function NotificationAccess({ position }: Prop) {
                                         keyExtractor={(_, index) => index.toString()}
                                         renderItem={({ item }) => <NotificationItem notification={item} />}
                                         estimatedItemSize={100}
-                                        onEndReached={handleLoadMore}
+                                        onEndReached={() => {
+                                            if (hasNextPage && !isFetchingNextPage) {
+                                                fetchNextPage()
+                                            }
+                                        }}
                                         refreshControl={<RefreshControl refreshing={refreshing} onRefresh={onRefresh} />}
                                         scrollEventThrottle={16}
                                     />

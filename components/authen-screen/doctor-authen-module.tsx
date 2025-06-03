@@ -48,18 +48,6 @@ export default function DoctorAuthenModule() {
         console.log(data.email + ' ' + data.password)
     }
 
-
-    useEffect(() => {
-        // if (isError) {
-        //     Toast.show({
-        //         type: 'error',
-        //         text1: 'Có lỗi xảy ra khi đăng nhập',
-        //         visibilityTime: 2000
-        //     })
-        // }
-        console.log('data', data)
-    }, [isLoading])
-
     return (
         <View className='flex-col gap-5 items-center'>
             <View className='flex-col gap-2 w-full'>

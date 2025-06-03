@@ -29,8 +29,7 @@ export default function DefaultNotification({ setVisible, notification }: Prop) 
                     borderLeftColor: GlobalColor.ORANGE_NEON_BORDER,
                     borderLeftWidth: 2,
                 }}
-                className='px-4 py-3 w-full flex-col gap-3 border-l justify-between active:bg-[var(--click-bg)]'
-                onLongPress={() => setVisible(true)}
+                className='px-4 py-3 w-full flex-col gap-3 border-l justify-between active:opacity-70'
             >
                 <View className='flex-row w-full gap-2 justify-between items-center'>
                     <View className='flex-row gap-3 items-center'>

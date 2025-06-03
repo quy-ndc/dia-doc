@@ -1,5 +1,5 @@
 import * as React from 'react';
-import { Dimensions, Modal, Pressable } from 'react-native';
+import { Dimensions, Modal, Pressable, View } from 'react-native';
 import { Text } from '../../ui/text'
 import { useState } from 'react';
 import { Trash2 } from '../../../lib/icons/Trash2';
@@ -39,12 +39,9 @@ export default function NotificationItem({ notification }: Prop) {
 
     return (
         <>
-            <Pressable
-                className='pb-3 w-full flex-row justify-between items-center active:bg-[var(--click-bg)]'
-                onLongPress={() => setVisible(true)}
-            >
+            <View className='mb-3'>
                 {renderNoti()}
-            </Pressable>
+            </View>
             <Modal
                 visible={visible}
                 transparent

@@ -11,6 +11,7 @@ import SpinningIcon from "../../common/icons/spinning-icon";
 import { RefreshCcw } from "../../../lib/icons/RefreshCcw";
 import FeatureBlogItem from "../../common/blog-item/feature-blog-item";
 import BlogSkeleton from "../../common/skeleton/blog-skeleton";
+import { LinearGradient } from "expo-linear-gradient";
 
 const { width } = Dimensions.get('window')
 
@@ -62,15 +63,17 @@ export default function HomeBlogSection({ isLoading, isError, items, onRefresh, 
                             }
                             estimatedItemSize={100}
                         />
+                        <View className="flex w-full justify-center items-center">
+                            <Pressable
+                                style={{ width: width * 0.4 }}
+                                className="flex-row gap-2 px-4 py-2 justify-center items-center border border-[var(--oppo-theme-col)] rounded-full active:bg-[var(--click-bg)]"
+                                onPress={() => router.push('/blog-screen')}
+                            >
+                                <Text className="text-base font-semibold tracking-wider">Xem thêm</Text>
+                                <ChevronDown className="text-foreground" size={18} />
+                            </Pressable>
+                        </View>
                     </View>
-                    <Pressable
-                        style={{ width: width * 0.4 }}
-                        className="flex-row gap-2 px-4 py-2 justify-center items-center border border-[var(--oppo-theme-col)] rounded-full active:bg-[var(--click-bg)]"
-                        onPress={() => router.push('/blog-screen')}
-                    >
-                        <Text className="text-base font-semibold tracking-wider">Xem thêm</Text>
-                        <ChevronDown className="text-foreground" size={18} />
-                    </Pressable>
                 </>
             )}
         </View>

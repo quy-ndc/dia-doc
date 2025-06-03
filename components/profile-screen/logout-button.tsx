@@ -5,14 +5,16 @@ import { useRouter } from 'expo-router';
 import { Pressable, View } from 'react-native';
 import { Text } from '../../components/ui/text'
 import { GlobalColor } from '../../global-color';
+import { useQueryClient } from '@tanstack/react-query';
 
 export default function LogoutButton() {
 
     const { logout } = useUserStore()
+    const queryClient = useQueryClient()
     const router = useRouter()
 
     const onLogout = () => {
-        logout
+        logout(queryClient)
         router.replace('/authen-screen')
     }
 

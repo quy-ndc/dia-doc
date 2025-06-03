@@ -32,7 +32,6 @@ export default function ProtectedLayout() {
                 id: response.Sender.SenderId
             }
         }
-        console.log('new', newMessage)
         addMessage(response.GroupId, newMessage)
         setLatestMessage(response.GroupId, newMessage)
     })

@@ -2,7 +2,7 @@ import { QueryClient } from "@tanstack/react-query";
 import { QueryKeys } from "../assets/enum/query";
 
 export const invalidateQuery = (queryClient: QueryClient) => {
-    queryClient?.invalidateQueries({ queryKey: [QueryKeys.USER] })
+    // queryClient?.invalidateQueries({ queryKey: [QueryKeys.USER] })
     queryClient?.invalidateQueries({ queryKey: [QueryKeys.GROUP_CHATS] })
     queryClient?.invalidateQueries({ queryKey: [QueryKeys.CHAT_MESSAGES] })
     queryClient?.invalidateQueries({ queryKey: [QueryKeys.MEDIAS] })

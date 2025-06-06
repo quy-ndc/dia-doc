@@ -34,7 +34,9 @@ const endpointMedia = {
     GET_ALL_MEDIAS: `${MEDIA_SERVICE_ENDPOINT}/${apiPrefixV1}/posts`,
     GET_MEDIA_BY_ID: `${MEDIA_SERVICE_ENDPOINT}/${apiPrefixV1}/posts`,
     GET_TOP_MEDIAS: `${MEDIA_SERVICE_ENDPOINT}/${apiPrefixV1}/posts/top-view`,
-    UPDATE_IMAGE: `${NOTIFICATION_SERVICE_ENDPOINT}/${apiPrefixV1}/media`
+    UPDATE_IMAGE: `${MEDIA_SERVICE_ENDPOINT}/${apiPrefixV1}/media`,
+    BOOKMARK_MEDIA: `${MEDIA_SERVICE_ENDPOINT}/${apiPrefixV1}/bookmarks`,
+    GET_ALL_BOOKMARK_MEDIA: `${MEDIA_SERVICE_ENDPOINT}/${apiPrefixV1}/bookmarks`
 }
 
 const endpointCategory = {

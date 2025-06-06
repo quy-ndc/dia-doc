@@ -2,15 +2,17 @@ import axios, { AxiosError } from "axios";
 import { router } from "expo-router";
 import useUserStore from "../store/userStore";
 import Toast from "react-native-toast-message";
+import { useQueryClient } from "@tanstack/react-query";
 
 const axiosServices = axios.create({
     timeout: 50000,
 });
 
 const handleUnauthorized = () => {
+    const queryClient = useQueryClient()
     const { logout } = useUserStore.getState()
     router.replace('/authen-screen')
-    logout()
+    logout(queryClient)
     Toast.show({
         type: 'error',
         text1: 'Phiên đăng nhập hết hạn',

@@ -3,8 +3,6 @@ import { LoginDoctorRequest, LoginPatientRequest } from "../type/auth-type"
 import { LoginDoctor, LoginPatient } from "../api/auth-service"
 import Toast from "react-native-toast-message"
 
-
-
 export const useLoginPatientMutation = () => {
     return useMutation({
         mutationFn: (data: LoginPatientRequest) => LoginPatient(data),

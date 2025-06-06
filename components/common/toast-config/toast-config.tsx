@@ -2,7 +2,7 @@ import { Dimensions } from 'react-native';
 import { GlobalColor } from '../../../global-color';
 import { ErrorToast, InfoToast, SuccessToast, ToastProps } from 'react-native-toast-message';
 
-const { width, height } = Dimensions.get('window');
+const { width } = Dimensions.get('window');
 
 export const toastConfig = {
     success: (props: ToastProps) => (
@@ -26,12 +26,10 @@ export const toastConfig = {
                 width: width * 0.9,
                 borderLeftColor: GlobalColor.TOAST_FAIL,
             }}
-        // text1Style={{
-        //     fontSize: 17
-        // }}
-        // text2Style={{
-        //     fontSize: 15
-        // }}
+            text1Style={{
+                fontSize: 14,
+                fontWeight: 'bold'
+            }}
         />
     ),
     info: (props: ToastProps) => (

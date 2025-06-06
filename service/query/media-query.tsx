@@ -1,5 +1,5 @@
 import { useMutation } from "@tanstack/react-query";
-import { GetAllCategories, GetAllMedias, GetMediaById, GetTopMedias, UploadImage } from "../api/media-service";
+import { GetAllCategories, GetAllMedias, GetMediaById, GetTopMedias, ToggleBookmarkMedia, UploadImage } from "../api/media-service";
 import Toast from "react-native-toast-message";
 import { QueryKeys } from "../../assets/enum/query";
 
@@ -71,6 +71,27 @@ export const useCategoryQuery = () => {
     }
 
     return { queryKey, queryFn }
+}
+
+export const useToggleBookmarkMediaMutation = () => {
+    return useMutation({
+        mutationFn: (postId: string) => ToggleBookmarkMedia(postId),
+        onSuccess: (data) => {
+            if (data.status !== 200) {
+                Toast.show({
+                    type: 'error',
+                    text1: 'Lưu bài viết thất bại',
+                    visibilityTime: 2000
+                })
+                return
+            }
+            return data
+        },
+        onError: (error) => {
+
+            return error;
+        }
+    })
 }
 
 export const useUploadImageMutation = () => {

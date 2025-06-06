@@ -11,6 +11,7 @@ import { RefreshCcw } from '../../../lib/icons/RefreshCcw'
 import { useMessageStore } from '../../../store/useMessage'
 import GroupChatSkeleton from '../../../components/common/skeleton/chat-group-skeleton'
 import { QueryKeys } from '../../../assets/enum/query'
+import ErrorDisplay from '../../../components/common/error-display'
 
 const { width } = Dimensions.get('window')
 
@@ -49,39 +50,15 @@ export default function MessagesScreen() {
         }
     }, [data])
 
-    if (isLoading) {
-        return (
-            <GroupChatSkeleton />
-        )
-    }
+    if (isLoading) return <GroupChatSkeleton />
 
     if (isError || groups.length === 0) {
         return (
-            <ScrollView
-                className="flex-1 w-full"
-                contentContainerStyle={{ alignItems: 'center', justifyContent: 'center', flexGrow: 1 }}
-                refreshControl={<RefreshControl refreshing={refreshing} onRefresh={onRefresh} />}
-            >
-                <View className="flex-col gap-2 items-center">
-                    <Text className="text-muted-foreground text-lg font-semibold italic tracking-wider">
-                        {isError
-                            ? 'Đã xảy ra lỗi khi tải tin nhắn. Vuốt xuống để thử lại.'
-                            : 'Không có cuộc trò chuyện nào.'
-                        }
-                    </Text>
-                    <Pressable
-                        className="flex-row gap-3 items-center px-4 py-2 rounded-full active:bg-[var(--click-bg)]"
-                        onPress={onRefresh}
-                    >
-                        <Text className="text-foreground text-base font-semibold tracking-wider capitalize">Thử lại</Text>
-                        {refreshing ? (
-                            <SpinningIcon icon={<RefreshCcw className="text-foreground" size={15} />} />
-                        ) : (
-                            <RefreshCcw className="text-foreground" size={15} />
-                        )}
-                    </Pressable>
-                </View>
-            </ScrollView>
+            <ErrorDisplay
+                onRefresh={onRefresh}
+                refreshing={refreshing}
+                text='Không có cuộc trò chuyện nào.'
+            />
         )
     }
 

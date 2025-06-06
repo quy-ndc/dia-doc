@@ -55,7 +55,7 @@ export default function BlogItem({ blogPost }: Prop) {
                 </View>
                 <View className="flex-row gap-2 items-center">
                     <Text className="text-sm font-semibold tracking-wider">{calculateReadTime(blogPost.wordCount)} phút đọc</Text>
-                    <BookmarkButton bookmarked={blogPost.isBookmarked} />
+                    <BookmarkButton bookmarked={blogPost.isBookMarked} postId={blogPost.id} />
                 </View>
             </View>
             <View className="flex-row justify-between items-center">

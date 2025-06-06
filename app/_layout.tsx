@@ -39,6 +39,8 @@ export default function RootLayout() {
   //   createNotificationChannel()
   // }, [])
 
+  console.log(user)
+
   useEffect(() => {
     requestUserPermission()
 

@@ -28,14 +28,14 @@ export const GetAllMedias = async (params: {
                 status: error.response.status,
                 message: error.response.data.message || 'An error occurred',
                 data: error.response.data
-            };
+            }
         } else {
             return {
                 success: false,
                 status: 500,
                 message: 'An unexpected error occurred',
                 data: null
-            };
+            }
         }
     }
 }
@@ -57,14 +57,14 @@ export const GetMediaById = async (id: string) => {
                 status: error.response.status,
                 message: error.response.data.message || 'An error occurred',
                 data: error.response.data
-            };
+            }
         } else {
             return {
                 success: false,
                 status: 500,
                 message: 'An unexpected error occurred',
                 data: null
-            };
+            }
         }
     }
 }
@@ -86,14 +86,14 @@ export const GetAllCategories = async () => {
                 status: error.response.status,
                 message: error.response.data.message || 'An error occurred',
                 data: error.response.data
-            };
+            }
         } else {
             return {
                 success: false,
                 status: 500,
                 message: 'An unexpected error occurred',
                 data: null
-            };
+            }
         }
     }
 }
@@ -119,21 +119,21 @@ export const GetTopMedias = async (params: {
                 status: error.response.status,
                 message: error.response.data.message || 'An error occurred',
                 data: error.response.data
-            };
+            }
         } else {
             return {
                 success: false,
                 status: 500,
                 message: 'An unexpected error occurred',
                 data: null
-            };
+            }
         }
     }
 }
 
-export const UploadImage = async (data: FormData) => {
+export const ToggleBookmarkMedia = async (postId: string) => {
     try {
-        const response = await axiosClientUpload.post(`${endpointMedia.UPDATE_IMAGE}`, data )
+        const response = await axiosServices.post(`${endpointMedia.BOOKMARK_MEDIA}?postId=${postId}`)
 
         return {
             success: true,
@@ -147,14 +147,70 @@ export const UploadImage = async (data: FormData) => {
                 status: error.response.status,
                 message: error.response.data.message || 'An error occurred',
                 data: error.response.data
-            };
+            }
         } else {
             return {
                 success: false,
                 status: 500,
                 message: 'An unexpected error occurred',
                 data: null
-            };
+            }
+        }
+    }
+}
+
+export const GetBookmarkMedia = async () => {
+    try {
+        const response = await axiosServices.get(`${endpointMedia.GET_ALL_BOOKMARK_MEDIA}`)
+
+        return {
+            success: true,
+            status: response.status,
+            data: response.data,
+        }
+    } catch (error) {
+        if (axios.isAxiosError(error) && error.response) {
+            return {
+                success: false,
+                status: error.response.status,
+                message: error.response.data.message || 'An error occurred',
+                data: error.response.data
+            }
+        } else {
+            return {
+                success: false,
+                status: 500,
+                message: 'An unexpected error occurred',
+                data: null
+            }
+        }
+    }
+}
+
+export const UploadImage = async (data: FormData) => {
+    try {
+        const response = await axiosClientUpload.post(`${endpointMedia.UPDATE_IMAGE}`, data)
+
+        return {
+            success: true,
+            status: response.status,
+            data: response.data,
+        }
+    } catch (error) {
+        if (axios.isAxiosError(error) && error.response) {
+            return {
+                success: false,
+                status: error.response.status,
+                message: error.response.data.message || 'An error occurred',
+                data: error.response.data
+            }
+        } else {
+            return {
+                success: false,
+                status: 500,
+                message: 'An unexpected error occurred',
+                data: null
+            }
         }
     }
 }

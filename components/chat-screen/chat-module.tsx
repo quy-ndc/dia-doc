@@ -126,15 +126,15 @@ export default function ChatModule({
                 fetchNextPage()
             }
         }
-    }, [debouncedOffsetY, hasNextPage, isFetchingNextPage]),
+    }, [debouncedOffsetY, hasNextPage, isFetchingNextPage])
 
-        useEffect(() => {
-            if (listRef.current) {
-                setTimeout(() => {
-                    listRef.current?.scrollToEnd()
-                }, 150)
-            }
-        }, [groups[groupId].messages])
+    useEffect(() => {
+        if (listRef.current) {
+            setTimeout(() => {
+                listRef.current?.scrollToEnd()
+            }, 150)
+        }
+    }, [groups[groupId].messages])
 
     const scrollToTop = () => {
         listRef.current?.scrollToEnd()
@@ -285,15 +285,7 @@ export default function ChatModule({
                     </Pressable>
                 </View>
 
-                <RNAnimated.View
-                    style={{
-                        opacity,
-                        position: 'absolute',
-                        bottom: 70,
-                        left: '50%',
-                        transform: [{ translateX: -20 }],
-                    }}
-                >
+                <RNAnimated.View style={{ opacity, position: 'absolute', bottom: 70, left: '50%', transform: [{ translateX: -20 }] }}>
                     <Pressable
                         className='p-2 rounded-full justify-center items-center bg-[var(--go-up-btn-bg)] active:bg-[var(--go-up-click-bg)]'
                         onPress={scrollToTop}

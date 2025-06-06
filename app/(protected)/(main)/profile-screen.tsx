@@ -1,5 +1,5 @@
 import * as React from 'react'
-import { View, ScrollView, Pressable, RefreshControl } from 'react-native'
+import { View, ScrollView, RefreshControl } from 'react-native'
 import { Text } from '../../../components/ui/text'
 import { Image } from 'expo-image'
 import BasicInfo from '../../../components/profile-screen/basic-info'
@@ -13,9 +13,6 @@ import { Patient } from '../../../assets/types/user/patient'
 import { getAge } from '../../../util/getAge'
 import { getGenderString } from '../../../assets/enum/gender'
 import { getBloodTypeRarity, getBloodTypeString } from '../../../assets/enum/blood'
-import SpinningIcon from '../../../components/common/icons/spinning-icon'
-import { Loader } from '../../../lib/icons/Loader'
-import { RefreshCcw } from '../../../lib/icons/RefreshCcw'
 import { getDiaTypeName } from '../../../assets/enum/dia-type'
 import { Heart } from '../../../lib/icons/Heart'
 import { LinearGradient } from 'expo-linear-gradient'
@@ -33,6 +30,7 @@ import { calculateBMI } from '../../../util/calculate-bmi'
 import { getBmiStatus } from '../../../util/get-bmi-status'
 import LogoutButton from '../../../components/profile-screen/logout-button'
 import ProfileSkeleton from '../../../components/common/skeleton/profile-skeleton'
+import ErrorDisplay from '../../../components/common/error-display'
 
 
 export default function ProfileScreen() {
@@ -59,28 +57,11 @@ export default function ProfileScreen() {
 
     if (!profile || isError) {
         return (
-            <ScrollView
-                className="flex-1 w-full"
-                contentContainerStyle={{ alignItems: 'center', justifyContent: 'center', flexGrow: 1 }}
-                refreshControl={<RefreshControl refreshing={refreshing} onRefresh={onRefresh} />}
-            >
-                <View className="flex-col gap-2 items-center">
-                    <Text className="text-muted-foreground text-lg font-semibold italic tracking-wider">
-                        Không thể lấy hồ sơ người dùng
-                    </Text>
-                    <Pressable
-                        className="flex-row gap-3 items-center px-4 py-2 rounded-full active:bg-[var(--click-bg)]"
-                        onPress={onRefresh}
-                    >
-                        <Text className="text-foreground text-base font-semibold tracking-wider capitalize">Thử lại</Text>
-                        {refreshing ? (
-                            <SpinningIcon icon={<RefreshCcw className="text-foreground" size={15} />} />
-                        ) : (
-                            <RefreshCcw className="text-foreground" size={15} />
-                        )}
-                    </Pressable>
-                </View>
-            </ScrollView>
+            <ErrorDisplay
+                onRefresh={onRefresh}
+                refreshing={refreshing}
+                text='Không thể lấy hồ sơ người dùng'
+            />
         )
     }
 
@@ -126,7 +107,7 @@ export default function ProfileScreen() {
                             <Text className='text-sm text-[var(--fade-text-color)] tracking-wider'>Phân loại bệnh</Text>
                         </View>
                     </View>
-                    <Text   
+                    <Text
                         style={{
                             backgroundColor: GlobalColor.PINK_NEON_BG,
                             color: GlobalColor.PINK_NEON_BORDER,

@@ -1,45 +1,37 @@
-import React, { useEffect, useState } from "react";
-import { View, Text, Platform, Dimensions } from "react-native";
-import useNetworkStore from "../../store/networkStore";
-
-const { height } = Dimensions.get("window");
+import { useEffect, useRef } from "react"
+import useNetworkStore from "../../store/networkStore"
+import Toast from "react-native-toast-message"
 
 export default function NetworkOverlay() {
-    const isConnected = useNetworkStore((state) => state.isConnected);
-    const [visible, setVisible] = useState(!isConnected);
-    const [statusText, setStatusText] = useState("Không có tín hiệu");
-    const [loading, setLoading] = useState(false);
+    const isConnected = useNetworkStore((state) => state.isConnected)
+    const wasConnected = useRef<boolean | null>(null)
 
     useEffect(() => {
-        if (isConnected) {
-            setLoading(true);
-            setStatusText("Đã kết nối!");
-
-            setTimeout(() => {
-                setLoading(false);
-                setVisible(false);
-            }, 1500);
-        } else {
-            setVisible(true);
-            setStatusText("Không có tín hiệu");
+        if (wasConnected.current === null) {
+            wasConnected.current = isConnected
+            return
         }
+
+        if (!isConnected) {
+            Toast.show({
+                type: "error",
+                text1: "Mất kết nối",
+                text2: "Không có tín hiệu mạng",
+                visibilityTime: 0,
+                autoHide: false,
+            })
+        } else {
+            Toast.hide()
+            Toast.show({
+                type: "success",
+                text1: "Đã kết nối",
+                text2: "Kết nối mạng đã được khôi phục",
+                visibilityTime: 2000,
+            })
+        }
+
+        wasConnected.current = isConnected
     }, [isConnected])
 
-    if (!visible) return null
-
-    return (
-        <View
-            style={{ height: Platform.OS == "ios" ? height * 0.104 + 20 : height * 0.07 + 20 }}
-            className={`absolute bottom-0 left-0 w-full flex-col z-50 ${loading ? 'opacity-100' : 'opacity-90'}`}
-        >
-            <View
-                style={{ height: 22 }}
-                className={`w-full flex items-center justify-center ${loading ? "bg-green-500" : "bg-red-600"}`}
-            >
-                <Text className="text-sm text-white font-bold tracking-widest">
-                    {statusText}
-                </Text>
-            </View>
-        </View>
-    );
+    return null
 }

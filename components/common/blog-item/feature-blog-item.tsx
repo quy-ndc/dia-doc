@@ -55,41 +55,27 @@ export default function FeatureBlogItem({ blogPost }: Prop) {
                     </View>
                     <Text className="text-sm font-semibold tracking-wider">{calculateReadTime(blogPost.wordCount)} phút đọc</Text>
                 </View>
-                <View className="flex-row justify-between items-center">
-                    <View className="flex-1 flex-col gap-4 mr-3">
-                        <Text className="text-lg font-semibold tracking-wider">
-                            {blogPost.title}
+                <Text className="text-lg font-semibold tracking-wider">
+                    {blogPost.title}
+                </Text>
+                <View className="flex-row w-full justify-between items-center">
+                    <View className="flex-row gap-3 items-center">
+                        <Text
+                            style={{ backgroundColor: tagBorder }}
+                            className={`text-white text-sm font-semibold px-3 py-1 rounded-full tracking-wider capitalize`}
+                        >
+                            {blogPost.category.name}
                         </Text>
-                        <View className="flex-row gap-3 items-center">
-                            <Text
-                                style={{ backgroundColor: tagBorder }}
-                                className={`text-white text-sm font-semibold px-3 py-1 rounded-full tracking-wider capitalize`}
-                            >
-                                {blogPost.category.name}
-                            </Text>
-                            <View
-                                style={{ backgroundColor: viewBg, borderColor: viewBorder }}
-                                className="flex-row items-center gap-2 px-3 py-1 border rounded-full"
-                            >
-                                <Eye className="text-foreground" size={15} />
-                                <Text className="text-sm font-semibold">{blogPost.view}</Text>
-                            </View>
+                        <View
+                            style={{ backgroundColor: viewBg, borderColor: viewBorder }}
+                            className="flex-row items-center gap-2 px-3 py-1 border rounded-full"
+                        >
+                            <Eye className="text-foreground" size={15} />
+                            <Text className="text-sm font-semibold">{blogPost.view}</Text>
                         </View>
                     </View>
+                    <BookmarkButton bookmarked={blogPost.isBookMarked} postId={blogPost.id} />
                 </View>
-                {/* <View className="flex-row justify-between items-center gap-1 px-3 pb-3">
-                    <View className="flex-row gap-1 items-center">
-                        <LikeButton liked={true} />
-                        <CommentButton
-                            avatar={blogPost.user.imageUrl}
-                            title={blogPost.title}
-                            name={blogPost.user.fullName}
-                            image={blogPost.imageUrl}
-                            liked={true}
-                        />
-                    </View>
-                    <View />
-                </View> */}
             </Pressable>
         </ImageBackground>
     )

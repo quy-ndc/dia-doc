@@ -15,7 +15,7 @@ export default function HomeScreen() {
     const { data, isLoading, isError, refetch, remove } = useQuery(
         useTopMediaQuery({
             NumberOfDays: 30,
-            NumberOfPosts: 5
+            NumberOfPosts: 6
         })
     )
 

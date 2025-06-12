@@ -15,6 +15,7 @@ import BlogSkeleton from '../../../components/common/skeleton/blog-skeleton'
 import SpinningIcon from '../../../components/common/icons/spinning-icon'
 import { RefreshCcw } from '../../../lib/icons/RefreshCcw'
 import ErrorDisplay from '../../../components/common/error-display'
+import { Stack } from 'expo-router'
 
 
 export default function BlogScreen() {
@@ -39,8 +40,8 @@ export default function BlogScreen() {
     } = useInfiniteQuery({
         ...useMediaQuery({
             PageSize: 7,
-            CategoryId: category,
-            SearchContent: search
+            CategoryId: category == '' ? undefined : category,
+            SearchContent: search == '' ? undefined : search
         }),
         getNextPageParam: (lastPage) => {
             const posts = lastPage.data.value.data
@@ -93,43 +94,51 @@ export default function BlogScreen() {
     }
 
     return (
-        <View className='flex-1 w-full pb-5'>
-            <View className='flex-1 flex-col px-2 w-full'>
-                <View className='flex-row w-full justify-between items-center py-1'>
-                    <View className='flex-row gap-2 items-center'>
-                        <FilterButton category={category} setCategory={setCategory} />
-                        <SearchButton search={search} setSearch={setSearch} />
+        <>
+            <Stack.Screen
+                options={{
+                    headerTitle: () =>
+                    <SearchButton search={search} setSearch={setSearch} />
+                }}
+            />
+            <View className='flex-1 w-full pb-5'>
+                <View className='flex-1 flex-col px-2 w-full'>
+                    <View className='flex-row w-full justify-between items-center py-1'>
+                        <View className='flex-row gap-2 items-center'>
+                            <FilterButton category={category} setCategory={setCategory} />
+                            <SearchButton search={search} setSearch={setSearch} />
+                        </View>
                     </View>
-                </View>
-                <FlashList<BlogPost>
-                    data={allItems}
-                    ref={listRef}
-                    keyExtractor={(_, index) => index.toString()}
-                    renderItem={({ item }) =>
-                        <BlogItem blogPost={item} />
-                    }
-                    estimatedItemSize={100}
-                    refreshControl={<RefreshControl refreshing={refreshing} onRefresh={onRefresh} />}
-                    onScroll={handleScroll}
-                    scrollEventThrottle={16}
-                    onEndReached={() => {
-                        if (hasNextPage && !isFetchingNextPage) {
-                            fetchNextPage()
+                    <FlashList<BlogPost>
+                        data={allItems}
+                        ref={listRef}
+                        keyExtractor={(_, index) => index.toString()}
+                        renderItem={({ item }) =>
+                            <BlogItem blogPost={item} />
                         }
-                    }}
-                    onEndReachedThreshold={0.5}
-                />
-                <RNAnimated.View style={{ opacity, position: 'absolute', top: 10, right: 10 }}>
-                    <Pressable
-                        className='flex flex-row items-center gap-2 p-2 px-3 rounded-full bg-[var(--go-up-btn-bg)] active:bg-[var(--go-up-click-bg)]'
-                        onPress={scrollToTop}
-                    >
-                        <Text className='text-sm font-semibold tracking-wider text-[var(--same-theme-col)] capitalize'>Lên đầu</Text>
-                        <ChevronUp className='text-[var(--go-up-btn-icon)]' size={18} />
-                    </Pressable>
-                </RNAnimated.View>
+                        estimatedItemSize={100}
+                        refreshControl={<RefreshControl refreshing={refreshing} onRefresh={onRefresh} />}
+                        onScroll={handleScroll}
+                        scrollEventThrottle={16}
+                        onEndReached={() => {
+                            if (hasNextPage && !isFetchingNextPage) {
+                                fetchNextPage()
+                            }
+                        }}
+                        onEndReachedThreshold={0.5}
+                    />
+                    <RNAnimated.View style={{ opacity, position: 'absolute', top: 10, right: 10 }}>
+                        <Pressable
+                            className='flex flex-row items-center gap-2 p-2 px-3 rounded-full bg-[var(--go-up-btn-bg)] active:bg-[var(--go-up-click-bg)]'
+                            onPress={scrollToTop}
+                        >
+                            <Text className='text-sm font-semibold tracking-wider text-[var(--same-theme-col)] capitalize'>Lên đầu</Text>
+                            <ChevronUp className='text-[var(--go-up-btn-icon)]' size={18} />
+                        </Pressable>
+                    </RNAnimated.View>
+                </View>
             </View>
-        </View>
+        </>
     )
 }
 

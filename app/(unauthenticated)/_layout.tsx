@@ -5,13 +5,13 @@ import { Redirect } from 'expo-router';
 export default function ProtectedLayout() {
     const { user } = useUserStore();
 
-    if (user.isAuthenticated && !user.isSetUp) {
-        return <Redirect href="/set-up-screen" />;
-    }
+    // if (user.isAuthenticated && !user.isSetUp) {
+    //     return <Redirect href="/set-up-screen" />;
+    // }
 
-    if (user.isAuthenticated && user.isSetUp) {
-        return <Redirect href="/(protected)/(main)" />;
-    }
+    // if (user.isAuthenticated && user.isSetUp) {
+    //     return <Redirect href="/(protected)/(main)" />;
+    // }
 
     return (
         <Stack>

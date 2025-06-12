@@ -7,11 +7,8 @@ export type BlogPost = {
     references?: string
     createdDate: string
     view: number
-    category: {
-        id: string
-        name: string
-        imageUrl: string
-    }
+    like: number
+    categories: BlogCategory[]
     user: {
         id: string
         fullName: string
@@ -19,4 +16,11 @@ export type BlogPost = {
     }
     wordCount: number
     isBookMarked: boolean
+    isLiked: boolean
+}
+
+export type BlogCategory = {
+    id: string
+    name: string
+    imageUrl: string
 }

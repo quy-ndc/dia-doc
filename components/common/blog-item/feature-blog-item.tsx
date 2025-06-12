@@ -11,6 +11,7 @@ import { GlobalColor } from "../../../global-color";
 import { BlogPost } from "../../../assets/types/media/blog-post";
 import { calculateReadTime } from "../../../util/readtime-calc";
 import { TrendingUp } from "../../../lib/icons/TrendingUp";
+import BlogTag from "./blog-tag";
 
 
 type Prop = {
@@ -29,11 +30,7 @@ export default function FeatureBlogItem({ blogPost }: Prop) {
         })
     }
 
-    const viewBg = theme == 'dark' ? GlobalColor.VIEW_BG_DARK : GlobalColor.VIEW_BG_LIGHT
-    const viewBorder = theme == 'dark' ? GlobalColor.VIEW_BORDER_DARK : GlobalColor.VIEW_BORDER_LIGHT
-
-    const tagBorder = getBlogTagColor(blogPost.category.name).borderColor
-
+    const tagBg = getBlogTagColor(blogPost.categories[0].name).borderColor
     const featureBg = theme == 'dark' ? GlobalColor.HALF_DARK_THEME_COL : GlobalColor.HALF_LIGHT_THEME_COL
 
     return (
@@ -60,19 +57,9 @@ export default function FeatureBlogItem({ blogPost }: Prop) {
                 </Text>
                 <View className="flex-row w-full justify-between items-center">
                     <View className="flex-row gap-3 items-center">
-                        <Text
-                            style={{ backgroundColor: tagBorder }}
-                            className={`text-white text-sm font-semibold px-3 py-1 rounded-full tracking-wider capitalize`}
-                        >
-                            {blogPost.category.name}
-                        </Text>
-                        <View
-                            style={{ backgroundColor: viewBg, borderColor: viewBorder }}
-                            className="flex-row items-center gap-2 px-3 py-1 border rounded-full"
-                        >
-                            <Eye className="text-foreground" size={15} />
-                            <Text className="text-sm font-semibold">{blogPost.view}</Text>
-                        </View>
+                        {blogPost.categories.map((category) => (
+                            <BlogTag key={category.id} tag={category} />
+                        ))}
                     </View>
                     <BookmarkButton bookmarked={blogPost.isBookMarked} postId={blogPost.id} />
                 </View>

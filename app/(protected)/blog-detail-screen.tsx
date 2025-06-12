@@ -61,18 +61,7 @@ export default function BlogDetailScreen() {
             refreshControl={<RefreshControl refreshing={refreshing} onRefresh={onRefresh} />}
         >
             <View className='flex-col gap-5 justify-center w-full px-3 pb-10'>
-                <BlogDetailItem
-                    avatar={item.user.imageUrl}
-                    name={item.user.fullName}
-                    title={item.title}
-                    content={item.content}
-                    contentHtml={item.contentHtml}
-                    image={item.imageUrl}
-                    liked={true}
-                    createDate={item.createdDate}
-                    category={item.category.name}
-                    bookmarked={false}
-                />
+                <BlogDetailItem blogPost={item} />
                 <View className='flex-col gap-7'>
                     {/* <BlogComment /> */}
                 </View>

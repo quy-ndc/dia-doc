@@ -7,9 +7,7 @@ import { Newspaper } from '../../../lib/icons/Newspaper';
 import { User } from '../../../lib/icons/User';
 import SectionTitle from '../common/section-title';
 import { Zap } from '../../../lib/icons/Zap';
-import { Bell } from '../../../lib/icons/Bell';
 import NotificationAccess from '../../header/notification/noti-access';
-
 
 export default function QuickAccess() {
 

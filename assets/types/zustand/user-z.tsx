@@ -1,10 +1,9 @@
-import { QueryClient } from "@tanstack/react-query";
 import { UserRole } from "../../enum/user-role";
 
 export type UserZState = {
     user: User
     setUser: (user: User) => void
-    logout: (queryClient: QueryClient) => void
+    logout: () => void
 };
 
 export type User = {

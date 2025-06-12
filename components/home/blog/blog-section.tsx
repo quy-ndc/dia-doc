@@ -56,8 +56,11 @@ export default function HomeBlogSection({ isLoading, isError, items, onRefresh, 
                     }
                     estimatedItemSize={100}
                 />
-                <View className="flex w-full justify-center items-center">
-                    <View className="h-1 basis-[20%] bg-gray" />
+                <View className="flex flex-row w-full gap-3 justify-center items-center">
+                    <View
+                        style={{ height: 1 }}
+                        className="basis-[25%] bg-white"
+                    />
                     <Pressable
                         style={{ width: width * 0.4 }}
                         className="flex-row gap-2 px-4 py-2 justify-center items-center border border-[var(--oppo-theme-col)] rounded-full active:bg-[var(--click-bg)]"
@@ -66,7 +69,10 @@ export default function HomeBlogSection({ isLoading, isError, items, onRefresh, 
                         <Text className="text-base font-semibold tracking-wider">Xem thêm</Text>
                         <ChevronDown className="text-foreground" size={18} />
                     </Pressable>
-                    <View className="h-1 basis-[20%] bg-gray" />
+                    <View
+                        style={{ height: 1 }}
+                        className="basis-[25%] bg-white"
+                    />
                 </View>
             </View>
         </View>

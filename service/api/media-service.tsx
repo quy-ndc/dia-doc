@@ -133,7 +133,7 @@ export const GetTopMedias = async (params: {
 
 export const ToggleBookmarkMedia = async (postId: string) => {
     try {
-        const response = await axiosServices.post(`${endpointMedia.BOOKMARK_MEDIA}?postId=${postId}`)
+        const response = await axiosServices.post(`${endpointMedia.BOOKMARK_MEDIA}/${postId}`)
 
         return {
             success: true,
@@ -159,9 +159,47 @@ export const ToggleBookmarkMedia = async (postId: string) => {
     }
 }
 
-export const GetBookmarkMedia = async () => {
+export const ToggleLikeMedia = async (postId: string) => {
     try {
-        const response = await axiosServices.get(`${endpointMedia.GET_ALL_BOOKMARK_MEDIA}`)
+        const response = await axiosServices.post(`${endpointMedia.LIKE_MEDIA}/${postId}`)
+
+        return {
+            success: true,
+            status: response.status,
+            data: response.data,
+        }
+    } catch (error) {
+        if (axios.isAxiosError(error) && error.response) {
+            return {
+                success: false,
+                status: error.response.status,
+                message: error.response.data.message || 'An error occurred',
+                data: error.response.data
+            }
+        } else {
+            return {
+                success: false,
+                status: 500,
+                message: 'An unexpected error occurred',
+                data: null
+            }
+        }
+    }
+}
+
+
+export const GetBookmarkMedia = async (params: {
+    Cursor?: string
+    SearchContent?: string
+    PageSize: number
+    CategoryId?: string
+    UserCreatedId?: string
+    SortType?: number
+    IsSortASC?: boolean
+}) => {
+    try {
+        const queryString = createQueryString(params)
+        const response = await axiosServices.get(`${endpointMedia.GET_ALL_BOOKMARK_MEDIA}?${queryString}`)
 
         return {
             success: true,

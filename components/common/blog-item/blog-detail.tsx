@@ -10,77 +10,61 @@ import { GlobalColor } from "../../../global-color";
 import { getBlogTagColor } from "../../../util/get-blog-tag-color";
 import SpeechButton from "./blog-speech-button";
 import SpeechInfoButton from "./blog-speech-info";
+import { BlogPost } from "../../../assets/types/media/blog-post";
 
 
 type Prop = {
-    title: string
-    content: string
-    contentHtml: string
-    image: string
-    createDate: string
-    category: string
-    name: string
-    avatar: string
-    liked: boolean
-    bookmarked: boolean
+    blogPost: BlogPost
 }
 
 const { width } = Dimensions.get('window');
 
 export default function BlogDetailItem({
-    avatar,
-    name,
-    title,
-    content,
-    contentHtml,
-    image,
-    category,
-    liked,
-    createDate,
-    bookmarked
+    blogPost,
 }: Prop) {
 
     const theme = useColorScheme()
 
     const textColor = theme == 'dark' ? GlobalColor.LIGHT_THEME_COL : GlobalColor.DARK_THEME_COL
 
-    const color = getBlogTagColor(category).borderColor
+    const color = getBlogTagColor(blogPost.categories[0].name).borderColor
 
     return (
         <View className="flex-col gap-3">
             <View className="w-full flex-row justify-between items-center">
                 <Text
                     style={{ color: color }}
-                    className={`text-base font-semibold px-1 py-1 text-left tracking-wider uppercase`}>
-                    tiểu đường {category}
+                    className={`text-base font-semibold px-1 py-1 text-left tracking-wider uppercase`}
+                >
+                    {blogPost.categories[0].name}
                 </Text>
-                <BookmarkButton bookmarked={bookmarked} />
+                <BookmarkButton bookmarked={blogPost.isBookMarked} postId={blogPost.id} />
             </View>
             <Text className={`text-xl px-1 font-semibold tracking-wider`}>
-                {title}
+                {blogPost.title}
             </Text>
             <View className="flex-row w-full justify-between items-center">
                 <View className="flex-row gap-4 px-1 pt-4">
                     <Image
                         style={styles.avatar}
-                        source={avatar}
+                        source={blogPost.user.imageUrl}
                         contentFit="cover"
                     />
                     <View className="flex-col gap-[0.5]">
-                        <Text className="text-base font-bold tracking-wider">{name}</Text>
-                        <Text className="text-sm tracking-wider text-[var(--fade-text-color)]">{formatDateBlog(createDate)}</Text>
+                        <Text className="text-base font-bold tracking-wider">{blogPost.user.fullName}</Text>
+                        <Text className="text-sm tracking-wider text-[var(--fade-text-color)]">{formatDateBlog(blogPost.createdDate)}</Text>
                     </View>
                 </View>
                 <View className="flex-row items-center">
                     {/* <SpeechInfoButton /> */}
-                    <SpeechButton content={content} />
+                    <SpeechButton content={blogPost.content} />
                 </View>
             </View>
             <View className="flex w-full justify-center items-center">
                 <Image
                     style={{ width: '100%', minHeight: 300, borderRadius: 10 }}
                     contentFit="cover"
-                    source={image}
+                    source={blogPost.imageUrl}
                 />
             </View>
             {/* <View className="flex-row justify-between items-center gap-1 px-1 pb-3">
@@ -97,7 +81,7 @@ export default function BlogDetailItem({
             </View> */}
             <RenderHTML
                 contentWidth={width}
-                source={{ html: contentHtml }}
+                source={{ html: blogPost.contentHtml }}
                 baseStyle={{
                     color: textColor,
                     letterSpacing: 0.3

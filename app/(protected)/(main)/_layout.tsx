@@ -6,6 +6,10 @@ import { Home } from '../../../lib/icons/Home'
 import { Newspaper } from '../../../lib/icons/Newspaper'
 import { Dimensions, Platform, useColorScheme } from 'react-native'
 import { GlobalColor } from '../../../global-color'
+import { LinearGradient } from 'expo-linear-gradient'
+import { useWelcomeGradientColors } from '../../../util/get-welcome-bg'
+import HomeHeaderBg from '../../../components/home/header/header-bg'
+import HomeHeaderText from '../../../components/home/header/header-text'
 
 
 const { height } = Dimensions.get('window')
@@ -13,7 +17,7 @@ const { height } = Dimensions.get('window')
 export default function MainLayout() {
 
     const theme = useColorScheme()
-
+    const welcome = useWelcomeGradientColors()
     const tabBarActiveBg = theme == 'dark' ? GlobalColor.TAB_BAR_ACTIVE_BG_DARK : GlobalColor.TAB_BAR_ACTIVE_BG_LIGHT
 
     return (
@@ -41,12 +45,13 @@ export default function MainLayout() {
             <Tabs.Screen
                 name="index"
                 options={{
-                    headerTitle: 'Trang Chủ',
+                    headerTitle: '',
                     title: 'Trang Chủ',
                     tabBarIcon: () => <Home className='text-[var(--main-color)]' size={20} />,
                     headerRight: () => <HeaderRight />,
-                    animation: 'shift'
-
+                    headerBackground: () => <HomeHeaderBg />,
+                    headerLeft: () => <HomeHeaderText />,
+                    animation: 'shift',
                 }}
             />
             <Tabs.Screen

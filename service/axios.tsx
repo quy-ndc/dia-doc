@@ -9,11 +9,11 @@ const axiosServices = axios.create({
 
 const handleUnauthorized = () => {
     const { logout } = useUserStore.getState()
+    router.replace('/landing-screen')
     logout()
-    router.replace('/authen-screen')
     Toast.show({
         type: 'error',
-        text1: 'Phiên đăng nhập hết hạn',
+        text1: 'Vui lòng đăng nhập lại',
         visibilityTime: 2000
     })
 }

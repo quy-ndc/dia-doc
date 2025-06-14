@@ -1,5 +1,5 @@
 import * as React from 'react';
-import { Dimensions, View } from 'react-native';
+import { View } from 'react-native';
 import { Text } from '../../../components/ui/text'
 
 type Prop = {
@@ -7,17 +7,12 @@ type Prop = {
     title: string
 }
 
-const { width } = Dimensions.get('window')
-
 export default function SectionTitle({ icon, title }: Prop) {
 
     return (
-        <View
-            className='flex-row gap-3 px-5 items-center text-center'
-            style={{ width: width }}
-        >
+        <View className='flex-row px-2 w-full gap-3 items-center text-center'>
             {icon}
-            <Text className='text-lg font-bold tracking-widest capitalize'>{title}</Text>
+            <Text className='text-lg mb-1 font-bold tracking-widest capitalize'>{title}</Text>
         </View>
     );
 }

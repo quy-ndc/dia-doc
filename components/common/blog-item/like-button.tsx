@@ -31,7 +31,7 @@ export default function LikeButton({ liked, count, postId }: Prop) {
 
     return (
         <Pressable
-            className={`flex-row gap-3 items-center px-3 py-2 rounded-md active:bg-[var(--click-bg)] ${isLoading && 'opacity-80'}`}
+            className={`flex-row gap-2 items-center px-3 py-2 rounded-md active:bg-[var(--click-bg)] ${isLoading && 'opacity-80'}`}
             onPress={onLiked}
             disabled={isLoading}
         >
@@ -40,7 +40,10 @@ export default function LikeButton({ liked, count, postId }: Prop) {
                 size={17}
                 fill={`${isLiked ? '#FF3366' : '#ffffff00'}`}
             />
-            <Text className={`text-lg font-semibold`}>
+            <Text
+                style={{ marginBottom: 2 }}
+                className={`text-base font-semibold`}
+            >
                 {likeCount}
             </Text>
         </Pressable>

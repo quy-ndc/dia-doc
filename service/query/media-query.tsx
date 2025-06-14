@@ -94,6 +94,28 @@ export const useToggleBookmarkMediaMutation = () => {
     })
 }
 
+export const useBookmarkMediaQuery = (params: {
+    PageSize: number
+    SearchContent?: string
+    CategoryId?: string
+    UserCreatedId?: string
+    SortType?: number
+    IsSortASC?: boolean
+    SelectedColumns?: string[]
+}) => {
+    const queryKey = [QueryKeys.BOOKMARK_MEDIA, params]
+
+    const queryFn = async ({ pageParam = undefined }) => {
+        return GetAllMedias({
+            ...params,
+            Cursor: pageParam,
+        })
+    }
+
+    return { queryKey, queryFn }
+}
+
+
 export const useToggleLikeMediaMutation = () => {
     return useMutation({
         mutationFn: (postId: string) => ToggleLikeMedia(postId),

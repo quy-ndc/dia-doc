@@ -1,21 +1,19 @@
-import * as React from 'react';
-import { LogOut } from '../../lib/icons/LogOut';
-import useUserStore from '../../store/userStore';
-import { useRouter } from 'expo-router';
-import { Pressable, View } from 'react-native';
+import * as React from 'react'
+import { LogOut } from '../../lib/icons/LogOut'
+import useUserStore from '../../store/userStore'
+import { useRouter } from 'expo-router'
+import { Pressable, View } from 'react-native'
 import { Text } from '../../components/ui/text'
-import { GlobalColor } from '../../global-color';
-import { useQueryClient } from '@tanstack/react-query';
+import { GlobalColor } from '../../global-color'
 
 export default function LogoutButton() {
 
     const { logout } = useUserStore()
-    const queryClient = useQueryClient()
     const router = useRouter()
 
     const onLogout = () => {
-        logout(queryClient)
-        router.replace('/authen-screen')
+        logout()
+        router.replace('/landing-screen')
     }
 
     return (

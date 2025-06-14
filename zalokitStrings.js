@@ -43,9 +43,9 @@ const appDelegateContent = `
 }
 
 // Universal Links
-- (BOOL)application:(UIApplication *)application continueUserActivity:(nonnull NSUserActivity *)userActivity restorationHandler:(nonnull void (^)(NSArray<id<UIUserActivityRestoring>> * _Nullable))restorationHandler {
-  BOOL result = [RCTLinkingManager application:application continueUserActivity:userActivity restorationHandler:restorationHandler];
-  return [super application:application continueUserActivity:userActivity restorationHandler:restorationHandler] || result;
+- (BOOL)application:(UIApplication *)application continueUser:(nonnull NSUser *)user restorationHandler:(nonnull void (^)(NSArray<id<UIUserRestoring>> * _Nullable))restorationHandler {
+  BOOL result = [RCTLinkingManager application:application continueUser:user restorationHandler:restorationHandler];
+  return [super application:application continueUser:user restorationHandler:restorationHandler] || result;
 }
 
 // Explicitly define remote notification delegates to ensure compatibility with some third-party libraries
@@ -69,28 +69,28 @@ const appDelegateContent = `
 @end
 `;
 
-const mainActivityContent = `
+const mainContent = `
 package com.quyndc.diadoc
 import expo.modules.splashscreen.SplashScreenManager
 
 import android.os.Build
 import android.os.Bundle
 
-import com.facebook.react.ReactActivity
-import com.facebook.react.ReactActivityDelegate
+import com.facebook.react.React
+import com.facebook.react.ReactDelegate
 import com.facebook.react.defaults.DefaultNewArchitectureEntryPoint.fabricEnabled
-import com.facebook.react.defaults.DefaultReactActivityDelegate
+import com.facebook.react.defaults.DefaultReactDelegate
 
-import expo.modules.ReactActivityDelegateWrapper
+import expo.modules.ReactDelegateWrapper
 
-class MainActivity : ReactActivity() {
+class Main : React() {
   override fun onCreate(savedInstanceState: Bundle?) {
     // Set the theme to AppTheme BEFORE onCreate to support
     // coloring the background, status bar, and navigation bar.
     // This is required for expo-splash-screen.
     // setTheme(R.style.AppTheme);
     // @generated begin expo-splashscreen - expo prebuild (DO NOT MODIFY) sync-f3ff59a738c56c9a6119210cb55f0b613eb8b6af
-    SplashScreenManager.registerOnActivity(this)
+    SplashScreenManager.registerOn(this)
     // @generated end expo-splashscreen
     super.onCreate(null)
   }
@@ -102,14 +102,14 @@ class MainActivity : ReactActivity() {
   override fun getMainComponentName(): String = "main"
 
   /**
-   * Returns the instance of the [ReactActivityDelegate]. We use [DefaultReactActivityDelegate]
+   * Returns the instance of the [ReactDelegate]. We use [DefaultReactDelegate]
    * which allows you to enable New Architecture with a single boolean flags [fabricEnabled]
    */
-  override fun createReactActivityDelegate(): ReactActivityDelegate {
-    return ReactActivityDelegateWrapper(
+  override fun createReactDelegate(): ReactDelegate {
+    return ReactDelegateWrapper(
           this,
           BuildConfig.IS_NEW_ARCHITECTURE_ENABLED,
-          object : DefaultReactActivityDelegate(
+          object : DefaultReactDelegate(
               this,
               mainComponentName,
               fabricEnabled
@@ -119,7 +119,7 @@ class MainActivity : ReactActivity() {
   /**
     * Align the back button behavior with Android S
     * where moving root activities to background instead of finishing activities.
-    * @see <a href="https://developer.android.com/reference/android/app/Activity#onBackPressed()">onBackPressed</a>
+    * @see <a href="https://developer.android.com/reference/android/app/#onBackPressed()">onBackPressed</a>
     */
   override fun invokeDefaultOnBackPressed() {
       if (Build.VERSION.SDK_INT <= Build.VERSION_CODES.R) {
@@ -131,7 +131,7 @@ class MainActivity : ReactActivity() {
       }
 
       // Use the default back button implementation on Android S
-      // because it's doing more than [Activity.moveTaskToBack] in fact.
+      // because it's doing more than [.moveTaskToBack] in fact.
       super.invokeDefaultOnBackPressed()
   }
 }
@@ -199,6 +199,6 @@ class MainApplication : Application(), ReactApplication {
 
 module.exports = {
     appDelegateContent,
-    mainActivityContent,
+    mainContent,
     mainApplicationContent,
 };

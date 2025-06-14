@@ -11,7 +11,7 @@ export default function ProtectedLayout() {
     const { addMessage, setLatestMessage } = useMessageStore()
 
     if (!user.isAuthenticated) {
-        return <Redirect href="/authen-screen" />;
+        return <Redirect href="/landing-screen" />;
     }
 
     if (user.isAuthenticated && !user.isSetUp) {

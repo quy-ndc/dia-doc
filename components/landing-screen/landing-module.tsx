@@ -13,32 +13,13 @@ import { UserRole } from '../../assets/enum/user-role'
 
 const { width } = Dimensions.get('window')
 
-export default function PatientAuthenModule() {
+export default function LandingModule() {
     const router = useRouter()
     const { user, setUser } = useUserStore()
 
     console.log(user)
 
     const { mutateAsync, data, isLoading, isSuccess } = useLoginPatientMutation()
-
-    const zaloLogin = async () => {
-        try {
-            ZaloKit.logout()
-            const code = await ZaloKit.login(Constants.AUTH_VIA_APP)
-            if (code.accessToken) {
-                const profile = await ZaloKit.getUserProfile()
-                if (profile && profile.id) {
-                    await mutateAsync({
-                        zaloIdentityId: profile.id,
-                        fullName: profile.name,
-                        avatar: profile.picture.data.url
-                    })
-                }
-            }
-        } catch (e) {
-            console.log('error logging in', e)
-        }
-    }
 
     const zaloLoginWeb = async () => {
         try {
@@ -101,11 +82,16 @@ export default function PatientAuthenModule() {
                 ]}
                 className="flex-row gap-2 px-4 py-3 justify-center items-center bg-[var(--oppo-theme-col)] border border-[var(--same-theme-col)] rounded-full active:bg-[var(--oppo-click-bg)]"
                 disabled={isLoading}
-                onPress={zaloLogin}
+                onPress={() => router.push('/authen-screen')}
             >
                 <SpinningIcon icon={<Loader className={`text-foreground ${isLoading ? '' : 'hidden'}`} size={19} />} />
-                <Text className="text-base text-[var(--same-theme-col)] font-semibold tracking-wider">Tiếp tục với Zalo App</Text>
+                <Text className="text-base text-[var(--same-theme-col)] font-semibold tracking-wider">Tiếp tục với số điện thoại</Text>
             </Pressable>
+            <View className='flex-row gap-4 items-center'>
+                <View style={{ height: 0.5 }} className='basis-[30%] bg-[var(--oppo-theme-col)]' />
+                <Text className='text-base font-semibold tracking-wider uppercase'>Hoặc</Text>
+                <View style={{ height: 0.5 }} className='basis-[30%] bg-[var(--oppo-theme-col)]' />
+            </View>
             <Pressable
                 style={[
                     { width: width * 0.85 },

@@ -8,6 +8,7 @@ export enum QueryKeys {
     MEDIA_BY_ID = 'mediaById',
     TOP_MEDIAS = 'topMedias',
     CATEGORIES = 'categories',
+    BOOKMARK_MEDIA = 'bookmarkMedia',
     // Notification service
     NOTIFICATIONS = 'notifications',
     // User service

@@ -1,4 +1,4 @@
-import { Dimensions, Pressable, ScrollView, View } from "react-native";
+import { Dimensions, Pressable, View } from "react-native";
 import SectionTitle from "../common/section-title";
 import { Sparkles } from '../../../lib/icons/Sparkles';
 import { Text } from "../../../components/ui/text";
@@ -7,12 +7,10 @@ import { useRouter } from "expo-router";
 import BlogItem from "../../common/blog-item/blog-item";
 import { FlashList } from "@shopify/flash-list";
 import { BlogPost } from "../../../assets/types/media/blog-post";
-import SpinningIcon from "../../common/icons/spinning-icon";
-import { RefreshCcw } from "../../../lib/icons/RefreshCcw";
 import FeatureBlogItem from "../../common/blog-item/feature-blog-item";
 import BlogSkeleton from "../../common/skeleton/blog-skeleton";
-import { LinearGradient } from "expo-linear-gradient";
 import ErrorDisplay from "../../common/error-display";
+import { GlobalColor } from "../../../global-color";
 
 const { width } = Dimensions.get('window')
 
@@ -41,9 +39,12 @@ export default function HomeBlogSection({ isLoading, isError, items, onRefresh, 
     }
 
     return (
-        <View className="flex-col gap-3 justify-center items-center pb-7">
+        <View
+            style={{ width: width * 0.95 }}
+            className="flex-col gap-3 justify-center items-center pb-7"
+        >
             <SectionTitle
-                icon={<Sparkles className='text-[var(--blog-title-icon-color)]' size={18} />}
+                icon={<Sparkles color={GlobalColor.RED_NEON_BORDER} size={18} />}
                 title='Bài Viết đáng chú ý'
             />
             <View style={{ width: width }} className="px-2">
@@ -59,7 +60,7 @@ export default function HomeBlogSection({ isLoading, isError, items, onRefresh, 
                 <View className="flex flex-row w-full gap-3 justify-center items-center">
                     <View
                         style={{ height: 1 }}
-                        className="basis-[25%] bg-white"
+                        className="basis-[25%] bg-[var(--oppo-theme-col)]"
                     />
                     <Pressable
                         style={{ width: width * 0.4 }}
@@ -71,7 +72,7 @@ export default function HomeBlogSection({ isLoading, isError, items, onRefresh, 
                     </Pressable>
                     <View
                         style={{ height: 1 }}
-                        className="basis-[25%] bg-white"
+                        className="basis-[25%] bg-[var(--oppo-theme-col)]"
                     />
                 </View>
             </View>

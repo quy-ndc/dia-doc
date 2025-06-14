@@ -31,6 +31,7 @@ export default function BlogScreen() {
 
     const {
         data,
+        isError,
         hasNextPage,
         isFetchingNextPage,
         fetchNextPage,
@@ -83,7 +84,7 @@ export default function BlogScreen() {
 
     if (isLoading) return <BlogSkeleton />
 
-    if (allItems.length === 0) {
+    if (allItems.length == 0 || isError) {
         return (
             <ErrorDisplay
                 onRefresh={onRefresh}
@@ -98,7 +99,7 @@ export default function BlogScreen() {
             <Stack.Screen
                 options={{
                     headerTitle: () =>
-                    <SearchButton search={search} setSearch={setSearch} />
+                        <SearchButton search={search} setSearch={setSearch} />
                 }}
             />
             <View className='flex-1 w-full pb-5'>
@@ -106,7 +107,7 @@ export default function BlogScreen() {
                     <View className='flex-row w-full justify-between items-center py-1'>
                         <View className='flex-row gap-2 items-center'>
                             <FilterButton category={category} setCategory={setCategory} />
-                            <SearchButton search={search} setSearch={setSearch} />
+                            {/* <SearchButton search={search} setSearch={setSearch} /> */}
                         </View>
                     </View>
                     <FlashList<BlogPost>

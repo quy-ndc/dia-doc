@@ -1,12 +1,11 @@
 import * as React from 'react'
-import { Dimensions, Pressable, View } from 'react-native'
+import { View } from 'react-native'
 import { Text } from '../../components/ui/text'
-import LoginModule from '../../components/login-screen/login-module'
 import { Image } from 'expo-image'
-import { useState } from 'react'
+import RegisterModule from '../../components/login-screen/register-module'
 
 
-export default function LoginScreen() {
+export default function RegisterScreen() {
 
     return (
         <View className='flex-1 w-full flex-col gap-10 justify-center items-center'>
@@ -17,11 +16,11 @@ export default function LoginScreen() {
                         source={require('../../assets/images/logo.png')}
                         contentFit="contain"
                     />
-                    <Text className="text-3xl font-bold text-[#248fca] tracking-wider capitalize">Đăng nhập</Text>
+                    <Text className="text-3xl font-bold text-[#248fca] tracking-wider capitalize">Đăng ký</Text>
                 </View>
                 <Text className='text-base font-semibold tracking-wider'>Nhập thông tin để tiếp tục</Text>
             </View>
-            <LoginModule />
+            <RegisterModule />
         </View>
     )
 }

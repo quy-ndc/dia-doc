@@ -3,6 +3,7 @@ import useUserStore from '../../store/userStore';
 import { Redirect } from 'expo-router';
 
 export default function ProtectedLayout() {
+
     const { user } = useUserStore();
 
     // if (user.isAuthenticated && !user.isSetUp) {
@@ -15,7 +16,10 @@ export default function ProtectedLayout() {
 
     return (
         <Stack>
+            <Stack.Screen name='landing-screen' options={{ headerShown: false }} />
             <Stack.Screen name='authen-screen' options={{ headerShown: false }} />
+            <Stack.Screen name='register-screen' options={{ headerShown: false }} />
+            <Stack.Screen name='otp-screen' options={{ headerShown: false }} />
             <Stack.Screen name='set-up-screen' options={{ headerShown: false }} />
         </Stack>
     );

@@ -39,7 +39,11 @@ export default function ProfileScreen() {
     const { user } = useUserStore()
     const [refreshing, setRefreshing] = useState(false)
 
-    const { data, isLoading, remove, refetch, isError } = useQuery(useUserProfile())
+    const { data, isLoading, remove, refetch, isError } = useQuery({
+        ...useUserProfile(),
+        retry: 1,
+        retryDelay: attempt => Math.min(1000 * 2 ** attempt, 5000)
+    })
 
     const onRefresh = useCallback(() => {
         setRefreshing(true)

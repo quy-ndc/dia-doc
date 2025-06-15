@@ -35,7 +35,7 @@ export default function FeatureBlogItem({ blogPost }: Prop) {
 
     return (
         <ImageBackground
-            source={{ uri: blogPost.imageUrl }}
+            source={{ uri: blogPost.thumbnail }}
             style={{ width: '100%', marginBottom: 15 }}
             imageStyle={{ borderRadius: 10 }}
             contentFit="cover"

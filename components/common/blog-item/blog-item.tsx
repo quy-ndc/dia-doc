@@ -31,7 +31,7 @@ export default function BlogItem({ blogPost }: Prop) {
             onPress={handleBlogClick}
         >
             <ImageBackground
-                source={{ uri: blogPost.imageUrl }}
+                source={{ uri: blogPost.thumbnail }}
                 style={{ width: '100%', minHeight: 180 }}
                 imageStyle={{ borderTopLeftRadius: 10, borderTopRightRadius: 10 }}
                 contentFit="cover"
@@ -48,10 +48,10 @@ export default function BlogItem({ blogPost }: Prop) {
                     <View className="flex-row gap-3 items-center">
                         <Image
                             style={{ width: 30, height: 30, borderRadius: 10000 }}
-                            source={blogPost.user.imageUrl}
+                            source={blogPost.moderator.imageUrl}
                             contentFit="cover"
                         />
-                        <Text className="text-base font-bold tracking-wider">{blogPost.user.fullName}</Text>
+                        <Text className="text-base font-bold tracking-wider">{blogPost.moderator.fullName}</Text>
                         <Text className="text-base tracking-wider text-[var(--fade-text-color)]">•</Text>
                         <Text className="text-sm tracking-wider text-[var(--fade-text-color)]">{formatDateBlog(blogPost.createdDate)}</Text>
                     </View>

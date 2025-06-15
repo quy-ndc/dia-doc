@@ -1,13 +1,11 @@
 import { FlashList } from '@shopify/flash-list'
 import * as React from 'react'
 import { useCallback, useEffect, useState } from 'react'
-import { Dimensions, RefreshControl, ScrollView, View, Text, Pressable } from 'react-native'
+import { Dimensions, RefreshControl, ScrollView, View } from 'react-native'
 import ChatItem from '../../../components/chat-screen/chat-item'
 import { useGroupChatQuery } from '../../../service/query/chat-query'
 import { useQuery, useQueryClient } from '@tanstack/react-query'
 import { GroupChat } from '../../../assets/types/chat/group'
-import SpinningIcon from '../../../components/common/icons/spinning-icon'
-import { RefreshCcw } from '../../../lib/icons/RefreshCcw'
 import { useMessageStore } from '../../../store/useMessage'
 import GroupChatSkeleton from '../../../components/common/skeleton/chat-group-skeleton'
 import { QueryKeys } from '../../../assets/enum/query'
@@ -26,7 +24,11 @@ export default function MessagesScreen() {
         isError,
         remove,
         refetch,
-    } = useQuery(useGroupChatQuery({}))
+    } = useQuery({
+        ...useGroupChatQuery({}),
+        retry: 1,
+        retryDelay: attempt => Math.min(1000 * 2 ** attempt, 5000)
+    })
 
     const groups: GroupChat[] = data?.data?.value?.groups?.items || []
     const groupIds: string[] = groups.map(group => group.id)

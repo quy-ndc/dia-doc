@@ -88,9 +88,9 @@ export default function LandingModule() {
                 <Text className="text-base text-[var(--same-theme-col)] font-semibold tracking-wider">Tiếp tục với số điện thoại</Text>
             </Pressable>
             <View className='flex-row gap-4 items-center'>
-                <View style={{ height: 0.5 }} className='basis-[30%] bg-[var(--oppo-theme-col)]' />
+                <View style={{ height: 1 }} className='basis-[30%] bg-[var(--oppo-theme-col)]' />
                 <Text className='text-base font-semibold tracking-wider uppercase'>Hoặc</Text>
-                <View style={{ height: 0.5 }} className='basis-[30%] bg-[var(--oppo-theme-col)]' />
+                <View style={{ height: 1 }} className='basis-[30%] bg-[var(--oppo-theme-col)]' />
             </View>
             <Pressable
                 style={[

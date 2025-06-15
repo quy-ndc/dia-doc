@@ -13,12 +13,14 @@ export default function HomeScreen() {
 
     const [refreshing, setRefreshing] = useState(false)
 
-    const { data, isLoading, isError, refetch, remove } = useQuery(
-        useTopMediaQuery({
+    const { data, isLoading, isError, refetch, remove } = useQuery({
+        ...useTopMediaQuery({
             NumberOfDays: 30,
             NumberOfPosts: 6
-        })
-    )
+        }),
+        retry: 2,
+        retryDelay: attempt => Math.min(1000 * 2 ** attempt, 5000)
+    })
 
     const onRefresh = useCallback(() => {
         setRefreshing(true)

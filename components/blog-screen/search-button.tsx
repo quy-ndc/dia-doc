@@ -2,10 +2,8 @@ import * as React from 'react';
 import { Dimensions, View } from 'react-native';
 import { useEffect, useRef, useState } from 'react';
 import { Input } from '../ui/input';
-import IcoaaanButton from '../common/icon-button';
-import { Search } from '../../lib/icons/Search';
-import { X } from '../../lib/icons/X';
 import { useDebounce } from '../../util/hook/useDebounce';
+import { Search } from '../../lib/icons/Search';
 
 const { width } = Dimensions.get('window')
 
@@ -24,17 +22,12 @@ export default function SearchButton({ search, setSearch }: Prop) {
     }, [debouncedSearch])
 
     return (
-        <View className='flex-row items-center gap-1'>
-            {/* <IconButton
-                icon={<X className='text-foreground' size={17} />}
-                buttonSize={3}
-                possition={'other'}
-                onPress={() => setSearch('')}
-            /> */}
+        <View className='flex-row items-center gap-2 border-0 border-b border-gray-300'>
+            <Search className='text-foreground' size={19} />
             <Input
                 ref={inputRef}
-                style={{ height: 23, fontSize: 14, width: width * 0.4 }}
-                className={`py-1 border-0 border-b border-gray-300 focus:outline-none focus:ring-0`}
+                style={{ fontSize: 14, minWidth: width * 0.4 }}
+                className={`border-0 focus:outline-none focus:ring-0`}
                 placeholder='Tìm kiếm bài viết'
                 value={localSearch}
                 onChangeText={setLocalSearch}

@@ -4,7 +4,6 @@ import { Image } from 'expo-image'
 import { formatDateBlog } from '../../../util/format-date-post';
 
 
-
 export default function BlogComment() {
 
     return (

@@ -19,9 +19,7 @@ type Prop = {
 
 const { width } = Dimensions.get('window');
 
-export default function BlogDetailItem({
-    blogPost,
-}: Prop) {
+export default function BlogDetailItem({ blogPost }: Prop) {
 
     const theme = useColorScheme()
 
@@ -47,11 +45,11 @@ export default function BlogDetailItem({
                 <View className="flex-row gap-4 px-1 pt-4">
                     <Image
                         style={styles.avatar}
-                        source={blogPost.user.imageUrl}
+                        source={blogPost.moderator.imageUrl}
                         contentFit="cover"
                     />
                     <View className="flex-col gap-[0.5]">
-                        <Text className="text-base font-bold tracking-wider">{blogPost.user.fullName}</Text>
+                        <Text className="text-base font-bold tracking-wider">{blogPost.moderator.fullName}</Text>
                         <Text className="text-sm tracking-wider text-[var(--fade-text-color)]">{formatDateBlog(blogPost.createdDate)}</Text>
                     </View>
                 </View>
@@ -64,7 +62,7 @@ export default function BlogDetailItem({
                 <Image
                     style={{ width: '100%', minHeight: 300, borderRadius: 10 }}
                     contentFit="cover"
-                    source={blogPost.imageUrl}
+                    source={blogPost.thumbnail}
                 />
             </View>
             {/* <View className="flex-row justify-between items-center gap-1 px-1 pb-3">

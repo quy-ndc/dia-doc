@@ -26,18 +26,6 @@ export default function HomeBlogSection({ isLoading, isError, items, onRefresh, 
 
     const router = useRouter()
 
-    if (isLoading) return <BlogSkeleton />
-
-    if (isError || items.length === 0) {
-        return (
-            <ErrorDisplay
-                onRefresh={onRefresh}
-                refreshing={refreshing}
-                text="Không có bài viết để hiển thị"
-            />
-        )
-    }
-
     return (
         <View
             style={{ width: width * 0.95 }}
@@ -47,35 +35,45 @@ export default function HomeBlogSection({ isLoading, isError, items, onRefresh, 
                 icon={<Sparkles color={GlobalColor.RED_NEON_BORDER} size={18} />}
                 title='Bài Viết đáng chú ý'
             />
-            <View style={{ width: width }} className="px-2">
-                <FeatureBlogItem blogPost={items[0]} />
-                <FlashList<BlogPost>
-                    data={items.slice(1)}
-                    keyExtractor={(_, index) => index.toString()}
-                    renderItem={({ item }) =>
-                        <BlogItem blogPost={item} />
-                    }
-                    estimatedItemSize={100}
+            {isLoading ? (
+                <BlogSkeleton />
+            ) : isError || items.length === 0 ? (
+                <ErrorDisplay
+                    onRefresh={onRefresh}
+                    refreshing={refreshing}
+                    text="Không có bài viết để hiển thị"
                 />
-                <View className="flex flex-row w-full gap-3 justify-center items-center">
-                    <View
-                        style={{ height: 1 }}
-                        className="basis-[25%] bg-[var(--oppo-theme-col)]"
+            ) : (
+                <View style={{ width: width }} className="px-2">
+                    <FeatureBlogItem blogPost={items[0]} />
+                    <FlashList<BlogPost>
+                        data={items.slice(1)}
+                        keyExtractor={(_, index) => index.toString()}
+                        renderItem={({ item }) =>
+                            <BlogItem blogPost={item} />
+                        }
+                        estimatedItemSize={100}
                     />
-                    <Pressable
-                        style={{ width: width * 0.4 }}
-                        className="flex-row gap-2 px-4 py-2 justify-center items-center border border-[var(--oppo-theme-col)] rounded-full active:bg-[var(--click-bg)]"
-                        onPress={() => router.push('/blog-screen')}
-                    >
-                        <Text className="text-base font-semibold tracking-wider">Xem thêm</Text>
-                        <ChevronDown className="text-foreground" size={18} />
-                    </Pressable>
-                    <View
-                        style={{ height: 1 }}
-                        className="basis-[25%] bg-[var(--oppo-theme-col)]"
-                    />
+                    <View className="flex flex-row w-full gap-3 justify-center items-center">
+                        <View
+                            style={{ height: 1 }}
+                            className="basis-[25%] bg-[var(--oppo-theme-col)]"
+                        />
+                        <Pressable
+                            style={{ width: width * 0.4 }}
+                            className="flex-row gap-2 px-4 py-2 justify-center items-center border border-[var(--oppo-theme-col)] rounded-full active:bg-[var(--click-bg)]"
+                            onPress={() => router.push('/blog-screen')}
+                        >
+                            <Text className="text-base font-semibold tracking-wider">Xem thêm</Text>
+                            <ChevronDown className="text-foreground" size={18} />
+                        </Pressable>
+                        <View
+                            style={{ height: 1 }}
+                            className="basis-[25%] bg-[var(--oppo-theme-col)]"
+                        />
+                    </View>
                 </View>
-            </View>
+            )}
         </View>
     );
 }

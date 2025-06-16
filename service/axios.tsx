@@ -9,14 +9,15 @@ const axiosServices = axios.create({
 
 const handleUnauthorized = () => {
     const { logout } = useUserStore.getState()
-    router.replace('/landing-screen')
     logout()
+    router.replace('/landing-screen')
     Toast.show({
         type: 'error',
         text1: 'Vui lòng đăng nhập lại',
         visibilityTime: 2000
     })
 }
+
 
 axiosServices.interceptors.request.use(
     function (config) {

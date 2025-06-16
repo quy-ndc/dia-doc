@@ -7,11 +7,12 @@ type Prop = {
     tag: Category
     categories: string[]
     setCategories: (categories: string[]) => void
+    itemWidth: number
 }
 
 const { width } = Dimensions.get('window')
 
-export default function TopBlogTag({ tag, categories, setCategories }: Prop) {
+export default function TopBlogTag({ tag, categories, setCategories, itemWidth }: Prop) {
 
     const tagComponent = getBlogTagColor(tag.name)
 
@@ -24,12 +25,12 @@ export default function TopBlogTag({ tag, categories, setCategories }: Prop) {
             setCategories(updated);
         }
     }
-    
+
     return (
         <Pressable
             style={{
                 backgroundColor: categories.includes(tag.id) ? tagComponent.borderColor : tagComponent.backgroundColor,
-                minWidth: width * 0.3
+                minWidth: width * itemWidth
             }}
             className="flex-col gap-3 px-5 py-3 items-center rounded-md active:opacity-50"
             onPress={toggleCategory}

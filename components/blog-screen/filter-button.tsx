@@ -1,8 +1,8 @@
 import * as React from 'react';
 import { ListFilter } from '../../lib/icons/ListFilter';
-import { Dimensions, Modal, Pressable, View } from 'react-native';
+import { Dimensions, Modal, Pressable, RefreshControl, ScrollView, View } from 'react-native';
 import { Text } from '../../components/ui/text'
-import { useState } from 'react';
+import { useCallback, useState } from 'react';
 import { useQuery } from '@tanstack/react-query';
 import { useCategoryQuery } from '../../service/query/media-query';
 import IconButton from '../common/icon-button';
@@ -10,6 +10,8 @@ import { Category } from '../../assets/types/media/category';
 import SpinningIcon from '../common/icons/spinning-icon';
 import { Loader } from '../../lib/icons/Loader';
 import { RefreshCcw } from '../../lib/icons/RefreshCcw';
+import { FlashList } from '@shopify/flash-list';
+import TopBlogTag from '../common/blog-item/top-blog-tag';
 
 
 const { height, width } = Dimensions.get('window')
@@ -23,23 +25,20 @@ export default function FilterButton({ categories, setCategories }: Prop) {
 
     const [open, setOpen] = useState(false)
     const [current, setCurrent] = useState(categories)
+    const [refreshing, setRefreshing] = useState(false)
 
-    const { data, isLoading } = useQuery({
+    const { data, isLoading, remove, refetch } = useQuery({
         ...useCategoryQuery(),
         enabled: open
     });
 
     const categoriesList: Category[] = data?.data.value.data || []
 
-    const toggleCategory = (categoryId: string) => {
-        if (current.includes(categoryId)) {
-            const updated = current.filter(id => id !== categoryId);
-            setCurrent(updated);
-        } else {
-            const updated = [...current, categoryId];
-            setCurrent(updated);
-        }
-    }
+    const onRefresh = useCallback(() => {
+        setRefreshing(true)
+        remove()
+        refetch().finally(() => setRefreshing(false))
+    }, [refetch])
 
     const onConfirm = () => {
         setCategories(current)
@@ -71,7 +70,7 @@ export default function FilterButton({ categories, setCategories }: Prop) {
                     onPress={() => setOpen(false)}
                 >
                     <Pressable
-                        style={{ width: width * 0.9, height: 'auto', minHeight: height * 0.23 }}
+                        style={{ width: width * 0.9, height: 'auto', minHeight: height * 0.23, maxHeight: height * 0.6 }}
                         className="flex-col justify-center bg-[var(--noti-bg)] rounded-2xl"
                     >
                         {isLoading ? (
@@ -79,10 +78,13 @@ export default function FilterButton({ categories, setCategories }: Prop) {
                                 <SpinningIcon icon={<Loader className='text-foreground' size={30} />} />
                             </View>
                         ) : (
-                            <View className='flex-col gap-5 p-5'>
-                                <View className='flex-col gap-4'>
+                            <View className='flex-col gap-5 p-3'>
+                                <View className='flex-col gap-4 px-2'>
                                     <View className='flex-row w-full justify-between items-center'>
-                                        <Text className='text-lg font-bold tracking-widest capitalize'>Loại tiểu đường</Text>
+                                        <View className='flex-col gap-2'>
+                                            <Text className='text-lg font-bold tracking-widest capitalize'>Loại tiểu đường</Text>
+                                            <Text className='text-base tracking-wider'>Đã chọn {current.length} danh mục</Text>
+                                        </View>
                                         <IconButton
                                             icon={<RefreshCcw className='text-foreground' size={17} />}
                                             buttonSize={3}
@@ -90,27 +92,29 @@ export default function FilterButton({ categories, setCategories }: Prop) {
                                             onPress={onReset}
                                         />
                                     </View>
-                                    <View className='flex-row flex-wrap justify-start gap-2 w-full'>
-                                        {categoriesList.map((item, index) => {
-                                            return (
-                                                <Pressable
-                                                    key={index}
-                                                    className={`
-                                                        w-[23%] px-2 py-2 rounded-lg active:bg-[var(--click-bg)]
-                                                        ${current.includes(item.id) ? 'bg-[var(--oppo-theme-col)]' : ''}
-                                                    `}
-                                                    onPress={() => toggleCategory(item.id)}
-                                                >
-                                                    <Text className={`text-sm text-center tracking-wider capitalize ${current.includes(item.id) ? 'text-[var(--same-theme-col)] font-semibold' : ''}`}>
-                                                        {item.name}
-                                                    </Text>
-                                                </Pressable>
-                                            )
-                                        })}
-                                    </View>
-
                                 </View>
-                                <View className='flex-row justify-between items-center w-full'>
+
+                                <View style={{ height: height * 0.35 }}>
+                                    <FlashList
+                                        refreshControl={<RefreshControl refreshing={refreshing} onRefresh={onRefresh} />}
+                                        data={categoriesList}
+                                        keyExtractor={(item) => item.id}
+                                        renderItem={({ item }) => (
+                                            <View className='m-1'>
+                                                <TopBlogTag
+                                                    tag={item}
+                                                    categories={current}
+                                                    setCategories={setCurrent}
+                                                    itemWidth={0.38}
+                                                />
+                                            </View>
+                                        )}
+                                        estimatedItemSize={80}
+                                        numColumns={2}
+                                        extraData={current}
+                                    />
+                                </View>
+                                <View className='flex-row justify-between items-center w-full mt-2'>
                                     <View />
                                     <View className='flex-row items-center gap-3'>
                                         <Pressable
@@ -120,7 +124,7 @@ export default function FilterButton({ categories, setCategories }: Prop) {
                                             <Text className='text-sm font-semibold tracking-wider'>Hủy</Text>
                                         </Pressable>
                                         <Pressable
-                                            className={`px-5 py-2 rounded-full border-[0.5px] border-[var(--oppo-theme-col)] active:bg-[var(--click-bg)]`}
+                                            className='px-5 py-2 rounded-full border-[0.5px] border-[var(--oppo-theme-col)] active:bg-[var(--click-bg)]'
                                             onPress={onConfirm}
                                         >
                                             <Text className='text-sm font-semibold tracking-wider'>Đồng ý</Text>

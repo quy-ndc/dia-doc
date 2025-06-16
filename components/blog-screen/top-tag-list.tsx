@@ -68,6 +68,7 @@ export default function TopBlogTagList({ isLoading, items, categories, setCatego
                             tag={item}
                             categories={categories}
                             setCategories={setCategories}
+                            itemWidth={0.33}
                         />
                     </View>
                 )}

@@ -8,22 +8,6 @@
     accessToken: string 
     refreshToken: string 
     to IZaloAuthResponse 
-    
-    REQUEST NOTIFICATION PERMISSION
-    async function requestUserPermission() {
-        const authStatus = await getApp().messaging().requestPermission();
-        const enabled =
-            authStatus === messaging.AuthorizationStatus.AUTHORIZED ||
-            authStatus === messaging.AuthorizationStatus.PROVISIONAL;
-
-        if (enabled) {
-            console.log('Notification permission granted.');
-        } else {
-            Alert.alert('Permissions required', 'Please enable notifications.');
-        }
-    }
 
     INSTALL THE APK TO PHONE
     adb install app/build/outputs/apk/release/app-release.apk
-
-

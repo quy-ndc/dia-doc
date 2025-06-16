@@ -12,6 +12,8 @@ import { Loader } from '../../lib/icons/Loader';
 import { RefreshCcw } from '../../lib/icons/RefreshCcw';
 import { FlashList } from '@shopify/flash-list';
 import TopBlogTag from '../common/blog-item/top-blog-tag';
+import ErrorDisplay from '../common/error-display';
+import FilterSkeleton from '../common/skeleton/filter-skeleton';
 
 
 const { height, width } = Dimensions.get('window')
@@ -27,9 +29,11 @@ export default function FilterButton({ categories, setCategories }: Prop) {
     const [current, setCurrent] = useState(categories)
     const [refreshing, setRefreshing] = useState(false)
 
-    const { data, isLoading, remove, refetch } = useQuery({
+    const { data, isError, isLoading, remove, refetch } = useQuery({
         ...useCategoryQuery(),
-        enabled: open
+        enabled: open,
+        retry: 2,
+        retryDelay: attempt => Math.min(1000 * 2 ** attempt, 5000)
     });
 
     const categoriesList: Category[] = data?.data.value.data || []
@@ -74,12 +78,16 @@ export default function FilterButton({ categories, setCategories }: Prop) {
                         className="flex-col justify-center bg-[var(--noti-bg)] rounded-2xl"
                     >
                         {isLoading ? (
-                            <View className='flex-1 w-full h-full flex-col gap-3 justify-center items-center'>
-                                <SpinningIcon icon={<Loader className='text-foreground' size={30} />} />
-                            </View>
+                            <FilterSkeleton />
+                        ) : isError || categoriesList.length == 0 ? (
+                            <ErrorDisplay
+                                text={'Có lỗi khi lấy bộ lọc'}
+                                onRefresh={onRefresh}
+                                refreshing={refreshing}
+                            />
                         ) : (
                             <View className='flex-col gap-5 p-3'>
-                                <View className='flex-col gap-4 px-2'>
+                                <View className='flex-col gap-4 p-4'>
                                     <View className='flex-row w-full justify-between items-center'>
                                         <View className='flex-col gap-2'>
                                             <Text className='text-lg font-bold tracking-widest capitalize'>Loại tiểu đường</Text>

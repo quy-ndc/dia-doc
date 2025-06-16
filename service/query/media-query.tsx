@@ -1,5 +1,5 @@
 import { useMutation } from "@tanstack/react-query";
-import { GetAllCategories, GetAllMedias, GetMediaById, GetTopMedias, ToggleBookmarkMedia, ToggleLikeMedia, UploadImage } from "../api/media-service";
+import { GetAllCategories, GetAllMedias, GetMediaById, GetTopCategories, GetTopMedias, ToggleBookmarkMedia, ToggleLikeMedia, UploadImage } from "../api/media-service";
 import Toast from "react-native-toast-message";
 import { QueryKeys } from "../../assets/enum/query";
 
@@ -68,6 +68,17 @@ export const useCategoryQuery = () => {
     const queryKey = [QueryKeys.CATEGORIES]
     const queryFn = async () => {
         return GetAllCategories()
+    }
+
+    return { queryKey, queryFn }
+}
+
+export const useTopCategoryQuery = (params: {
+    NumberOfCategories: number
+}) => {
+    const queryKey = [QueryKeys.TOP_CATEGORIES]
+    const queryFn = async () => {
+        return GetTopCategories(params)
     }
 
     return { queryKey, queryFn }

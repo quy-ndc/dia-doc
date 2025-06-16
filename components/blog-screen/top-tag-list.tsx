@@ -12,11 +12,11 @@ import { useRef, useState } from "react"
 type Prop = {
     items: Category[]
     isLoading: boolean
-    category: string
-    setCategory: (category: string) => void
+    categories: string[]
+    setCategories: (categories: string[]) => void
 }
 
-export default function TopBlogTagList({ isLoading, items, category, setCategory }: Prop) {
+export default function TopBlogTagList({ isLoading, items, categories, setCategories }: Prop) {
 
     if (isLoading) return <TopTagSkeleton />
 
@@ -41,7 +41,7 @@ export default function TopBlogTagList({ isLoading, items, category, setCategory
     return (
         <View className="flex-col gap-3">
             <View className="flex-row w-full justify-between items-center">
-                <Text className="text-lg px-3 font-semibold tracking-wider">Các chủ đề nổi bật</Text>
+                <Text className="text-lg px-3 font-semibold tracking-wider">Các danh mục nổi bật</Text>
                 <View className="flex-row gap-3 items-center">
                     <IconButton
                         onPress={() => scrollByOffset("left")}
@@ -58,6 +58,7 @@ export default function TopBlogTagList({ isLoading, items, category, setCategory
                 </View>
             </View>
             <FlashList<Category>
+                keyExtractor={(_, index) => index.toString()}
                 ref={listRef}
                 data={items}
                 renderItem={({ item }) => (
@@ -65,14 +66,15 @@ export default function TopBlogTagList({ isLoading, items, category, setCategory
                         <TopBlogTag
                             key={item.id}
                             tag={item}
-                            category={category}
-                            setCategory={setCategory}
+                            categories={categories}
+                            setCategories={setCategories}
                         />
                     </View>
                 )}
                 estimatedItemSize={15}
                 horizontal
                 showsHorizontalScrollIndicator={false}
+                extraData={categories}
             />
         </View>
     )

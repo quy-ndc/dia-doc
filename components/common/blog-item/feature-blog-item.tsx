@@ -30,7 +30,6 @@ export default function FeatureBlogItem({ blogPost }: Prop) {
         })
     }
 
-    const tagBg = getBlogTagColor(blogPost.categories[0].name).borderColor
     const featureBg = theme == 'dark' ? GlobalColor.HALF_DARK_THEME_COL : GlobalColor.HALF_LIGHT_THEME_COL
 
     return (
@@ -45,12 +44,18 @@ export default function FeatureBlogItem({ blogPost }: Prop) {
                 className={`flex-col px-2 py-3 gap-4 rounded-xl active:opacity-80`}
                 onPress={handleBlogClick}
             >
-                <View className="flex-row items-center gap-3">
-                    <View className="flex-row items-center gap-2 px-4 py-[5px] bg-red-600 rounded-full">
-                        <Text className="text-white text-sm font-semibold tracking-wider">Nổi Bật</Text>
-                        <TrendingUp className="text-white" size={17} strokeWidth={1.5} />
+                <View className="flex-row w-full items-center justify-between">
+                    <View className="flex-row items-center gap-3">
+                        <View className="flex-row items-center gap-2 px-4 py-[5px] bg-red-600 rounded-full">
+                            <Text className="text-white text-sm font-semibold tracking-wider">Nổi Bật</Text>
+                            <TrendingUp className="text-white" size={17} strokeWidth={1.5} />
+                        </View>
+                        <Text className="text-sm font-semibold tracking-wider">{calculateReadTime(blogPost.wordCount)} phút đọc</Text>
                     </View>
-                    <Text className="text-sm font-semibold tracking-wider">{calculateReadTime(blogPost.wordCount)} phút đọc</Text>
+                    <View className="flex-row gap-2 items-center">
+                        <Eye className="text-foreground" size={18} />
+                        <Text className="text-base font-semibold">{blogPost.view}</Text>
+                    </View>
                 </View>
                 <Text className="text-lg font-semibold tracking-wider">
                     {blogPost.title}

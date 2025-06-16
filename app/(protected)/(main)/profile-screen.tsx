@@ -41,7 +41,7 @@ export default function ProfileScreen() {
 
     const { data, isLoading, remove, refetch, isError } = useQuery({
         ...useUserProfile(),
-        retry: 1,
+        retry: 2,
         retryDelay: attempt => Math.min(1000 * 2 ** attempt, 5000)
     })
 

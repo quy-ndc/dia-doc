@@ -41,7 +41,8 @@ const endpointMedia = {
 }
 
 const endpointCategory = {
-    GET_ALL_CATEGORY: `${MEDIA_SERVICE_ENDPOINT}/${apiPrefixV1}/categories`
+    GET_ALL_CATEGORY: `${MEDIA_SERVICE_ENDPOINT}/${apiPrefixV1}/categories`,
+    GET_TOP_CATEGORY:`${MEDIA_SERVICE_ENDPOINT}/${apiPrefixV1}/categories/top-post`
 }
 
 const endpointChat = {

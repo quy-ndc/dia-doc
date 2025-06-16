@@ -4,7 +4,7 @@ import { Animated as RNAnimated } from 'react-native'
 import { useInfiniteQuery, useQuery } from '@tanstack/react-query'
 import { BlogPost } from '../../../assets/types/media/blog-post'
 import { Category } from '../../../assets/types/media/category'
-import { useCategoryQuery, useMediaQuery } from '../../../service/query/media-query'
+import { useMediaQuery, useTopCategoryQuery } from '../../../service/query/media-query'
 import TopBlogTagList from '../../../components/blog-screen/top-tag-list'
 import FilterButton from '../../../components/blog-screen/filter-button'
 import SearchButton from '../../../components/blog-screen/search-button'
@@ -19,7 +19,7 @@ export default function BlogScreen() {
 
     const [refreshing, setRefreshing] = useState(false)
     const [showScrollButton, setShowScrollButton] = useState(false)
-    const [category, setCategory] = useState('')
+    const [categories, setCategories] = useState<string[]>([])
     const [search, setSearch] = useState('')
 
     const {
@@ -28,11 +28,11 @@ export default function BlogScreen() {
         refetch: refetchCategories,
         remove: removeCategories
     } = useQuery({
-        ...useCategoryQuery(),
+        ...useTopCategoryQuery({ NumberOfCategories: 10 }),
         retry: 2,
         retryDelay: attempt => Math.min(800 * 2 ** attempt, 5000)
     })
-    const categories: Category[] = categoriesData?.data.value.data || []
+    const categoriesList: Category[] = categoriesData?.data.value.data || []
 
     const {
         data,
@@ -46,7 +46,7 @@ export default function BlogScreen() {
     } = useInfiniteQuery({
         ...useMediaQuery({
             PageSize: 7,
-            CategoryId: category === '' ? undefined : category,
+            CategoryId: categories[0],
             SearchContent: search === '' ? undefined : search
         }),
         getNextPageParam: (lastPage) => {
@@ -100,13 +100,13 @@ export default function BlogScreen() {
                 <View className='flex-1 flex-col gap-5 px-2 w-full'>
                     <View className='flex-row w-full px-2 justify-between items-center'>
                         <SearchButton search={search} setSearch={setSearch} />
-                        <FilterButton category={category} setCategory={setCategory} />
+                        <FilterButton categories={categories} setCategories={setCategories} />
                     </View>
                     <TopBlogTagList
-                        items={categories}
+                        items={categoriesList}
                         isLoading={isLoadingCategories}
-                        category={category}
-                        setCategory={setCategory}
+                        categories={categories}
+                        setCategories={setCategories}
                     />
                     <BlogList
                         isLoading={isLoading}

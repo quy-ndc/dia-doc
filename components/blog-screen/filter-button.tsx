@@ -15,30 +15,40 @@ import { RefreshCcw } from '../../lib/icons/RefreshCcw';
 const { height, width } = Dimensions.get('window')
 
 type Prop = {
-    category: string,
-    setCategory: (category: string) => void
+    categories: string[],
+    setCategories: (categories: string[]) => void
 }
 
-export default function FilterButton({ category, setCategory }: Prop) {
+export default function FilterButton({ categories, setCategories }: Prop) {
 
     const [open, setOpen] = useState(false)
-    const [current, setCurrent] = useState(category)
+    const [current, setCurrent] = useState(categories)
 
     const { data, isLoading } = useQuery({
         ...useCategoryQuery(),
         enabled: open
     });
 
-    const categories: Category[] = data?.data.value.data || []
+    const categoriesList: Category[] = data?.data.value.data || []
+
+    const toggleCategory = (categoryId: string) => {
+        if (current.includes(categoryId)) {
+            const updated = current.filter(id => id !== categoryId);
+            setCurrent(updated);
+        } else {
+            const updated = [...current, categoryId];
+            setCurrent(updated);
+        }
+    }
 
     const onConfirm = () => {
-        setCategory(current)
+        setCategories(current)
         setOpen(false)
     }
 
     const onReset = () => {
-        setCategory('')
-        setCurrent('')
+        setCategories([])
+        setCurrent([])
         setOpen(false)
     }
 
@@ -81,23 +91,24 @@ export default function FilterButton({ category, setCategory }: Prop) {
                                         />
                                     </View>
                                     <View className='flex-row flex-wrap justify-start gap-2 w-full'>
-                                        {categories.map((item, index) => (
-                                            <Pressable
-                                                key={index}
-                                                className={`
-                                                w-[23%] px-2 py-2 rounded-lg  active:bg-[var(--click-bg)] 
-                                                ${current === item.id ? 'bg-[var(--oppo-theme-col)] active:bg-[var(--oppo-theme-col)]' : ''}
-                                            `}
-                                                onPress={current === item.id ? () => setCurrent('') : () => setCurrent(item.id)}
-                                            >
-                                                <Text
-                                                    className={`text-sm text-center tracking-wider capitalize ${current === item.id ? 'text-[var(--same-theme-col)] font-semibold' : ''}`}
+                                        {categoriesList.map((item, index) => {
+                                            return (
+                                                <Pressable
+                                                    key={index}
+                                                    className={`
+                                                        w-[23%] px-2 py-2 rounded-lg active:bg-[var(--click-bg)]
+                                                        ${current.includes(item.id) ? 'bg-[var(--oppo-theme-col)]' : ''}
+                                                    `}
+                                                    onPress={() => toggleCategory(item.id)}
                                                 >
-                                                    {item.name}
-                                                </Text>
-                                            </Pressable>
-                                        ))}
+                                                    <Text className={`text-sm text-center tracking-wider capitalize ${current.includes(item.id) ? 'text-[var(--same-theme-col)] font-semibold' : ''}`}>
+                                                        {item.name}
+                                                    </Text>
+                                                </Pressable>
+                                            )
+                                        })}
                                     </View>
+
                                 </View>
                                 <View className='flex-row justify-between items-center w-full'>
                                     <View />

@@ -5,24 +5,34 @@ import { Category } from "../../../assets/types/media/category";
 
 type Prop = {
     tag: Category
-    category: string
-    setCategory: (category: string) => void
+    categories: string[]
+    setCategories: (categories: string[]) => void
 }
 
 const { width } = Dimensions.get('window')
 
-export default function TopBlogTag({ tag, category, setCategory }: Prop) {
+export default function TopBlogTag({ tag, categories, setCategories }: Prop) {
 
     const tagComponent = getBlogTagColor(tag.name)
 
+    const toggleCategory = () => {
+        if (categories.includes(tag.id)) {
+            const updated = categories.filter(id => id !== tag.id);
+            setCategories(updated);
+        } else {
+            const updated = [...categories, tag.id];
+            setCategories(updated);
+        }
+    }
+    
     return (
         <Pressable
             style={{
-                backgroundColor: category == tag.id ? tagComponent.borderColor : tagComponent.backgroundColor,
-                minWidth: width * 0.28
+                backgroundColor: categories.includes(tag.id) ? tagComponent.borderColor : tagComponent.backgroundColor,
+                minWidth: width * 0.3
             }}
-            className="flex-col gap-3 p-2 items-center rounded-md"
-            onPress={() => setCategory(tag.id)}
+            className="flex-col gap-3 px-5 py-3 items-center rounded-md active:opacity-50"
+            onPress={toggleCategory}
         >
             <View
                 style={{ backgroundColor: tagComponent.borderColor }}
@@ -30,10 +40,10 @@ export default function TopBlogTag({ tag, category, setCategory }: Prop) {
             >
                 {tagComponent.icon}
             </View>
-            <Text className={`text-center text-base font-semibold tracking-wider capitalize`}>
+            <Text className={`${categories.includes(tag.id) && 'text-white'} text-center text-base font-semibold tracking-wider capitalize`}>
                 {tag.name}
             </Text>
-            <Text className="text-sm font-bold tracking-wider">
+            <Text className={`${categories.includes(tag.id) && 'text-white'} text-sm font-bold tracking-wider`}>
                 {tag.numberOfPosts} bài viết
             </Text>
         </Pressable>

@@ -1,5 +1,5 @@
 import { useMutation } from "@tanstack/react-query";
-import { GetAllCategories, GetAllMedias, GetMediaById, GetTopCategories, GetTopMedias, ToggleBookmarkMedia, ToggleLikeMedia, UploadImage } from "../api/media-service";
+import { GetAllCategories, GetAllMedias, GetBookmarkMedia, GetLikeMedia, GetMediaById, GetTopCategories, GetTopMedias, ToggleBookmarkMedia, ToggleLikeMedia, UploadImage } from "../api/media-service";
 import Toast from "react-native-toast-message";
 import { QueryKeys } from "../../assets/enum/query";
 
@@ -117,7 +117,7 @@ export const useBookmarkMediaQuery = (params: {
     const queryKey = [QueryKeys.BOOKMARK_MEDIA, params]
 
     const queryFn = async ({ pageParam = undefined }) => {
-        return GetAllMedias({
+        return GetBookmarkMedia({
             ...params,
             Cursor: pageParam,
         })
@@ -126,6 +126,26 @@ export const useBookmarkMediaQuery = (params: {
     return { queryKey, queryFn }
 }
 
+export const useLikeMediaQuery = (params: {
+    PageSize: number
+    SearchContent?: string
+    CategoryId?: string
+    UserCreatedId?: string
+    SortType?: number
+    IsSortASC?: boolean
+    SelectedColumns?: string[]
+}) => {
+    const queryKey = [QueryKeys.LIKE_MEDIA, params]
+
+    const queryFn = async ({ pageParam = undefined }) => {
+        return GetLikeMedia({
+            ...params,
+            Cursor: pageParam,
+        })
+    }
+
+    return { queryKey, queryFn }
+}
 
 export const useToggleLikeMediaMutation = () => {
     return useMutation({

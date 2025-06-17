@@ -40,6 +40,23 @@ export const useMessageStore = create<MessageStore>((set, get) => ({
             }
         }),
 
+    setGroups: (groupIds: string[]) =>
+        set(() => {
+            const newGroups: MessageStore["groups"] = {}
+
+            for (const groupId of groupIds) {
+                newGroups[groupId] = {
+                    messages: [],
+                    messageIds: new Set(),
+                    latestMessage: undefined,
+                }
+            }
+
+            return {
+                groups: newGroups,
+            }
+        }),
+
     addMessage: (groupId, message) =>
         set((state) => {
             const group = state.groups[groupId]

@@ -61,7 +61,7 @@ export default function TopBlogTagList({ isLoading, items, categories, setCatego
                 keyExtractor={(_, index) => index.toString()}
                 ref={listRef}
                 data={items}
-                renderItem={({ item }) => (
+                renderItem={({ item, index }) => (
                     <View className="mx-2">
                         <TopBlogTag
                             key={item.id}
@@ -69,6 +69,7 @@ export default function TopBlogTagList({ isLoading, items, categories, setCatego
                             categories={categories}
                             setCategories={setCategories}
                             itemWidth={0.33}
+                            isTop={index < 3}
                         />
                     </View>
                 )}

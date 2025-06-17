@@ -128,14 +128,6 @@ export default function ChatModule({
         }
     }, [debouncedOffsetY, hasNextPage, isFetchingNextPage])
 
-    useEffect(() => {
-        if (listRef.current) {
-            setTimeout(() => {
-                listRef.current?.scrollToEnd()
-            }, 150)
-        }
-    }, [groups[groupId].messages])
-
     const scrollToTop = () => {
         listRef.current?.scrollToEnd()
     }
@@ -236,6 +228,9 @@ export default function ChatModule({
                             keyboardShouldPersistTaps="handled"
                             scrollEventThrottle={16}
                             onEndReachedThreshold={0.5}
+                            onContentSizeChange={() => {
+                                listRef.current?.scrollToEnd({ animated: false })
+                            }}
                         />
                     </View>
                 )

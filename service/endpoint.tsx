@@ -37,12 +37,13 @@ const endpointMedia = {
     UPDATE_IMAGE: `${MEDIA_SERVICE_ENDPOINT}/${apiPrefixV1}/media`,
     BOOKMARK_MEDIA: `${MEDIA_SERVICE_ENDPOINT}/${apiPrefixV1}/bookmarks`,
     GET_ALL_BOOKMARK_MEDIA: `${MEDIA_SERVICE_ENDPOINT}/${apiPrefixV1}/posts/bookmark`,
-    LIKE_MEDIA: `${MEDIA_SERVICE_ENDPOINT}/${apiPrefixV1}/likes`
+    LIKE_MEDIA: `${MEDIA_SERVICE_ENDPOINT}/${apiPrefixV1}/likes`,
+    GET_ALL_LIKE_MEDIA: `${MEDIA_SERVICE_ENDPOINT}/${apiPrefixV1}/posts/like`
 }
 
 const endpointCategory = {
     GET_ALL_CATEGORY: `${MEDIA_SERVICE_ENDPOINT}/${apiPrefixV1}/categories`,
-    GET_TOP_CATEGORY:`${MEDIA_SERVICE_ENDPOINT}/${apiPrefixV1}/categories/top-post`
+    GET_TOP_CATEGORY: `${MEDIA_SERVICE_ENDPOINT}/${apiPrefixV1}/categories/top-post`
 }
 
 const endpointChat = {

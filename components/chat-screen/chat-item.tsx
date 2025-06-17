@@ -43,7 +43,7 @@ export default function ChatItem({ id, img, name, user, time, message, type, has
     return (
         <Pressable
             onPress={handleChatSelect}
-            className={`flex-row justify-between py-2 px-3 active:bg-[var(--click-bg)]`}
+            className={`flex-row justify-between items-center py-2 px-3 active:bg-[var(--click-bg)]`}
         >
             <Image
                 style={{ width: 60, height: 60, borderRadius: 1000 }}

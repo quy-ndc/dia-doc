@@ -88,7 +88,7 @@ export default function ProfileScreen() {
                         icon={<PencilLine className='text-foreground' size={20} />}
                         buttonSize={4}
                         possition={'other'}
-                        onPress={() => router.push('/edit-profile-page')}
+                        onPress={() => router.push('/edit-profile-screen')}
                     />
                 </View>
 

@@ -2,17 +2,17 @@ import { ScrollView, RefreshControl, Pressable, View, NativeScrollEvent, NativeS
 import { useRef, useCallback, useState } from 'react'
 import { Animated as RNAnimated } from 'react-native'
 import { useInfiniteQuery, useQuery } from '@tanstack/react-query'
-import { BlogPost } from '../../../assets/types/media/blog-post'
-import { Category } from '../../../assets/types/media/category'
-import { useMediaQuery, useTopCategoryQuery } from '../../../service/query/media-query'
-import TopBlogTagList from '../../../components/blog-screen/top-tag-list'
-import FilterButton from '../../../components/blog-screen/filter-button'
-import SearchButton from '../../../components/blog-screen/search-button'
-import BlogList from '../../../components/blog-screen/blog-list'
-import { Text } from '../../../components/ui/text'
-import { ChevronUp } from '../../../lib/icons/ChevronUp'
+import { BlogPost } from '../../assets/types/media/blog-post'
+import { Category } from '../../assets/types/media/category'
+import { useLikeMediaQuery, useMediaQuery, useTopCategoryQuery } from '../../service/query/media-query'
+import TopBlogTagList from '../../components/blog-screen/top-tag-list'
+import FilterButton from '../../components/blog-screen/filter-button'
+import SearchButton from '../../components/blog-screen/search-button'
+import BlogList from '../../components/blog-screen/blog-list'
+import { Text } from '../../components/ui/text'
+import { ChevronUp } from '../../lib/icons/ChevronUp'
 
-export default function BlogScreen() {
+export default function LikedBlogScreen() {
 
     const scrollViewRef = useRef<ScrollView>(null)
     const opacity = useRef(new RNAnimated.Value(0)).current
@@ -32,7 +32,7 @@ export default function BlogScreen() {
         retry: 2,
         retryDelay: attempt => Math.min(800 * 2 ** attempt, 5000)
     })
-    const categoriesList: Category[] = categoriesData ? categoriesData.data.value.data : []
+    const categoriesList: Category[] = categoriesData?.data.value.data || []
 
     const {
         data,
@@ -44,7 +44,7 @@ export default function BlogScreen() {
         remove,
         isLoading,
     } = useInfiniteQuery({
-        ...useMediaQuery({
+        ...useLikeMediaQuery({
             PageSize: 7,
             CategoryId: categories[0],
             SearchContent: search === '' ? undefined : search
@@ -57,7 +57,7 @@ export default function BlogScreen() {
         retry: 2,
         retryDelay: attempt => Math.min(1000 * 2 ** attempt, 5000)
     })
-    const allItems: BlogPost[] = data ? data.pages.flatMap(page => page.data?.value.data.items) : []
+    const allItems: BlogPost[] = data?.pages.flatMap(page => page.data?.value.data.items) || []
 
     const onRefresh = useCallback(() => {
         setRefreshing(true)

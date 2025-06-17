@@ -87,11 +87,11 @@ export default function FilterButton({ categories, setCategories }: Prop) {
                             />
                         ) : (
                             <View className='flex-col gap-5 p-3'>
-                                <View className='flex-col gap-4 p-4'>
+                                <View className='flex-col gap-4 px-2 py-4'>
                                     <View className='flex-row w-full justify-between items-center'>
                                         <View className='flex-col gap-2'>
                                             <Text className='text-lg font-bold tracking-widest capitalize'>Loại tiểu đường</Text>
-                                            <Text className='text-base tracking-wider'>Đã chọn {current.length} danh mục</Text>
+                                            <Text className='text-sm tracking-wider'>Đã chọn {current.length} danh mục</Text>
                                         </View>
                                         <IconButton
                                             icon={<RefreshCcw className='text-foreground' size={17} />}
@@ -113,7 +113,8 @@ export default function FilterButton({ categories, setCategories }: Prop) {
                                                     tag={item}
                                                     categories={current}
                                                     setCategories={setCurrent}
-                                                    itemWidth={0.38}
+                                                    itemWidth={0.4}
+                                                    isTop={false}
                                                 />
                                             </View>
                                         )}
@@ -122,20 +123,20 @@ export default function FilterButton({ categories, setCategories }: Prop) {
                                         extraData={current}
                                     />
                                 </View>
-                                <View className='flex-row justify-between items-center w-full mt-2'>
+                                <View className='flex-row justify-between items-center w-full py-3'>
                                     <View />
                                     <View className='flex-row items-center gap-3'>
                                         <Pressable
-                                            className='px-5 py-2 rounded-full border-[0.5px] border-[var(--oppo-theme-col)] active:bg-[var(--click-bg)]'
+                                            className='px-6 py-2 rounded-full border-[0.5px] border-[var(--oppo-theme-col)] active:bg-[var(--click-bg)]'
                                             onPress={() => setOpen(false)}
                                         >
                                             <Text className='text-sm font-semibold tracking-wider'>Hủy</Text>
                                         </Pressable>
                                         <Pressable
-                                            className='px-5 py-2 rounded-full border-[0.5px] border-[var(--oppo-theme-col)] active:bg-[var(--click-bg)]'
+                                            className='px-6 py-2 rounded-full border-[0.5px] bg-[var(--oppo-theme-col)] border-[var(--oppo-theme-col)] active:bg-[var(--oppo-click-bg)]'
                                             onPress={onConfirm}
                                         >
-                                            <Text className='text-sm font-semibold tracking-wider'>Đồng ý</Text>
+                                            <Text className='text-sm text-[var(--same-theme-col)] font-semibold tracking-wider'>Đồng ý</Text>
                                         </Pressable>
                                     </View>
                                 </View>

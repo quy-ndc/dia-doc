@@ -16,6 +16,7 @@ import { Loader } from '../../../lib/icons/Loader'
 import { RefreshCcw } from '../../../lib/icons/RefreshCcw'
 import QuickButton from '../../home/quick-access/quick-button'
 import NotificationSkeleton from '../../common/skeleton/notification-skeleton'
+import { GlobalColor } from '../../../global-color'
 
 const { height, width } = Dimensions.get('window')
 
@@ -192,8 +193,11 @@ export default function NotificationAccess({ position }: Prop) {
             ) : (
                 <QuickButton
                     icon={
-                        <View className='flex p-3 justify-center items-center rounded-full bg-[var(--yellow-dynamic-bg)]'>
-                            <Bell className='text-foreground' size={17} />
+                        <View
+                            style={{ backgroundColor: GlobalColor.YELLOW_NEON_BG }}
+                            className='flex p-3 justify-center items-center rounded-full'
+                        >
+                            <Bell color={GlobalColor.YELLOW_NEON_BORDER} size={17} />
                         </View>
                     }
                     title='Thông báo'

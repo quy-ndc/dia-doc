@@ -40,7 +40,7 @@ export default function ProtectedLayout() {
         <Stack>
             <Stack.Screen name="(main)" options={{ headerShown: false }} />
             <Stack.Screen name="chat-screen" options={{ headerTitle: '' }} />
-            <Stack.Screen name="edit-profile-page" options={{ headerTitle: '' }} />
+            <Stack.Screen name="edit-profile-screen" options={{ headerTitle: '' }} />
             <Stack.Screen
                 name="blog-detail-screen"
                 options={{
@@ -50,6 +50,8 @@ export default function ProtectedLayout() {
                     gestureDirection: 'horizontal',
                 }}
             />
+            <Stack.Screen name="liked-blog-screen" options={{ headerTitle: '' }} />
+            <Stack.Screen name="saved-blog-screen" options={{ headerTitle: '' }} />
         </Stack>
     );
 }

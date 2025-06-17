@@ -17,7 +17,7 @@ export default function MessagesScreen() {
 
     const queryClient = useQueryClient();
     const [refreshing, setRefreshing] = useState(false)
-    const { addGroups, setLatestMessage } = useMessageStore()
+    const { setGroups, setLatestMessage } = useMessageStore()
 
     const { data,
         isLoading,
@@ -38,11 +38,11 @@ export default function MessagesScreen() {
         queryClient.invalidateQueries({ queryKey: [QueryKeys.CHAT_MESSAGES] })
         remove()
         refetch().finally(() => setRefreshing(false))
-    }, [refetch])
+    }, [queryClient, refetch])
 
     useEffect(() => {
         if (groupIds.length > 0 && data && !isLoading) {
-            addGroups(groupIds)
+            setGroups(groupIds)
 
             groups.forEach(group => {
                 if (group.message) {

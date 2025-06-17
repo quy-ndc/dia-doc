@@ -8,11 +8,12 @@ type Prop = {
     categories: string[]
     setCategories: (categories: string[]) => void
     itemWidth: number
+    isTop: boolean
 }
 
 const { width } = Dimensions.get('window')
 
-export default function TopBlogTag({ tag, categories, setCategories, itemWidth }: Prop) {
+export default function TopBlogTag({ tag, categories, setCategories, itemWidth, isTop }: Prop) {
 
     const tagComponent = getBlogTagColor(tag.name)
 
@@ -37,9 +38,12 @@ export default function TopBlogTag({ tag, categories, setCategories, itemWidth }
         >
             <View
                 style={{ backgroundColor: tagComponent.borderColor }}
-                className="flex justify-center items-center p-2 rounded-md"
+                className="flex justify-center items-center p-2 rounded-md relative"
             >
                 {tagComponent.icon}
+                {isTop && (
+                    <Text style={{ top: -10, right: -10 }} className="absolute text-base">🔥</Text>
+                )}
             </View>
             <Text className={`${categories.includes(tag.id) && 'text-white'} text-center text-base font-semibold tracking-wider capitalize`}>
                 {tag.name}

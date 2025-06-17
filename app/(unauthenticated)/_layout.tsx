@@ -13,7 +13,7 @@ export default function ProtectedLayout() {
     // if (user.isAuthenticated && user.isSetUp) {
     //     return <Redirect href="/(protected)/(main)" />;
     // }
-
+ 
     return (
         <Stack>
             <Stack.Screen name='landing-screen' options={{ headerShown: false }} />

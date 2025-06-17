@@ -10,6 +10,7 @@ export enum QueryKeys {
     CATEGORIES = 'categories',
     TOP_CATEGORIES = 'topCategories',
     BOOKMARK_MEDIA = 'bookmarkMedia',
+    LIKE_MEDIA = 'likeMedia',
     // Notification service
     NOTIFICATIONS = 'notifications',
     // User service

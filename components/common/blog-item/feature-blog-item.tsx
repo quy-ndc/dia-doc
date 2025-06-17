@@ -44,7 +44,7 @@ export default function FeatureBlogItem({ blogPost }: Prop) {
                 className={`flex-col px-2 py-3 gap-4 rounded-xl active:opacity-80`}
                 onPress={handleBlogClick}
             >
-                <View className="flex-row w-full items-center justify-between">
+                <View className="flex-row w-full pr-2 items-center justify-between">
                     <View className="flex-row items-center gap-3">
                         <View className="flex-row items-center gap-2 px-4 py-[5px] bg-red-600 rounded-full">
                             <Text className="text-white text-sm font-semibold tracking-wider">Nổi Bật</Text>

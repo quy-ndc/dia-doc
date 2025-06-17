@@ -1,6 +1,6 @@
 import { Image, ImageBackground } from "expo-image";
 import { useRouter } from "expo-router";
-import { View, Pressable } from "react-native";
+import { View, Pressable, Dimensions } from "react-native";
 import { Text } from '../../../components/ui/text'
 import { formatDateBlog } from "../../../util/format-date-post";
 import LikeButton from "./like-button";
@@ -14,6 +14,8 @@ import BlogTag from "./blog-tag";
 type Prop = {
     blogPost: BlogPost
 }
+
+const { width } = Dimensions.get('window')
 
 export default function BlogItem({ blogPost }: Prop) {
 
@@ -43,8 +45,8 @@ export default function BlogItem({ blogPost }: Prop) {
                 </View>
             </ImageBackground>
 
-            <View className="flex-col gap-3">
-                <View className="flex-row px-2 justify-between items-center gap-5">
+            <View className="flex-col items-center gap-3">
+                <View className="flex-row w-full px-2 justify-between items-center gap-5">
                     <View className="flex-row gap-3 items-center">
                         <Image
                             style={{ width: 30, height: 30, borderRadius: 10000 }}
@@ -55,14 +57,15 @@ export default function BlogItem({ blogPost }: Prop) {
                         <Text className="text-base tracking-wider text-[var(--fade-text-color)]">•</Text>
                         <Text className="text-sm tracking-wider text-[var(--fade-text-color)]">{formatDateBlog(blogPost.createdDate)}</Text>
                     </View>
-                    <View className="flex-row items-center gap-2 px-3 py-1">
-                        <Eye className="text-foreground" size={15} />
-                        <Text className="text-sm font-semibold">{blogPost.view}</Text>
+                    <View className="flex-row items-center gap-3 px-3 py-1">
+                        <Eye className="text-foreground" size={17} />
+                        <Text className="text-base font-semibold">{blogPost.view}</Text>
                     </View>
                 </View>
                 <Text className="text-base px-2 font-semibold tracking-wider">
                     {blogPost.title}
                 </Text>
+                <View className="mt-1 bg-[var(--click-bg)]" style={{ width: width * 0.9, height: 0.7 }} />
                 <View className="flex-row w-full pb-2 justify-between items-center">
                     <LikeButton
                         liked={blogPost.isLiked}

@@ -3,6 +3,7 @@ import { useEffect, useState } from "react";
 import { Pressable, useColorScheme } from 'react-native';
 import { useToggleBookmarkMediaMutation } from '../../../service/query/media-query';
 import { GlobalColor } from '../../../global-color';
+import { BookmarkStatus } from '../../../assets/enum/bookmark-status';
 
 type Prop = {
     postId: string
@@ -13,15 +14,19 @@ export default function BookmarkButton({ postId, bookmarked }: Prop) {
 
     const theme = useColorScheme()
     const [isBookmarked, setIsBookmarked] = useState(bookmarked)
-    const { mutateAsync, data, isLoading } = useToggleBookmarkMediaMutation()
+    const { mutateAsync, data, isLoading } = useToggleBookmarkMediaMutation(postId)
 
     const onBookmark = async () => {
-        await mutateAsync(postId)
+        await mutateAsync()
     }
 
     useEffect(() => {
         if (!data || data.status !== 200) return
-        setIsBookmarked(!isBookmarked)
+        if (data.data.value.code == BookmarkStatus.ADD_BOOKMARK) {
+            setIsBookmarked(true)
+        } else {
+            setIsBookmarked(false)
+        }
     }, [data])
 
     const bookmarkFill = theme == 'dark' ? GlobalColor.LIGHT_THEME_COL : GlobalColor.DARK_THEME_COL

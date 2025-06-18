@@ -1,12 +1,13 @@
-import { useMutation } from "@tanstack/react-query";
-import { GetAllCategories, GetAllMedias, GetBookmarkMedia, GetLikeMedia, GetMediaById, GetTopCategories, GetTopMedias, ToggleBookmarkMedia, ToggleLikeMedia, UploadImage } from "../api/media-service";
-import Toast from "react-native-toast-message";
-import { QueryKeys } from "../../assets/enum/query";
+import { useMutation, useQueryClient } from "@tanstack/react-query"
+import { GetAllCategories, GetAllMedias, GetBookmarkMedia, GetLikeMedia, GetMediaById, GetTopCategories, GetTopMedias, ToggleBookmarkMedia, ToggleLikeMedia, UploadImage } from "../api/media-service"
+import Toast from "react-native-toast-message"
+import { QueryKeys } from "../../assets/enum/query"
+import { invalidateBlogQuery } from "../../util/invalidate-blog-queries"
 
 export const useMediaQuery = (params: {
     PageSize: number
     SearchContent?: string
-    CategoryId?: string
+    CategoryIds?: string[]
     UserCreatedId?: string
     SortType?: number
     IsSortASC?: boolean
@@ -19,24 +20,6 @@ export const useMediaQuery = (params: {
             ...params,
             Cursor: pageParam,
         })
-    }
-
-    return { queryKey, queryFn }
-}
-
-export const useNewMediaQuery = (params: {
-    PageIndex: number
-    PageSize: number
-    SearchContent?: string
-    CategoryId?: string
-    UserCreatedId?: string
-    SortType?: number
-    IsSortASC?: boolean
-    SelectedColumns?: string[]
-}) => {
-    const queryKey = [QueryKeys.NEW_MEDIAS, params]
-    const queryFn = async () => {
-        return GetAllMedias(params)
     }
 
     return { queryKey, queryFn }
@@ -84,9 +67,10 @@ export const useTopCategoryQuery = (params: {
     return { queryKey, queryFn }
 }
 
-export const useToggleBookmarkMediaMutation = () => {
+export const useToggleBookmarkMediaMutation = (postId: string) => {
+    const queryClient = useQueryClient()
     return useMutation({
-        mutationFn: (postId: string) => ToggleBookmarkMedia(postId),
+        mutationFn: () => ToggleBookmarkMedia(postId),
         onSuccess: (data) => {
             if (data.status !== 200) {
                 Toast.show({
@@ -96,11 +80,11 @@ export const useToggleBookmarkMediaMutation = () => {
                 })
                 return
             }
+            invalidateBlogQuery(queryClient, postId)
             return data
         },
         onError: (error) => {
-
-            return error;
+            return error
         }
     })
 }
@@ -108,8 +92,8 @@ export const useToggleBookmarkMediaMutation = () => {
 export const useBookmarkMediaQuery = (params: {
     PageSize: number
     SearchContent?: string
-    CategoryId?: string
-    UserCreatedId?: string
+    CategoryIds?: string[]
+    UserCreatedIds?: string
     SortType?: number
     IsSortASC?: boolean
     SelectedColumns?: string[]
@@ -129,8 +113,8 @@ export const useBookmarkMediaQuery = (params: {
 export const useLikeMediaQuery = (params: {
     PageSize: number
     SearchContent?: string
-    CategoryId?: string
-    UserCreatedId?: string
+    CategoryIds?: string[]
+    UserCreatedIds?: string
     SortType?: number
     IsSortASC?: boolean
     SelectedColumns?: string[]
@@ -147,9 +131,10 @@ export const useLikeMediaQuery = (params: {
     return { queryKey, queryFn }
 }
 
-export const useToggleLikeMediaMutation = () => {
+export const useToggleLikeMediaMutation = (postId: string) => {
+    const queryClient = useQueryClient()
     return useMutation({
-        mutationFn: (postId: string) => ToggleLikeMedia(postId),
+        mutationFn: () => ToggleLikeMedia(postId),
         onSuccess: (data) => {
             if (data.status !== 200) {
                 Toast.show({
@@ -159,11 +144,11 @@ export const useToggleLikeMediaMutation = () => {
                 })
                 return
             }
+            invalidateBlogQuery(queryClient, postId)
             return data
         },
         onError: (error) => {
-
-            return error;
+            return error
         }
     })
 }
@@ -180,7 +165,7 @@ export const useUploadImageMutation = () => {
                 text1: 'Gửi hình ảnh thất bại',
                 visibilityTime: 2000
             })
-            return error;
+            return error
         }
     })
 }

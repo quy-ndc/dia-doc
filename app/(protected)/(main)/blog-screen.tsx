@@ -46,7 +46,7 @@ export default function BlogScreen() {
     } = useInfiniteQuery({
         ...useMediaQuery({
             PageSize: 7,
-            CategoryId: categories[0],
+            CategoryIds: categories,
             SearchContent: search === '' ? undefined : search
         }),
         getNextPageParam: (lastPage) => {
@@ -118,6 +118,8 @@ export default function BlogScreen() {
                         isFetchingNextPage={isFetchingNextPage}
                         fetchNextPage={fetchNextPage}
                         handleScroll={handleScroll}
+                        showBookmarkDate={false}
+                        showLikeDate={false}
                     />
                 </View>
             </ScrollView>

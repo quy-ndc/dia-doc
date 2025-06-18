@@ -1,23 +1,24 @@
-import { Image } from "expo-image";
-import { View, StyleSheet, Dimensions, useColorScheme } from "react-native";
+import { Image } from "expo-image"
+import { View, StyleSheet, Dimensions, useColorScheme } from "react-native"
 import { Text } from '../../../components/ui/text'
-import { formatDateBlog } from "../../../util/format-date-post";
-import LikeButton from "./like-button";
-import CommentButton from "./comment-button";
-import BookmarkButton from "./bookmark-button";
-import RenderHTML from 'react-native-render-html';
-import { GlobalColor } from "../../../global-color";
-import { getBlogTagColor } from "../../../util/get-blog-tag-color";
-import SpeechButton from "./blog-speech-button";
-import SpeechInfoButton from "./blog-speech-info";
-import { BlogPost } from "../../../assets/types/media/blog-post";
+import { formatDateBlog } from "../../../util/format-date-post"
+import LikeButton from "./like-button"
+import CommentButton from "./comment-button"
+import BookmarkButton from "./bookmark-button"
+import RenderHTML from 'react-native-render-html'
+import { GlobalColor } from "../../../global-color"
+import { getBlogTagColor } from "../../../util/get-blog-tag-color"
+import SpeechButton from "./blog-speech-button"
+import SpeechInfoButton from "./blog-speech-info"
+import { BlogPost } from "../../../assets/types/media/blog-post"
+import BlogDetailTag from "./blog-detail-tag"
 
 
 type Prop = {
     blogPost: BlogPost
 }
 
-const { width } = Dimensions.get('window');
+const { width } = Dimensions.get('window')
 
 export default function BlogDetailItem({ blogPost }: Prop) {
 
@@ -25,18 +26,12 @@ export default function BlogDetailItem({ blogPost }: Prop) {
 
     const textColor = theme == 'dark' ? GlobalColor.LIGHT_THEME_COL : GlobalColor.DARK_THEME_COL
 
-    const color = getBlogTagColor(blogPost.categories[0].name).borderColor
-
     return (
-        <View className="flex-col gap-3">
-            <View className="w-full flex-row justify-between items-center">
-                <Text
-                    style={{ color: color }}
-                    className={`text-base font-semibold px-1 py-1 text-left tracking-wider uppercase`}
-                >
-                    {blogPost.categories[0].name}
-                </Text>
-                <BookmarkButton bookmarked={blogPost.isBookMarked} postId={blogPost.id} />
+        <View className="flex-col gap-3 pt-1">
+            <View className="flex-row gap-3 items-center">
+                {blogPost.categories.map((category, index) => (
+                    <BlogDetailTag key={index} tag={category} />
+                ))}
             </View>
             <Text className={`text-xl px-1 font-semibold tracking-wider`}>
                 {blogPost.title}
@@ -56,6 +51,8 @@ export default function BlogDetailItem({ blogPost }: Prop) {
                 <View className="flex-row items-center">
                     {/* <SpeechInfoButton /> */}
                     <SpeechButton content={blogPost.content} />
+                    <BookmarkButton bookmarked={blogPost.isBookMarked} postId={blogPost.id} />
+                    <LikeButton liked={blogPost.isLiked} count={blogPost.like} postId={blogPost.id} />
                 </View>
             </View>
             <View className="flex w-full justify-center items-center">
@@ -65,18 +62,6 @@ export default function BlogDetailItem({ blogPost }: Prop) {
                     source={blogPost.thumbnail}
                 />
             </View>
-            {/* <View className="flex-row justify-between items-center gap-1 px-1 pb-3">
-                <View className="flex-row gap-1 items-center">
-                    <LikeButton liked={liked} />
-                    <CommentButton
-                        avatar={avatar}
-                        title={title}
-                        name={name}
-                        image={image}
-                        liked={liked}
-                    />
-                </View>
-            </View> */}
             <RenderHTML
                 contentWidth={width}
                 source={{ html: blogPost.contentHtml }}
@@ -105,4 +90,4 @@ const styles = StyleSheet.create({
         height: 35,
         borderRadius: 10000,
     }
-});
+})

@@ -45,13 +45,11 @@ export default function ProtectedLayout() {
                 name="blog-detail-screen"
                 options={{
                     headerTitle: '',
-                    presentation: 'modal',
-                    animation: 'slide_from_bottom',
-                    gestureDirection: 'horizontal',
+                    headerShadowVisible: false
                 }}
             />
-            <Stack.Screen name="liked-blog-screen" options={{ headerTitle: '' }} />
-            <Stack.Screen name="saved-blog-screen" options={{ headerTitle: '' }} />
+            <Stack.Screen name="liked-blog-screen" options={{ headerTitle: 'Bài viết đã thích' }} />
+            <Stack.Screen name="saved-blog-screen" options={{ headerTitle: 'Bài viết đã lưu' }} />
         </Stack>
     );
 }

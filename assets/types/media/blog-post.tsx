@@ -22,6 +22,8 @@ export type BlogPost = {
     wordCount: number
     isBookMarked: boolean
     isLiked: boolean
+    likedDate?: string
+    bookmarkedDate?: string
 }
 
 export type BlogCategory = {

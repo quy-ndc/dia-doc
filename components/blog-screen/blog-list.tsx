@@ -15,6 +15,8 @@ type Prop = {
     isFetchingNextPage: boolean
     fetchNextPage: () => void
     handleScroll: (event: any) => void
+    showLikeDate: boolean
+    showBookmarkDate: boolean
 }
 
 export default function BlogList({
@@ -26,7 +28,9 @@ export default function BlogList({
     hasNextPage,
     isFetchingNextPage,
     fetchNextPage,
-    handleScroll
+    handleScroll,
+    showLikeDate,
+    showBookmarkDate
 }: Prop) {
 
     if (isLoading) return <BlogSkeleton />
@@ -45,7 +49,11 @@ export default function BlogList({
             data={allItems}
             keyExtractor={(_, index) => index.toString()}
             renderItem={({ item }) =>
-                <BlogItem blogPost={item} />
+                <BlogItem
+                    blogPost={item}
+                    showBookmarkDate={showBookmarkDate}
+                    showLikeDate={showLikeDate}
+                />
             }
             estimatedItemSize={100}
             scrollEventThrottle={16}

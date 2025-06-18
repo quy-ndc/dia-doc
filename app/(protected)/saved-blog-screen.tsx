@@ -1,11 +1,9 @@
 import { ScrollView, RefreshControl, Pressable, View, NativeScrollEvent, NativeSyntheticEvent } from 'react-native'
 import { useRef, useCallback, useState } from 'react'
 import { Animated as RNAnimated } from 'react-native'
-import { useInfiniteQuery, useQuery } from '@tanstack/react-query'
+import { useInfiniteQuery } from '@tanstack/react-query'
 import { BlogPost } from '../../assets/types/media/blog-post'
-import { Category } from '../../assets/types/media/category'
-import { useBookmarkMediaQuery, useMediaQuery, useTopCategoryQuery } from '../../service/query/media-query'
-import TopBlogTagList from '../../components/blog-screen/top-tag-list'
+import { useBookmarkMediaQuery } from '../../service/query/media-query'
 import FilterButton from '../../components/blog-screen/filter-button'
 import SearchButton from '../../components/blog-screen/search-button'
 import BlogList from '../../components/blog-screen/blog-list'
@@ -23,18 +21,6 @@ export default function SavedBlogScreen() {
     const [search, setSearch] = useState('')
 
     const {
-        data: categoriesData,
-        isLoading: isLoadingCategories,
-        refetch: refetchCategories,
-        remove: removeCategories
-    } = useQuery({
-        ...useTopCategoryQuery({ NumberOfCategories: 10 }),
-        retry: 2,
-        retryDelay: attempt => Math.min(800 * 2 ** attempt, 5000)
-    })
-    const categoriesList: Category[] = categoriesData?.data.value.data || []
-
-    const {
         data,
         isError,
         hasNextPage,
@@ -46,7 +32,7 @@ export default function SavedBlogScreen() {
     } = useInfiniteQuery({
         ...useBookmarkMediaQuery({
             PageSize: 7,
-            CategoryId: categories[0],
+            CategoryIds: categories,
             SearchContent: search === '' ? undefined : search
         }),
         getNextPageParam: (lastPage) => {
@@ -62,9 +48,8 @@ export default function SavedBlogScreen() {
     const onRefresh = useCallback(() => {
         setRefreshing(true)
         remove()
-        removeCategories()
-        Promise.all([refetch(), refetchCategories()]).finally(() => setRefreshing(false))
-    }, [refetch, refetchCategories, remove, removeCategories])
+        refetch().finally(() => setRefreshing(false))
+    }, [refetch, remove])
 
     const scrollToTop = () => {
         scrollViewRef.current?.scrollTo({ y: 0, animated: true })
@@ -102,12 +87,6 @@ export default function SavedBlogScreen() {
                         <SearchButton search={search} setSearch={setSearch} />
                         <FilterButton categories={categories} setCategories={setCategories} />
                     </View>
-                    <TopBlogTagList
-                        items={categoriesList}
-                        isLoading={isLoadingCategories}
-                        categories={categories}
-                        setCategories={setCategories}
-                    />
                     <BlogList
                         isLoading={isLoading}
                         isError={isError}
@@ -118,6 +97,8 @@ export default function SavedBlogScreen() {
                         isFetchingNextPage={isFetchingNextPage}
                         fetchNextPage={fetchNextPage}
                         handleScroll={handleScroll}
+                        showBookmarkDate
+                        showLikeDate={false}
                     />
                 </View>
             </ScrollView>

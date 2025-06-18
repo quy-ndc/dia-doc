@@ -4,7 +4,7 @@ import useUserStore from "../store/userStore";
 import Toast from "react-native-toast-message";
 
 const axiosServices = axios.create({
-    timeout: 50000,
+    timeout: 2000,
 });
 
 const handleUnauthorized = () => {

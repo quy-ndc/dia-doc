@@ -27,7 +27,19 @@ export default function MessagesScreen() {
     } = useQuery({
         ...useGroupChatQuery({}),
         retry: 2,
-        retryDelay: attempt => Math.min(1000 * 2 ** attempt, 5000)
+        retryDelay: attempt => Math.min(1000 * 2 ** attempt, 5000),
+        onSuccess: () => {
+            queryClient.invalidateQueries({
+                predicate: (query) =>
+                    query.queryKey[0] === QueryKeys.CHAT_MESSAGES,
+            })
+            queryClient.removeQueries({
+                predicate: (query) => query.queryKey[0] === QueryKeys.CHAT_MESSAGES
+            })
+            queryClient.refetchQueries({
+                predicate: (query) => query.queryKey[0] === QueryKeys.CHAT_MESSAGES
+            })
+        }
     })
 
     const groups: GroupChat[] = data?.data?.value?.groups?.items || []

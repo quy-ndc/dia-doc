@@ -1,4 +1,4 @@
-import { useInfiniteQuery, useMutation } from "@tanstack/react-query"
+import {  useMutation } from "@tanstack/react-query"
 import { GetAllChatGroups, GetAllChatMessages, SendMessage } from "../api/chat-service"
 import { MessageType } from "../../assets/enum/message-type"
 import Toast from "react-native-toast-message"

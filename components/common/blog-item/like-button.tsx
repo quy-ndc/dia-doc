@@ -1,8 +1,9 @@
 import { Text } from '../../../components/ui/text'
-import { Heart } from '../../../lib/icons/Heart';
-import { useEffect, useState } from "react";
-import { Pressable } from 'react-native';
-import { useToggleLikeMediaMutation } from '../../../service/query/media-query';
+import { Heart } from '../../../lib/icons/Heart'
+import { useEffect, useState } from "react"
+import { Pressable } from 'react-native'
+import { useToggleLikeMediaMutation } from '../../../service/query/media-query'
+import { LikeStatus } from '../../../assets/enum/like-status'
 
 
 type Prop = {
@@ -16,18 +17,27 @@ export default function LikeButton({ liked, count, postId }: Prop) {
     const [isLiked, setIsLiked] = useState(liked)
     const [likeCount, setLikeCount] = useState(count)
 
-    const { mutateAsync, data, isLoading } = useToggleLikeMediaMutation()
+    const { mutateAsync, data, isLoading } = useToggleLikeMediaMutation(postId)
 
     const onLiked = async () => {
-        await mutateAsync(postId)
+        await mutateAsync()
     }
 
     useEffect(() => {
-        if (!data || data.status !== 200) return;
-
-        setIsLiked(!isLiked);
-        setLikeCount(prev => prev + (isLiked ? -1 : 1));
-    }, [data]);
+        if (!data || data.status !== 200) return
+        const action = data.data.value.code
+        if (action === LikeStatus.ADD_LIKE) {
+            if (!isLiked) {
+                setIsLiked(true)
+                setLikeCount(prev => prev + 1)
+            }
+        } else {
+            if (isLiked) {
+                setIsLiked(false)
+                setLikeCount(prev => prev - 1)
+            }
+        }
+    }, [data])
 
     return (
         <Pressable
@@ -47,7 +57,7 @@ export default function LikeButton({ liked, count, postId }: Prop) {
                 {likeCount}
             </Text>
         </Pressable>
-    );
+    )
 }
 
 

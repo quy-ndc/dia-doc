@@ -9,15 +9,19 @@ import { Eye } from "../../../lib/icons/Eye";
 import { BlogPost } from "../../../assets/types/media/blog-post";
 import { calculateReadTime } from "../../../util/readtime-calc";
 import BlogTag from "./blog-tag";
+import { formatDate } from "../../../util/format-date";
+import { GlobalColor } from "../../../global-color";
 
 
 type Prop = {
     blogPost: BlogPost
+    showLikeDate: boolean
+    showBookmarkDate: boolean
 }
 
 const { width } = Dimensions.get('window')
 
-export default function BlogItem({ blogPost }: Prop) {
+export default function BlogItem({ blogPost, showLikeDate, showBookmarkDate }: Prop) {
 
     const router = useRouter()
     const handleBlogClick = () => {
@@ -65,6 +69,28 @@ export default function BlogItem({ blogPost }: Prop) {
                 <Text className="text-base px-2 font-semibold tracking-wider">
                     {blogPost.title}
                 </Text>
+                {showBookmarkDate && blogPost.bookmarkedDate && (
+                    <View className="flex-row w-full px-2 justify-between items-center">
+                        <Text
+                            style={{ backgroundColor: GlobalColor.ORANGE_NEON_BG, color: GlobalColor.ORANGE_NEON_BORDER }}
+                            className="text-sm font-semibold px-4 py-1 tracking-wider rounded-full"
+                        >
+                            Đã lưu vào {formatDate(blogPost.bookmarkedDate)}
+                        </Text>
+                        <View />
+                    </View>
+                )}
+                {showLikeDate && blogPost.likedDate && (
+                    <View className="flex-row w-full px-2 justify-between items-center">
+                        <Text
+                            style={{ backgroundColor: GlobalColor.PINK_NEON_BG, color: GlobalColor.PINK_NEON_BORDER }}
+                            className="text-sm font-semibold px-4 py-1 tracking-wider rounded-full"
+                        >
+                            Đã thích vào {formatDate(blogPost.likedDate)}
+                        </Text>
+                        <View />
+                    </View>
+                )}
                 <View className="mt-1 bg-[var(--click-bg)]" style={{ width: width * 0.9, height: 0.7 }} />
                 <View className="flex-row w-full pb-2 justify-between items-center">
                     <LikeButton

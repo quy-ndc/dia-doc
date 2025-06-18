@@ -50,7 +50,7 @@ export default function HomeBlogSection({ isLoading, isError, items, onRefresh, 
                         data={items.slice(1)}
                         keyExtractor={(_, index) => index.toString()}
                         renderItem={({ item }) =>
-                            <BlogItem blogPost={item} />
+                            <BlogItem blogPost={item} showBookmarkDate={false} showLikeDate={false} />
                         }
                         estimatedItemSize={100}
                     />

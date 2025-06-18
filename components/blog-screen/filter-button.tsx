@@ -79,7 +79,7 @@ export default function FilterButton({ categories, setCategories }: Prop) {
                     >
                         {isLoading ? (
                             <FilterSkeleton />
-                        ) : isError || categoriesList.length == 0 ? (
+                        ) : isError || categoriesList.length == 0 && !isLoading ? (
                             <ErrorDisplay
                                 text={'Có lỗi khi lấy bộ lọc'}
                                 onRefresh={onRefresh}

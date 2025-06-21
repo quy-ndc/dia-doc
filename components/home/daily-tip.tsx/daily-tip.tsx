@@ -1,5 +1,4 @@
 import { Dimensions, Pressable, View, Animated, Easing } from "react-native"
-import SectionTitle from "../common/section-title"
 import { Text } from "../../../components/ui/text"
 import { BookOpenCheck } from "../../../lib/icons/BookOpenCheck"
 import { GlobalColor } from "../../../global-color"

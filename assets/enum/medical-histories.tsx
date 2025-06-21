@@ -1,0 +1,17 @@
+export enum MedicalHistories {
+    HYPERTENSION = 0,
+    DYSPLIPIDEMIA = 1,
+    CARDIOVASCULAR_DISEASE = 2,
+    STROKE = 3,
+    CHRONIC_KIDNEY_DISEASE = 4,
+    CHRONIC_LIVER_DISEASE = 5,
+    ASTHMA_COPD = 6,
+    OBESITY = 7,
+    THYROID_DISORDER = 8,
+    GOUT = 9,
+    EYE_DISEASE = 10,
+    NEUROPATHY = 11,
+    DEPRESSION = 12,
+    CANCER = 13,
+    OTHER = 14
+}

@@ -1,5 +1,5 @@
 import * as React from 'react'
-import { View, Pressable } from 'react-native'
+import { View, Pressable, Dimensions } from 'react-native'
 import { Image } from 'expo-image'
 import { Text } from '../../components/ui/text'
 import Toast from 'react-native-toast-message'
@@ -8,9 +8,19 @@ import FeatureItem from '../../components/landing-screen/feature-item'
 import { Bot } from '../../lib/icons/Bot'
 import { Newspaper } from '../../lib/icons/Newspaper'
 import { MessageCircleMore } from '../../lib/icons/MessageCircleMore'
-import LandingModule from '../../components/landing-screen/landing-module'
+import { ThemeToggle } from '../../components/ThemeToggle'
+import { useRouter } from 'expo-router'
+import { Phone } from '../../lib/icons/Phone'
+import { Smile } from '../../lib/icons/Smile'
+import useUserStore from '../../store/userStore'
+
+const { width } = Dimensions.get('window')
 
 export default function AuthenScreen() {
+
+  const router = useRouter()
+  const { user } = useUserStore()
+  console.log(user)
 
   const onInfo = () => {
     Toast.show({
@@ -33,6 +43,10 @@ export default function AuthenScreen() {
           <CircleAlert className='text-[var(--info-text)]' size={19} />
           <Text className="text-lg text-[var(--info-text)] font-bold">Lưu ý</Text>
         </Pressable>
+      </View>
+
+      <View className='absolute top-[50] right-[20] z-10'>
+        <ThemeToggle />
       </View>
 
       <View className='flex-col gap-2 items-center'>
@@ -65,7 +79,29 @@ export default function AuthenScreen() {
           bottomText='Tham gia cộng đồng bệnh nhân'
         />
       </View>
-      <LandingModule />
+      <View className="flex gap-4 items-center">
+        <Pressable
+          style={{ width: width * 0.85 }}
+          className="flex-row gap-2 px-4 py-3 justify-center items-center bg-[var(--oppo-theme-col)] border border-[var(--same-theme-col)] rounded-full active:bg-[var(--oppo-click-bg)]"
+          onPress={() => router.push('/authen-screen')}
+        >
+          <Text className="text-base text-[var(--same-theme-col)] font-semibold tracking-wider">Tiếp tục với số điện thoại</Text>
+          <Phone className='text-[var(--same-theme-col)]' size={19} />
+        </Pressable>
+        <View className='flex-row gap-4 items-center'>
+          <View style={{ height: 1 }} className='basis-[30%] bg-[var(--oppo-theme-col)]' />
+          <Text className='text-base font-semibold tracking-wider uppercase'>Hoặc</Text>
+          <View style={{ height: 1 }} className='basis-[30%] bg-[var(--oppo-theme-col)]' />
+        </View>
+        <Pressable
+          style={{ width: width * 0.85 }}
+          className="flex-row gap-2 px-4 py-3 justify-center items-center border border-[var(--oppo-theme-col)] rounded-full active:bg-[var(--click-bg)]"
+          onPress={() => router.push('/register-screen')}
+        >
+          <Smile className='text-foreground' size={19} />
+          <Text className="text-base font-semibold tracking-wider">Đăng ký tài khoản mới</Text>
+        </Pressable>
+      </View>
     </View>
   )
 }

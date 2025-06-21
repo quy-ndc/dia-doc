@@ -8,4 +8,7 @@ declare module '@env' {
     export const CHAT_LATEST_MESSAGE_CHANNEL: string
     export const GLOBAL_CHAT_EVENT_CHANNEL: string
     export const GLOBAL_CHAT_EVENT_NAME: string
+
+    export const NEW_AUTH_SERVICE_ENDPOINT: string
+    export const NEW_USER_SERVICE_ENDPOINT: string
 }

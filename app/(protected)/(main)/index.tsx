@@ -7,6 +7,7 @@ import { useQuery } from '@tanstack/react-query';
 import { useTopMediaQuery } from '../../../service/query/media-query';
 import { BlogPost } from '../../../assets/types/media/blog-post';
 import DailyTip from '../../../components/home/daily-tip.tsx/daily-tip';
+import LogoutButton from '../../../components/profile-screen/logout-button';
 
 
 export default function HomeScreen() {
@@ -47,6 +48,7 @@ export default function HomeScreen() {
                         items={items}
                         onRefresh={onRefresh}
                         refreshing={refreshing} />
+                    <LogoutButton/>
                 </View>
             </ScrollView>
         </>

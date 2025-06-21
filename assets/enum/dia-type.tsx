@@ -1,8 +1,6 @@
 export enum DiaType {
-    TYPE_1 = 1,
-    TYPE_2 = 2,
-    GESTATIONAL = 3,
-    OTHER = 4
+    TYPE_1 = 0,
+    TYPE_2 = 1,
 }
 
 export function getDiaTypeName(type: number): string {
@@ -11,10 +9,6 @@ export function getDiaTypeName(type: number): string {
             return 'Loại 1';
         case DiaType.TYPE_2:
             return 'Loại 2';
-        case DiaType.GESTATIONAL:
-            return 'Loại thai kỳ';
-        case DiaType.OTHER:
-            return 'Loại khác';
         default:
             return 'Không xác định';
     }

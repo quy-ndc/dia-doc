@@ -1,4 +1,4 @@
-import { AUTH_SERVICE_ENDPOINT, MEDIA_SERVICE_ENDPOINT, USER_SERVICE_ENDPOINT, CHAT_SERVICE_ENDPOINT, NOTIFICATION_SERVICE_ENDPOINT } from '@env'
+import { AUTH_SERVICE_ENDPOINT, MEDIA_SERVICE_ENDPOINT, USER_SERVICE_ENDPOINT, CHAT_SERVICE_ENDPOINT, NOTIFICATION_SERVICE_ENDPOINT, NEW_AUTH_SERVICE_ENDPOINT, NEW_USER_SERVICE_ENDPOINT } from '@env'
 
 export const createQueryString = (params: Record<string, any>): string => {
     const urlParams = new URLSearchParams();
@@ -17,9 +17,15 @@ export const createQueryString = (params: Record<string, any>): string => {
 
 const apiPrefixV1 = 'api/v1'
 
-const endppointAuth = {
+const endpointAuth = {
     LOGIN_PATIENT: `${AUTH_SERVICE_ENDPOINT}/${apiPrefixV1}/auth/login-by-zalo`,
-    LOGIN_DOCTOR: `${AUTH_SERVICE_ENDPOINT}/${apiPrefixV1}/auth/`
+    LOGIN_DOCTOR: `${AUTH_SERVICE_ENDPOINT}/${apiPrefixV1}/auth`,
+    LOGIN_PHONE: `${NEW_AUTH_SERVICE_ENDPOINT}/${apiPrefixV1}/auth/patient/login-phone`,
+    REGISTER_PHONE: `${NEW_AUTH_SERVICE_ENDPOINT}/${apiPrefixV1}/auth/patient/register-phone`,
+    VERIFY_PHONE: `${NEW_AUTH_SERVICE_ENDPOINT}/${apiPrefixV1}/auth/patient/verify-otp-register`,
+    RESEND_PHONE: `${NEW_AUTH_SERVICE_ENDPOINT}/${apiPrefixV1}/auth/patient/resend-otp-register`,
+    REFRESH_TOKEN: `${NEW_AUTH_SERVICE_ENDPOINT}/${apiPrefixV1}/auth/refresh-token`,
+    LOGOUT_USER: `${NEW_AUTH_SERVICE_ENDPOINT}/${apiPrefixV1}/auth/logout`
 }
 
 const endpointUser = {
@@ -27,7 +33,8 @@ const endpointUser = {
     CREATE_USER: `${USER_SERVICE_ENDPOINT}/${apiPrefixV1}/users/create-user`,
     UPDATE_USER: `${USER_SERVICE_ENDPOINT}/${apiPrefixV1}/users/patients`,
     GET_CURRENT_USER: `${USER_SERVICE_ENDPOINT}/${apiPrefixV1}/patients/me`,
-    EDIT_USER: `${USER_SERVICE_ENDPOINT}/${apiPrefixV1}/patients`
+    EDIT_USER: `${USER_SERVICE_ENDPOINT}/${apiPrefixV1}/patients`,
+    CREATE_USER_PROFILE: `${NEW_USER_SERVICE_ENDPOINT}/${apiPrefixV1}/users/patients`,
 }
 
 const endpointMedia = {
@@ -58,4 +65,4 @@ const endpointNoti = {
     DELETE_NOTIFICATION: `${NOTIFICATION_SERVICE_ENDPOINT}/${apiPrefixV1}/notifications`,
 }
 
-export { endpointUser, endppointAuth, endpointMedia, endpointCategory, endpointChat, endpointNoti }
+export { endpointUser, endpointAuth, endpointMedia, endpointCategory, endpointChat, endpointNoti }

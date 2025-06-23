@@ -33,7 +33,7 @@ export default function TopBlogTag({ tag, categories, setCategories, itemWidth, 
                 backgroundColor: categories.includes(tag.id) ? tagComponent.borderColor : tagComponent.backgroundColor,
                 minWidth: width * itemWidth
             }}
-            className="flex-col gap-3 px-5 py-3 items-center rounded-md active:opacity-50"
+            className="flex-col gap-3 px-5 py-3 items-center rounded-md active:scale-95"
             onPress={toggleCategory}
         >
             <View

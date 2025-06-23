@@ -12,6 +12,7 @@ import { GlobalColor } from '../../../global-color'
 import { Text } from '../../../components/ui/text'
 import { Bookmark } from '../../../lib/icons/Bookmark'
 import { Heart } from '../../../lib/icons/Heart'
+import { PencilLine } from '../../../lib/icons/PencilLine'
 
 const { width } = Dimensions.get('window')
 
@@ -72,19 +73,6 @@ export default function QuickAccess() {
                     />
                 </View>
                 <View className='flex flex-row justify-between'>
-                    <Pressable
-                        style={{ width: width * 0.25 }}
-                        className='flex-col gap-2 justify-center items-center px-4 py-2 rounded-xl opacity-0'
-                    // onPress={onPress}
-                    >
-                        <View
-                            style={{ backgroundColor: GlobalColor.GREEN_NEON_BG }}
-                            className='flex p-3 justify-center items-center rounded-full'
-                        >
-                            <MessageCircleMore color={GlobalColor.GREEN_NEON_BORDER} size={17} />
-                        </View>
-                        <Text className='text-sm font-medium tracking-wider'>aa</Text>
-                    </Pressable>
                     <QuickButton
                         icon={
                             <View
@@ -108,6 +96,18 @@ export default function QuickAccess() {
                         }
                         title='Yêu thích'
                         onPress={() => router.push('/liked-blog-screen')}
+                    />
+                    <QuickButton
+                        icon={
+                            <View
+                                style={{ backgroundColor: GlobalColor.CYAN_NEON_BG }}
+                                className='flex p-3 justify-center items-center rounded-full'
+                            >
+                                <PencilLine color={GlobalColor.CYAN_NEON_BORDER} size={17} />
+                            </View>
+                        }
+                        title='Sức khỏe'
+                        onPress={() => { }}
                     />
                     <Pressable
                         style={{ width: width * 0.25 }}

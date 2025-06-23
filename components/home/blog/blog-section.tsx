@@ -11,6 +11,7 @@ import FeatureBlogItem from "../../common/blog-item/feature-blog-item";
 import BlogSkeleton from "../../common/skeleton/blog-skeleton";
 import ErrorDisplay from "../../common/error-display";
 import { GlobalColor } from "../../../global-color";
+import { useCallback } from "react";
 
 const { width } = Dimensions.get('window')
 
@@ -18,13 +19,19 @@ type Prop = {
     isLoading: boolean
     isError: boolean
     items: BlogPost[]
-    onRefresh: () => void
+    refetch: () => void
+    remove: () => void
     refreshing: boolean
 }
 
-export default function HomeBlogSection({ isLoading, isError, items, onRefresh, refreshing }: Prop) {
+export default function HomeBlogSection({ isLoading, isError, items, refetch, remove, refreshing }: Prop) {
 
     const router = useRouter()
+
+    const onRefresh = useCallback(() => {
+        remove()
+        refetch()
+    }, [refetch])
 
     return (
         <View

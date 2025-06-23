@@ -7,20 +7,20 @@ import { Text } from '../../components/ui/text'
 import IconButton from "../common/icon-button"
 import { ChevronLeft } from "../../lib/icons/ChevronLeft"
 import { ChevronRight } from "../../lib/icons/ChevronRight"
-import { useRef, useState } from "react"
+import { useCallback, useRef, useState } from "react"
+import ErrorDisplay from "../common/error-display"
 
 type Prop = {
     items: Category[]
     isLoading: boolean
     categories: string[]
     setCategories: (categories: string[]) => void
+    refreshing: boolean
+    refetch: () => void
+    remove: () => void
 }
 
-export default function TopBlogTagList({ isLoading, items, categories, setCategories }: Prop) {
-
-    if (isLoading) return <TopTagSkeleton />
-
-    if (items.length == 0) return null
+export default function TopBlogTagList({ isLoading, items, categories, setCategories, refreshing, refetch, remove }: Prop) {
 
     const listRef = useRef<FlashList<Category>>(null)
     const [currentIndex, setCurrentIndex] = useState(0)
@@ -37,6 +37,21 @@ export default function TopBlogTagList({ isLoading, items, categories, setCatego
 
         setCurrentIndex(newIndex)
     }
+
+    const onRefresh = useCallback(() => {
+        remove()
+        refetch()
+    }, [refetch])
+
+    if (isLoading) return
+
+    if (items.length == 0) return (
+        <ErrorDisplay
+            text="Không có danh mục nổi bật"
+            onRefresh={onRefresh}
+            refreshing={refreshing}
+        />
+    )
 
     return (
         <View className="flex-col gap-3">
@@ -57,27 +72,37 @@ export default function TopBlogTagList({ isLoading, items, categories, setCatego
                     />
                 </View>
             </View>
-            <FlashList<Category>
-                keyExtractor={(_, index) => index.toString()}
-                ref={listRef}
-                data={items}
-                renderItem={({ item, index }) => (
-                    <View className="mx-2">
-                        <TopBlogTag
-                            key={item.id}
-                            tag={item}
-                            categories={categories}
-                            setCategories={setCategories}
-                            itemWidth={0.33}
-                            isTop={index < 3}
-                        />
-                    </View>
-                )}
-                estimatedItemSize={15}
-                horizontal
-                showsHorizontalScrollIndicator={false}
-                extraData={categories}
-            />
+            {isLoading ? (
+                <TopTagSkeleton />
+            ) : items.length == 0 ? (
+                <ErrorDisplay
+                    text="Không có danh mục nổi bật"
+                    onRefresh={onRefresh}
+                    refreshing={refreshing}
+                />
+            ) : (
+                <FlashList<Category>
+                    keyExtractor={(_, index) => index.toString()}
+                    ref={listRef}
+                    data={items}
+                    renderItem={({ item, index }) => (
+                        <View className="mx-2">
+                            <TopBlogTag
+                                key={item.id}
+                                tag={item}
+                                categories={categories}
+                                setCategories={setCategories}
+                                itemWidth={0.33}
+                                isTop={index < 3}
+                            />
+                        </View>
+                    )}
+                    estimatedItemSize={15}
+                    horizontal
+                    showsHorizontalScrollIndicator={false}
+                    extraData={categories}
+                />
+            )}
         </View>
     )
 }

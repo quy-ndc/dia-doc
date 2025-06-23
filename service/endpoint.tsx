@@ -35,6 +35,12 @@ const endpointUser = {
     GET_CURRENT_USER: `${USER_SERVICE_ENDPOINT}/${apiPrefixV1}/patients/me`,
     EDIT_USER: `${USER_SERVICE_ENDPOINT}/${apiPrefixV1}/patients`,
     CREATE_USER_PROFILE: `${NEW_USER_SERVICE_ENDPOINT}/${apiPrefixV1}/users/patients`,
+    GET_USER_HEALTH_RECORD: `${NEW_USER_SERVICE_ENDPOINT}/${apiPrefixV1}/users/patients/records`,
+    UPDATE_USER_WEIGHT: `${NEW_USER_SERVICE_ENDPOINT}/${apiPrefixV1}/users/patients/records/weight`,
+    UPDATE_USER_HEIGHT: `${NEW_USER_SERVICE_ENDPOINT}/${apiPrefixV1}/users/patients/records/height`,
+    UPDATE_USER_BLOOD_PRESSURE: `${NEW_USER_SERVICE_ENDPOINT}/${apiPrefixV1}/users/patients/records/blood-pressure`,
+    UPDATE_USER_BLOOD_SUGAR: `${NEW_USER_SERVICE_ENDPOINT}/${apiPrefixV1}/users/patients/records/blood-glucose`,
+    UPDATE_USER_HBA1C: `${NEW_USER_SERVICE_ENDPOINT}/${apiPrefixV1}/users/patients/records/hba1c`,
 }
 
 const endpointMedia = {

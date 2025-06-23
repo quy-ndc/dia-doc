@@ -1,5 +1,5 @@
 import { useMutation, useQueryClient } from "@tanstack/react-query";
-import { CreateUserProfile, GetUserProfile, UpdateUserProfile } from "../api/user-service";
+import { CreateUserProfile, GetUserHealthRecord, GetUserProfile, UpdateUserBloodPressure, UpdateUserBloodSugar, UpdateUserHbA1c, UpdateUserHeight, UpdateUserProfile, UpdateUserWeight } from "../api/user-service";
 import { QueryKeys } from "../../assets/enum/query";
 import { GenderNumber } from "../../assets/enum/gender";
 import { DiagnosisRecency } from "../../assets/enum/diagnosis-recency";
@@ -39,6 +39,20 @@ export const useUserProfile = () => {
     const queryKey = [QueryKeys.USER]
     const queryFn = async () => {
         return GetUserProfile()
+    }
+
+    return { queryKey, queryFn }
+}
+
+export const useUserHealthRecordProfile = (params: {
+    recordTypes: string,
+    newest: boolean,
+    fromDate?: string,
+    toDate?: string
+}) => {
+    const queryKey = [QueryKeys.HEALTH_RECORD]
+    const queryFn = async () => {
+        return GetUserHealthRecord(params)
     }
 
     return { queryKey, queryFn }
@@ -90,6 +104,201 @@ export const useCreateUserProfileMutation = () => {
             Toast.show({
                 type: 'error',
                 text1: 'Thiết lập hồ sơ thất bại',
+                text2: 'Vui lòng thử lại sau',
+                visibilityTime: 2000,
+            })
+            return error;
+        }
+    })
+}
+
+export const useUpdateUserWeightMutation = () => {
+    const queryClient = useQueryClient();
+    return useMutation({
+        mutationFn: (params: {
+            userId: string,
+            value: number,
+            measurementAt: string
+        }) => UpdateUserWeight(params),
+        onSuccess: (data) => {
+            if (data.status !== 200) {
+                Toast.show({
+                    type: 'error',
+                    text1: data.data.detail || 'Cập nhật cân nặng thất bại',
+                    text2: 'Vui lòng thử lại sau',
+                    visibilityTime: 2000,
+                })
+            } else {
+                queryClient.invalidateQueries({ queryKey: [QueryKeys.HEALTH_RECORD] })
+                Toast.show({
+                    type: 'success',
+                    text1: 'Cập nhật cân nặng thành công',
+                    visibilityTime: 2000,
+                })
+            }
+            return data;
+        },
+        onError: (error) => {
+            Toast.show({
+                type: 'error',
+                text1: 'Cập nhật cân nặng thất bại',
+                text2: 'Vui lòng thử lại sau',
+                visibilityTime: 2000,
+            })
+            return error;
+        }
+    })
+}
+
+export const useUpdateUserHeightMutation = () => {
+    const queryClient = useQueryClient();
+    return useMutation({
+        mutationFn: (params: {
+            userId: string,
+            value: number,
+            measurementAt: string
+        }) => UpdateUserHeight(params),
+        onSuccess: (data) => {
+            if (data.status !== 200) {
+                Toast.show({
+                    type: 'error',
+                    text1: data.data.detail || 'Cập nhật chiều cao thất bại',
+                    text2: 'Vui lòng thử lại sau',
+                    visibilityTime: 2000,
+                })
+            } else {
+                queryClient.invalidateQueries({ queryKey: [QueryKeys.HEALTH_RECORD] })
+                Toast.show({
+                    type: 'success',
+                    text1: 'Cập nhật chiều cao thành công',
+                    visibilityTime: 2000,
+                })
+            }
+            return data;
+        },
+        onError: (error) => {
+            Toast.show({
+                type: 'error',
+                text1: 'Cập nhật huyết áp thất bại',
+                text2: 'Vui lòng thử lại sau',
+                visibilityTime: 2000,
+            })
+            return error;
+        }
+    })
+}
+
+export const useUpdateUserBloodPressureMutation = () => {
+    const queryClient = useQueryClient();
+    return useMutation({
+        mutationFn: (params: {
+            userId: string,
+            systolic: number,
+            diastolic: number,
+            personNote: string,
+            measurementAt: string
+        }) => UpdateUserBloodPressure(params),
+        onSuccess: (data) => {
+            if (data.status !== 200) {
+                Toast.show({
+                    type: 'error',
+                    text1: data.data.detail || 'Cập nhật huyết áp thất bại',
+                    text2: 'Vui lòng thử lại sau',
+                    visibilityTime: 2000,
+                })
+            } else {
+                queryClient.invalidateQueries({ queryKey: [QueryKeys.HEALTH_RECORD] })
+                Toast.show({
+                    type: 'success',
+                    text1: 'Cập nhật huyết áp thành công',
+                    visibilityTime: 2000,
+                })
+            }
+            return data;
+        },
+        onError: (error) => {
+            Toast.show({
+                type: 'error',
+                text1: 'Cập nhật huyết áp thất bại',
+                text2: 'Vui lòng thử lại sau',
+                visibilityTime: 2000,
+            })
+            return error;
+        }
+    })
+}
+
+export const useUpdateUserBloodSugarMutation = () => {
+    const queryClient = useQueryClient();
+    return useMutation({
+        mutationFn: (params: {
+            userId: string,
+            value: number,
+            measureTime: number,
+            personNote: string,
+            measurementAt: string
+        }) => UpdateUserBloodSugar(params),
+        onSuccess: (data) => {
+            if (data.status !== 200) {
+                Toast.show({
+                    type: 'error',
+                    text1: data.data.detail || 'Cập nhật huyết đường thất bại',
+                    text2: 'Vui lòng thử lại sau',
+                    visibilityTime: 2000,
+                })
+            } else {
+                queryClient.invalidateQueries({ queryKey: [QueryKeys.HEALTH_RECORD] })
+                Toast.show({
+                    type: 'success',
+                    text1: 'Cập nhật huyết đường thành công',
+                    visibilityTime: 2000,
+                })
+            }
+            return data;
+        },
+        onError: (error) => {
+            Toast.show({
+                type: 'error',
+                text1: 'Cập nhật huyết đường thất bại',
+                text2: 'Vui lòng thử lại sau',
+                visibilityTime: 2000,
+            })
+            return error;
+        }
+    })
+}
+
+export const useUpdateUserHbA1cMutation = () => {
+    const queryClient = useQueryClient();
+    return useMutation({
+        mutationFn: (params: {
+            userId: string,
+            value: number,
+            personNote: string,
+            measurementAt: string
+        }) => UpdateUserHbA1c(params),
+        onSuccess: (data) => {
+            if (data.status !== 200) {
+                Toast.show({
+                    type: 'error',
+                    text1: data.data.detail || 'Cập nhật hbA1c thất bại',
+                    text2: 'Vui lòng thử lại sau',
+                    visibilityTime: 2000,
+                })
+            } else {
+                queryClient.invalidateQueries({ queryKey: [QueryKeys.HEALTH_RECORD] })
+                Toast.show({
+                    type: 'success',
+                    text1: 'Cập nhật hbA1c thành công',
+                    visibilityTime: 2000,
+                })
+            }
+            return data;
+        },
+        onError: (error) => {
+            Toast.show({
+                type: 'error',
+                text1: 'Cập nhật hbA1c thất bại',
                 text2: 'Vui lòng thử lại sau',
                 visibilityTime: 2000,
             })

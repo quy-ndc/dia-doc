@@ -7,8 +7,7 @@ export const invalidateBlogQuery = (
 ) => {
     // Invalidate Bookmarked Media
     queryClient.invalidateQueries({
-        predicate: (query) =>
-            query.queryKey[0] === QueryKeys.LIKE_MEDIA,
+        predicate: (query) => query.queryKey[0] === QueryKeys.LIKE_MEDIA,
     })
     queryClient.refetchQueries({
         predicate: (query) => query.queryKey[0] === QueryKeys.LIKE_MEDIA

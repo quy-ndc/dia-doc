@@ -5,10 +5,11 @@ import { useInfiniteQuery } from '@tanstack/react-query'
 import { BlogPost } from '../../assets/types/media/blog-post'
 import { useBookmarkMediaQuery } from '../../service/query/media-query'
 import FilterButton from '../../components/blog-screen/filter-button'
-import SearchButton from '../../components/blog-screen/search-button'
+import SearchField from '../../components/blog-screen/search-field'
 import BlogList from '../../components/blog-screen/blog-list'
 import { Text } from '../../components/ui/text'
 import { ChevronUp } from '../../lib/icons/ChevronUp'
+import SortButton from '../../components/blog-screen/sort-button'
 
 export default function SavedBlogScreen() {
 
@@ -84,8 +85,11 @@ export default function SavedBlogScreen() {
             >
                 <View className='flex-1 flex-col gap-5 px-2 w-full'>
                     <View className='flex-row w-full px-2 justify-between items-center'>
-                        <SearchButton search={search} setSearch={setSearch} />
-                        <FilterButton categories={categories} setCategories={setCategories} />
+                        <SearchField search={search} setSearch={setSearch} />
+                        <View className='flex-row items-center gap-2'>
+                            <SortButton />
+                            <FilterButton categories={categories} setCategories={setCategories} />
+                        </View>
                     </View>
                     <BlogList
                         isLoading={isLoading}

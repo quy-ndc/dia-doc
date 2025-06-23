@@ -5,6 +5,7 @@ import { useChannel } from 'ably/react';
 import { GLOBAL_CHAT_EVENT_CHANNEL, GLOBAL_CHAT_EVENT_NAME } from '@env';
 import { GlobalMessageEvent, Message } from '../../assets/types/chat/message';
 import { useMessageStore } from '../../store/useMessage';
+import { ThemeToggle } from '../../components/ThemeToggle';
 
 export default function ProtectedLayout() {
     const { user } = useUserStore();
@@ -14,9 +15,9 @@ export default function ProtectedLayout() {
         return <Redirect href="/landing-screen" />;
     }
 
-    if (user.isAuthenticated && !user.isSetUp) {
-        return <Redirect href="/set-up-screen" />;
-    }
+    // if (user.isAuthenticated && !user.isSetUp) {
+    //     return <Redirect href="/set-up-screen" />;
+    // }
 
     const { } = useChannel(`${GLOBAL_CHAT_EVENT_CHANNEL}`, `${GLOBAL_CHAT_EVENT_NAME}`, (payload) => {
         const response: GlobalMessageEvent = JSON.parse(payload.data.Value.Message)
@@ -41,8 +42,7 @@ export default function ProtectedLayout() {
             <Stack.Screen name="(main)" options={{ headerShown: false }} />
             <Stack.Screen name="chat-screen" options={{ headerTitle: '' }} />
             <Stack.Screen name="edit-profile-screen" options={{ headerTitle: '' }} />
-            <Stack.Screen
-                name="blog-detail-screen"
+            <Stack.Screen name="blog-detail-screen"
                 options={{
                     headerTitle: '',
                     headerShadowVisible: false
@@ -50,6 +50,7 @@ export default function ProtectedLayout() {
             />
             <Stack.Screen name="liked-blog-screen" options={{ headerTitle: 'Bài viết đã thích' }} />
             <Stack.Screen name="saved-blog-screen" options={{ headerTitle: 'Bài viết đã lưu' }} />
+            <Stack.Screen name="update-record-screen" options={{ headerTitle: '', headerShadowVisible: false, headerRight: () => <ThemeToggle /> }} />
         </Stack>
     );
 }

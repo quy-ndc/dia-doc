@@ -1,5 +1,5 @@
 import axios from "axios";
-import { endpointUser } from "../endpoint";
+import { createQueryString, endpointUser } from "../endpoint";
 import axiosServices from "../axios";
 import { GenderNumber } from "../../assets/enum/gender";
 import { DiaType } from "../../assets/enum/dia-type";
@@ -16,6 +16,41 @@ export const GetUserProfile = async () => {
 
     try {
         const response = await axiosServices.get(`${endpointUser.GET_CURRENT_USER}`)
+
+        return {
+            success: true,
+            status: response.status,
+            data: response.data
+        }
+
+    } catch (e) {
+        if (axios.isAxiosError(e) && e.response) {
+            return {
+                success: false,
+                status: e.response.status,
+                message: e.response.data.message || 'An error occurred',
+                data: e.response.data
+            };
+        }
+
+        return {
+            success: false,
+            status: 500,
+            message: 'An error occurred',
+            data: null
+        }
+    }
+}
+
+export const GetUserHealthRecord = async (params: {
+    recordTypes: string,
+    newest: boolean,
+    fromDate?: string,
+    toDate?: string
+}) => {
+    try {
+        const queryString = createQueryString(params)
+        const response = await axiosServices.get(`${endpointUser.GET_USER_HEALTH_RECORD}?${queryString}`)
 
         return {
             success: true,
@@ -144,6 +179,201 @@ export const CreateUserProfile = async (data: {
                 message: e.response.data.message || 'An error occurred',
                 data: e.response.data
             }
+        }
+
+        return {
+            success: false,
+            status: 500,
+            message: 'An error occurred',
+            data: null
+        }
+    }
+}
+
+export const UpdateUserWeight = async (params: {
+    userId: string,
+    value: number,
+    measurementAt: string
+}) => {
+    try {
+        const response = await axiosServices.post(`${endpointUser.UPDATE_USER_WEIGHT}`, {
+            userId: params.userId,
+            value: params.value,
+            measurementAt: params.measurementAt
+        })
+
+        return {
+            success: true,
+            status: response.status,
+            data: response.data
+        }
+
+    } catch (e) {
+        if (axios.isAxiosError(e) && e.response) {
+            return {
+                success: false,
+                status: e.response.status,
+                message: e.response.data.message || 'An error occurred',
+                data: e.response.data
+            };
+        }
+
+        return {
+            success: false,
+            status: 500,
+            message: 'An error occurred',
+            data: null
+        }
+    }
+}
+
+export const UpdateUserHeight = async (params: {
+    userId: string,
+    value: number,
+    measurementAt: string
+}) => {
+    try {
+        const response = await axiosServices.post(`${endpointUser.UPDATE_USER_HEIGHT}`, {
+            userId: params.userId,
+            value: params.value,
+            measurementAt: params.measurementAt
+        })
+
+        return {
+            success: true,
+            status: response.status,
+            data: response.data
+        }
+
+    } catch (e) {
+        if (axios.isAxiosError(e) && e.response) {
+            return {
+                success: false,
+                status: e.response.status,
+                message: e.response.data.message || 'An error occurred',
+                data: e.response.data
+            };
+        }
+
+        return {
+            success: false,
+            status: 500,
+            message: 'An error occurred',
+            data: null
+        }
+    }
+}
+
+export const UpdateUserBloodPressure = async (params: {
+    userId: string,
+    systolic: number,
+    diastolic: number,
+    personNote: string,
+    measurementAt: string
+}) => {
+    try {
+        const response = await axiosServices.post(`${endpointUser.UPDATE_USER_BLOOD_PRESSURE}`, {
+            userId: params.userId,
+            systolic: params.systolic,
+            diastolic: params.diastolic,
+            personNote: params.personNote,
+            measurementAt: params.measurementAt
+        })
+
+        return {
+            success: true,
+            status: response.status,
+            data: response.data
+        }
+
+    } catch (e) {
+        if (axios.isAxiosError(e) && e.response) {
+            return {
+                success: false,
+                status: e.response.status,
+                message: e.response.data.message || 'An error occurred',
+                data: e.response.data
+            };
+        }
+
+        return {
+            success: false,
+            status: 500,
+            message: 'An error occurred',
+            data: null
+        }
+    }
+}
+
+export const UpdateUserBloodSugar = async (params: {
+    userId: string,
+    value: number,
+    measureTime: number,
+    personNote: string,
+    measurementAt: string
+}) => {
+    try {
+        const response = await axiosServices.post(`${endpointUser.UPDATE_USER_BLOOD_SUGAR}`, {
+            userId: params.userId,
+            value: params.value,
+            measureTime: params.measureTime,
+            personNote: params.personNote,
+            measurementAt: params.measurementAt
+        })
+
+        return {
+            success: true,
+            status: response.status,
+            data: response.data
+        }
+
+    } catch (e) {
+        if (axios.isAxiosError(e) && e.response) {
+            return {
+                success: false,
+                status: e.response.status,
+                message: e.response.data.message || 'An error occurred',
+                data: e.response.data
+            };
+        }
+
+        return {
+            success: false,
+            status: 500,
+            message: 'An error occurred',
+            data: null
+        }
+    }
+}
+
+export const UpdateUserHbA1c = async (params: {
+    userId: string,
+    value: number,
+    personNote: string,
+    measurementAt: string
+}) => {
+    try {
+        const response = await axiosServices.post(`${endpointUser.UPDATE_USER_HBA1C}`, {
+            userId: params.userId,
+            value: params.value,
+            personNote: params.personNote,
+            measurementAt: params.measurementAt
+        })
+
+        return {
+            success: true,
+            status: response.status,
+            data: response.data
+        }
+
+    } catch (e) {
+        if (axios.isAxiosError(e) && e.response) {
+            return {
+                success: false,
+                status: e.response.status,
+                message: e.response.data.message || 'An error occurred',
+                data: e.response.data
+            };
         }
 
         return {

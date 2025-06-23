@@ -1,19 +1,19 @@
-import * as React from 'react';
-import { ListFilter } from '../../lib/icons/ListFilter';
-import { Dimensions, Modal, Pressable, RefreshControl, ScrollView, View } from 'react-native';
+import * as React from 'react'
+import { ListFilter } from '../../lib/icons/ListFilter'
+import { Dimensions, Modal, Pressable, RefreshControl, ScrollView, View } from 'react-native'
 import { Text } from '../../components/ui/text'
-import { useCallback, useState } from 'react';
-import { useQuery } from '@tanstack/react-query';
-import { useCategoryQuery } from '../../service/query/media-query';
-import IconButton from '../common/icon-button';
-import { Category } from '../../assets/types/media/category';
-import SpinningIcon from '../common/icons/spinning-icon';
-import { Loader } from '../../lib/icons/Loader';
-import { RefreshCcw } from '../../lib/icons/RefreshCcw';
-import { FlashList } from '@shopify/flash-list';
-import TopBlogTag from '../common/blog-item/top-blog-tag';
-import ErrorDisplay from '../common/error-display';
-import FilterSkeleton from '../common/skeleton/filter-skeleton';
+import { useCallback, useState } from 'react'
+import { useQuery } from '@tanstack/react-query'
+import { useCategoryQuery } from '../../service/query/media-query'
+import IconButton from '../common/icon-button'
+import { Category } from '../../assets/types/media/category'
+import SpinningIcon from '../common/icons/spinning-icon'
+import { Loader } from '../../lib/icons/Loader'
+import { RefreshCcw } from '../../lib/icons/RefreshCcw'
+import { FlashList } from '@shopify/flash-list'
+import TopBlogTag from '../common/blog-item/top-blog-tag'
+import ErrorDisplay from '../common/error-display'
+import FilterSkeleton from '../common/skeleton/filter-skeleton'
 
 
 const { height, width } = Dimensions.get('window')
@@ -34,7 +34,7 @@ export default function FilterButton({ categories, setCategories }: Prop) {
         enabled: open,
         retry: 2,
         retryDelay: attempt => Math.min(1000 * 2 ** attempt, 5000)
-    });
+    })
 
     const categoriesList: Category[] = data?.data.value.data || []
 

@@ -7,10 +7,11 @@ import { Category } from '../../../assets/types/media/category'
 import { useMediaQuery, useTopCategoryQuery } from '../../../service/query/media-query'
 import TopBlogTagList from '../../../components/blog-screen/top-tag-list'
 import FilterButton from '../../../components/blog-screen/filter-button'
-import SearchButton from '../../../components/blog-screen/search-button'
+import SearchField from '../../../components/blog-screen/search-field'
 import BlogList from '../../../components/blog-screen/blog-list'
 import { Text } from '../../../components/ui/text'
 import { ChevronUp } from '../../../lib/icons/ChevronUp'
+import SortButton from '../../../components/blog-screen/sort-button'
 
 export default function BlogScreen() {
 
@@ -21,6 +22,8 @@ export default function BlogScreen() {
     const [showScrollButton, setShowScrollButton] = useState(false)
     const [categories, setCategories] = useState<string[]>([])
     const [search, setSearch] = useState('')
+    const [isAscending, setIsAscending] = useState<boolean>(false)
+    const [sortType, setSortType] = useState<string>('')
 
     const {
         data: categoriesData,
@@ -32,7 +35,7 @@ export default function BlogScreen() {
         retry: 2,
         retryDelay: attempt => Math.min(800 * 2 ** attempt, 5000)
     })
-    const categoriesList: Category[] = categoriesData ? categoriesData.data.value.data : []
+    const categoriesList: Category[] = categoriesData?.data?.value?.data || []
 
     const {
         data,
@@ -47,7 +50,8 @@ export default function BlogScreen() {
         ...useMediaQuery({
             PageSize: 7,
             CategoryIds: categories,
-            SearchContent: search === '' ? undefined : search
+            SearchContent: search === '' ? undefined : search,
+            IsSortASC: isAscending
         }),
         getNextPageParam: (lastPage) => {
             const posts = lastPage.data.value.data
@@ -57,7 +61,7 @@ export default function BlogScreen() {
         retry: 2,
         retryDelay: attempt => Math.min(1000 * 2 ** attempt, 5000)
     })
-    const allItems: BlogPost[] = data ? data.pages.flatMap(page => page.data?.value.data.items) : []
+    const allItems: BlogPost[] = data?.pages.flatMap(page => page.data?.value?.data?.items) || []
 
     const onRefresh = useCallback(() => {
         setRefreshing(true)
@@ -99,14 +103,25 @@ export default function BlogScreen() {
             >
                 <View className='flex-1 flex-col gap-5 px-2 w-full'>
                     <View className='flex-row w-full px-2 justify-between items-center'>
-                        <SearchButton search={search} setSearch={setSearch} />
-                        <FilterButton categories={categories} setCategories={setCategories} />
+                        <SearchField search={search} setSearch={setSearch} />
+                        <View className='flex-row items-center gap-2'>
+                            <SortButton
+                                sortType={sortType}
+                                isAscending={isAscending}
+                                setSortType={setSortType}
+                                setIsAscending={setIsAscending}
+                            />
+                            <FilterButton categories={categories} setCategories={setCategories} />
+                        </View>
                     </View>
                     <TopBlogTagList
                         items={categoriesList}
                         isLoading={isLoadingCategories}
                         categories={categories}
                         setCategories={setCategories}
+                        refreshing={refreshing}
+                        refetch={refetchCategories}
+                        remove={removeCategories}
                     />
                     <BlogList
                         isLoading={isLoading}

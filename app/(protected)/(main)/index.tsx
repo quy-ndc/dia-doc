@@ -8,7 +8,9 @@ import { useTopMediaQuery } from '../../../service/query/media-query';
 import { BlogPost } from '../../../assets/types/media/blog-post';
 import DailyTip from '../../../components/home/daily-tip.tsx/daily-tip';
 import LogoutButton from '../../../components/profile-screen/logout-button';
-
+import HealthTracker from '../../../components/home/health-track.tsx/health-track';
+import { useUserHealthRecordProfile } from '../../../service/query/user-query';
+import { HealthTrackItem } from '../../../assets/types/user/health-track';
 
 export default function HomeScreen() {
 
@@ -23,13 +25,30 @@ export default function HomeScreen() {
         retryDelay: attempt => Math.min(1000 * 2 ** attempt, 5000)
     })
 
+    const {
+        data: healthRecordData,
+        isLoading: healthRecordLoading,
+        isError: healthRecordError,
+        refetch: healthRecordRefetch,
+        remove: healthRecordRemove
+    } = useQuery({
+        ...useUserHealthRecordProfile({
+            recordTypes: 'string',
+            newest: true
+        }),
+        retry: 2,
+        retryDelay: attempt => Math.min(1000 * 2 ** attempt, 5000)
+    })
+
     const onRefresh = useCallback(() => {
         setRefreshing(true)
         remove()
-        refetch().finally(() => setRefreshing(false))
+        healthRecordRemove()
+        Promise.all([refetch(), healthRecordRefetch()]).finally(() => setRefreshing(false))
     }, [refetch])
 
     const items: BlogPost[] = data?.data?.value?.data || []
+    const healthRecordItems: HealthTrackItem[] = healthRecordData?.data?.value?.data || []
 
     return (
         <>
@@ -42,13 +61,22 @@ export default function HomeScreen() {
                 <View className='flex-col items-center gap-10'>
                     <QuickAccess />
                     <DailyTip />
+                    <HealthTracker
+                        items={healthRecordItems}
+                        isLoading={healthRecordLoading}
+                        isError={healthRecordError}
+                        refetch={healthRecordRefetch}
+                        remove={healthRecordRemove}
+                        refreshing={refreshing}
+                    />
                     <HomeBlogSection
                         isLoading={isLoading}
                         isError={isError}
                         items={items}
-                        onRefresh={onRefresh}
+                        refetch={refetch}
+                        remove={remove}
                         refreshing={refreshing} />
-                    <LogoutButton/>
+                    <LogoutButton />
                 </View>
             </ScrollView>
         </>

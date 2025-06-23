@@ -3,7 +3,7 @@ import { Text } from "../../../components/ui/text"
 import { BookOpenCheck } from "../../../lib/icons/BookOpenCheck"
 import { GlobalColor } from "../../../global-color"
 import { getRandomDiabeticTip } from "../../../assets/data/daily-tips"
-import React, { useRef, useState } from "react"
+import React, { useRef, useState, useEffect } from "react"
 import { ChevronRight } from "../../../lib/icons/ChevronRight"
 import IconButton from "../../common/icon-button"
 
@@ -36,6 +36,11 @@ export default function DailyTip() {
             }, 300)
         })
     }
+
+    useEffect(() => {
+        const interval = setInterval(handlePress, 10000)
+        return () => clearInterval(interval)
+    }, [])
 
     return (
         <Pressable

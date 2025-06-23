@@ -24,6 +24,7 @@ export default function LoginScreen() {
     const router = useRouter()
     const { setUser } = useUserStore()
     const { mutateAsync, isLoading, isError, data } = useLoginUserMutation()
+    const [show, setShow] = useState(false)
 
     const schema = yup.object({
         phone: yup
@@ -40,8 +41,6 @@ export default function LoginScreen() {
             password: ''
         }
     })
-
-    const [show, setShow] = useState(false)
 
     const onLogin = async (data: any) => {
         const formattedPhone = data.phone.replace(/^0/, '+84')
@@ -72,11 +71,11 @@ export default function LoginScreen() {
             height: 0
         }
         setUser(userData)
-        if (result.authUser.isFirstUpdated) {
-            router.replace('/')
-        } else {
-            router.replace('/set-up-screen')
-        }
+        // if (result.authUser.isFirstUpdated) {
+        router.replace('/')
+        // } else {
+        // router.replace('/set-up-screen')
+        // }
     }, [data, isLoading])
 
     return (

@@ -8,7 +8,7 @@ export const GetAllMedias = async (params: {
     PageSize: number
     CategoryIds?: string[]
     UserCreatedId?: string
-    SortType?: number
+    SortType?: string
     IsSortASC?: boolean
 }) => {
 
@@ -225,7 +225,7 @@ export const GetBookmarkMedia = async (params: {
     PageSize: number
     CategoryIds?: string[]
     UserCreatedId?: string
-    SortType?: number
+    SortType?: string
     IsSortASC?: boolean
 }) => {
     try {
@@ -262,7 +262,7 @@ export const GetLikeMedia = async (params: {
     PageSize: number
     CategoryIds?: string[]
     UserCreatedId?: string
-    SortType?: number
+    SortType?: string
     IsSortASC?: boolean
 }) => {
     try {

@@ -12,7 +12,7 @@ type Prop = {
     setSearch: (search: string) => void
 };
 
-export default function SearchButton({ search, setSearch }: Prop) {
+export default function SearchField({ search, setSearch }: Prop) {
     const [localSearch, setLocalSearch] = useState(search)
     const debouncedSearch = useDebounce(localSearch, 700)
     const inputRef = useRef<any>(null)

@@ -18,9 +18,16 @@ const healthRecordDisplayMap = {
     [HealthRecordType.WEIGHT]: {
         name: 'Cân nặng',
         icon: <Scale className="text-white" size={17} />,
-        backgroundColor: GlobalColor.YELLOW_NEON_BG,
-        iconColor: GlobalColor.YELLOW_NEON_BORDER,
+        backgroundColor: GlobalColor.ORANGE_NEON_BG,
+        iconColor: GlobalColor.ORANGE_NEON_BORDER,
         unit: 'kg'
+    },
+    [HealthRecordType.BLOOD_SUGAR]: {
+        name: 'Đường huyết',
+        icon: <Droplet className="text-white" size={17} />,
+        backgroundColor: GlobalColor.EMERALD_NEON_BG,
+        iconColor: GlobalColor.EMERALD_NEON_BORDER,
+        unit: 'mmol/L'
     },
     [HealthRecordType.BLOOD_PRESSURE]: {
         name: 'Huyết áp',
@@ -28,13 +35,6 @@ const healthRecordDisplayMap = {
         backgroundColor: GlobalColor.RED_NEON_BG,
         iconColor: GlobalColor.RED_NEON_BORDER,
         unit: 'mmHg'
-    },
-    [HealthRecordType.BLOOD_SUGAR]: {
-        name: 'Đường huyết',
-        icon: <Droplet className="text-white" size={17} />,
-        backgroundColor: GlobalColor.ORANGE_NEON_BG,
-        iconColor: GlobalColor.ORANGE_NEON_BORDER,
-        unit: 'mg/dL'
     },
     [HealthRecordType.HBA1C]: {
         name: 'HbA1c',

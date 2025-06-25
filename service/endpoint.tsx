@@ -1,4 +1,5 @@
-import { AUTH_SERVICE_ENDPOINT, MEDIA_SERVICE_ENDPOINT, USER_SERVICE_ENDPOINT, CHAT_SERVICE_ENDPOINT, NOTIFICATION_SERVICE_ENDPOINT, NEW_AUTH_SERVICE_ENDPOINT, NEW_USER_SERVICE_ENDPOINT } from '@env'
+import { AUTH_SERVICE_ENDPOINT, MEDIA_SERVICE_ENDPOINT, USER_SERVICE_ENDPOINT, CHAT_SERVICE_ENDPOINT, NOTIFICATION_SERVICE_ENDPOINT, API_GATEWAY_ENDPOINT } from '@env'
+import useUserStore from '../store/userStore';
 
 export const createQueryString = (params: Record<string, any>): string => {
     const urlParams = new URLSearchParams();
@@ -15,17 +16,29 @@ export const createQueryString = (params: Record<string, any>): string => {
     return urlParams.toString();
 }
 
+export const authApiConfig = () => {
+    const user = useUserStore.getState().user
+    const token = user.accessToken
+    return (
+        {
+            headers: {
+                Authorization: `Bearer ${token}`
+            }
+        }
+    )
+}
+
 const apiPrefixV1 = 'api/v1'
 
 const endpointAuth = {
     LOGIN_PATIENT: `${AUTH_SERVICE_ENDPOINT}/${apiPrefixV1}/auth/login-by-zalo`,
     LOGIN_DOCTOR: `${AUTH_SERVICE_ENDPOINT}/${apiPrefixV1}/auth`,
-    LOGIN_PHONE: `${NEW_AUTH_SERVICE_ENDPOINT}/${apiPrefixV1}/auth/patient/login-phone`,
-    REGISTER_PHONE: `${NEW_AUTH_SERVICE_ENDPOINT}/${apiPrefixV1}/auth/patient/register-phone`,
-    VERIFY_PHONE: `${NEW_AUTH_SERVICE_ENDPOINT}/${apiPrefixV1}/auth/patient/verify-otp-register`,
-    RESEND_PHONE: `${NEW_AUTH_SERVICE_ENDPOINT}/${apiPrefixV1}/auth/patient/resend-otp-register`,
-    REFRESH_TOKEN: `${NEW_AUTH_SERVICE_ENDPOINT}/${apiPrefixV1}/auth/refresh-token`,
-    LOGOUT_USER: `${NEW_AUTH_SERVICE_ENDPOINT}/${apiPrefixV1}/auth/logout`
+    LOGIN_PHONE: `${API_GATEWAY_ENDPOINT}/${apiPrefixV1}/auth/patient/login-phone`,
+    REGISTER_PHONE: `${API_GATEWAY_ENDPOINT}/${apiPrefixV1}/auth/patient/register-phone`,
+    VERIFY_PHONE: `${API_GATEWAY_ENDPOINT}/${apiPrefixV1}/auth/patient/verify-otp-register`,
+    RESEND_PHONE: `${API_GATEWAY_ENDPOINT}/${apiPrefixV1}/auth/patient/resend-otp-register`,
+    REFRESH_TOKEN: `${API_GATEWAY_ENDPOINT}/${apiPrefixV1}/auth/refresh-token`,
+    LOGOUT_USER: `${API_GATEWAY_ENDPOINT}/${apiPrefixV1}/auth/logout`
 }
 
 const endpointUser = {
@@ -34,13 +47,13 @@ const endpointUser = {
     UPDATE_USER: `${USER_SERVICE_ENDPOINT}/${apiPrefixV1}/users/patients`,
     GET_CURRENT_USER: `${USER_SERVICE_ENDPOINT}/${apiPrefixV1}/patients/me`,
     EDIT_USER: `${USER_SERVICE_ENDPOINT}/${apiPrefixV1}/patients`,
-    CREATE_USER_PROFILE: `${NEW_USER_SERVICE_ENDPOINT}/${apiPrefixV1}/users/patients`,
-    GET_USER_HEALTH_RECORD: `${NEW_USER_SERVICE_ENDPOINT}/${apiPrefixV1}/users/patients/records`,
-    UPDATE_USER_WEIGHT: `${NEW_USER_SERVICE_ENDPOINT}/${apiPrefixV1}/users/patients/records/weight`,
-    UPDATE_USER_HEIGHT: `${NEW_USER_SERVICE_ENDPOINT}/${apiPrefixV1}/users/patients/records/height`,
-    UPDATE_USER_BLOOD_PRESSURE: `${NEW_USER_SERVICE_ENDPOINT}/${apiPrefixV1}/users/patients/records/blood-pressure`,
-    UPDATE_USER_BLOOD_SUGAR: `${NEW_USER_SERVICE_ENDPOINT}/${apiPrefixV1}/users/patients/records/blood-glucose`,
-    UPDATE_USER_HBA1C: `${NEW_USER_SERVICE_ENDPOINT}/${apiPrefixV1}/users/patients/records/hba1c`,
+    CREATE_USER_PROFILE: `${API_GATEWAY_ENDPOINT}/${apiPrefixV1}/users/patients`,
+    GET_USER_HEALTH_RECORD: `${API_GATEWAY_ENDPOINT}/${apiPrefixV1}/users/patients/records`,
+    UPDATE_USER_WEIGHT: `${API_GATEWAY_ENDPOINT}/${apiPrefixV1}/users/patients/records/weight`,
+    UPDATE_USER_HEIGHT: `${API_GATEWAY_ENDPOINT}/${apiPrefixV1}/users/patients/records/height`,
+    UPDATE_USER_BLOOD_PRESSURE: `${API_GATEWAY_ENDPOINT}/${apiPrefixV1}/users/patients/records/blood-pressure`,
+    UPDATE_USER_BLOOD_SUGAR: `${API_GATEWAY_ENDPOINT}/${apiPrefixV1}/users/patients/records/blood-glucose`,
+    UPDATE_USER_HBA1C: `${API_GATEWAY_ENDPOINT}/${apiPrefixV1}/users/patients/records/hba1c`,
 }
 
 const endpointMedia = {

@@ -51,7 +51,8 @@ export default function BlogScreen() {
             PageSize: 7,
             CategoryIds: categories,
             SearchContent: search === '' ? undefined : search,
-            IsSortASC: isAscending
+            IsSortASC: isAscending, 
+            SortType: sortType === '' ? undefined : sortType
         }),
         getNextPageParam: (lastPage) => {
             const posts = lastPage.data.value.data
@@ -61,7 +62,7 @@ export default function BlogScreen() {
         retry: 2,
         retryDelay: attempt => Math.min(1000 * 2 ** attempt, 5000)
     })
-    const allItems: BlogPost[] = data?.pages.flatMap(page => page.data?.value?.data?.items) || []
+    const allItems: BlogPost[] = data?.pages?.flatMap(page => page.data?.value?.data?.items) || []
 
     const onRefresh = useCallback(() => {
         setRefreshing(true)

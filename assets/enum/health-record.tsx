@@ -1,7 +1,7 @@
 export enum HealthRecordType {
     WEIGHT = 0,
     HEIGHT = 1,
-    BLOOD_PRESSURE = 2,
-    BLOOD_SUGAR = 3,        
+    BLOOD_SUGAR = 2,        
+    BLOOD_PRESSURE = 3,
     HBA1C = 4
 }

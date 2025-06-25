@@ -25,7 +25,7 @@ export default function OtpScreen() {
         otp: yup
             .string()
             .required('Không được trống')
-        // .matches(/^\d{6}$/, 'Mã OTP phải gồm 6 chữ số')
+            .matches(/^\d{6}$/, 'Mã OTP phải gồm 6 chữ số')
     }).required()
 
     const { control, handleSubmit, formState: { errors } } = useForm({

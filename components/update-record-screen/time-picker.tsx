@@ -9,6 +9,8 @@ import { Sun } from '../../lib/icons/Sun';
 import { Moon } from '../../lib/icons/Moon';
 import DateTimePicker from '@react-native-community/datetimepicker'
 import { formatTime } from '../../util/format-time';
+import SectionTitle from '../home/common/section-title';
+import { Sunrise } from '../../lib/icons/Sunrise';
 
 
 
@@ -42,8 +44,8 @@ export default function RecordTimePicker({ setSelectedTime }: Props) {
         },
         {
             label: '7 giờ sáng',
-            icon: <Sun color={selectedItem === 1 ? GlobalColor.YELLOW_NEON_BORDER : themeColor} size={18} />,
-            color: GlobalColor.YELLOW_NEON_BORDER,
+            icon: <Sunrise color={selectedItem === 1 ? GlobalColor.YELLOW_NEON_BORDER : themeColor} size={18} />,
+            color: GlobalColor.ORANGE_NEON_BORDER,
             onPress: () => {
                 const today = new Date()
                 today.setHours(7, 0, 0, 0)
@@ -51,13 +53,23 @@ export default function RecordTimePicker({ setSelectedTime }: Props) {
             }
         },
         {
+            label: '12 giờ trưa',
+            icon: <Sun color={selectedItem === 2 ? GlobalColor.YELLOW_NEON_BORDER : themeColor} size={18} />,
+            color: GlobalColor.YELLOW_NEON_BORDER,
+            onPress: () => {
+                const today = new Date()
+                today.setHours(12, 0, 0, 0)
+                handleSelectTime(today.toISOString(), 2)
+            }
+        },
+        {
             label: '7 giờ tối',
-            icon: <Moon color={selectedItem === 2 ? GlobalColor.PURPLE_NEON_BORDER : themeColor} size={18} />,
+            icon: <Moon color={selectedItem === 3 ? GlobalColor.PURPLE_NEON_BORDER : themeColor} size={18} />,
             color: GlobalColor.PURPLE_NEON_BORDER,
             onPress: () => {
                 const today = new Date()
                 today.setHours(19, 0, 0, 0)
-                handleSelectTime(today.toISOString(), 2)
+                handleSelectTime(today.toISOString(), 3)
             }
         }
     ]
@@ -65,60 +77,69 @@ export default function RecordTimePicker({ setSelectedTime }: Props) {
     const handleCustomTime = (item: string) => {
         setCustomTime(item)
         setSelectedTime(item)
-        setSelectedItem(3)
+        setSelectedItem(4)
     }
 
 
     return (
-        <View className='flex-row flex-wrap gap-3 justify-between mt-2'>
-            {timeOptions.map((item, index) => {
-                return (
-                    <Pressable
-                        key={index}
-                        onPress={item.onPress}
-                        style={{ width: (width - 40 - 12) / 2, borderColor: selectedItem === index ? item.color : themeColor }}
-                        className={`py-5 rounded-md border border-[var(--fade-text-color)] items-center justify-center active:scale-95`}
-                    >
-                        <View className='flex-row items-center gap-3'>
-                            {item.icon}
-                            <Text
-                                style={{ color: selectedItem === index ? item.color : themeColor }}
-                                className={`text-base tracking-wider capitalize ${selectedItem === index ? 'font-bold' : ''}`}
-                            >
-                                {item.label}
-                            </Text>
-                        </View>
-                    </Pressable>
-                )
-            })}
-            <Pressable
-                onPress={() => setShow(true)}
-                style={{ width: (width - 40 - 12) / 2, borderColor: selectedItem === 3 ? GlobalColor.BLUE_NEON_BORDER : themeColor }}
-                className={`py-5 rounded-md border border-[var(--fade-text-color)] items-center justify-center active:scale-95`}
-            >
-                <View className='flex-row items-center gap-3'>
-                    <Calendar color={selectedItem === 3 ? GlobalColor.BLUE_NEON_BORDER : themeColor} size={18} />
-                    <Text
-                        style={{ color: selectedItem === 3 ? GlobalColor.BLUE_NEON_BORDER : themeColor }}
-                        className={`text-base tracking-wider capitalize ${selectedItem === 3 ? 'font-bold' : ''}`}
-                    >
-                        {customTime ? formatTime(customTime) : 'Tùy chỉnh'}
-                    </Text>
-                </View>
-            </Pressable>
-            {show && (
-                <DateTimePicker
-                    value={customTime ? new Date(customTime) : new Date()}
-                    mode="time"
-                    display="clock"
-                    onChange={(event, selectedDate) => {
-                        setShow(false)
-                        if (event.type === 'set' && selectedDate) {
-                            handleCustomTime(selectedDate.toISOString())
-                        }
-                    }}
+        <View className='flex-col gap-2 w-full px-5'>
+            <View className='flex-row w-full items-center justify-between'>
+                <SectionTitle
+                    icon={<Clock color={GlobalColor.CYAN_NEON_BORDER} size={18} />}
+                    title='Thời gian đo'
                 />
-            )}
+                <View />
+            </View>
+            <View className='flex-row flex-wrap gap-3 justify-between mt-2'>
+                {timeOptions.map((item, index) => {
+                    return (
+                        <Pressable
+                            key={index}
+                            onPress={item.onPress}
+                            style={{ width: (width - 40 - 12) / 2, borderColor: selectedItem === index ? item.color : themeColor }}
+                            className={`py-5 rounded-md border border-[var(--fade-text-color)] items-center justify-center active:scale-95`}
+                        >
+                            <View className='flex-row items-center gap-3'>
+                                {item.icon}
+                                <Text
+                                    style={{ color: selectedItem === index ? item.color : themeColor }}
+                                    className={`text-base tracking-wider capitalize ${selectedItem === index ? 'font-bold' : ''}`}
+                                >
+                                    {item.label}
+                                </Text>
+                            </View>
+                        </Pressable>
+                    )
+                })}
+                <Pressable
+                    onPress={() => setShow(true)}
+                    style={{ width: (width - 40 - 12) / 2, borderColor: selectedItem === 4 ? GlobalColor.BLUE_NEON_BORDER : themeColor }}
+                    className={`py-5 rounded-md border border-[var(--fade-text-color)] items-center justify-center active:scale-95`}
+                >
+                    <View className='flex-row items-center gap-3'>
+                        <Calendar color={selectedItem === 4 ? GlobalColor.BLUE_NEON_BORDER : themeColor} size={18} />
+                        <Text
+                            style={{ color: selectedItem === 4 ? GlobalColor.BLUE_NEON_BORDER : themeColor }}
+                            className={`text-base tracking-wider capitalize ${selectedItem === 4 ? 'font-bold' : ''}`}
+                        >
+                            {customTime ? formatTime(customTime) : 'Tùy chỉnh'}
+                        </Text>
+                    </View>
+                </Pressable>
+                {show && (
+                    <DateTimePicker
+                        value={customTime ? new Date(customTime) : new Date()}
+                        mode="time"
+                        display="clock"
+                        onChange={(event, selectedDate) => {
+                            setShow(false)
+                            if (event.type === 'set' && selectedDate) {
+                                handleCustomTime(selectedDate.toISOString())
+                            }
+                        }}
+                    />
+                )}
+            </View>
         </View>
     );
 }

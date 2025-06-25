@@ -1,5 +1,5 @@
 import axios from "axios";
-import { createQueryString, endpointUser } from "../endpoint";
+import { authApiConfig, createQueryString, endpointUser } from "../endpoint";
 import axiosServices from "../axios";
 import { GenderNumber } from "../../assets/enum/gender";
 import { DiaType } from "../../assets/enum/dia-type";
@@ -123,7 +123,6 @@ export const UpdateUserProfile = async (param: {
 }
 
 export const CreateUserProfile = async (data: {
-    userId: string,
     fullName: string,
     dateOfBirth: string,
     gender: GenderNumber,
@@ -143,9 +142,9 @@ export const CreateUserProfile = async (data: {
     medicalHistories?: MedicalHistories[],
     note?: string
 }) => {
+    const config = authApiConfig()
     try {
         const response = await axios.post(`${endpointUser.CREATE_USER_PROFILE}`, {
-            userId: data.userId,
             fullName: data.fullName,
             dateOfBirth: data.dateOfBirth,
             gender: data.gender,
@@ -163,7 +162,7 @@ export const CreateUserProfile = async (data: {
             usesAlcoholOrTobacco: data.usesAlcoholOrTobacco,
             medicalHistories: data.medicalHistories,
             note: data.note
-        })
+        }, config)
 
         return {
             success: true,
@@ -191,13 +190,11 @@ export const CreateUserProfile = async (data: {
 }
 
 export const UpdateUserWeight = async (params: {
-    userId: string,
     value: number,
     measurementAt: string
 }) => {
     try {
         const response = await axiosServices.post(`${endpointUser.UPDATE_USER_WEIGHT}`, {
-            userId: params.userId,
             value: params.value,
             measurementAt: params.measurementAt
         })
@@ -228,13 +225,11 @@ export const UpdateUserWeight = async (params: {
 }
 
 export const UpdateUserHeight = async (params: {
-    userId: string,
     value: number,
     measurementAt: string
 }) => {
     try {
         const response = await axiosServices.post(`${endpointUser.UPDATE_USER_HEIGHT}`, {
-            userId: params.userId,
             value: params.value,
             measurementAt: params.measurementAt
         })
@@ -265,7 +260,6 @@ export const UpdateUserHeight = async (params: {
 }
 
 export const UpdateUserBloodPressure = async (params: {
-    userId: string,
     systolic: number,
     diastolic: number,
     personNote: string,
@@ -273,7 +267,6 @@ export const UpdateUserBloodPressure = async (params: {
 }) => {
     try {
         const response = await axiosServices.post(`${endpointUser.UPDATE_USER_BLOOD_PRESSURE}`, {
-            userId: params.userId,
             systolic: params.systolic,
             diastolic: params.diastolic,
             personNote: params.personNote,
@@ -306,7 +299,6 @@ export const UpdateUserBloodPressure = async (params: {
 }
 
 export const UpdateUserBloodSugar = async (params: {
-    userId: string,
     value: number,
     measureTime: number,
     personNote: string,
@@ -314,7 +306,6 @@ export const UpdateUserBloodSugar = async (params: {
 }) => {
     try {
         const response = await axiosServices.post(`${endpointUser.UPDATE_USER_BLOOD_SUGAR}`, {
-            userId: params.userId,
             value: params.value,
             measureTime: params.measureTime,
             personNote: params.personNote,
@@ -347,14 +338,12 @@ export const UpdateUserBloodSugar = async (params: {
 }
 
 export const UpdateUserHbA1c = async (params: {
-    userId: string,
     value: number,
     personNote: string,
     measurementAt: string
 }) => {
     try {
         const response = await axiosServices.post(`${endpointUser.UPDATE_USER_HBA1C}`, {
-            userId: params.userId,
             value: params.value,
             personNote: params.personNote,
             measurementAt: params.measurementAt

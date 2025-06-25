@@ -12,20 +12,25 @@ type Prop = {
 }
 
 export default function HealthTrackerItem({ item }: Prop) {
+    
     const recordDisplay = getHealthRecordDisplay(item.recordType)
 
     const getValue = () => {
+        if (!item.healthRecord) return '0'
+
         if (item.recordType === HealthRecordType.BLOOD_PRESSURE) {
             const bpRecord = item.healthRecord as BloodPressureRecord
-            return `${bpRecord.systolic}/${bpRecord.diastolic}`
+            return bpRecord?.systolic && bpRecord?.diastolic
+                ? `${bpRecord.systolic}/${bpRecord.diastolic}`
+                : 'N/A'
         }
-        return (item.healthRecord as any).value
+        return (item.healthRecord as any).value ?? 'N/A'
     }
 
     const handlePress = () => {
         router.push({
-            pathname: '/update-record-screen',
-            params: { type: 4, lastMesurement: getValue() }
+            pathname: "/update-record-screen",
+            params: { type: item.recordType, lastMesurement: getValue() }
         })
     }
 
@@ -47,10 +52,10 @@ export default function HealthTrackerItem({ item }: Prop) {
             <View className='flex-col gap-2'>
                 <Text className='text-base font-bold tracking-widest'>
                     {getValue()}
-                    <Text className='text-sm font-normal text-[var(--fade-text-color)]'> {item.healthRecord.unit}</Text>
+                    <Text className='text-sm font-normal text-[var(--fade-text-color)]'> {recordDisplay.unit}</Text>
                 </Text>
                 <Text className='text-sm text-[var(--fade-text-color)] tracking-wider'>
-                    Đo {formatDateBlog(item.mesurementAt)}
+                    {item.mesurementAt ? `Đo ${formatDateBlog(item.mesurementAt)}` : 'Chưa có dữ liệu'}
                 </Text>
             </View>
         </Pressable>

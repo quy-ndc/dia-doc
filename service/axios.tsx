@@ -4,7 +4,7 @@ import useUserStore from "../store/userStore"
 import Toast from "react-native-toast-message"
 
 const axiosServices = axios.create({
-    timeout: 2000,
+    timeout: 10000,
 })
 
 const handleUnauthorized = () => {
@@ -51,7 +51,7 @@ axiosServices.interceptors.response.use(
                 err.response.data
             )
 
-            if (err.response && err.response.status === 401) {
+            if (err.response && (err.response.status === 401 || err.response.status === 403)) {
                 handleUnauthorized()
             }
         } else {

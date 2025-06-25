@@ -62,7 +62,6 @@ export const useCreateUserProfileMutation = () => {
     const queryClient = useQueryClient();
     return useMutation({
         mutationFn: (data: {
-            userId: string,
             fullName: string,
             dateOfBirth: string,
             gender: GenderNumber,
@@ -86,7 +85,7 @@ export const useCreateUserProfileMutation = () => {
             if (data.status !== 200) {
                 Toast.show({
                     type: 'error',
-                    text1: data.data.detail,
+                    text1: data.data.detail || 'Thiết lập hồ sơ thất bại',
                     text2: 'Vui lòng thử lại sau',
                     visibilityTime: 2000,
                 })
@@ -116,7 +115,6 @@ export const useUpdateUserWeightMutation = () => {
     const queryClient = useQueryClient();
     return useMutation({
         mutationFn: (params: {
-            userId: string,
             value: number,
             measurementAt: string
         }) => UpdateUserWeight(params),
@@ -154,7 +152,6 @@ export const useUpdateUserHeightMutation = () => {
     const queryClient = useQueryClient();
     return useMutation({
         mutationFn: (params: {
-            userId: string,
             value: number,
             measurementAt: string
         }) => UpdateUserHeight(params),
@@ -192,7 +189,6 @@ export const useUpdateUserBloodPressureMutation = () => {
     const queryClient = useQueryClient();
     return useMutation({
         mutationFn: (params: {
-            userId: string,
             systolic: number,
             diastolic: number,
             personNote: string,
@@ -232,7 +228,6 @@ export const useUpdateUserBloodSugarMutation = () => {
     const queryClient = useQueryClient();
     return useMutation({
         mutationFn: (params: {
-            userId: string,
             value: number,
             measureTime: number,
             personNote: string,
@@ -272,7 +267,6 @@ export const useUpdateUserHbA1cMutation = () => {
     const queryClient = useQueryClient();
     return useMutation({
         mutationFn: (params: {
-            userId: string,
             value: number,
             personNote: string,
             measurementAt: string

@@ -48,7 +48,6 @@ export const LoginUser = async (data: {
         const response = await axios.post(`${endpointAuth.LOGIN_PHONE}`, {
             phoneNumber: data.phoneNumber,
             password: data.password,
-            userId: null
         })
 
         return {

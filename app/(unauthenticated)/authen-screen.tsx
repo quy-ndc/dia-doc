@@ -71,11 +71,11 @@ export default function LoginScreen() {
             height: 0
         }
         setUser(userData)
-        // if (result.authUser.isFirstUpdated) {
-        router.replace('/')
-        // } else {
-        // router.replace('/set-up-screen')
-        // }
+        if (result.authUser.isFirstUpdated) {
+            router.replace('/')
+        } else {
+            router.replace('/set-up-screen')
+        }
     }, [data, isLoading])
 
     return (

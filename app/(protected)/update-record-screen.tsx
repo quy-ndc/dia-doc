@@ -16,7 +16,6 @@ export default function UpdateRecordScreen() {
     const { type, lastMesurement } = useLocalSearchParams()
     const recordType = type as unknown as HealthRecordType
     const recordDisplay = getHealthRecordDisplay(recordType)
-    console.log(recordType)
 
     return (
         <>
@@ -40,17 +39,15 @@ export default function UpdateRecordScreen() {
                 }}
             />
             {recordType == HealthRecordType.WEIGHT ? (
-                <WeightUpdateModule type={recordType} lastMesurement={lastMesurement as string} />
+                <WeightUpdateModule lastMesurement={lastMesurement as string} />
             ) : recordType == HealthRecordType.HEIGHT ? (
-                <HeightUpdateModule type={recordType} lastMesurement={lastMesurement as string} />
+                <HeightUpdateModule lastMesurement={lastMesurement as string} />
             ) : recordType == HealthRecordType.BLOOD_SUGAR ? (
-                <BloodSugarUpdateModule type={recordType} lastMesurement={lastMesurement as string} />
+                <BloodSugarUpdateModule lastMesurement={lastMesurement as string} />
             ) : recordType == HealthRecordType.BLOOD_PRESSURE ? (
-                <BloodPressureUpdateModule type={recordType} lastMesurement={lastMesurement as string} />
-            ) : recordType == HealthRecordType.HBA1C ? (
-                <Hb1AcUpdateModule type={recordType} lastMesurement={lastMesurement as string} />
-            ) : (
-                <WeightUpdateModule type={recordType} lastMesurement={lastMesurement as string} />
+                <BloodPressureUpdateModule lastMesurement={lastMesurement as string} />
+            ) : ( //recordType == HealthRecordType.HBA1CF
+                <Hb1AcUpdateModule lastMesurement={lastMesurement as string} />
             )}
         </>
     );

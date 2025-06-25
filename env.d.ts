@@ -11,4 +11,5 @@ declare module '@env' {
 
     export const NEW_AUTH_SERVICE_ENDPOINT: string
     export const NEW_USER_SERVICE_ENDPOINT: string
+    export const API_GATEWAY_ENDPOINT: string
 }

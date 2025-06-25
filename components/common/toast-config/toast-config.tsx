@@ -8,7 +8,7 @@ export const toastConfig = {
     success: (props: ToastProps) => (
         <SuccessToast
             {...props}
-            text1NumberOfLines={3}
+            text1NumberOfLines={2}
             style={{
                 width: width * 0.9,
                 borderLeftColor: GlobalColor.TOAST_SUCCESS,
@@ -22,6 +22,7 @@ export const toastConfig = {
     error: (props: ToastProps) => (
         <ErrorToast
             {...props}
+            text1NumberOfLines={2}
             style={{
                 width: width * 0.9,
                 borderLeftColor: GlobalColor.TOAST_FAIL,

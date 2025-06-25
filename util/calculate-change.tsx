@@ -18,8 +18,8 @@ export function calculateChange(before: number | string, after: number | string)
     if (isNaN(beforeNum) || isNaN(afterNum) || beforeNum === 0) {
         return {
             percentage: 0,
-            icon: <Minus size={18} className="text-gray-500" />,
-            color: 'text-gray-500',
+            icon: <Minus size={18} className="text-[var(--fade-text-color)]" />,
+            color: 'gray',
             label: 'Không đổi'
         }
     }

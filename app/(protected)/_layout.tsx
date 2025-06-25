@@ -15,9 +15,9 @@ export default function ProtectedLayout() {
         return <Redirect href="/landing-screen" />;
     }
 
-    // if (user.isAuthenticated && !user.isSetUp) {
-    //     return <Redirect href="/set-up-screen" />;
-    // }
+    if (user.isAuthenticated && !user.isSetUp) {
+        return <Redirect href="/set-up-screen" />;
+    }
 
     const { } = useChannel(`${GLOBAL_CHAT_EVENT_CHANNEL}`, `${GLOBAL_CHAT_EVENT_NAME}`, (payload) => {
         const response: GlobalMessageEvent = JSON.parse(payload.data.Value.Message)

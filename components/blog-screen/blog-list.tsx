@@ -35,7 +35,7 @@ export default function BlogList({
 
     if (isLoading) return <BlogSkeleton />
 
-    if (isError || !allItems || allItems.length == 0) return (
+    if (isError || !allItems || allItems.length === 0 || allItems[0] === undefined) return (
         <ErrorDisplay
             onRefresh={onRefresh}
             refreshing={refreshing}
@@ -44,7 +44,6 @@ export default function BlogList({
     )
 
     return (
-
         <FlashList<BlogPost>
             data={allItems}
             keyExtractor={(_, index) => index.toString()}

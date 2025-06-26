@@ -37,14 +37,14 @@ export default function LikedBlogScreen() {
             SearchContent: search === '' ? undefined : search
         }),
         getNextPageParam: (lastPage) => {
-            const posts = lastPage.data.value.data
-            return posts.hasNextPage ? posts.nextCursor : undefined
+            const posts = lastPage?.data?.value?.data || undefined
+            return posts?.hasNextPage ? posts.nextCursor : undefined
         },
         keepPreviousData: false,
         retry: 2,
         retryDelay: attempt => Math.min(1000 * 2 ** attempt, 5000)
     })
-    const allItems: BlogPost[] = data?.pages.flatMap(page => page.data?.value.data.items) || []
+    const allItems: BlogPost[] = data?.pages?.flatMap(page => page.data?.value?.data?.items) || []
 
     const onRefresh = useCallback(() => {
         setRefreshing(true)
@@ -87,14 +87,14 @@ export default function LikedBlogScreen() {
                     <View className='flex-row w-full px-2 justify-between items-center'>
                         <SearchField search={search} setSearch={setSearch} />
                         <View className='flex-row items-center gap-2'>
-                            <SortButton />
+                            {/* <SortButton sortType={''} isAscending={false} setSortType={() => { }} setIsAscending={() => { }} /> */}
                             <FilterButton categories={categories} setCategories={setCategories} />
                         </View>
                     </View>
                     <BlogList
                         isLoading={isLoading}
                         isError={isError}
-                        allItems={allItems}
+                        allItems={allItems || []}
                         onRefresh={onRefresh}
                         refreshing={refreshing}
                         hasNextPage={hasNextPage as boolean}

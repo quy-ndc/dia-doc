@@ -10,12 +10,23 @@ import BloodSugarUpdateModule from '../../components/update-record-screen/blood-
 import BloodPressureUpdateModule from '../../components/update-record-screen/blood-pressure-module';
 import Hb1AcUpdateModule from '../../components/update-record-screen/hba1c-module';
 
+const updateModules = {
+    [HealthRecordType.WEIGHT]: WeightUpdateModule,
+    [HealthRecordType.HEIGHT]: HeightUpdateModule,
+    [HealthRecordType.BLOOD_SUGAR]: BloodSugarUpdateModule,
+    [HealthRecordType.BLOOD_PRESSURE]: BloodPressureUpdateModule,
+    [HealthRecordType.HBA1C]: Hb1AcUpdateModule,
+} as const;
+
+function getUpdateModule(type: HealthRecordType) {
+    return updateModules[type] || updateModules[HealthRecordType.WEIGHT];
+}
 
 export default function UpdateRecordScreen() {
-
     const { type, lastMesurement } = useLocalSearchParams()
     const recordType = type as unknown as HealthRecordType
     const recordDisplay = getHealthRecordDisplay(recordType)
+    const UpdateModule = getUpdateModule(recordType)
 
     return (
         <>
@@ -38,17 +49,7 @@ export default function UpdateRecordScreen() {
                         </View>
                 }}
             />
-            {recordType == HealthRecordType.WEIGHT ? (
-                <WeightUpdateModule lastMesurement={lastMesurement as string} />
-            ) : recordType == HealthRecordType.HEIGHT ? (
-                <HeightUpdateModule lastMesurement={lastMesurement as string} />
-            ) : recordType == HealthRecordType.BLOOD_SUGAR ? (
-                <BloodSugarUpdateModule lastMesurement={lastMesurement as string} />
-            ) : recordType == HealthRecordType.BLOOD_PRESSURE ? (
-                <BloodPressureUpdateModule lastMesurement={lastMesurement as string} />
-            ) : ( //recordType == HealthRecordType.HBA1CF
-                <Hb1AcUpdateModule lastMesurement={lastMesurement as string} />
-            )}
+            <UpdateModule lastMesurement={lastMesurement as string} />
         </>
     );
 }

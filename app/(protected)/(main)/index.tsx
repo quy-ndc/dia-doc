@@ -33,7 +33,7 @@ export default function HomeScreen() {
         remove: healthRecordRemove
     } = useQuery({
         ...useUserHealthRecordProfile({
-            recordTypes: 'string',
+            recordTypes: '0,1,2,3,4',
             newest: true
         }),
         retry: 2,

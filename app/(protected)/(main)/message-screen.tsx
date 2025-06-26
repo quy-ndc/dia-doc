@@ -68,11 +68,18 @@ export default function MessagesScreen() {
 
     if (isError || groups.length === 0) {
         return (
-            <ErrorDisplay
-                onRefresh={onRefresh}
-                refreshing={refreshing}
-                text='Không có cuộc trò chuyện nào.'
-            />
+            <ScrollView
+                contentContainerStyle={{ flexGrow: 1 }}
+                refreshControl={<RefreshControl refreshing={refreshing} onRefresh={onRefresh} />}
+            >
+                <View className="flex-1 justify-center items-center">
+                    <ErrorDisplay
+                        onRefresh={onRefresh}
+                        refreshing={refreshing}
+                        text='Không có cuộc trò chuyện nào.'
+                    />
+                </View>
+            </ScrollView>
         )
     }
 

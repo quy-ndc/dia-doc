@@ -36,7 +36,7 @@ export default function FilterButton({ categories, setCategories }: Prop) {
         retryDelay: attempt => Math.min(1000 * 2 ** attempt, 5000)
     })
 
-    const categoriesList: Category[] = data?.data.value.data || []
+    const categoriesList: Category[] = data ? data?.data?.value?.data : []
 
     const onRefresh = useCallback(() => {
         setRefreshing(true)
@@ -79,7 +79,7 @@ export default function FilterButton({ categories, setCategories }: Prop) {
                     >
                         {isLoading ? (
                             <FilterSkeleton />
-                        ) : isError || categoriesList.length == 0 && !isLoading ? (
+                        ) : isError || categoriesList?.length == 0 || !categoriesList ? (
                             <ErrorDisplay
                                 text={'Có lỗi khi lấy bộ lọc'}
                                 onRefresh={onRefresh}

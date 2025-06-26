@@ -1,5 +1,5 @@
 import * as React from 'react'
-import { Pressable, View } from "react-native"
+import { Dimensions, Pressable, View } from "react-native"
 import { Text } from "../../../components/ui/text"
 import { getHealthRecordDisplay } from '../../../assets/data/health-record-type'
 import { HealthRecordType } from '../../../assets/enum/health-record'
@@ -11,8 +11,10 @@ type Prop = {
     item: HealthTrackItem
 }
 
+const { width } = Dimensions.get('window')
+
 export default function HealthTrackerItem({ item }: Prop) {
-    
+
     const recordDisplay = getHealthRecordDisplay(item.recordType)
 
     const getValue = () => {
@@ -36,8 +38,11 @@ export default function HealthTrackerItem({ item }: Prop) {
 
     return (
         <Pressable
-            style={{ backgroundColor: recordDisplay.backgroundColor }}
-            className='basis-[48%] p-4 gap-2 rounded-xl active:scale-95'
+            style={{
+                backgroundColor: recordDisplay.backgroundColor,
+                width: width * 0.44
+            }}
+            className={`p-4 gap-2 rounded-xl active:scale-95 w-full`}
             onPress={handlePress}
         >
             <View className='flex-row items-center gap-3 mb-3'>

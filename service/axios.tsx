@@ -51,7 +51,8 @@ axiosServices.interceptors.response.use(
                 err.response.data
             )
 
-            if (err.response && (err.response.status === 401 || err.response.status === 403)) {
+            if (err.response && (err.response.status === 401)) {
+                // if (err.response && (err.response.status === 401 || err.response.status === 403)) {
                 handleUnauthorized()
             }
         } else {

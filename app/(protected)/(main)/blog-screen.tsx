@@ -35,7 +35,7 @@ export default function BlogScreen() {
         retry: 2,
         retryDelay: attempt => Math.min(800 * 2 ** attempt, 5000)
     })
-    const categoriesList: Category[] = categoriesData?.data?.value?.data || []
+    const categoriesList: Category[] = categoriesData ? categoriesData?.data?.value?.data : []
 
     const {
         data,
@@ -51,19 +51,19 @@ export default function BlogScreen() {
             PageSize: 7,
             CategoryIds: categories,
             SearchContent: search === '' ? undefined : search,
-            IsSortASC: isAscending, 
+            IsSortASC: isAscending,
             SortType: sortType === '' ? undefined : sortType
         }),
         getNextPageParam: (lastPage) => {
-            const posts = lastPage.data.value.data
-            return posts.hasNextPage ? posts.nextCursor : undefined
+            const posts = lastPage?.data?.value?.data || undefined
+            return posts?.hasNextPage ? posts.nextCursor : undefined
         },
         keepPreviousData: false,
         retry: 2,
         retryDelay: attempt => Math.min(1000 * 2 ** attempt, 5000)
     })
-    const allItems: BlogPost[] = data?.pages?.flatMap(page => page.data?.value?.data?.items) || []
-
+    const allItems: BlogPost[] = data ? data?.pages?.flatMap(page => page.data?.value?.data?.items) : []
+    
     const onRefresh = useCallback(() => {
         setRefreshing(true)
         remove()
@@ -116,7 +116,7 @@ export default function BlogScreen() {
                         </View>
                     </View>
                     <TopBlogTagList
-                        items={categoriesList}
+                        items={categoriesList || []}
                         isLoading={isLoadingCategories}
                         categories={categories}
                         setCategories={setCategories}
@@ -127,7 +127,7 @@ export default function BlogScreen() {
                     <BlogList
                         isLoading={isLoading}
                         isError={isError}
-                        allItems={allItems}
+                        allItems={allItems || []}
                         onRefresh={onRefresh}
                         refreshing={refreshing}
                         hasNextPage={hasNextPage as boolean}

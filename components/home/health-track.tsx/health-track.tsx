@@ -4,11 +4,11 @@ import SectionTitle from "../common/section-title"
 import { Activity } from "../../../lib/icons/Activity"
 import { GlobalColor } from "../../../global-color"
 import { useCallback } from 'react'
-import { GestureHandlerRootView } from 'react-native-gesture-handler'
 import HealthTrackingSkeleton from '../../common/skeleton/health-tracking-skeleton'
 import ErrorDisplay from '../../common/error-display'
 import HealthTrackerItem from './health-track-item'
 import { HealthTrackItem } from '../../../assets/types/user/health-track'
+import { FlashList } from '@shopify/flash-list'
 
 const { width } = Dimensions.get('window')
 
@@ -46,13 +46,20 @@ export default function HealthTracker({ items, isLoading, isError, refetch, remo
                     refreshing={refreshing}
                 />
             ) : (
-                <View className='flex-row flex-wrap gap-4 px-2'>
-                    {items.map((item, index) => (
-                        <HealthTrackerItem
-                            key={index}
-                            item={item}
-                        />
-                    ))}
+                <View className='w-full'>
+                    <FlashList<HealthTrackItem>
+                        data={items}
+                        renderItem={({ item, index }) => (
+                            <View className='m-2'>
+                                <HealthTrackerItem
+                                    key={index}
+                                    item={item}
+                                />
+                            </View>
+                        )}
+                        estimatedItemSize={10}
+                        numColumns={2}
+                    />
                 </View>
             )}
         </View>

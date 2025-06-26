@@ -61,11 +61,18 @@ export default function ProfileScreen() {
 
     if (!profile || isError) {
         return (
-            <ErrorDisplay
-                onRefresh={onRefresh}
-                refreshing={refreshing}
-                text='Không thể lấy hồ sơ người dùng'
-            />
+            <ScrollView 
+                contentContainerStyle={{ flexGrow: 1 }}
+                refreshControl={<RefreshControl refreshing={refreshing} onRefresh={onRefresh} />}
+            >
+                <View className="flex-1 justify-center items-center">
+                    <ErrorDisplay
+                        onRefresh={onRefresh}
+                        refreshing={refreshing}
+                        text='Không thể lấy hồ sơ người dùng'
+                    />
+                </View>
+            </ScrollView>
         )
     }
 

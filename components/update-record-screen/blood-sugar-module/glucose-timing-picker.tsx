@@ -1,13 +1,13 @@
-import * as React from 'react';
-import { Text } from '../ui/text';
-import { Dimensions, Pressable, useColorScheme, View } from 'react-native';
-import { useState } from 'react';
-import { GlobalColor } from '../../global-color';
-import { UtensilsCrossed } from '../../lib/icons/UtensilsCrossed';
-import { Bed } from '../../lib/icons/Bed';
-import { Ham } from '../../lib/icons/Ham';
-import { Bone } from '../../lib/icons/Bone';
-import { MeasureTime } from '../../assets/data/measure-time';
+import * as React from 'react'
+import { Text } from '../../ui/text'
+import { Dimensions, Pressable, useColorScheme, View } from 'react-native'
+import { useState } from 'react'
+import { GlobalColor } from '../../../global-color'
+import { UtensilsCrossed } from '../../../lib/icons/UtensilsCrossed'
+import { Bed } from '../../../lib/icons/Bed'
+import { Ham } from '../../../lib/icons/Ham'
+import { Bone } from '../../../lib/icons/Bone'
+import { MeasureTime } from '../../../assets/data/measure-time'
 
 
 const { width } = Dimensions.get('window')
@@ -78,5 +78,5 @@ export default function GlucoseTimingPicker({ setSelectPeriod }: Props) {
                 )
             })}
         </View>
-    );
+    )
 }

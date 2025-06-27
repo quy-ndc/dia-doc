@@ -4,14 +4,14 @@ import { Dimensions, ScrollView, View } from 'react-native'
 import { Input } from '../ui/input'
 import { useEffect, useState } from 'react'
 import { calculateChange } from '../../util/calculate-change'
-import RecordTimePicker from './time-picker'
+import RecordTimePicker from './common/time-picker'
 import { useUpdateUserHbA1cMutation } from '../../service/query/user-query'
 import { router } from 'expo-router'
-import NoteField from './note-field'
-import RecordConfirmButton from './record-confirm-button'
+import NoteField from './common/note-field'
+import RecordConfirmButton from './common/record-confirm-button'
 
 
-const { width } = Dimensions.get('window')
+const { width } = Dimensions.get('window')  
 
 type Props = {
     lastMesurement: string

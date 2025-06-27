@@ -101,9 +101,6 @@ export default function AuthenScreen() {
           <Smile className='text-foreground' size={19} />
           <Text className="text-base font-semibold tracking-wider">Đăng ký tài khoản mới</Text>
         </Pressable>
-        {/* <Pressable onPress={() => router.push('/')}>
-          <Text className='text-base font-semibold tracking-wider'>Đăng nhập với tài khoản</Text>
-        </Pressable> */}
       </View>
     </View>
   )

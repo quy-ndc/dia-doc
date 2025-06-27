@@ -4,10 +4,10 @@ import { Dimensions, ScrollView, View } from 'react-native'
 import { Input } from '../../components/ui/input'
 import { useEffect, useState } from 'react'
 import { calculateChange } from '../../util/calculate-change'
-import RecordTimePicker from './time-picker'
+import RecordTimePicker from './common/time-picker'
 import { useUpdateUserHeightMutation } from '../../service/query/user-query'
 import { router } from 'expo-router'
-import RecordConfirmButton from './record-confirm-button'
+import RecordConfirmButton from './common/record-confirm-button'
 
 
 const { width } = Dimensions.get('window')

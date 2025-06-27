@@ -1,16 +1,16 @@
 import * as React from 'react';
-import { Text } from '../../components/ui/text';
+import { Text } from '../../ui/text';
 import { Dimensions, Pressable, useColorScheme, View } from 'react-native';
 import { useState } from 'react';
-import { GlobalColor } from '../../global-color';
-import { Clock } from '../../lib/icons/Clock';
-import { Calendar } from '../../lib/icons/Calendar';
-import { Sun } from '../../lib/icons/Sun';
-import { Moon } from '../../lib/icons/Moon';
+import { GlobalColor } from '../../../global-color';
+import { Clock } from '../../../lib/icons/Clock';
+import { Calendar } from '../../../lib/icons/Calendar';
+import { Sun } from '../../../lib/icons/Sun';
+import { Moon } from '../../../lib/icons/Moon';
 import DateTimePicker from '@react-native-community/datetimepicker'
-import { formatTime } from '../../util/format-time';
-import SectionTitle from '../home/common/section-title';
-import { Sunrise } from '../../lib/icons/Sunrise';
+import { formatTime } from '../../../util/format-time';
+import SectionTitle from '../../home/common/section-title';
+import { Sunrise } from '../../../lib/icons/Sunrise';
 
 
 

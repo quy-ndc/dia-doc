@@ -6,7 +6,7 @@ import { getHealthRecordDisplay } from '../../assets/data/health-record-type';
 import { HealthRecordType } from '../../assets/enum/health-record';
 import WeightUpdateModule from '../../components/update-record-screen/weight-update-module';
 import HeightUpdateModule from '../../components/update-record-screen/height-update-module';
-import BloodSugarUpdateModule from '../../components/update-record-screen/blood-sugar-module';
+import BloodSugarUpdateModule from '../../components/update-record-screen/blood-sugar-module/blood-sugar-module';
 import BloodPressureUpdateModule from '../../components/update-record-screen/blood-pressure-module';
 import Hb1AcUpdateModule from '../../components/update-record-screen/hba1c-module';
 

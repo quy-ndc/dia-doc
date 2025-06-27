@@ -1,11 +1,11 @@
 import * as React from 'react'
-import { Text } from '../ui/text'
 import { Dimensions, Pressable, View } from 'react-native'
-import SpinningIcon from '../common/icons/spinning-icon'
-import { Loader } from '../../lib/icons/Loader'
-import { Check } from '../../lib/icons/Check'
-import { ArrowLeft } from '../../lib/icons/ArrowLeft'
+import SpinningIcon from '../../common/icons/spinning-icon'
+import { Loader } from '../../../lib/icons/Loader'
+import { Check } from '../../../lib/icons/Check'
+import { ArrowLeft } from '../../../lib/icons/ArrowLeft'
 import { router } from 'expo-router'
+import { Text } from '../../ui/text'
 
 
 const { width } = Dimensions.get('window')

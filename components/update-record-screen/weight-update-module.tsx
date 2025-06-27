@@ -1,20 +1,13 @@
 import * as React from 'react'
 import { Text } from '../../components/ui/text'
-import { Dimensions, Pressable, View } from 'react-native'
+import { Dimensions, View } from 'react-native'
 import { Input } from '../../components/ui/input'
 import { useEffect, useState } from 'react'
 import { calculateChange } from '../../util/calculate-change'
-import SectionTitle from '../../components/home/common/section-title'
-import { GlobalColor } from '../../global-color'
-import { Clock } from '../../lib/icons/Clock'
-import RecordTimePicker from './time-picker'
+import RecordTimePicker from './common/time-picker'
 import { useUpdateUserWeightMutation } from '../../service/query/user-query'
-import SpinningIcon from '../common/icons/spinning-icon'
-import { Loader } from '../../lib/icons/Loader'
-import { Check } from '../../lib/icons/Check'
-import { ArrowLeft } from '../../lib/icons/ArrowLeft'
 import { router } from 'expo-router'
-import RecordConfirmButton from './record-confirm-button'
+import RecordConfirmButton from './common/record-confirm-button'
 
 
 const { width } = Dimensions.get('window')

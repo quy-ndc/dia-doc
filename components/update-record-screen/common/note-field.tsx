@@ -1,9 +1,9 @@
 import * as React from 'react'
 import { View } from 'react-native'
-import SectionTitle from '../home/common/section-title'
-import { GlobalColor } from '../../global-color'
-import { Textarea } from '../ui/textarea'
-import { PencilLine } from '../../lib/icons/PencilLine'
+import SectionTitle from '../../home/common/section-title'
+import { GlobalColor } from '../../../global-color'
+import { Textarea } from '../../ui/textarea'
+import { PencilLine } from '../../../lib/icons/PencilLine'
 
 
 type Props = {

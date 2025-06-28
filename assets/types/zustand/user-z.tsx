@@ -12,7 +12,8 @@ export type User = {
 
     accessToken: string
     refreshToken: string
-    
+    expiresAt: string
+
     id: string
     role: UserRole
     fullname: string

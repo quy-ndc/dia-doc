@@ -1,6 +1,6 @@
 import { useMutation } from "@tanstack/react-query"
 import { LoginPatientRequest } from "../type/auth-type"
-import { LoginPatient, LoginUser, RegisterUser, ResendOtp, VerifyPhone } from "../api/auth-service"
+import { LoginPatient, LoginUser, RefreshToken, RegisterUser, ResendOtp, VerifyPhone } from "../api/auth-service"
 import Toast from "react-native-toast-message"
 
 export const useLoginPatientMutation = () => {
@@ -168,5 +168,31 @@ export const useResendOtpMutation = () => {
             })
             return error
         }
+    })
+}
+
+export const useRefreshTokenMutation = () => {
+    return useMutation({
+        mutationFn: RefreshToken,
+        onSuccess: (data) => {
+            if (data.status !== 200) {
+                Toast.show({
+                    type: 'error',
+                    text1: data.data.detail,
+                    text2: 'Vui lòng thử lại sau',
+                    visibilityTime: 2000,
+                })
+            }
+
+            return data
+        },
+        onError: (error) => {
+            Toast.show({
+                type: 'error',
+                text1: 'Làm mới token thất bại',
+                visibilityTime: 2000
+            })
+            return error
+        },
     })
 }

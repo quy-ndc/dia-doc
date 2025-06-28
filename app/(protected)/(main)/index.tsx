@@ -47,7 +47,7 @@ export default function HomeScreen() {
         Promise.all([refetch(), healthRecordRefetch()]).finally(() => setRefreshing(false))
     }, [refetch])
 
-    const items: BlogPost[] = data?.data?.value?.data || []
+    const items: BlogPost[] = data?.data?.data || []
     const healthRecordItems: HealthTrackItem[] = healthRecordData?.data?.value?.data || []
 
     return (

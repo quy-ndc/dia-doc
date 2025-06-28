@@ -23,7 +23,7 @@ export default function QuickAccess() {
     return (
         <View
             style={{ width: width }}
-            className='flex-col gap-5'
+            className='flex-col gap-2'
         >
             <View className='flex w-full px-3'>
                 <SectionTitle
@@ -98,7 +98,7 @@ export default function QuickAccess() {
                         onPress={() => router.push('/liked-blog-screen')}
                     />
                     <Pressable
-                        style={{ width: width * 0.25 }}
+                        style={{ width: width * 0.23 }}
                         className='flex-col gap-2 justify-center items-center px-4 py-2 rounded-xl opacity-0'
                     // onPress={onPress}
                     >
@@ -111,7 +111,7 @@ export default function QuickAccess() {
                         <Text className='text-sm font-medium tracking-wider'>aa</Text>
                     </Pressable>
                     <Pressable
-                        style={{ width: width * 0.25 }}
+                        style={{ width: width * 0.23 }}
                         className='flex-col gap-2 justify-center items-center px-4 py-2 rounded-xl opacity-0'
                     // onPress={onPress}
                     >

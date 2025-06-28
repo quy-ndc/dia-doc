@@ -49,7 +49,6 @@ export default function AuthenScreen() {
 
       <View className='absolute top-[50] right-[20] z-10'>
         <ThemeToggle />
-        <SpeechInfoButton/>
       </View>
 
       <View className='flex-col gap-2 items-center'>

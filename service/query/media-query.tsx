@@ -10,7 +10,7 @@ export const useMediaQuery = (params: {
     CategoryIds?: string[]
     UserCreatedId?: string
     SortType?: string
-    IsSortASC?: boolean
+    IsSortAsc?: boolean
     SelectedColumns?: string[]
 }) => {
     const queryKey = [QueryKeys.MEDIAS, params]
@@ -95,7 +95,7 @@ export const useBookmarkMediaQuery = (params: {
     CategoryIds?: string[]
     UserCreatedIds?: string
     SortType?: string
-    IsSortASC?: boolean
+    IsSortAsc?: boolean
     SelectedColumns?: string[]
 }) => {
     const queryKey = [QueryKeys.BOOKMARK_MEDIA, params]
@@ -116,7 +116,7 @@ export const useLikeMediaQuery = (params: {
     CategoryIds?: string[]
     UserCreatedIds?: string
     SortType?: string
-    IsSortASC?: boolean
+    IsSortAsc?: boolean
     SelectedColumns?: string[]
 }) => {
     const queryKey = [QueryKeys.LIKE_MEDIA, params]

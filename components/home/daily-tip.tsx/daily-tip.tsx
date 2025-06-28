@@ -38,7 +38,7 @@ export default function DailyTip() {
     }
 
     useEffect(() => {
-        const interval = setInterval(handlePress, 10000)
+        const interval = setInterval(handlePress, 15000)
         return () => clearInterval(interval)
     }, [])
 

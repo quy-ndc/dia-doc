@@ -47,7 +47,7 @@ export default function MainLayout() {
                 options={{
                     headerTitle: '',
                     title: 'Trang Chủ',
-                    tabBarIcon: () => <Home className='text-[var(--main-color)]' size={20} />,
+                    tabBarIcon: () => <Home color={GlobalColor.CYAN_NEON_BORDER} size={20} />,
                     headerRight: () => <HeaderRight />,
                     headerBackground: () => <HomeHeaderBg />,
                     headerLeft: () => <HomeHeaderText />,
@@ -59,7 +59,7 @@ export default function MainLayout() {
                 options={{
                     headerTitle: 'Tin Nhắn',
                     title: 'Tin nhắn',
-                    tabBarIcon: () => <MessageCircleMore className='text-[var(--main-color)]' size={20} />,
+                    tabBarIcon: () => <MessageCircleMore color={GlobalColor.CYAN_NEON_BORDER} size={20} />,
                     headerRight: () => <HeaderRight />,
                     animation: 'shift'
                 }}
@@ -69,7 +69,7 @@ export default function MainLayout() {
                 options={{
                     headerTitle: 'Bài Viết',
                     title: 'Bài viết',
-                    tabBarIcon: () => <Newspaper className='text-[var(--main-color)]' size={20} />,
+                    tabBarIcon: () => <Newspaper color={GlobalColor.CYAN_NEON_BORDER} size={20} />,
                     headerRight: () => <HeaderRight />,
                     animation: 'shift',
                 }}
@@ -79,7 +79,7 @@ export default function MainLayout() {
                 options={{
                     headerTitle: 'Hồ Sơ',
                     title: 'Hồ sơ',
-                    tabBarIcon: () => <User className='text-[var(--main-color)]' size={20} />,
+                    tabBarIcon: () => <User color={GlobalColor.CYAN_NEON_BORDER} size={20} />,
                     headerRight: () => <HeaderRight />,
                     animation: 'shift'
                 }}

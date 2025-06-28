@@ -10,6 +10,7 @@ import { Image } from 'expo-image'
 import { ChevronLeft } from '../../../lib/icons/ChevronLeft'
 import { ChevronRight } from '../../../lib/icons/ChevronRight'
 import { ThumbsUp } from '../../../lib/icons/ThumbsUp'
+import { GlobalColor } from '../../../global-color'
 
 const { height, width } = Dimensions.get('window')
 
@@ -102,7 +103,7 @@ export default function SpeechInfoButton() {
     return (
         <>
             <IconButton
-                icon={<CircleAlert className='text-[var(--info-text)]' size={15} />}
+                icon={<CircleAlert color={GlobalColor.BLUE_NEON_BORDER} size={16} />}
                 buttonSize={3}
                 possition={'other'}
                 onPress={() => setOpen(true)}

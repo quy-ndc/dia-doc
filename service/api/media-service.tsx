@@ -9,7 +9,7 @@ export const GetAllMedias = async (params: {
     CategoryIds?: string[]
     UserCreatedId?: string
     SortType?: string
-    IsSortASC?: boolean
+    IsSortAsc?: boolean
 }) => {
 
     try {
@@ -226,7 +226,7 @@ export const GetBookmarkMedia = async (params: {
     CategoryIds?: string[]
     UserCreatedId?: string
     SortType?: string
-    IsSortASC?: boolean
+    IsSortAsc?: boolean
 }) => {
     try {
         const queryString = createQueryString(params)
@@ -263,7 +263,7 @@ export const GetLikeMedia = async (params: {
     CategoryIds?: string[]
     UserCreatedId?: string
     SortType?: string
-    IsSortASC?: boolean
+    IsSortAsc?: boolean
 }) => {
     try {
         const queryString = createQueryString(params)

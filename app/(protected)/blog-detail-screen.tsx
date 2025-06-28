@@ -24,7 +24,7 @@ export default function BlogDetailScreen() {
         refetch().finally(() => setRefreshing(false))
     }, [refetch])
 
-    const item: BlogPost | null = data?.data?.value?.data ?? null;
+    const item: BlogPost | null = data?.data?.data ?? null;
 
     if (isLoading) {
         return (

@@ -97,7 +97,7 @@ export default function TopBlogTagList({ isLoading, items, categories, setCatego
                             />
                         </View>
                     )}
-                    estimatedItemSize={15}
+                    estimatedItemSize={100}
                     horizontal
                     showsHorizontalScrollIndicator={false}
                     extraData={categories}

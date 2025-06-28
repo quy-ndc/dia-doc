@@ -53,13 +53,13 @@ export default function BloodPressureUpdateModule({ lastMesurement }: Props) {
         <ScrollView>
             <View className='flex-1 flex-col gap-5 items-center pt-5 pb-10'>
                 <View
-                    style={{ width: width * 0.8 }}
+                    style={{ width: width * 0.9 }}
                     className='flex-col gap-3 items-center'
                 >
                     <Text className='text-lg font-bold tracking-wider capitalize'>Huyết áp hiện tại</Text>
                     <View className='w-full flex-row gap-3 justify-between'>
-                        <View className='flex-1 relative'>
-                            <Text className='text-sm font-semibold text-[var(--fade-text-color)] mb-2'>Tâm thu</Text>
+                        <View className='flex-1 flex-col items-center relative'>
+                            <Text className='text-base font-semibold text-[var(--fade-text-color)] tracking-wider mb-2'>Tâm thu</Text>
                             <Input
                                 style={{ textAlign: 'center', letterSpacing: 1.5, fontSize: 18, fontWeight: 'bold' }}
                                 value={systolic}
@@ -72,8 +72,8 @@ export default function BloodPressureUpdateModule({ lastMesurement }: Props) {
                                 mmHg
                             </Text>
                         </View>
-                        <View className='flex-1 relative'>
-                            <Text className='text-sm font-semibold text-[var(--fade-text-color)] mb-2'>Tâm trương</Text>
+                        <View className='flex-1 flex-col items-center relative'>
+                            <Text className='text-base font-semibold text-[var(--fade-text-color)] tracking-wider mb-2'>Tâm trương</Text>
                             <Input
                                 style={{ textAlign: 'center', letterSpacing: 1.5, fontSize: 18, fontWeight: 'bold' }}
                                 value={diastolic}

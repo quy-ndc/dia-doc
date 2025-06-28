@@ -49,7 +49,7 @@ export default function BlogDetailItem({ blogPost }: Prop) {
                     </View>
                 </View>
                 <View className="flex-row items-center">
-                    {/* <SpeechInfoButton /> */}
+                    <SpeechInfoButton />
                     <SpeechButton content={blogPost.content} />
                     <BookmarkButton bookmarked={blogPost.isBookMarked} postId={blogPost.id} />
                     <LikeButton liked={blogPost.isLiked} count={blogPost.like} postId={blogPost.id} />

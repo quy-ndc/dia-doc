@@ -36,7 +36,7 @@ export default function FilterButton({ categories, setCategories }: Prop) {
         retryDelay: attempt => Math.min(1000 * 2 ** attempt, 5000)
     })
 
-    const categoriesList: Category[] = data ? data?.data?.value?.data : []
+    const categoriesList: Category[] = data ? data?.data?.data : []
 
     const onRefresh = useCallback(() => {
         setRefreshing(true)
@@ -77,71 +77,74 @@ export default function FilterButton({ categories, setCategories }: Prop) {
                         style={{ width: width * 0.9, height: 'auto', minHeight: height * 0.23, maxHeight: height * 0.6 }}
                         className="flex-col justify-center bg-[var(--noti-bg)] rounded-2xl"
                     >
-                        {isLoading ? (
-                            <FilterSkeleton />
-                        ) : isError || categoriesList?.length == 0 || !categoriesList ? (
-                            <ErrorDisplay
-                                text={'Có lỗi khi lấy bộ lọc'}
-                                onRefresh={onRefresh}
-                                refreshing={refreshing}
-                            />
-                        ) : (
-                            <View className='flex-col gap-5 p-3'>
-                                <View className='flex-col gap-4 px-2 py-4'>
-                                    <View className='flex-row w-full justify-between items-center'>
-                                        <View className='flex-col gap-2'>
-                                            <Text className='text-lg font-bold tracking-widest capitalize'>Loại tiểu đường</Text>
-                                            <Text className='text-sm tracking-wider'>Đã chọn {current.length} danh mục</Text>
-                                        </View>
-                                        <IconButton
-                                            icon={<RefreshCcw className='text-foreground' size={17} />}
-                                            buttonSize={3}
-                                            possition={'other'}
-                                            onPress={onReset}
-                                        />
-                                    </View>
-                                </View>
 
-                                <View style={{ height: height * 0.35 }}>
-                                    <FlashList
-                                        refreshControl={<RefreshControl refreshing={refreshing} onRefresh={onRefresh} />}
-                                        data={categoriesList}
-                                        keyExtractor={(item) => item.id}
-                                        renderItem={({ item }) => (
-                                            <View className='m-1'>
-                                                <TopBlogTag
-                                                    tag={item}
-                                                    categories={current}
-                                                    setCategories={setCurrent}
-                                                    itemWidth={0.4}
-                                                    isTop={false}
-                                                />
-                                            </View>
-                                        )}
-                                        estimatedItemSize={80}
-                                        numColumns={2}
-                                        extraData={current}
+                        <View className='flex-col gap-5 p-3'>
+                            <View className='flex-col gap-4 px-2 py-4'>
+                                <View className='flex-row w-full justify-between items-center'>
+                                    <View className='flex-col gap-2'>
+                                        <Text className='text-lg font-bold tracking-widest capitalize'>Loại tiểu đường</Text>
+                                        <Text className='text-sm tracking-wider'>Đã chọn {current.length} danh mục</Text>
+                                    </View>
+                                    <IconButton
+                                        icon={<RefreshCcw className='text-foreground' size={17} />}
+                                        buttonSize={3}
+                                        possition={'other'}
+                                        onPress={onReset}
                                     />
                                 </View>
-                                <View className='flex-row justify-between items-center w-full py-3'>
-                                    <View />
-                                    <View className='flex-row items-center gap-3'>
-                                        <Pressable
-                                            className='px-6 py-2 rounded-full border-[0.5px] border-[var(--oppo-theme-col)] active:bg-[var(--click-bg)]'
-                                            onPress={() => setOpen(false)}
-                                        >
-                                            <Text className='text-sm font-semibold tracking-wider'>Hủy</Text>
-                                        </Pressable>
-                                        <Pressable
-                                            className='px-6 py-2 rounded-full border-[0.5px] bg-[var(--oppo-theme-col)] border-[var(--oppo-theme-col)] active:bg-[var(--oppo-click-bg)]'
-                                            onPress={onConfirm}
-                                        >
-                                            <Text className='text-sm text-[var(--same-theme-col)] font-semibold tracking-wider'>Đồng ý</Text>
-                                        </Pressable>
-                                    </View>
-                                </View>
                             </View>
-                        )}
+                            {isLoading ? (
+                                <FilterSkeleton />
+                            ) : isError || categoriesList?.length == 0 || !categoriesList ? (
+                                <ErrorDisplay
+                                    text={'Có lỗi khi lấy bộ lọc'}
+                                    onRefresh={onRefresh}
+                                    refreshing={refreshing}
+                                    showRefresh
+                                />
+                            ) : (
+                                <>
+                                    <View style={{ height: height * 0.35 }}>
+                                        <FlashList
+                                            refreshControl={<RefreshControl refreshing={refreshing} onRefresh={onRefresh} />}
+                                            data={categoriesList}
+                                            keyExtractor={(item) => item.id}
+                                            renderItem={({ item }) => (
+                                                <View className='m-1'>
+                                                    <TopBlogTag
+                                                        tag={item}
+                                                        categories={current}
+                                                        setCategories={setCurrent}
+                                                        itemWidth={0.4}
+                                                        isTop={false}
+                                                    />
+                                                </View>
+                                            )}
+                                            estimatedItemSize={80}
+                                            numColumns={2}
+                                            extraData={current}
+                                        />
+                                    </View>
+                                    <View className='flex-row justify-between items-center w-full py-3'>
+                                        <View />
+                                        <View className='flex-row items-center gap-3'>
+                                            <Pressable
+                                                className='px-6 py-2 rounded-full border-[0.5px] border-[var(--oppo-theme-col)] active:bg-[var(--click-bg)]'
+                                                onPress={() => setOpen(false)}
+                                            >
+                                                <Text className='text-sm font-semibold tracking-wider'>Hủy</Text>
+                                            </Pressable>
+                                            <Pressable
+                                                className='px-6 py-2 rounded-full border-[0.5px] bg-[var(--oppo-theme-col)] border-[var(--oppo-theme-col)] active:bg-[var(--oppo-click-bg)]'
+                                                onPress={onConfirm}
+                                            >
+                                                <Text className='text-sm text-[var(--same-theme-col)] font-semibold tracking-wider'>Đồng ý</Text>
+                                            </Pressable>
+                                        </View>
+                                    </View>
+                                </>
+                            )}
+                        </View>
                     </Pressable>
                 </Pressable>
             </Modal>

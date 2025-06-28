@@ -31,7 +31,7 @@ export default function HealthTracker({ items, isLoading, isError, refetch, remo
     return (
         <View
             style={{ width: width * 0.95 }}
-            className='flex-col gap-4 pt-2 pb-3 rounded-xl'
+            className='flex-col gap-1 pt-2 pb-3 rounded-xl'
         >
             <SectionTitle
                 icon={<Activity color={GlobalColor.BLUE_NEON_BORDER} size={18} />}

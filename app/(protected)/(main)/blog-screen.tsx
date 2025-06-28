@@ -35,7 +35,7 @@ export default function BlogScreen() {
         retry: 2,
         retryDelay: attempt => Math.min(800 * 2 ** attempt, 5000)
     })
-    const categoriesList: Category[] = categoriesData ? categoriesData?.data?.value?.data : []
+    const categoriesList: Category[] = categoriesData ? categoriesData?.data?.data : []
 
     const {
         data,
@@ -51,7 +51,7 @@ export default function BlogScreen() {
             PageSize: 7,
             CategoryIds: categories,
             SearchContent: search === '' ? undefined : search,
-            IsSortASC: isAscending,
+            IsSortAsc: isAscending,
             SortType: sortType === '' ? undefined : sortType
         }),
         getNextPageParam: (lastPage) => {
@@ -62,10 +62,8 @@ export default function BlogScreen() {
         retry: 2,
         retryDelay: attempt => Math.min(1000 * 2 ** attempt, 5000)
     })
-    const allItems: BlogPost[] = data ? data?.pages?.flatMap(page => page.data?.value?.data?.items) : []
+    const allItems: BlogPost[] = data ? data?.pages?.flatMap(page => page.data?.data?.items) : []
 
-    console.log(isError)
-    
     const onRefresh = useCallback(() => {
         setRefreshing(true)
         remove()

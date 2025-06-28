@@ -14,6 +14,7 @@ import { Phone } from '../../lib/icons/Phone'
 import { Smile } from '../../lib/icons/Smile'
 import useUserStore from '../../store/userStore'
 import SpeechInfoButton from '../../components/common/blog-item/blog-speech-info'
+import { GlobalColor } from '../../global-color'
 
 const { width } = Dimensions.get('window')
 
@@ -66,17 +67,17 @@ export default function AuthenScreen() {
 
       <View className='flex-col gap-4 items-center'>
         <FeatureItem
-          icon={<Bot className='text-foreground' size={20} />}
+          icon={<Bot color={GlobalColor.BLUE_NEON_BORDER} size={20} />}
           topText='Tư vấn AI thông minh'
           bottomText='Hỗ trợ 24/7 từ trí tuệ nhân tạo'
         />
         <FeatureItem
-          icon={<Newspaper className='text-foreground' size={20} />}
+          icon={<Newspaper color={GlobalColor.BLUE_NEON_BORDER} size={20} />}
           topText='Bài viết y khoa'
           bottomText='Cập nhật kiến thức sức khỏe mới nhất'
         />
         <FeatureItem
-          icon={<MessageCircleMore className='text-foreground' size={20} />}
+          icon={<MessageCircleMore color={GlobalColor.BLUE_NEON_BORDER} size={20} />}
           topText='Nhóm hỗ trợ'
           bottomText='Tham gia cộng đồng bệnh nhân'
         />

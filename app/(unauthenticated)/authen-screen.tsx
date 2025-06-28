@@ -59,6 +59,7 @@ export default function LoginScreen() {
             isSetUp: result.authUser.isFirstUpdated,
             accessToken: result.authToken.accessToken || '',
             refreshToken: result.authToken.refreshToken || '',
+            expiresAt: result.authToken.expiresAt || '',
             id: result.authUser.id || '',
             role: UserRole.PATIENT,
             fullname: result.authUser.fullName || '',

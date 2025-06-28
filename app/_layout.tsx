@@ -22,6 +22,7 @@ import { createNotificationChannel } from '../util/notification/create-noti-chan
 import { ChannelProvider } from 'ably/react'
 import { GLOBAL_CHAT_EVENT_CHANNEL } from '@env'
 import useUserStore from '../store/userStore'
+import { AuthorProvider } from '../util/provider/author-provider'
 
 const LIGHT_THEME: Theme = { ...DefaultTheme, colors: NAV_THEME.light }
 const DARK_THEME: Theme = { ...DarkTheme, colors: NAV_THEME.dark }
@@ -129,12 +130,14 @@ export default function RootLayout() {
           <ThemeProvider value={isDarkColorScheme ? DARK_THEME : LIGHT_THEME}>
             <StatusBar style={isDarkColorScheme ? 'light' : 'dark'} />
             <ReactQueryProvider>
-              <Stack>
-                <Stack.Screen name='(unauthenticated)' options={{ headerShown: false }} />
-                <Stack.Screen name='(protected)' options={{ headerShown: false }} />
-                <Stack.Screen name='+not-found' options={{ headerShown: false }} />
-              </Stack>
-              <NetworkOverlay />
+              <AuthorProvider>
+                <Stack>
+                  <Stack.Screen name='(unauthenticated)' options={{ headerShown: false }} />
+                  <Stack.Screen name='(protected)' options={{ headerShown: false }} />
+                  <Stack.Screen name='+not-found' options={{ headerShown: false }} />
+                </Stack>
+                <NetworkOverlay />
+              </AuthorProvider>
             </ReactQueryProvider>
             <PortalHost />
           </ThemeProvider>

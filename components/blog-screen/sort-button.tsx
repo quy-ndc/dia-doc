@@ -16,6 +16,7 @@ import { TrendingDown } from '../../lib/icons/TrendingDown'
 import { Activity } from '../../lib/icons/Activity'
 import { SortType } from '../../assets/enum/sort-type'
 
+
 const { width } = Dimensions.get('window')
 
 type Prop = {
@@ -30,7 +31,7 @@ export default function SortButton({ sortType, isAscending, setSortType, setIsAs
     const [open, setOpen] = useState(false)
     const [willSort, setWillSort] = useState(sortType)
     const [willAsc, setWillAsc] = useState(isAscending)
-
+    
     const onConfirm = () => {
         setSortType(willSort)
         setIsAscending(willAsc)
@@ -39,7 +40,7 @@ export default function SortButton({ sortType, isAscending, setSortType, setIsAs
 
     const onReset = () => {
         setWillSort('')
-        setWillAsc(false)
+        setWillAsc(false) 
         setOpen(false)
     }
 
@@ -91,7 +92,7 @@ export default function SortButton({ sortType, isAscending, setSortType, setIsAs
                                     </View>
                                 }
                                 text='Theo lượt xem'
-                                subText='Hiển thị bài viết theo lượt xem'
+                                subText='Hiển thị bài viết theo lượt  xem'
                                 isChoosen={willSort === SortType.VIEW}
                                 onPress={() => setWillSort(SortType.VIEW)}
                             />
@@ -128,7 +129,7 @@ export default function SortButton({ sortType, isAscending, setSortType, setIsAs
                         <View className='flex-row items-center justify-between w-full px-4'>
                             <View className='flex-row gap-2 items-center'>
                                 <Activity color={GlobalColor.RED_NEON_BORDER} size={18} />
-                                <Text className='text-lg font-bold tracking-wider'>Sắp xếp theo</Text>
+                                <Text className='text-lg font-bold tracking-wider'>Cách sắp xếp</Text>
                             </View>
                             <View />
                         </View>
@@ -136,7 +137,7 @@ export default function SortButton({ sortType, isAscending, setSortType, setIsAs
                             <SortOptions
                                 icon={
                                     <View
-                                        className='flex justify-center items-center p-3 rounded-md'
+                                        className='flex justify-center items-center p-3 rounded-full'
                                         style={{ backgroundColor: willAsc ? GlobalColor.CYAN_NEON_BORDER : GlobalColor.CYAN_NEON_BG }}
                                     >
                                         <TrendingUp color={willAsc ? 'white' : GlobalColor.CYAN_NEON_BORDER} size={18} />
@@ -150,7 +151,7 @@ export default function SortButton({ sortType, isAscending, setSortType, setIsAs
                             <SortOptions
                                 icon={
                                     <View
-                                        className='flex justify-center items-center p-3 rounded-md'
+                                        className='flex justify-center items-center p-3 rounded-full'
                                         style={{ backgroundColor: !willAsc ? GlobalColor.RED_NEON_BORDER : GlobalColor.RED_NEON_BG }}
                                     >
                                         <TrendingDown color={!willAsc ? 'white' : GlobalColor.RED_NEON_BORDER} size={18} />

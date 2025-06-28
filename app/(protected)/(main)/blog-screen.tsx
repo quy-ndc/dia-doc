@@ -63,6 +63,8 @@ export default function BlogScreen() {
         retryDelay: attempt => Math.min(1000 * 2 ** attempt, 5000)
     })
     const allItems: BlogPost[] = data ? data?.pages?.flatMap(page => page.data?.value?.data?.items) : []
+
+    console.log(isError)
     
     const onRefresh = useCallback(() => {
         setRefreshing(true)

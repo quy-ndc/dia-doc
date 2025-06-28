@@ -13,6 +13,7 @@ import { useRouter } from 'expo-router'
 import { Phone } from '../../lib/icons/Phone'
 import { Smile } from '../../lib/icons/Smile'
 import useUserStore from '../../store/userStore'
+import SpeechInfoButton from '../../components/common/blog-item/blog-speech-info'
 
 const { width } = Dimensions.get('window')
 
@@ -47,6 +48,7 @@ export default function AuthenScreen() {
 
       <View className='absolute top-[50] right-[20] z-10'>
         <ThemeToggle />
+        <SpeechInfoButton/>
       </View>
 
       <View className='flex-col gap-2 items-center'>

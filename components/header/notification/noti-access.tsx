@@ -17,6 +17,7 @@ import { RefreshCcw } from '../../../lib/icons/RefreshCcw'
 import QuickButton from '../../home/quick-access/quick-button'
 import NotificationSkeleton from '../../common/skeleton/notification-skeleton'
 import { GlobalColor } from '../../../global-color'
+import ErrorDisplay from '../../common/error-display'
 
 const { height, width } = Dimensions.get('window')
 
@@ -132,22 +133,11 @@ export default function NotificationAccess({ position }: Prop) {
                                     contentContainerStyle={{ alignItems: 'center', justifyContent: 'center', flexGrow: 1 }}
                                     refreshControl={<RefreshControl refreshing={refreshing} onRefresh={onRefresh} />}
                                 >
-                                    <View className="flex-col gap-2 items-center">
-                                        <Text className="text-muted-foreground text-lg font-semibold italic tracking-wider">
-                                            Không có thông báo nào
-                                        </Text>
-                                        <Pressable
-                                            className="flex-row gap-3 items-center px-4 py-2 rounded-full active:bg-[var(--click-bg)]"
-                                            onPress={onRefresh}
-                                        >
-                                            <Text className="text-foreground text-base font-semibold tracking-wider capitalize">Thử lại</Text>
-                                            {refreshing ? (
-                                                <SpinningIcon icon={<RefreshCcw className="text-foreground" size={15} />} />
-                                            ) : (
-                                                <RefreshCcw className="text-foreground" size={15} />
-                                            )}
-                                        </Pressable>
-                                    </View>
+                                    <ErrorDisplay
+                                        text='Không có thông báo nào'
+                                        onRefresh={onRefresh}
+                                        refreshing={refreshing}
+                                    />
                                 </ScrollView>
                             ) : (
                                 <View className='flex-1 flex-col w-full'>

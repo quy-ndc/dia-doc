@@ -9,6 +9,8 @@ import { ChevronLeft } from "../../lib/icons/ChevronLeft"
 import { ChevronRight } from "../../lib/icons/ChevronRight"
 import { useCallback, useRef, useState } from "react"
 import ErrorDisplay from "../common/error-display"
+import { Flame } from "../../lib/icons/Flame"
+import { GlobalColor } from "../../global-color"
 
 type Prop = {
     items: Category[]
@@ -56,7 +58,10 @@ export default function TopBlogTagList({ isLoading, items, categories, setCatego
     return (
         <View className="flex-col gap-3">
             <View className="flex-row w-full justify-between items-center">
-                <Text className="text-lg px-3 font-semibold tracking-wider">Các danh mục nổi bật</Text>
+                <View className="flex-row gap-2 items-center px-1">
+                    <Flame color={GlobalColor.RED_NEON_BORDER} fill={GlobalColor.RED_NEON_BG} size={17} />
+                    <Text className="text-lg font-semibold tracking-wider">Các danh mục nổi bật</Text>
+                </View>
                 <View className="flex-row gap-3 items-center">
                     <IconButton
                         onPress={() => scrollByOffset("left")}

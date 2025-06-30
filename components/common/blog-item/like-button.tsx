@@ -25,7 +25,7 @@ export default function LikeButton({ liked, count, postId }: Prop) {
 
     useEffect(() => {
         if (!data || data.status !== 200) return
-        const action = data.data.value.code
+        const action = data?.data?.code
         if (action === LikeStatus.ADD_LIKE) {
             if (!isLiked) {
                 setIsLiked(true)

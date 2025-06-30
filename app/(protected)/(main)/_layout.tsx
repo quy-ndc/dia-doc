@@ -6,19 +6,14 @@ import { Home } from '../../../lib/icons/Home'
 import { Newspaper } from '../../../lib/icons/Newspaper'
 import { Dimensions, Platform, useColorScheme } from 'react-native'
 import { GlobalColor } from '../../../global-color'
-import { LinearGradient } from 'expo-linear-gradient'
-import { useWelcomeGradientColors } from '../../../util/get-welcome-bg'
 import HomeHeaderBg from '../../../components/home/header/header-bg'
 import HomeHeaderText from '../../../components/home/header/header-text'
+import { Bot } from '../../../lib/icons/Bot'
 
 
 const { height } = Dimensions.get('window')
 
 export default function MainLayout() {
-
-    const theme = useColorScheme()
-    const welcome = useWelcomeGradientColors()
-    const tabBarActiveBg = theme == 'dark' ? GlobalColor.TAB_BAR_ACTIVE_BG_DARK : GlobalColor.TAB_BAR_ACTIVE_BG_LIGHT
 
     return (
         <Tabs
@@ -31,15 +26,15 @@ export default function MainLayout() {
                     height: Platform.OS == 'ios' ? height * 0.104 : height * 0.07,
                 },
                 tabBarLabelStyle: {
-                    fontSize: 12,
+                    fontSize: 11,
                     fontWeight: 400,
                     letterSpacing: 0.6
                 },
-                tabBarActiveBackgroundColor: tabBarActiveBg,
+                tabBarActiveBackgroundColor: GlobalColor.BLUE_NEON_BG,
                 headerTitleStyle: {
                     fontWeight: 'bold',
                     letterSpacing: 1
-                }
+                },
             }}
         >
             <Tabs.Screen
@@ -47,7 +42,7 @@ export default function MainLayout() {
                 options={{
                     headerTitle: '',
                     title: 'Trang Chủ',
-                    tabBarIcon: () => <Home color={GlobalColor.CYAN_NEON_BORDER} size={20} />,
+                    tabBarIcon: () => <Home color={GlobalColor.BLUE_NEON_BORDER} size={17} />,
                     headerRight: () => <HeaderRight />,
                     headerBackground: () => <HomeHeaderBg />,
                     headerLeft: () => <HomeHeaderText />,
@@ -59,7 +54,17 @@ export default function MainLayout() {
                 options={{
                     headerTitle: 'Tin Nhắn',
                     title: 'Tin nhắn',
-                    tabBarIcon: () => <MessageCircleMore color={GlobalColor.CYAN_NEON_BORDER} size={20} />,
+                    tabBarIcon: () => <MessageCircleMore color={GlobalColor.BLUE_NEON_BORDER} size={17} />,
+                    headerRight: () => <HeaderRight />,
+                    animation: 'shift'
+                }}
+            />
+            <Tabs.Screen
+                name="ai-chat-screen"
+                options={{
+                    headerTitle: 'Bác sỹ AI',
+                    title: 'AI Chat',
+                    tabBarIcon: () => <Bot color={GlobalColor.BLUE_NEON_BORDER} size={17} />,
                     headerRight: () => <HeaderRight />,
                     animation: 'shift'
                 }}
@@ -69,7 +74,7 @@ export default function MainLayout() {
                 options={{
                     headerTitle: 'Bài Viết',
                     title: 'Bài viết',
-                    tabBarIcon: () => <Newspaper color={GlobalColor.CYAN_NEON_BORDER} size={20} />,
+                    tabBarIcon: () => <Newspaper color={GlobalColor.BLUE_NEON_BORDER} size={17} />,
                     headerRight: () => <HeaderRight />,
                     animation: 'shift',
                 }}
@@ -79,7 +84,7 @@ export default function MainLayout() {
                 options={{
                     headerTitle: 'Hồ Sơ',
                     title: 'Hồ sơ',
-                    tabBarIcon: () => <User color={GlobalColor.CYAN_NEON_BORDER} size={20} />,
+                    tabBarIcon: () => <User color={GlobalColor.BLUE_NEON_BORDER} size={17} />,
                     headerRight: () => <HeaderRight />,
                     animation: 'shift'
                 }}

@@ -19,23 +19,23 @@ export default function ProtectedLayout() {
         return <Redirect href="/set-up-screen" />;
     }
 
-    const { } = useChannel(`${GLOBAL_CHAT_EVENT_CHANNEL}`, `${GLOBAL_CHAT_EVENT_NAME}`, (payload) => {
-        const response: GlobalMessageEvent = JSON.parse(payload.data.Value.Message)
-        const newMessage: Message = {
-            content: response.MessageContent,
-            createdDate: response.CreationDate,
-            id: response.MessageId,
-            isRead: true,
-            type: response.Type,
-            user: {
-                avatar: response.Sender.Avatar,
-                fullName: response.Sender.FullName,
-                id: response.Sender.SenderId
-            }
-        }
-        addMessage(response.GroupId, newMessage)
-        setLatestMessage(response.GroupId, newMessage)
-    })
+    // const { } = useChannel(`${GLOBAL_CHAT_EVENT_CHANNEL}`, `${GLOBAL_CHAT_EVENT_NAME}`, (payload) => {
+    //     const response: GlobalMessageEvent = JSON.parse(payload.data.Value.Message)
+    //     const newMessage: Message = {
+    //         content: response.MessageContent,
+    //         createdDate: response.CreationDate,
+    //         id: response.MessageId,
+    //         isRead: true,
+    //         type: response.Type,
+    //         user: {
+    //             avatar: response.Sender.Avatar,
+    //             fullName: response.Sender.FullName,
+    //             id: response.Sender.SenderId
+    //         }
+    //     }
+    //     addMessage(response.GroupId, newMessage)
+    //     setLatestMessage(response.GroupId, newMessage)
+    // })
 
     return (
         <Stack>

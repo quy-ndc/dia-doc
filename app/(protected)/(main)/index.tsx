@@ -58,7 +58,7 @@ export default function HomeScreen() {
                 decelerationRate={'normal'}
                 refreshControl={<RefreshControl refreshing={refreshing} onRefresh={onRefresh} />}
             >
-                <View className='flex-col items-center gap-10'>
+                <View className='flex-col items-center gap-5'>
                     <QuickAccess />
                     <DailyTip />
                     <HealthTracker
@@ -75,7 +75,8 @@ export default function HomeScreen() {
                         items={items}
                         refetch={refetch}
                         remove={remove}
-                        refreshing={refreshing} />
+                        refreshing={refreshing}
+                    />
                     <LogoutButton />
                 </View>
             </ScrollView>

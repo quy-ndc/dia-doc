@@ -1,114 +1,46 @@
-import { FlashList } from '@shopify/flash-list'
 import * as React from 'react'
-import { useCallback, useEffect, useState } from 'react'
-import { Dimensions, RefreshControl, ScrollView, View } from 'react-native'
-import ChatItem from '../../../components/chat-screen/chat-item'
-import { useGroupChatQuery } from '../../../service/query/chat-query'
-import { useQuery, useQueryClient } from '@tanstack/react-query'
-import { GroupChat } from '../../../assets/types/chat/group'
-import { useMessageStore } from '../../../store/useMessage'
-import GroupChatSkeleton from '../../../components/common/skeleton/chat-group-skeleton'
-import { QueryKeys } from '../../../assets/enum/query'
-import ErrorDisplay from '../../../components/common/error-display'
-
-const { width } = Dimensions.get('window')
+import GroupChatModule from '../../../components/message-screen/group-chat-module'
+import { useEffect, useState } from 'react';
+import { View } from 'react-native';
+import { Tabs, TabsContent, TabsList, TabsTrigger } from '../../../components/ui/tabs';
+import { Text } from '../../../components/ui/text';
+import { useLocalSearchParams } from 'expo-router';
+import PrivateChatModule from '../../../components/message-screen/private-chat-module';
 
 export default function MessagesScreen() {
-
-    const queryClient = useQueryClient();
-    const [refreshing, setRefreshing] = useState(false)
-    const { setGroups, setLatestMessage } = useMessageStore()
-
-    const { data,
-        isLoading,
-        isError,
-        remove,
-        refetch,
-    } = useQuery({
-        ...useGroupChatQuery({}),
-        retry: 2,
-        retryDelay: attempt => Math.min(1000 * 2 ** attempt, 5000),
-        onSuccess: () => {
-            queryClient.invalidateQueries({
-                predicate: (query) =>
-                    query.queryKey[0] === QueryKeys.CHAT_MESSAGES,
-            })
-            queryClient.removeQueries({
-                predicate: (query) => query.queryKey[0] === QueryKeys.CHAT_MESSAGES
-            })
-            queryClient.refetchQueries({
-                predicate: (query) => query.queryKey[0] === QueryKeys.CHAT_MESSAGES
-            })
-        }
-    })
-
-    const groups: GroupChat[] = data?.data?.value?.groups?.items || []
-    const groupIds: string[] = groups.map(group => group.id)
-
-    const onRefresh = useCallback(() => {
-        setRefreshing(true)
-        queryClient.invalidateQueries({ queryKey: [QueryKeys.CHAT_MESSAGES] })
-        remove()
-        refetch().finally(() => setRefreshing(false))
-    }, [queryClient, refetch])
+    const { type } = useLocalSearchParams();
+    const [value, setValue] = useState('group');
 
     useEffect(() => {
-        if (groupIds.length > 0 && data && !isLoading) {
-            setGroups(groupIds)
-
-            groups.forEach(group => {
-                if (group.message) {
-                    setLatestMessage(group.id, group.message)
-                }
-            })
+        if (type) {
+            setValue(type as string);
         }
-    }, [data])
-
-    if (isLoading) return <GroupChatSkeleton />
-
-    if (isError || groups.length === 0) {
-        return (
-            <ScrollView
-                contentContainerStyle={{ flexGrow: 1 }}
-                refreshControl={<RefreshControl refreshing={refreshing} onRefresh={onRefresh} />}
-            >
-                <View className="flex-1 justify-center items-center">
-                    <ErrorDisplay
-                        onRefresh={onRefresh}
-                        refreshing={refreshing}
-                        text='Không có cuộc trò chuyện nào.'
-                    />
-                </View>
-            </ScrollView>
-        )
-    }
+    }, [type]);
 
     return (
-        <ScrollView
-            className="w-full pb-5"
-            contentContainerStyle={{ alignItems: 'center' }}
-            refreshControl={<RefreshControl refreshing={refreshing} onRefresh={onRefresh} />}
-            decelerationRate={'normal'}
-        >
-            <View style={{ width: width }}>
-                <FlashList<GroupChat>
-                    data={groups}
-                    keyExtractor={(_, index) => index.toString()}
-                    renderItem={({ item }) => (
-                        <ChatItem
-                            id={item.id}
-                            img={item.avatar}
-                            name={item.name}
-                            user={item.message ? item.message.user.fullName : undefined}
-                            message={item.message ? item.message.content : undefined}
-                            type={item.message ? item.message.type : undefined}
-                            time={item.message ? item.message.createdDate : undefined}
-                            hasNewMessage={item.message ? item.message.isRead : false}
-                        />
-                    )}
-                    estimatedItemSize={100}
-                />
+        <>
+            <View className='px-4'>
+                <Tabs
+                    value={value}
+                    onValueChange={setValue}
+                    className='w-full flex-col gap-1.5'
+                >
+                    <TabsList className='flex-row w-full'>
+                        <TabsTrigger value='group' className='flex-1'>
+                            <Text className='text-base font-semibold tracking-wider'>Nhóm cộng đồng</Text>
+                        </TabsTrigger>
+                        <TabsTrigger value='private' className='flex-1'>
+                            <Text className='text-base font-semibold tracking-wider'>Tư vấn riêng</Text>
+                        </TabsTrigger>
+                    </TabsList>
+                    <TabsContent value='group'>
+                        <GroupChatModule />
+                    </TabsContent>
+                    <TabsContent value='private'>
+                        <PrivateChatModule />
+                    </TabsContent>
+                </Tabs>
             </View>
-        </ScrollView >
+        </>
     )
 }

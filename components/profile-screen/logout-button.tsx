@@ -5,14 +5,18 @@ import { useRouter } from 'expo-router'
 import { Pressable, View } from 'react-native'
 import { Text } from '../../components/ui/text'
 import { GlobalColor } from '../../global-color'
+import { useQueryClient } from '@tanstack/react-query'
+import { invalidateQuery } from '../../util/invalidate-queries'
 
 export default function LogoutButton() {
 
     const { logout } = useUserStore()
     const router = useRouter()
+    const queryClient = useQueryClient()
 
     const onLogout = () => {
         logout()
+        invalidateQuery(queryClient)
         router.replace('/landing-screen')
     }
 

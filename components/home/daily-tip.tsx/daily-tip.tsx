@@ -46,7 +46,7 @@ export default function DailyTip() {
         <Pressable
             onPress={handlePress}
             style={{ backgroundColor: GlobalColor.ORANGE_NEON_BG, width: width * 0.95 }}
-            className='flex-col gap-4 pt-2 pb-3 rounded-xl active:opacity-70'
+            className='flex-col gap-2 pt-2 pb-3 rounded-xl active:opacity-70'
         >
             <View className="flex-row w-full px-3 justify-between items-center">
                 <View className='flex-row gap-3 items-center text-center'>

@@ -18,10 +18,4 @@ export type User = {
     role: UserRole
     fullname: string
     avatar: string
-    phone: string
-    diaType: number
-    gender: number
-    bod: string
-    weight: number
-    height: number
 }

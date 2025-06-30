@@ -41,12 +41,10 @@ export default function ChatScreen() {
                 />
             </Modal> */}
             <ChatRoomProvider id={id} options={AllFeaturesEnabled}>
-                {/* <ChannelProvider channelName="message-read-latest"> */}
                 <ChatModule
                     groupId={id as string}
                     setIsCameraOn={setIsCameraOn}
                 />
-                {/* </ChannelProvider> */}
             </ChatRoomProvider>
         </>
     );

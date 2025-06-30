@@ -16,13 +16,10 @@ import { Check } from '../../lib/icons/Check'
 import useUserStore from '../../store/userStore'
 import Toast from 'react-native-toast-message'
 import { router } from 'expo-router'
-import { diaTypes } from '../../assets/data/dia-types'
 import { genders } from '../../assets/data/genders'
 import { useCreateUserProfileMutation } from '../../service/query/user-query'
-import { User } from '../../assets/types/zustand/user-z'
 import SpinningIcon from '../common/icons/spinning-icon'
 import { Loader } from '../../lib/icons/Loader'
-import { Patient } from '../../assets/types/user/patient'
 import { diagnosisRecencyTypes } from '../../assets/data/diagnosis-recency'
 import { type2TreatmentTypes } from '../../assets/data/type-2-treatment'
 import { controlLevelTypes } from '../../assets/data/control-level'
@@ -32,6 +29,8 @@ import { exerciseFrequencyTypes } from '../../assets/data/exercise-frequency'
 import { eatingHabitTypes } from '../../assets/data/eating-habits'
 import { medicalHistoryTypes } from '../../assets/data/medical-histories'
 import { Checkbox } from '../ui/checkbox'
+import { diaTypes } from '../../assets/data/dia-types'
+import { User } from '../../assets/types/zustand/user-z'
 
 const { width } = Dimensions.get('window')
 
@@ -142,8 +141,8 @@ export default function SetUpPatient({ mode }: Prop) {
         resolver: yupResolver<FormValues>(schema),
         defaultValues: {
             fullname: '',
-            weight: user.weight || 0,
-            height: user.height || 0,
+            weight: 0,
+            height: 0,
             gender: '',
             diaRecency: '',
             diagnosisYear: undefined,
@@ -195,11 +194,6 @@ export default function SetUpPatient({ mode }: Prop) {
                 ...user,
                 isSetUp: true,
                 fullname: request.fullName,
-                gender: request.gender,
-                bod: request.dateOfBirth,
-                weight: request.weightKg,
-                height: request.heightCm,
-                diaType: request.diabetes
             })
             
             await mutateAsync(request)

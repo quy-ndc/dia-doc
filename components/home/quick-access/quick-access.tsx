@@ -13,6 +13,8 @@ import { Text } from '../../../components/ui/text'
 import { Bookmark } from '../../../lib/icons/Bookmark'
 import { Heart } from '../../../lib/icons/Heart'
 import { PencilLine } from '../../../lib/icons/PencilLine'
+import { Users } from '../../../lib/icons/Users'
+import { Bot } from '../../../lib/icons/Bot'
 
 const { width } = Dimensions.get('window')
 
@@ -44,8 +46,41 @@ export default function QuickAccess() {
                             </View>
                         }
                         title='Tin nhắn'
-                        onPress={() => router.push('/message-screen')}
+                        onPress={() => router.push({
+                            pathname: '/message-screen',
+                            params: { type: 'group' }
+                        })}
                     />
+                    <QuickButton
+                        icon={
+                            <View
+                                style={{ backgroundColor: GlobalColor.PURPLE_NEON_BG }}
+                                className='flex p-3 justify-center items-center rounded-full'
+                            >
+                                <Users color={GlobalColor.PURPLE_NEON_BORDER} size={17} />
+                            </View>
+                        }
+                        title='Tư vấn'
+                        onPress={() => router.push({
+                            pathname: '/message-screen',
+                            params: { type: 'private' }
+                        })}
+                    />
+                    <NotificationAccess position='quick' />
+                    <QuickButton
+                        icon={
+                            <View
+                                style={{ backgroundColor: GlobalColor.CYAN_NEON_BG }}
+                                className='flex p-3 justify-center items-center rounded-full'
+                            >
+                                <Bot color={GlobalColor.CYAN_NEON_BORDER} size={17} />
+                            </View>
+                        }
+                        title='AI Chat'
+                        onPress={() => router.push('/ai-chat-screen')}
+                    />
+                </View>
+                <View className='flex flex-row justify-between'>
                     <QuickButton
                         icon={
                             <View
@@ -58,21 +93,6 @@ export default function QuickAccess() {
                         title='Bài viết'
                         onPress={() => router.push('/blog-screen')}
                     />
-                    <NotificationAccess position='quick' />
-                    <QuickButton
-                        icon={
-                            <View
-                                style={{ backgroundColor: GlobalColor.RED_NEON_BG }}
-                                className='flex p-3 justify-center items-center rounded-full'
-                            >
-                                <User color={GlobalColor.RED_NEON_BORDER} size={17} />
-                            </View>
-                        }
-                        title='Hồ sơ'
-                        onPress={() => router.push('/profile-screen')}
-                    />
-                </View>
-                <View className='flex flex-row justify-between'>
                     <QuickButton
                         icon={
                             <View
@@ -97,32 +117,18 @@ export default function QuickAccess() {
                         title='Yêu thích'
                         onPress={() => router.push('/liked-blog-screen')}
                     />
-                    <Pressable
-                        style={{ width: width * 0.23 }}
-                        className='flex-col gap-2 justify-center items-center px-4 py-2 rounded-xl opacity-0'
-                    // onPress={onPress}
-                    >
-                        <View
-                            style={{ backgroundColor: GlobalColor.GREEN_NEON_BG }}
-                            className='flex p-3 justify-center items-center rounded-full'
-                        >
-                            <MessageCircleMore color={GlobalColor.GREEN_NEON_BORDER} size={17} />
-                        </View>
-                        <Text className='text-sm font-medium tracking-wider'>aa</Text>
-                    </Pressable>
-                    <Pressable
-                        style={{ width: width * 0.23 }}
-                        className='flex-col gap-2 justify-center items-center px-4 py-2 rounded-xl opacity-0'
-                    // onPress={onPress}
-                    >
-                        <View
-                            style={{ backgroundColor: GlobalColor.GREEN_NEON_BG }}
-                            className='flex p-3 justify-center items-center rounded-full'
-                        >
-                            <MessageCircleMore color={GlobalColor.GREEN_NEON_BORDER} size={17} />
-                        </View>
-                        <Text className='text-sm font-medium tracking-wider'>aa</Text>
-                    </Pressable>
+                    <QuickButton
+                        icon={
+                            <View
+                                style={{ backgroundColor: GlobalColor.RED_NEON_BG }}
+                                className='flex p-3 justify-center items-center rounded-full'
+                            >
+                                <User color={GlobalColor.RED_NEON_BORDER} size={17} />
+                            </View>
+                        }
+                        title='Hồ sơ'
+                        onPress={() => router.push('/profile-screen')}
+                    />
                 </View>
             </View>
         </View>

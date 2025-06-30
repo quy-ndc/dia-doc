@@ -22,7 +22,7 @@ export default function BookmarkButton({ postId, bookmarked }: Prop) {
 
     useEffect(() => {
         if (!data || data.status !== 200) return
-        if (data.data.value.code == BookmarkStatus.ADD_BOOKMARK) {
+        if (data?.data?.code == BookmarkStatus.ADD_BOOKMARK) {
             setIsBookmarked(true)
         } else {
             setIsBookmarked(false)

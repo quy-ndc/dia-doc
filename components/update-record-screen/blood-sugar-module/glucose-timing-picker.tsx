@@ -31,24 +31,28 @@ export default function GlucoseTimingPicker({ setSelectPeriod }: Props) {
     const timeOptions = [
         {
             label: 'Chưa ăn',
+            description: '8+ tiếng không ăn',
             icon: <UtensilsCrossed color={selectedItem === 0 ? GlobalColor.RED_NEON_BORDER : themeColor} size={18} />,
             color: GlobalColor.RED_NEON_BORDER,
             onPress: () => handleSelectPeriod(MeasureTime.HAVE_NOT_EATEN, 0)
         },
         {
             label: 'Trước bữa ăn',
+            description: '15-30p trước bữa ăn',
             icon: <Ham color={selectedItem === 1 ? GlobalColor.YELLOW_NEON_BORDER : themeColor} size={18} />,
             color: GlobalColor.YELLOW_NEON_BORDER,
             onPress: () => handleSelectPeriod(MeasureTime.BEFORE_MEAL, 1)
         },
         {
             label: 'Sau bữa ăn',
+            description: '1-2 tiếng sau bữa ăn',
             icon: <Bone color={selectedItem === 2 ? GlobalColor.GREEN_NEON_BORDER : themeColor} size={18} />,
             color: GlobalColor.GREEN_NEON_BORDER,
             onPress: () => handleSelectPeriod(MeasureTime.AFTER_MEAL, 2)
         },
         {
             label: 'Trước ngủ',
+            description: '15-30p trước khi ngủ',
             icon: <Bed color={selectedItem === 3 ? GlobalColor.PURPLE_NEON_BORDER : themeColor} size={18} />,
             color: GlobalColor.PURPLE_NEON_BORDER,
             onPress: () => handleSelectPeriod(MeasureTime.BEFORE_BED, 3)
@@ -63,15 +67,23 @@ export default function GlucoseTimingPicker({ setSelectPeriod }: Props) {
                         key={index}
                         onPress={item.onPress}
                         style={{ width: (width - 40 - 12) / 2, borderColor: selectedItem === index ? item.color : themeColor }}
-                        className={`py-5 rounded-md border border-[var(--fade-text-color)] items-center justify-center active:scale-95`}
+                        className={`px-3 py-5 rounded-md border border-[var(--fade-text-color)] active:scale-95`}
                     >
-                        <View className='flex-row items-center gap-3'>
-                            {item.icon}
+                        <View className='flex-col gap-2'>
+                            <View className='flex-row items-center gap-3'>
+                                {item.icon}
+                                <Text
+                                    style={{ color: selectedItem === index ? item.color : themeColor }}
+                                    className={`text-base tracking-wider capitalize ${selectedItem === index ? 'font-bold' : ''}`}
+                                >
+                                    {item.label}
+                                </Text>
+                            </View>
                             <Text
                                 style={{ color: selectedItem === index ? item.color : themeColor }}
-                                className={`text-base tracking-wider capitalize ${selectedItem === index ? 'font-bold' : ''}`}
+                                className={`text-sm tracking-wider ${selectedItem === index ? 'font-bold' : ''}`}
                             >
-                                {item.label}
+                                {item.description}
                             </Text>
                         </View>
                     </Pressable>

@@ -2,13 +2,17 @@ import axios, { AxiosError } from "axios"
 import { router } from "expo-router"
 import useUserStore from "../store/userStore"
 import Toast from "react-native-toast-message"
+import { useQueryClient } from "@tanstack/react-query"
+import { invalidateQuery } from "../util/invalidate-queries"
 
 const axiosServices = axios.create({
     timeout: 10000,
 })
 
 const handleUnauthorized = () => {
+    const queryClient = useQueryClient()
     const { logout } = useUserStore.getState()
+    invalidateQuery(queryClient)
     router.replace('/landing-screen')
     logout()
     Toast.show({

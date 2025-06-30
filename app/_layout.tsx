@@ -126,22 +126,22 @@ export default function RootLayout() {
   return (
     <>
       <AblyWrapper>
-        <ChannelProvider channelName={GLOBAL_CHAT_EVENT_CHANNEL}>
-          <ThemeProvider value={isDarkColorScheme ? DARK_THEME : LIGHT_THEME}>
-            <StatusBar style={isDarkColorScheme ? 'light' : 'dark'} />
-            <ReactQueryProvider>
-              <AuthorProvider>
-                <Stack>
-                  <Stack.Screen name='(unauthenticated)' options={{ headerShown: false }} />
-                  <Stack.Screen name='(protected)' options={{ headerShown: false }} />
-                  <Stack.Screen name='+not-found' options={{ headerShown: false }} />
-                </Stack>
-                <NetworkOverlay />
-              </AuthorProvider>
-            </ReactQueryProvider>
-            <PortalHost />
-          </ThemeProvider>
-        </ChannelProvider>
+        {/* <ChannelProvider channelName={GLOBAL_CHAT_EVENT_CHANNEL}> */}
+        <ThemeProvider value={isDarkColorScheme ? DARK_THEME : LIGHT_THEME}>
+          <StatusBar style={isDarkColorScheme ? 'light' : 'dark'} />
+          <ReactQueryProvider>
+            <AuthorProvider>
+              <Stack>
+                <Stack.Screen name='(unauthenticated)' options={{ headerShown: false }} />
+                <Stack.Screen name='(protected)' options={{ headerShown: false }} />
+                <Stack.Screen name='+not-found' options={{ headerShown: false }} />
+              </Stack>
+              <NetworkOverlay />
+            </AuthorProvider>
+          </ReactQueryProvider>
+          <PortalHost />
+        </ThemeProvider>
+        {/* </ChannelProvider> */}
       </AblyWrapper>
       <Toast config={toastConfig} />
     </>

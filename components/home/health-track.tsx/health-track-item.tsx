@@ -6,6 +6,8 @@ import { HealthRecordType } from '../../../assets/enum/health-record'
 import { formatDateBlog } from '../../../util/format-date-post'
 import { BloodPressureRecord, HealthTrackItem } from '../../../assets/types/user/health-track'
 import { router } from 'expo-router'
+import { ChevronRight } from '../../../lib/icons/ChevronRight'
+import { GlobalColor } from '../../../global-color'
 
 type Prop = {
     item: HealthTrackItem
@@ -45,7 +47,7 @@ export default function HealthTrackerItem({ item }: Prop) {
             className={`p-4 gap-2 rounded-xl active:scale-95 w-full`}
             onPress={handlePress}
         >
-            <View className='flex-row items-center gap-3 mb-3'>
+            <View className='flex-row items-center gap-2 mb-3'>
                 <View
                     style={{ backgroundColor: recordDisplay.iconColor }}
                     className='p-2 rounded-lg'
@@ -59,9 +61,12 @@ export default function HealthTrackerItem({ item }: Prop) {
                     {getValue()}
                     <Text className='text-sm font-normal text-[var(--fade-text-color)]'> {recordDisplay.unit}</Text>
                 </Text>
-                <Text className='text-sm text-[var(--fade-text-color)] tracking-wider'>
-                    {item.mesurementAt ? `Đo ${formatDateBlog(item.mesurementAt)}` : 'Chưa có dữ liệu'}
-                </Text>
+                <View className='flex-row items-center w-full justify-between'>
+                    <Text className='text-sm text-[var(--fade-text-color)] tracking-wider'>
+                        {item.mesurementAt ? `Đo ${formatDateBlog(item.mesurementAt)}` : 'Chưa có dữ liệu'}
+                    </Text>
+                    <ChevronRight className='text-foreground' size={15}/>
+                </View>
             </View>
         </Pressable>
     )

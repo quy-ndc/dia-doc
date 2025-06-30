@@ -52,6 +52,7 @@ export default function LoginScreen() {
     }
 
     useEffect(() => {
+        console.log(data?.data.value.data)
         if (!data?.data || isError || data.status !== 200) return
         const result = data.data.value.data
         const userData: User = {
@@ -64,12 +65,6 @@ export default function LoginScreen() {
             role: UserRole.PATIENT,
             fullname: result.authUser.fullName || '',
             avatar: result.authUser.avatarUrl || '',
-            phone: '',
-            diaType: 0,
-            gender: 0,
-            bod: '',
-            weight: 0,
-            height: 0
         }
         setUser(userData)
         if (result.authUser.isFirstUpdated) {

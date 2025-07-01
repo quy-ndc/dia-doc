@@ -50,7 +50,7 @@ export default function HealthTrackerItem({ item }: Prop) {
             <View className='flex-row items-center gap-2 mb-3'>
                 <View
                     style={{ backgroundColor: recordDisplay.iconColor }}
-                    className='p-2 rounded-lg'
+                    className='p-2 rounded-full'
                 >
                     {recordDisplay.icon}
                 </View>

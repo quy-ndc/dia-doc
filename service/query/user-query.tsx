@@ -1,5 +1,5 @@
 import { useMutation, useQueryClient } from "@tanstack/react-query";
-import { CreateUserProfile, GetUserHealthRecord, GetUserProfile, UpdateUserBloodPressure, UpdateUserBloodSugar, UpdateUserHbA1c, UpdateUserHeight, UpdateUserProfile, UpdateUserWeight } from "../api/user-service";
+import { CreateUserProfile, GetUserHealthCarePlan, GetUserHealthRecord, GetUserProfile, UpdateUserBloodPressure, UpdateUserBloodSugar, UpdateUserHbA1c, UpdateUserHeight, UpdateUserProfile, UpdateUserWeight } from "../api/user-service";
 import { QueryKeys } from "../../assets/enum/query";
 import { GenderNumber } from "../../assets/enum/gender";
 import { DiagnosisRecency } from "../../assets/enum/diagnosis-recency";
@@ -53,6 +53,18 @@ export const useUserHealthRecordProfile = (params: {
     const queryKey = [QueryKeys.HEALTH_RECORD]
     const queryFn = async () => {
         return GetUserHealthRecord(params)
+    }
+
+    return { queryKey, queryFn }
+}
+
+export const useUserHealthCarePlan = (params: {
+    fromDate?: string,
+    toDate?: string
+}) => {
+    const queryKey = [QueryKeys.HEALTH_CARE_PLAN]
+    const queryFn = async () => {
+        return GetUserHealthCarePlan(params)
     }
 
     return { queryKey, queryFn }

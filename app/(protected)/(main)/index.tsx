@@ -9,8 +9,10 @@ import { BlogPost } from '../../../assets/types/media/blog-post';
 import DailyTip from '../../../components/home/daily-tip.tsx/daily-tip';
 import LogoutButton from '../../../components/profile-screen/logout-button';
 import HealthTracker from '../../../components/home/health-track.tsx/health-track';
-import { useUserHealthRecordProfile } from '../../../service/query/user-query';
+import { useUserHealthCarePlan, useUserHealthRecordProfile } from '../../../service/query/user-query';
 import { HealthTrackItem } from '../../../assets/types/user/health-track';
+import HealthcarePlan from '../../../components/home/healthcare-plan/healthcare-plan';
+import { HealthCarePlan } from '../../../assets/types/user/healthcare-plan';
 
 export default function HomeScreen() {
 
@@ -40,6 +42,18 @@ export default function HomeScreen() {
         retryDelay: attempt => Math.min(1000 * 2 ** attempt, 5000)
     })
 
+    const {
+        data: healthCarePlanData,
+        isLoading: healthCarePlanLoading,
+        isError: healthCarePlanError,
+        refetch: healthCarePlanRefetch,
+        remove: healthCarePlanRemove
+    } = useQuery({
+        ...useUserHealthCarePlan({}),
+        retry: 2,
+        retryDelay: attempt => Math.min(1000 * 2 ** attempt, 5000)
+    })
+
     const onRefresh = useCallback(() => {
         setRefreshing(true)
         remove()
@@ -49,6 +63,7 @@ export default function HomeScreen() {
 
     const items: BlogPost[] = data?.data?.data || []
     const healthRecordItems: HealthTrackItem[] = healthRecordData?.data?.value?.data || []
+    const healthCarePlanItems: HealthCarePlan[] = healthCarePlanData?.data?.value?.data || []
 
     return (
         <>
@@ -68,6 +83,14 @@ export default function HomeScreen() {
                         refetch={healthRecordRefetch}
                         remove={healthRecordRemove}
                         refreshing={refreshing}
+                    />
+                    <HealthcarePlan
+                        items={healthCarePlanItems}
+                    // isLoading={healthCarePlanLoading}
+                    // isError={healthCarePlanError}
+                    // refetch={healthCarePlanRefetch}
+                    // remove={healthCarePlanRemove}
+                    // refreshing={refreshing}
                     />
                     <HomeBlogSection
                         isLoading={isLoading}

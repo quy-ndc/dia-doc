@@ -65,7 +65,14 @@ export default function GroupChatModule() {
         }
     }, [data])
 
-    if (isLoading) return <GroupChatSkeleton />
+    if (isLoading) return (
+        <ScrollView
+            contentContainerStyle={{ flexGrow: 1 }}
+            refreshControl={<RefreshControl refreshing={refreshing} onRefresh={onRefresh} />}
+        >
+            <GroupChatSkeleton />
+        </ScrollView>
+    )
 
     if (isError || groups.length === 0) {
         return (
@@ -73,7 +80,10 @@ export default function GroupChatModule() {
                 contentContainerStyle={{ flexGrow: 1 }}
                 refreshControl={<RefreshControl refreshing={refreshing} onRefresh={onRefresh} />}
             >
-                <View className="flex-1 justify-center items-center">
+                <View
+                    style={{ width: width, height: height * 0.7 }}
+                    className="flex-1 justify-center items-center"
+                >
                     <ErrorDisplay
                         onRefresh={onRefresh}
                         refreshing={refreshing}

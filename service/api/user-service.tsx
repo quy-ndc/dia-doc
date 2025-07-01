@@ -77,6 +77,39 @@ export const GetUserHealthRecord = async (params: {
     }
 }
 
+export const GetUserHealthCarePlan = async (params: {
+    fromDate?: string,
+    toDate?: string
+}) => {
+    try {
+        const queryString = createQueryString(params)
+        const response = await axiosServices.get(`${endpointUser.GET_USER_HEALTH_CARE_PLAN}?${queryString}`)
+
+        return {
+            success: true,
+            status: response.status,
+            data: response.data
+        }
+
+    } catch (e) {
+        if (axios.isAxiosError(e) && e.response) {
+            return {
+                success: false,
+                status: e.response.status,
+                message: e.response.data.message || 'An error occurred',
+                data: e.response.data
+            };
+        }
+
+        return {
+            success: false,
+            status: 500,
+            message: 'An error occurred',
+            data: null
+        }
+    }
+}
+
 export const UpdateUserProfile = async (param: {
     dateOfBirth: string,
     genderType: number,

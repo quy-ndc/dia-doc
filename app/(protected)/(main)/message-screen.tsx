@@ -6,6 +6,9 @@ import { Tabs, TabsContent, TabsList, TabsTrigger } from '../../../components/ui
 import { Text } from '../../../components/ui/text';
 import { useLocalSearchParams } from 'expo-router';
 import PrivateChatModule from '../../../components/message-screen/private-chat-module';
+import { Shield } from '../../../lib/icons/Shield';
+import { Users } from '../../../lib/icons/Users';
+import { GlobalColor } from '../../../global-color';
 
 export default function MessagesScreen() {
     const { type } = useLocalSearchParams();
@@ -27,10 +30,16 @@ export default function MessagesScreen() {
                 >
                     <TabsList className='flex-row w-full'>
                         <TabsTrigger value='group' className='flex-1'>
-                            <Text className='text-base font-semibold tracking-wider'>Nhóm cộng đồng</Text>
+                            <View className='flex-row gap-2 items-center'>
+                                <Users className='text-foreground' size={17} />
+                                <Text className='text-base font-semibold tracking-wider'>Nhóm cộng đồng</Text>
+                            </View>
                         </TabsTrigger>
                         <TabsTrigger value='private' className='flex-1'>
-                            <Text className='text-base font-semibold tracking-wider'>Tư vấn riêng</Text>
+                            <View className='flex-row gap-2 items-center'>
+                                <Shield className='text-foreground' size={17} />
+                                <Text className='text-base font-semibold tracking-wider'>Tư vấn riêng</Text>
+                            </View>
                         </TabsTrigger>
                     </TabsList>
                     <TabsContent value='group'>

@@ -37,13 +37,13 @@ export default function ChatItem({ id, img, name, user, time, message, type, has
     }
 
     const displayMessage = getLatestMessage(id)
-        ? `${getLatestMessage(id)?.user.fullName.trim().split(' ').pop()}: ${type === 1 ? 'Đã gửi một ảnh' : truncateText(getLatestMessage(id)?.content as string, 25)}`
+        ? `${getLatestMessage(id)?.participant.fullName.trim().split(' ').pop()}: ${type === MessageType.PICTURE ? 'Đã gửi một ảnh' : truncateText(getLatestMessage(id)?.content as string, 25)}`
         : 'Nhóm này chưa có tin nhắn'
 
     return (
         <Pressable
             onPress={handleChatSelect}
-            className={`flex-row justify-between items-center py-2 px-3 active:bg-[var(--click-bg)]`}
+            className={`flex-row justify-between items-center py-2 px-3 active:bg-[var(--click-bg)] rounded-xl`}
         >
             <Image
                 style={{ width: 60, height: 60, borderRadius: 1000 }}

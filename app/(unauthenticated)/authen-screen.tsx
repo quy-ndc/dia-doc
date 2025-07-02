@@ -52,9 +52,8 @@ export default function LoginScreen() {
     }
 
     useEffect(() => {
-        console.log(data?.data.value.data)
         if (!data?.data || isError || data.status !== 200) return
-        const result = data.data.value.data
+        const result = data?.data?.value?.data
         const userData: User = {
             isAuthenticated: true,
             isSetUp: result.authUser.isFirstUpdated,

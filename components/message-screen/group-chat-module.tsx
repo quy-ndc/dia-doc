@@ -10,7 +10,7 @@ import { useMessageStore } from '../../store/useMessage'
 import GroupChatSkeleton from '../common/skeleton/chat-group-skeleton'
 import { QueryKeys } from '../../assets/enum/query'
 import ErrorDisplay from '../common/error-display'
-import { TabsContent } from '../ui/tabs'
+import { UserRoleNumber } from '../../assets/enum/user-role'
 
 const { width, height } = Dimensions.get('window')
 
@@ -43,7 +43,7 @@ export default function GroupChatModule() {
         }
     })
 
-    const groups: GroupChat[] = data?.data?.value?.groups?.items || []
+    const groups: GroupChat[] = data?.data?.value?.conversations?.items || []
     const groupIds: string[] = groups.map(group => group.id)
 
     const onRefresh = useCallback(() => {
@@ -103,7 +103,7 @@ export default function GroupChatModule() {
         >
             <View
                 className='pt-2 px-2'
-                style={{ width: width, height: height }}
+                style={{ width: width, height: height * 0.8 }}
             >
                 <FlashList<GroupChat>
                     data={groups}
@@ -113,11 +113,11 @@ export default function GroupChatModule() {
                             id={item.id}
                             img={item.avatar}
                             name={item.name}
-                            user={item.message ? item.message.user.fullName : undefined}
+                            user={item.message ? item.message.participant.fullName : undefined}
                             message={item.message ? item.message.content : undefined}
                             type={item.message ? item.message.type : undefined}
                             time={item.message ? item.message.createdDate : undefined}
-                            hasNewMessage={item.message ? item.message.isRead : false}
+                            hasNewMessage={item.message ? item.message.participant.role === UserRoleNumber.PATIENT : false}
                         />
                     )}
                     estimatedItemSize={100}

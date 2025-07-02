@@ -6,11 +6,8 @@ import { Message } from '../../assets/types/chat/message'
 import { TextMessage } from './text-message'
 import { SendHorizontal } from '../../lib/icons/SendHorizontal'
 import { ImageMessage } from './image-message'
-import GalleryAccess from './gallery-access'
-import CameraAccess from './camera-access'
 import { Animated as RNAnimated } from 'react-native'
 import { ChevronDown } from '../../lib/icons/ChevronDown'
-import { AtSign } from '../../lib/icons/AtSign'
 import VoiceRecord from './voice-record'
 import { ChevronRight } from '../../lib/icons/ChevronRight'
 import useUserStore from '../../store/userStore'
@@ -70,6 +67,8 @@ export default function ChatModule({
         keepPreviousData: false,
     })
 
+    console.log(data?.pages.at(-1)?.data?.messages?.items)
+
     const onRefresh = useCallback(() => {
         setRefreshing(true)
         remove()
@@ -78,7 +77,7 @@ export default function ChatModule({
 
     useEffect(() => {
         if (!data) return
-        const messages: Message[] = data.pages.at(-1)?.data?.value?.messages?.items ?? []
+        const messages: Message[] = data.pages.at(-1)?.data?.messages?.items ?? []
         if (messages.length) {
             if (data.pages.length === 1) {
                 setMessages(groupId, messages)
@@ -203,21 +202,21 @@ export default function ChatModule({
                                 if (item.type == MessageType.TEXT) {
                                     return (
                                         <TextMessage
-                                            name={item.user.fullName}
-                                            image={item.user.avatar}
+                                            name={item.participant.fullName}
+                                            image={item.participant.avatar}
                                             content={item.content}
                                             time={item.createdDate}
-                                            isOwn={item.user.id == user.id}
+                                            isOwn={item.participant.id == user.id}
                                         />
                                     )
                                 } else {
                                     return (
                                         <ImageMessage
                                             content={item.content}
-                                            name={item.user.fullName}
-                                            avatar={item.user.avatar}
+                                            name={item.participant.fullName}
+                                            avatar={item.participant.avatar}
                                             time={item.createdDate}
-                                            isOwn={item.user.id == user.id}
+                                            isOwn={item.participant.id == user.id}
                                         />
                                     )
                                 }

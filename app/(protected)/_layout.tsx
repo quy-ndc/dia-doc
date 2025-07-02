@@ -25,7 +25,6 @@ export default function ProtectedLayout() {
     //         content: response.MessageContent,
     //         createdDate: response.CreationDate,
     //         id: response.MessageId,
-    //         isRead: true,
     //         type: response.Type,
     //         user: {
     //             avatar: response.Sender.Avatar,

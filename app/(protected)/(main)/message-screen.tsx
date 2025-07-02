@@ -32,13 +32,13 @@ export default function MessagesScreen() {
                         <TabsTrigger value='group' className='flex-1'>
                             <View className='flex-row gap-2 items-center'>
                                 <Users className='text-foreground' size={17} />
-                                <Text className='text-base font-semibold tracking-wider'>Nhóm cộng đồng</Text>
+                                <Text className='text-sm font-semibold tracking-wider'>Nhóm cộng đồng</Text>
                             </View>
                         </TabsTrigger>
                         <TabsTrigger value='private' className='flex-1'>
                             <View className='flex-row gap-2 items-center'>
                                 <Shield className='text-foreground' size={17} />
-                                <Text className='text-base font-semibold tracking-wider'>Tư vấn riêng</Text>
+                                <Text className='text-sm font-semibold tracking-wider'>Tư vấn riêng</Text>
                             </View>
                         </TabsTrigger>
                     </TabsList>

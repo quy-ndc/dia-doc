@@ -1,18 +1,18 @@
-import * as React from 'react';
-import { View, ScrollView, RefreshControl } from 'react-native';
-import QuickAccess from '../../../components/home/quick-access/quick-access';
-import HomeBlogSection from '../../../components/home/blog/blog-section';
-import { useCallback, useState } from 'react';
-import { useQuery } from '@tanstack/react-query';
-import { useTopMediaQuery } from '../../../service/query/media-query';
-import { BlogPost } from '../../../assets/types/media/blog-post';
-import DailyTip from '../../../components/home/daily-tip.tsx/daily-tip';
-import LogoutButton from '../../../components/profile-screen/logout-button';
-import HealthTracker from '../../../components/home/health-track.tsx/health-track';
-import { useUserHealthCarePlan, useUserHealthRecordProfile } from '../../../service/query/user-query';
-import { HealthTrackItem } from '../../../assets/types/user/health-track';
-import HealthcarePlan from '../../../components/home/healthcare-plan/healthcare-plan';
-import { HealthCarePlan } from '../../../assets/types/user/healthcare-plan';
+import * as React from 'react'
+import { View, ScrollView, RefreshControl } from 'react-native'
+import QuickAccess from '../../../components/home/quick-access/quick-access'
+import HomeBlogSection from '../../../components/home/blog/blog-section'
+import { useCallback, useState } from 'react'
+import { useQuery } from '@tanstack/react-query'
+import { useTopMediaQuery } from '../../../service/query/media-query'
+import { BlogPost } from '../../../assets/types/media/blog-post'
+import DailyTip from '../../../components/home/daily-tip.tsx/daily-tip'
+import LogoutButton from '../../../components/profile-screen/logout-button'
+import HealthTracker from '../../../components/home/health-track.tsx/health-track'
+import { useUserHealthCarePlan, useUserHealthRecordProfile } from '../../../service/query/user-query'
+import { HealthTrackItem } from '../../../assets/types/user/health-track'
+import HealthcarePlan from '../../../components/home/healthcare-plan/healthcare-plan'
+import { HealthCarePlan } from '../../../assets/types/user/healthcare-plan'
 
 export default function HomeScreen() {
 
@@ -58,8 +58,9 @@ export default function HomeScreen() {
         setRefreshing(true)
         remove()
         healthRecordRemove()
-        Promise.all([refetch(), healthRecordRefetch()]).finally(() => setRefreshing(false))
-    }, [refetch])
+        healthCarePlanRemove()
+        Promise.all([refetch(), healthRecordRefetch(), healthCarePlanRefetch()]).finally(() => setRefreshing(false))
+    }, [refetch, healthRecordRefetch, healthCarePlanRefetch, remove, healthRecordRemove, healthCarePlanRemove])
 
     const items: BlogPost[] = data?.data?.data || []
     const healthRecordItems: HealthTrackItem[] = healthRecordData?.data?.value?.data || []
@@ -86,11 +87,11 @@ export default function HomeScreen() {
                     />
                     <HealthcarePlan
                         items={healthCarePlanItems}
-                    // isLoading={healthCarePlanLoading}
-                    // isError={healthCarePlanError}
-                    // refetch={healthCarePlanRefetch}
-                    // remove={healthCarePlanRemove}
-                    // refreshing={refreshing}
+                        isLoading={healthCarePlanLoading}
+                        isError={healthCarePlanError}
+                        refetch={healthCarePlanRefetch}
+                        remove={healthCarePlanRemove}
+                        refreshing={refreshing}
                     />
                     <HomeBlogSection
                         isLoading={isLoading}
@@ -104,5 +105,5 @@ export default function HomeScreen() {
                 </View>
             </ScrollView>
         </>
-    );
+    )
 }

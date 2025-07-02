@@ -12,6 +12,13 @@ export const invalidateQuery = (queryClient: QueryClient) => {
     })
 
     queryClient.invalidateQueries({
+        predicate: (query) => query.queryKey[0] === QueryKeys.HEALTH_CARE_PLAN,
+    })
+    queryClient.removeQueries({
+        predicate: (query) => query.queryKey[0] === QueryKeys.HEALTH_CARE_PLAN,
+    })
+
+    queryClient.invalidateQueries({
         predicate: (query) => query.queryKey[0] === QueryKeys.GROUP_CHATS,
     })
     queryClient.removeQueries({

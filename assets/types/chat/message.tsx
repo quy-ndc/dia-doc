@@ -1,15 +1,20 @@
 import { MessageType } from "../../enum/message-type"
+import { UserRoleNumber } from "../../enum/user-role"
 
 export type Message = { 
     id: string
     content: string
     type: MessageType
+    fileAttachment: {
+        publicUrl: string
+        type: number
+    }
     createdDate: string,
-    isRead: boolean,
-    user: {
+    participant: {
         id: string
-        avatar: string
         fullName: string
+        avatar: string
+        role: UserRoleNumber
     }
 }
 
@@ -22,7 +27,7 @@ export type MessageGroup = {
 export type GlobalMessageEvent = {
     Sender: {
         SenderId: string
-        FullName: string
+        FullName: string 
         Avatar: string
     }
     GroupId: string

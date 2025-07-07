@@ -122,15 +122,16 @@ export default function SpeechInfoButton() {
                         style={{ width: width * 0.9, minHeight: height * 0.6 }}
                         className="flex-col justify-center items-center px-5 pb-5 pt-10 bg-[var(--noti-bg)] rounded-2xl"
                     >
-                        <View className='flex-1 w-full items-center justify-center'>
+                        <View className='flex-1 w-full items-center justify-center gap-5'>
+                            <Text className='text-lg tracking-widest font-semibold text-center'>Hướng dẫn sử dụng cho chức năng văn bản sang giọng nói</Text>
                             <View className='flex-1 flex-col w-full'>
                                 <FlashList
                                     ref={listRef}
                                     data={ttsGuideSteps}
                                     keyExtractor={(_, index) => index.toString()}
                                     renderItem={({ item }) => (
-                                        <View className='flex-col w-full items-center gap-5 relative'>
-                                            <Text className='text-lg tracking-widest font-semibold text-center'>{item.text}</Text>
+                                        <View className='flex-col w-full items-center gap-2 relative'>
+                                            <Text className='text-base tracking-widest text-center'>{item.text}</Text>
                                             {item.image}
                                         </View>
                                     )}

@@ -1,4 +1,6 @@
 export enum QueryKeys {
+    // AI service
+    AI_CHAT = 'aiChat',
     // Chat service
     GROUP_CHATS = 'groupChats',
     CHAT_MESSAGES = 'chatMessages',

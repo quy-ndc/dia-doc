@@ -34,16 +34,22 @@ export default function HealthcarePlanDetailItem({ item, hidden }: Prop) {
 
     return (
         <View
-            style={{ borderColor: recordDisplay.iconColor }}
-            className={`flex-col w-full justify-between border-l-2 items-center gap-3 px-3 py-4 mt-3 rounded-xl bg-[var(--blog-bg)] ${hidden ? 'hidden' : ''}`}
+            style={{ borderColor: recordDisplay.iconColor, borderLeftWidth: 4 }}
+            className={`flex-col w-full justify-between border-l items-center gap-3 px-3 py-4 mt-3 rounded-xl bg-[var(--blog-bg)] relative ${hidden ? 'hidden' : ''}`}
         >
+            <Text
+                style={{ backgroundColor: recordDisplay.iconColor, left: -1, borderTopRightRadius: 100, borderBottomRightRadius: 100 }}
+                className='absolute top-5 px-4 py-1 text-sm text-white font-semibold tracking-widest capitalize'
+            >
+                Tiếp theo
+            </Text>
             <View
                 style={{ backgroundColor: recordDisplay.iconColor }}
                 className='p-4 rounded-full'
             >
                 {recordDisplay.icon}
             </View>
-            <Text className='text-lg font-semibold tracking-widest capitalize'>{recordDisplay.name}</Text>
+            <Text className='text-lg font-semibold tracking-widest capitalize'>Đo {recordDisplay.name}</Text>
             <View className='flex-row gap-2 items-center'>
                 <Text
                     style={{ color: recordDisplay.iconColor, borderColor: recordDisplay.iconColor }}

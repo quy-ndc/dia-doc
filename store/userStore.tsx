@@ -14,12 +14,6 @@ const defaultUser: User = {
   role: UserRole.PATIENT,
   fullname: '',
   avatar: '',
-  phone: '',
-  diaType: 0,
-  gender: 0,
-  bod: '',
-  weight: 0,
-  height: 0,
 }
 
 const useUserStore = create<UserZState>()(

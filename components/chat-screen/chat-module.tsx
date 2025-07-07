@@ -240,12 +240,6 @@ export default function ChatModule({
                         {/* <CameraAccess setIsCameraOn={(state) => setIsCameraOn(state)} /> */}
                         {/* <GalleryAccess onImagePick={(image) => console.log(image)} /> */}
                         <VoiceRecord setNewMessage={setNewMessage} />
-                        {/* <Pressable
-                            className='px-3 py-4 rounded-xl active:bg-[var(--click-bg)]'
-                            onPress={() => setNewMessage(`@AI ${newMessage}`)}
-                        >
-                            <AtSign className='text-foreground' size={20} />
-                        </Pressable> */}
                     </View>
                     <Pressable
                         className={`px-3 py-4 rounded-xl active:bg-[var(--click-bg)] ${showUtil && 'hidden'}`}

@@ -1,4 +1,4 @@
-import { AUTH_SERVICE_ENDPOINT, USER_SERVICE_ENDPOINT, CHAT_SERVICE_ENDPOINT, NOTIFICATION_SERVICE_ENDPOINT, API_GATEWAY_ENDPOINT, NEW_AUTH_SERVICE_ENDPOINT } from '@env'
+import { AUTH_SERVICE_ENDPOINT, USER_SERVICE_ENDPOINT, CHAT_SERVICE_ENDPOINT, NOTIFICATION_SERVICE_ENDPOINT, API_GATEWAY_ENDPOINT, NEW_AUTH_SERVICE_ENDPOINT, AI_SERVICE_ENDPOINT } from '@env'
 import useUserStore from '../store/userStore';
 
 export const createQueryString = (params: Record<string, any>): string => {
@@ -40,6 +40,14 @@ const endpointAuth = {
     RESEND_PHONE: `${API_GATEWAY_ENDPOINT}/${apiPrefixV1}/auth/patient/resend-otp-register`,
     REFRESH_TOKEN: `${API_GATEWAY_ENDPOINT}/${apiPrefixV1}/auth/refresh-token`,
     LOGOUT_USER: `${API_GATEWAY_ENDPOINT}/${apiPrefixV1}/auth/logout`,
+}
+
+const endpointAI = {
+    SEND_MESSAGE: `${NEW_AUTH_SERVICE_ENDPOINT}/${apiPrefixV1}/auth/chat`,
+    GET_ALL_MESSAGE: `${NEW_AUTH_SERVICE_ENDPOINT}/${apiPrefixV1}/auth/chat`,
+
+    SEND_MESSAGE_TO_AI: `${AI_SERVICE_ENDPOINT}/${apiPrefixV1}/rag/chat`,
+    GET_ALL_MESSAGE_WITH_AI: `${AI_SERVICE_ENDPOINT}/${apiPrefixV1}/rag/chat/sessions`,
 }
 
 const endpointUser = {
@@ -87,4 +95,4 @@ const endpointNoti = {
     DELETE_NOTIFICATION: `${NOTIFICATION_SERVICE_ENDPOINT}/${apiPrefixV1}/notifications`,
 }
 
-export { endpointUser, endpointAuth, endpointMedia, endpointCategory, endpointChat, endpointNoti }
+export { endpointUser, endpointAuth, endpointMedia, endpointCategory, endpointChat, endpointNoti, endpointAI }

@@ -12,6 +12,7 @@ import { useCallback, useState } from 'react'
 import { Check } from '../../../lib/icons/Check'
 import { ListChecks } from '../../../lib/icons/ListChecks'
 import HealthcarePlanDetailItem from './healthcare-plan-detail-item'
+import { Accordion, AccordionContent, AccordionItem, AccordionTrigger } from '../../ui/accordion'
 
 
 const { width } = Dimensions.get('window')
@@ -81,12 +82,29 @@ export default function HealthcarePlan({ items, isLoading, isError, refetch, rem
                 </View>
             ) : (
                 <>
-                    <HealthcarePlanDetailItem item={nextItem || undefined} hidden={value === 'list'} />
+                    <HealthcarePlanDetailItem
+                        item={nextItem || undefined}
+                        hidden={value === 'list'}
+                    />
                     <View className={`w-full px-1 ${value === 'detail' ? 'hidden' : ''}`}>
                         <FlashList<HealthCarePlan>
                             data={items}
                             renderItem={({ item }) => (
+                                <Accordion
+                                type='multiple'
+                                collapsible
+                                defaultValue={['item-1']}
+                                className='w-full max-w-sm native:max-w-md'
+                            >
+                                <AccordionItem value='item-1'>
+                                    <AccordionTrigger>
                                 <HealthcarePlanItem item={item} />
+                                    </AccordionTrigger>
+                                    <AccordionContent>
+                                        <Text>Yes. It adheres to the WAI-ARIA design pattern.</Text>
+                                    </AccordionContent>
+                                </AccordionItem>
+                            </Accordion>
                             )}
                             estimatedItemSize={100}
                         />

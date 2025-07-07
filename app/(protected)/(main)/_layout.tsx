@@ -60,7 +60,7 @@ export default function MainLayout() {
                 }}
             />
             <Tabs.Screen
-                name="ai-chat-screen"
+                name="ai-chat-session-screen"
                 options={{
                     headerTitle: 'Bác sỹ AI',
                     title: 'AI Chat',

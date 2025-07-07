@@ -90,21 +90,7 @@ export default function HealthcarePlan({ items, isLoading, isError, refetch, rem
                         <FlashList<HealthCarePlan>
                             data={items}
                             renderItem={({ item }) => (
-                                <Accordion
-                                type='multiple'
-                                collapsible
-                                defaultValue={['item-1']}
-                                className='w-full max-w-sm native:max-w-md'
-                            >
-                                <AccordionItem value='item-1'>
-                                    <AccordionTrigger>
                                 <HealthcarePlanItem item={item} />
-                                    </AccordionTrigger>
-                                    <AccordionContent>
-                                        <Text>Yes. It adheres to the WAI-ARIA design pattern.</Text>
-                                    </AccordionContent>
-                                </AccordionItem>
-                            </Accordion>
                             )}
                             estimatedItemSize={100}
                         />

@@ -40,7 +40,7 @@ export const GetAllChatGroups = async (params: {
 }
 
 export const GetAllChatMessages = async (params: {
-    groupId: string
+    conversationId: string
     Cursor?: string
     PageSize?: number
     Sort?: string
@@ -77,15 +77,19 @@ export const GetAllChatMessages = async (params: {
 }
 
 export const SendMessage = async (request: {
-    groupId: string
-    content: string
-    type: MessageType
+    conversationId: string,
+    conversationType: number,
+    content: string,
+    mediaId: string,
+    messageType: MessageType
 }) => {
 
     try {
-        const response = await axiosServices.post(`${endpointChat.SEND_MESSAGE}/${request.groupId}/messages`, {
+        const response = await axiosServices.post(`${endpointChat.SEND_MESSAGE}/${request.conversationId}/messages`, {
+            conversationType: request.conversationType,
             content: request.content,
-            type: request.type
+            mediaId: request.mediaId,
+            messageType: request.messageType
         })
 
         return {

@@ -18,7 +18,7 @@ export default function GroupChatModule() {
 
     const queryClient = useQueryClient();
     const [refreshing, setRefreshing] = useState(false)
-    const { setGroups, setLatestMessage } = useMessageStore()
+    const {setGroups, setLatestMessage } = useMessageStore()
 
     const { data,
         isLoading,
@@ -43,7 +43,7 @@ export default function GroupChatModule() {
         }
     })
 
-    const groups: GroupChat[] = data?.data?.value?.conversations?.items || []
+    const groups: GroupChat[] = data?.data?.conversations?.items || []
     const groupIds: string[] = groups.map(group => group.id)
 
     const onRefresh = useCallback(() => {

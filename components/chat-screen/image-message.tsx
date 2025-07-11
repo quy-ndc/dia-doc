@@ -8,23 +8,26 @@ import { GestureHandlerRootView } from 'react-native-gesture-handler';
 import { GlobalColor } from '../../global-color';
 import { Text } from '../ui/text'
 import { formatDateMessage } from '../../util/format-date-message';
+import { Message } from '../../assets/types/chat/message';
+import useUserStore from '../../store/userStore';
+import { UserRoleNumber } from '../../assets/enum/user-role'
 
 type Prop = {
-    content: string
-    name: string
-    avatar: string
-    time: string
-    isOwn: boolean
+    message: Message
 }
 
 
-export function ImageMessage({ content, name, time, avatar, isOwn }: Prop) {
+export function ImageMessage({ message }: Prop) {
 
     const theme = useColorScheme()
 
+    const { user } = useUserStore()
     const [modallVisible, setModalVisible] = useState(false)
-
-    const userName = name ? name?.trim().split(' ').pop() : 'N/A'
+    const userName = (message.participant.role === UserRoleNumber.UNKNOWN)
+        ? (message.participant.fullName ? message.participant.fullName.trim() : 'N/A')
+        : (message.participant.fullName ? message.participant.fullName.trim().split(' ').pop() : 'N/A')
+    const isOwn = user.id == message.participant.id
+    const userAvatar = message.participant.avatar
 
     const onImageClick = () => {
         setModalVisible(!modallVisible)
@@ -48,7 +51,7 @@ export function ImageMessage({ content, name, time, avatar, isOwn }: Prop) {
                         <Text className='text-sm font-semibold tracking-wider'>{userName}</Text>
                     )}
                     <Text className={`text-sm text-[--fade-text-color] tracking-widest`}>
-                        {formatDateMessage(time)}
+                        {formatDateMessage(message.createdDate)}
                     </Text>
                 </View>
                 {!isOwn && <View />}
@@ -69,7 +72,7 @@ export function ImageMessage({ content, name, time, avatar, isOwn }: Prop) {
                     <GestureHandlerRootView>
                         <ImageZoom
                             style={{ backgroundColor: theme == 'dark' ? GlobalColor.DARK_THEME_COL : GlobalColor.LIGHT_THEME_COL }}
-                            uri={content}
+                            uri={message.fileAttachment.publicUrl}
                             minScale={1}
                             maxScale={10}
                             doubleTapScale={3}
@@ -82,7 +85,7 @@ export function ImageMessage({ content, name, time, avatar, isOwn }: Prop) {
                     {!isOwn && (
                         <Image
                             style={{ width: 30, height: 30, borderRadius: 1000 }}
-                            source={avatar}
+                                source={(userAvatar == '' || !userAvatar) ? require('../../assets/images/default-user.jpg') : userAvatar}
                             contentFit='contain'
                         />
                     )}
@@ -95,7 +98,7 @@ export function ImageMessage({ content, name, time, avatar, isOwn }: Prop) {
                                 maxHeight: 350,
                                 borderRadius: 20
                             }}
-                            source={content}
+                            source={message.fileAttachment.publicUrl}
                             contentFit='cover'
                         />
                     </Pressable>

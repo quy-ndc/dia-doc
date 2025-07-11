@@ -1,0 +1,135 @@
+import * as React from 'react'
+import { View } from 'react-native'
+import { Text } from '../ui/text'
+import SectionTitle from '../home/common/section-title'
+import { Activity } from '../../lib/icons/Activity'
+import { GlobalColor } from '../../global-color'
+import { DiaType, getDiaTypeName } from '../../assets/enum/dia-type'
+import { Patient } from '../../assets/types/user/patient'
+import { DiagnosisRecency, getDiagnosisRecencyString } from '../../assets/enum/diagnosis-recency'
+import { getType2TreatmentMethodString, Type2TreatmentMethod } from '../../assets/enum/type-2-treatment-method'
+import { getInsulinInjectionFrequencyString, InsulinInjectionFrequency } from '../../assets/enum/insulin-injection-frequency'
+import { Stethoscope } from '../../lib/icons/Stethoscope'
+import { Syringe } from '../../lib/icons/Syringe'
+import { PencilLine } from '../../lib/icons/PencilLine'
+import { ControlLevel, getControlLevelInfo, getControlLevelString } from '../../assets/enum/control-level'
+import { Dumbbell } from '../../lib/icons/Dumbbell'
+import { ExerciseFrequency, getExerciseFrequencyString } from '../../assets/enum/exercise-frequency'
+import { UtensilsCrossed } from '../../lib/icons/UtensilsCrossed'
+import { EatingHabit, getEatingHabitString } from '../../assets/enum/eating-habit'
+
+type Prop = {
+    profile: Patient
+}
+
+export default function GeneralInfo({ profile }: Prop) {
+
+    const controlLevelInfo = profile.diabetesCondition.controlLevel !== undefined ? getControlLevelInfo(profile.diabetesCondition.controlLevel) : undefined
+
+    const displayTreatment = profile.diabetesCondition.type2TreatmentMethod !== undefined
+    const displayInsulinFrequency = ((
+        profile.diabetesCondition.diabetesType == DiaType.TYPE_1 ||
+        profile.diabetesCondition.type2TreatmentMethod == Type2TreatmentMethod.INSULIN_INJECTION) &&
+        profile.diabetesCondition.insulinFrequency !== undefined
+    )
+    const displayControlLevel = profile.diabetesCondition.controlLevel !== undefined && controlLevelInfo !== undefined
+    const displayExerciseFrequency = profile.diabetesCondition.exerciseFrequency !== undefined
+    const displayEatingHabit = profile.diabetesCondition.eatingHabit !== undefined
+
+    return (
+        <View className='flex-col items-center gap-4 px-2 py-3 bg-[var(--blog-bg)] rounded-lg'>
+            <SectionTitle
+                icon={<Activity color={GlobalColor.CYAN_NEON_BORDER} size={17} />}
+                title={'Thông tin chung'}
+            />
+            {displayTreatment && (
+                <View className='flex-row px-2 gap-3 items-center w-full'>
+                    <View
+                        style={{ backgroundColor: GlobalColor.ORANGE_NEON_BG }}
+                        className='flex p-3 justify-center items-center rounded-full'
+                    >
+                        <Stethoscope color={GlobalColor.ORANGE_NEON_BORDER} size={18} />
+                    </View>
+                    <View className='flex-col gap-1'>
+                        <Text className='text-base font-semibold tracking-wider'>Phương pháp điều trị</Text>
+                        <Text className='text-sm text-[var(--fade-text-color)] tracking-wider'>
+                            {getType2TreatmentMethodString(profile.diabetesCondition.type2TreatmentMethod as Type2TreatmentMethod)}
+                        </Text>
+                    </View>
+                </View>
+            )}
+            {displayInsulinFrequency && (
+                <View className='flex-row px-2 gap-3 items-center w-full'>
+                    <View
+                        style={{ backgroundColor: GlobalColor.PURPLE_NEON_BG }}
+                        className='flex p-3 justify-center items-center rounded-full'
+                    >
+                        <Syringe color={GlobalColor.PURPLE_NEON_BORDER} size={18} />
+                    </View>
+                    <View className='flex-col gap-1'>
+                        <Text className='text-base font-semibold tracking-wider'>Tần suất tiêm insulin</Text>
+                        <Text className='text-sm text-[var(--fade-text-color)] tracking-wider'>
+                            {getInsulinInjectionFrequencyString(profile.diabetesCondition.insulinFrequency as InsulinInjectionFrequency)}
+                        </Text>
+                    </View>
+                </View>
+            )}
+
+            {displayControlLevel && (
+                <View className='flex-row px-2 gap-3 items-center w-full'>
+                    <View
+                        style={{ backgroundColor: GlobalColor.CYAN_NEON_BG }}
+                        className='flex p-3 justify-center items-center rounded-full'
+                    >
+                        <PencilLine color={GlobalColor.CYAN_NEON_BORDER} size={18} />
+                    </View>
+                    <View className='flex-col gap-1'>
+                        <Text className='text-base font-semibold tracking-wider'>Mức độ kiểm soát</Text>
+                        <Text className='text-sm text-[var(--fade-text-color)] tracking-wider'>
+                            {controlLevelInfo.percentage} -&nbsp;
+                            <Text
+                                style={{ color: controlLevelInfo.color }}
+                                className='text-sm font-bold tracking-widest'
+                            >
+                                {controlLevelInfo.label}
+                            </Text>
+                        </Text>
+                    </View>
+                </View>
+            )}
+
+            {displayExerciseFrequency && (
+                <View className="flex-row px-2 gap-3 items-center w-full">
+                    <View
+                        style={{ backgroundColor: GlobalColor.BLUE_NEON_BG }}
+                        className='flex p-3 justify-center items-center rounded-full'
+                    >
+                        <Dumbbell color={GlobalColor.BLUE_NEON_BORDER} size={20} />
+                    </View>
+                    <View className='flex-col gap-1'>
+                        <Text className='text-base font-bold tracking-wider'>Tần suất tập thể dục</Text>
+                        <Text className='text-sm text-[var(--fade-text-color)] tracking-wider'>
+                            {getExerciseFrequencyString(profile.diabetesCondition.exerciseFrequency as ExerciseFrequency)}
+                        </Text>
+                    </View>
+                </View>
+            )}
+            {displayEatingHabit && (
+                <View className="flex-row px-2 gap-3 items-center w-full">
+                    <View
+                        style={{ backgroundColor: GlobalColor.GREEN_NEON_BG }}
+                        className='flex p-3 justify-center items-center rounded-full'
+                    >
+                        <UtensilsCrossed color={GlobalColor.GREEN_NEON_BORDER} size={20} />
+                    </View>
+                    <View className='flex-col gap-1'>
+                        <Text className='text-base font-bold tracking-wider'>Chế độ ăn uống</Text>
+                        <Text className='text-sm text-[var(--fade-text-color)] tracking-wider'>
+                            {getEatingHabitString(profile.diabetesCondition.eatingHabit as EatingHabit)}
+                        </Text>
+                    </View>
+                </View>
+            )}
+        </View>
+    )
+}

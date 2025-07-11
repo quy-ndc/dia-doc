@@ -6,10 +6,10 @@ export enum DiaType {
 export function getDiaTypeName(type: number): string {
     switch (type) {
         case DiaType.TYPE_1:
-            return 'Loại 1';
+            return 'Loại 1'
         case DiaType.TYPE_2:
-            return 'Loại 2';
+            return 'Loại 2'
         default:
-            return 'Không xác định';
+            return 'Không xác định'
     }
 }

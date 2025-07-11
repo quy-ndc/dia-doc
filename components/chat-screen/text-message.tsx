@@ -1,22 +1,24 @@
-import * as React from 'react';
-import { useState, useEffect, useRef } from 'react';
-import { Pressable, View, Animated } from 'react-native';
-import { Text } from '../ui/text';
-import { formatDateMessage } from '../../util/format-date-message';
-import { Image } from 'expo-image';
+import * as React from 'react'
+import { useState, useEffect, useRef } from 'react'
+import { Pressable, View, Animated } from 'react-native'
+import { Text } from '../ui/text'
+import { formatDateMessage } from '../../util/format-date-message'
+import { Image } from 'expo-image'
+import { Message } from '../../assets/types/chat/message'
+import useUserStore from '../../store/userStore'
 
 type Prop = {
-    name: string
-    image: string
-    content: string
-    time: string
-    isOwn: boolean
-};
+    message: Message
+}
 
-export function TextMessage({ name, image, content, time, isOwn }: Prop) {
+export function TextMessage({ message }: Prop) {
+
+    const { user } = useUserStore()
     const [showTime, setShowTime] = useState(false)
     const opacityAnim = useRef(new Animated.Value(0)).current
-    const userName = name ? name?.trim().split(' ').pop() : 'N/A'
+    const userName = message.participant.fullName ? message.participant.fullName?.trim().split(' ').pop() : 'N/A'
+    const isOwn = user.id == message.participant.id
+    const userAvatar = message.participant.avatar
 
     useEffect(() => {
         Animated.timing(opacityAnim, {
@@ -40,7 +42,7 @@ export function TextMessage({ name, image, content, time, isOwn }: Prop) {
                         <Text className='text-sm font-semibold tracking-wider'>{userName}</Text>
                     )}
                     <Text className={`text-sm text-[--fade-text-color] tracking-widest`}>
-                        {formatDateMessage(time)}
+                        {formatDateMessage(message.createdDate)}
                     </Text>
                 </View>
                 {!isOwn && <View />}
@@ -53,7 +55,7 @@ export function TextMessage({ name, image, content, time, isOwn }: Prop) {
                         {!isOwn && (
                             <Image
                                 style={{ width: 30, height: 30, borderRadius: 1000 }}
-                                source={image == '' ? require('../../assets/images/default-user.jpg') : image}
+                                source={(userAvatar == '' || !userAvatar) ? require('../../assets/images/default-user.jpg') : userAvatar}
                                 contentFit='contain'
                             />
                         )}
@@ -62,7 +64,7 @@ export function TextMessage({ name, image, content, time, isOwn }: Prop) {
                             onPress={() => setShowTime(!showTime)}
                         >
                             <Text className={`text-base tracking-wider ${isOwn ? 'text-[--own-message-text]' : 'text-[--ownt-message-text]'}`}>
-                                {content}
+                                {message.content}
                             </Text>
                         </Pressable>
                     </View>
@@ -70,5 +72,5 @@ export function TextMessage({ name, image, content, time, isOwn }: Prop) {
                 {!isOwn && <View />}
             </View>
         </View>
-    );
+    )
 }

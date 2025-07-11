@@ -10,13 +10,13 @@ const { height } = Dimensions.get('window')
 export default function AiChatItem() {
 
     return (
-        <View className='p-3'>
+        <View className=''>
             <Pressable
                 style={{ borderColor: GlobalColor.BLUE_NEON_BORDER, borderRightWidth: 4 }}
                 className='flex-col w-full p-3 gap-2 bg-[var(--blog-bg)] active:bg-[var(--click-bg)] rounded-md relative'
                 onPress={() => router.push({
                     pathname: 'ai-chat-screen',
-                    params: { title: 'Ván đề về giấc ngủ' }
+                    params: { title: 'Vấn đề về giấc ngủ' }
                 })}
             >
                 <Text className='text-lg font-bold tracking-wider'>Vấn đề về giấc ngủ</Text>

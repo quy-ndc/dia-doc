@@ -13,9 +13,8 @@ import { EatingHabit } from "../../assets/enum/eating-habit";
 import { MedicalHistories } from "../../assets/enum/medical-histories";
 
 export const GetUserProfile = async () => {
-
     try {
-        const response = await axiosServices.get(`${endpointUser.GET_CURRENT_USER}`)
+        const response = await axiosServices.get(`${endpointUser.GET_USER_PROFILE}`)
 
         return {
             success: true,

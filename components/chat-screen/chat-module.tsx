@@ -57,7 +57,7 @@ export default function ChatModule({
         isLoading: isLoadingMessages,
     } = useInfiniteQuery({
         ...useChatMessagesQuery({
-            groupId: groupId,
+            conversationId: groupId,
             PageSize: 20
         }),
         getNextPageParam: (lastPage) => {
@@ -66,8 +66,6 @@ export default function ChatModule({
         },
         keepPreviousData: false,
     })
-
-    console.log(data?.pages.at(-1)?.data?.messages?.items)
 
     const onRefresh = useCallback(() => {
         setRefreshing(true)
@@ -134,9 +132,11 @@ export default function ChatModule({
     const { mutateAsync, isLoading } = useSendMessageMutation()
     const handleSend = async () => {
         const response = await mutateAsync({
+            conversationId: groupId,
+            conversationType: 0,
             content: newMessage,
-            groupId: groupId,
-            type: MessageType.TEXT
+            mediaId: ' ',
+            messageType: MessageType.TEXT
         })
         setNewMessage('')
         if (!response.success) {
@@ -148,28 +148,17 @@ export default function ChatModule({
         }
     }
 
-    const { } = usePresence({
-        enterWithData: { status: 'Online' },
-        leaveWithData: { status: 'Offline' },
-    });
-
     return (
         <KeyboardAvoidingView
             behavior={Platform.OS === 'ios' ? 'padding' : undefined}
             style={{ flex: 1 }}
         >
             <View className='relative h-full w-full items-center justify-center'>
-
-                {/* <Pressable className="absolute top-2 left-1/2 -translate-x-1/2 flex-row gap-2 items-center z-50 px-4 py-2 rounded-full bg-blue-500 active:bg-blue-400">
-                    <Text className='text-white text-sm font-semibold tracking-widest'>Tin nhắn mới</Text>
-                    <ChevronUp className='text-white' size={17} />
-                </Pressable> */}
-
                 {isLoadingMessages ? (
                     <View className='flex-1 w-full h-full justify-center items-center'>
                         <SpinningIcon icon={<Loader className='text-foreground' size={30} />} />
                     </View>
-                ) : isError ? (
+                ) : isError || groups[groupId].messages.length == 0 ? (
                     <ScrollView
                         className="flex-1 w-full"
                         contentContainerStyle={{ alignItems: 'center', justifyContent: 'center', flexGrow: 1 }}
@@ -200,25 +189,9 @@ export default function ChatModule({
                             keyExtractor={(_, index) => index.toString()}
                             renderItem={({ item }) => {
                                 if (item.type == MessageType.TEXT) {
-                                    return (
-                                        <TextMessage
-                                            name={item.participant.fullName}
-                                            image={item.participant.avatar}
-                                            content={item.content}
-                                            time={item.createdDate}
-                                            isOwn={item.participant.id == user.id}
-                                        />
-                                    )
+                                    return <TextMessage message={item} />
                                 } else {
-                                    return (
-                                        <ImageMessage
-                                            content={item.content}
-                                            name={item.participant.fullName}
-                                            avatar={item.participant.avatar}
-                                            time={item.createdDate}
-                                            isOwn={item.participant.id == user.id}
-                                        />
-                                    )
+                                    return <ImageMessage message={item} />
                                 }
                             }}
                             estimatedItemSize={200}
@@ -227,9 +200,6 @@ export default function ChatModule({
                             keyboardShouldPersistTaps="handled"
                             scrollEventThrottle={16}
                             onEndReachedThreshold={0.5}
-                            onContentSizeChange={() => {
-                                listRef.current?.scrollToEnd({ animated: false })
-                            }}
                         />
                     </View>
                 )

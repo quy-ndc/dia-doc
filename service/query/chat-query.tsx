@@ -1,4 +1,4 @@
-import {  useMutation } from "@tanstack/react-query"
+import { useMutation } from "@tanstack/react-query"
 import { GetAllChatGroups, GetAllChatMessages, SendMessage } from "../api/chat-service"
 import { MessageType } from "../../assets/enum/message-type"
 import Toast from "react-native-toast-message"
@@ -20,7 +20,7 @@ export const useGroupChatQuery = (params: {
 }
 
 export const useChatMessagesQuery = (params: {
-    groupId: string
+    conversationId: string
     PageSize?: number
     Sort?: string
     Direction?: string
@@ -30,7 +30,7 @@ export const useChatMessagesQuery = (params: {
 
     const queryFn = async ({ pageParam = undefined }) => {
         return GetAllChatMessages({
-            groupId: params.groupId,
+            conversationId: params.conversationId,
             Cursor: pageParam,
             PageSize: params.PageSize,
             Sort: params.Sort,
@@ -44,11 +44,13 @@ export const useChatMessagesQuery = (params: {
 
 export const useSendMessageMutation = () => {
     return useMutation({
-        mutationFn: (data: {
-            groupId: string
-            content: string
-            type: MessageType
-        }) => SendMessage(data),
+        mutationFn: (request: {
+            conversationId: string,
+            conversationType: number,
+            content: string,
+            mediaId: string,
+            messageType: MessageType
+        }) => SendMessage(request),
         onSuccess: (data) => {
             return data
         },

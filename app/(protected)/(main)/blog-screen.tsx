@@ -55,13 +55,14 @@ export default function BlogScreen() {
             SortType: sortType === '' ? undefined : sortType
         }),
         getNextPageParam: (lastPage) => {
-            const posts = lastPage?.data?.value?.data || undefined
+            const posts = lastPage?.data?.data || undefined
             return posts?.hasNextPage ? posts.nextCursor : undefined
         },
         keepPreviousData: false,
         retry: 2,
         retryDelay: attempt => Math.min(1000 * 2 ** attempt, 5000)
     })
+
     const allItems: BlogPost[] = data ? data?.pages?.flatMap(page => page.data?.data?.items) : []
 
     const onRefresh = useCallback(() => {

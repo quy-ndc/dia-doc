@@ -63,8 +63,8 @@ export default function HomeScreen() {
     }, [refetch, healthRecordRefetch, healthCarePlanRefetch, remove, healthRecordRemove, healthCarePlanRemove])
 
     const items: BlogPost[] = data?.data?.data || []
-    const healthRecordItems: HealthTrackItem[] = healthRecordData?.data?.value?.data || []
-    const healthCarePlanItems: HealthCarePlan[] = healthCarePlanData?.data?.value?.data || []
+    const healthRecordItems: HealthTrackItem[] = healthRecordData?.data?.data || []
+    const healthCarePlanItems: HealthCarePlan[] = healthCarePlanData?.data?.data || []
 
     return (
         <>
@@ -101,7 +101,6 @@ export default function HomeScreen() {
                         remove={remove}
                         refreshing={refreshing}
                     />
-                    <LogoutButton />
                 </View>
             </ScrollView>
         </>

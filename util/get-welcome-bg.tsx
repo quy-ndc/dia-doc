@@ -9,6 +9,7 @@ export function useWelcomeGradientColors(): {
     text: string
     message: string
     colors: [string, string, ...string[]]
+    altColors: [string, string, ...string[]]
     icon: React.ReactNode
 } {
     const theme = useColorScheme()
@@ -81,10 +82,14 @@ export function useWelcomeGradientColors(): {
     const messageList = welcomeMessages[timeOfDay]
     const randomMessage = messageList[Math.floor(Math.random() * messageList.length)]
 
+    const baseColors = colors[timeOfDay][resolvedTheme]
+    const reversedColors = [...baseColors].reverse() as [string, string, string]
+
     return {
         text: greetings[timeOfDay],
         message: randomMessage,
-        colors: [edgeColor, ...colors[timeOfDay][resolvedTheme], edgeColor],
+        colors: [edgeColor, ...baseColors, edgeColor],
+        altColors: [edgeColor, ...reversedColors, edgeColor],
         icon: icons[timeOfDay],
     }
 }

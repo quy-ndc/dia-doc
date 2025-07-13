@@ -23,6 +23,7 @@ import { ChannelProvider } from 'ably/react'
 import { ABLY_CLIENT_KEY, GLOBAL_CHAT_EVENT_CHANNEL } from '@env'
 import useUserStore from '../store/userStore'
 import { AuthorProvider } from '../util/provider/author-provider'
+import useConfigStore from '../store/appConfigStore'
 
 const LIGHT_THEME: Theme = { ...DefaultTheme, colors: NAV_THEME.light }
 const DARK_THEME: Theme = { ...DarkTheme, colors: NAV_THEME.dark }
@@ -72,14 +73,6 @@ export default function RootLayout() {
     const enabled =
       authStatus === messaging.AuthorizationStatus.AUTHORIZED ||
       authStatus === messaging.AuthorizationStatus.PROVISIONAL
-
-    if (!enabled) {
-      // Toast.show({
-      //   type: 'error',
-      //   text1: 'Bạn cần cấp quyền để nhận thông báo',
-      //   visibilityTime: 3000,
-      // })
-    }
 
     if (Platform.OS === 'android' && Platform.Version >= 33) {
       const result = await PermissionsAndroid.request(

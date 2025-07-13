@@ -6,6 +6,7 @@ import { GlobalColor } from '../../global-color'
 import { Patient } from '../../assets/types/user/patient'
 import { TriangleAlert } from '../../lib/icons/TriangleAlert'
 import { getComplicationsString } from '../../assets/enum/complications'
+import Tag from '../common/tag'
 
 type Prop = {
     profile: Patient
@@ -21,13 +22,12 @@ export default function Complication({ profile }: Prop) {
             />
             <View className="flex-row flex-wrap gap-2 w-full">
                 {profile.diabetesCondition.complications.map((comp, idx) => (
-                    <Text
+                    <Tag
                         key={idx}
-                        style={{ backgroundColor: GlobalColor.RED_NEON_BG, color: GlobalColor.RED_NEON_BORDER }}
-                        className="px-4 py-1 rounded-full text-base font-semibold tracking-wider"
-                    >
-                        {getComplicationsString(comp)}
-                    </Text>
+                        background={GlobalColor.RED_NEON_BG}
+                        textColor={GlobalColor.RED_NEON_BORDER}
+                        text={getComplicationsString(comp)}
+                    />
                 ))}
             </View>
         </View>

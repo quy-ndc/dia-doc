@@ -56,7 +56,7 @@ export default function ProfileScreen() {
 
     return (
         <ScrollView refreshControl={<RefreshControl refreshing={refreshing} onRefresh={onRefresh} />}>
-            <View className='flex-col gap-4 px-3'>
+            <View className='flex-col gap-4 px-3 pb-3'>
                 <BasicInfo profile={profile} />
                 <DiabetesInfo profile={profile} />
                 <GeneralInfo profile={profile} />
@@ -66,7 +66,6 @@ export default function ProfileScreen() {
                 {profile.medicalHistories.length !== 0 && (
                     <MedicalHistories profile={profile} />
                 )}
-                <LogoutButton />
             </View>
         </ScrollView>
     )

@@ -52,8 +52,8 @@ export default function ProtectedLayout() {
             <Stack.Screen name="edit-profile-screen" options={{ headerTitle: '' }} />
             <Stack.Screen name="ai-chat-screen" options={{ headerTitle: '', headerShadowVisible: false }} />
             <Stack.Screen name="blog-detail-screen" options={{ headerTitle: '', headerShadowVisible: false }} />
-            <Stack.Screen name="liked-blog-screen" options={{ headerTitle: 'Bài viết đã thích' }} />
-            <Stack.Screen name="saved-blog-screen" options={{ headerTitle: 'Bài viết đã lưu' }} />
+            <Stack.Screen name="liked-blog-screen" options={{ headerTitle: 'Bài viết đã thích', headerShadowVisible: false }} />
+            <Stack.Screen name="saved-blog-screen" options={{ headerTitle: 'Bài viết đã lưu', headerShadowVisible: false }} />
             <Stack.Screen name="update-record-screen" options={{ headerTitle: '', headerShadowVisible: false, headerRight: () => <ThemeToggle /> }} />
         </Stack>
     )

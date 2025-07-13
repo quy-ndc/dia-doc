@@ -1,17 +1,17 @@
-import { Dimensions, Pressable, View } from "react-native";
-import SectionTitle from "../common/section-title";
-import { Sparkles } from '../../../lib/icons/Sparkles';
-import { Text } from "../../../components/ui/text";
-import { ChevronDown } from "../../../lib/icons/ChevronDown";
-import { useRouter } from "expo-router";
-import BlogItem from "../../common/blog-item/blog-item";
-import { FlashList } from "@shopify/flash-list";
-import { BlogPost } from "../../../assets/types/media/blog-post";
-import FeatureBlogItem from "../../common/blog-item/feature-blog-item";
-import BlogSkeleton from "../../common/skeleton/blog-skeleton";
-import ErrorDisplay from "../../common/error-display";
-import { GlobalColor } from "../../../global-color";
-import { useCallback } from "react";
+import { Dimensions, Pressable, View } from "react-native"
+import SectionTitle from "../common/section-title"
+import { Sparkles } from '../../../lib/icons/Sparkles'
+import { Text } from "../../../components/ui/text"
+import { ChevronDown } from "../../../lib/icons/ChevronDown"
+import { useRouter } from "expo-router"
+import BlogItem from "../../common/blog-item/blog-item"
+import { FlashList } from "@shopify/flash-list"
+import { BlogPost } from "../../../assets/types/media/blog-post"
+import FeatureBlogItem from "../../common/blog-item/feature-blog-item"
+import BlogSkeleton from "../../common/skeleton/blog-skeleton"
+import ErrorDisplay from "../../common/error-display"
+import { GlobalColor } from "../../../global-color"
+import { useCallback } from "react"
 
 const { width } = Dimensions.get('window')
 
@@ -64,11 +64,11 @@ export default function HomeBlogSection({ isLoading, isError, items, refetch, re
                     <View className="flex flex-row w-full gap-3 justify-center items-center">
                         <View
                             style={{ height: 1 }}
-                            className="basis-[25%] bg-[var(--oppo-theme-col)]"
+                            className="basis-[25%] bg-[var(--fade-text-color)]"
                         />
                         <Pressable
                             style={{ width: width * 0.4 }}
-                            className="flex-row gap-2 px-4 py-2 justify-center items-center border border-[var(--oppo-theme-col)] rounded-full active:bg-[var(--click-bg)]"
+                            className="flex-row gap-2 px-4 py-1 justify-center items-center border border-[var(--fade-text-color)] rounded-full active:bg-[var(--click-bg)]"
                             onPress={() => router.push('/blog-screen')}
                         >
                             <Text className="text-base font-semibold tracking-wider">Xem thêm</Text>
@@ -76,11 +76,11 @@ export default function HomeBlogSection({ isLoading, isError, items, refetch, re
                         </Pressable>
                         <View
                             style={{ height: 1 }}
-                            className="basis-[25%] bg-[var(--oppo-theme-col)]"
+                            className="basis-[25%] bg-[var(--fade-text-color)]"
                         />
                     </View>
                 </View>
             )}
         </View>
-    );
+    )
 }

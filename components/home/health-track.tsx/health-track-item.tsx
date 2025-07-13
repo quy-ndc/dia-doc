@@ -8,6 +8,7 @@ import { BloodPressureRecord, HealthTrackItem } from '../../../assets/types/user
 import { router } from 'expo-router'
 import { ChevronRight } from '../../../lib/icons/ChevronRight'
 import { GlobalColor } from '../../../global-color'
+import RoundedIcon from '../../common/icons/rouned-icon'
 
 type Prop = {
     item: HealthTrackItem
@@ -48,12 +49,11 @@ export default function HealthTrackerItem({ item }: Prop) {
             onPress={handlePress}
         >
             <View className='flex-row items-center gap-2 mb-3'>
-                <View
-                    style={{ backgroundColor: recordDisplay.iconColor }}
-                    className='p-2 rounded-full'
-                >
-                    {recordDisplay.icon}
-                </View>
+                <RoundedIcon
+                    background={recordDisplay.iconColor}
+                    size={2}
+                    icon={recordDisplay.icon}
+                />
                 <Text className='text-base font-semibold tracking-wider capitalize'>{recordDisplay.name}</Text>
             </View>
             <View className='flex-col gap-2'>
@@ -65,7 +65,7 @@ export default function HealthTrackerItem({ item }: Prop) {
                     <Text className='text-sm text-[var(--fade-text-color)] tracking-wider'>
                         {item.mesurementAt ? `Đo ${formatDateBlog(item.mesurementAt)}` : 'Chưa có dữ liệu'}
                     </Text>
-                    <ChevronRight className='text-foreground' size={15}/>
+                    <ChevronRight className='text-foreground' size={15} />
                 </View>
             </View>
         </Pressable>

@@ -127,36 +127,37 @@ export default function AiChatModule() {
                             </View>
                         </ScrollView>
                     ) : (
-                        <FlashList<ChatItem>
-                            ref={flashListRef}
-                            data={aiMessages}
-                            keyExtractor={(_, index) => index.toString()}
-                            renderItem={({ item }) => {
-                                if (item.type === 'loading') return <AiLoadingResponse />
-                                if (item.type === 'error') return <AiFailResponse />
-                                if (item.type === 'success') return <AiSuccessResponse content={item.content} />
-                                if (item.type === 'user' || item.type === 'ai') {
-                                    return (
-                                        <TextMessage
-                                            name={item.role == AIChatRole.USER ? 'Bạn' : 'AI'}
-                                            image={item.role == AIChatRole.USER ? user.avatar : 'https://media.licdn.com/dms/image/D4D12AQEvIMjoRlFGZA/article-cover_image-shrink_600_2000/0/1697794459592?e=2147483647&v=beta&t=r-U9j2bHdCsI7vP62SrP6dodTFq_Laj4KQB26c_Zvoo'}
-                                            content={item.content}
-                                            time={item.createdAt}
-                                            isOwn={item.role == AIChatRole.USER}
-                                        />
-                                    )
-                                }
-                                return null
-                            }}
-                            estimatedItemSize={200}
-                            refreshControl={<RefreshControl refreshing={refreshing} onRefresh={onRefresh} />}
-                            keyboardShouldPersistTaps="handled"
-                            scrollEventThrottle={16}
-                            onContentSizeChange={() => {
-                                flashListRef.current?.scrollToEnd({ animated: false })
-                            }}
-                            onEndReachedThreshold={0.5}
-                        />
+                        <></>
+                        // <FlashList<ChatItem>
+                        //     ref={flashListRef}
+                        //     data={aiMessages}
+                        //     keyExtractor={(_, index) => index.toString()}
+                        //     renderItem={({ item }) => {
+                        //         if (item.type === 'loading') return <AiLoadingResponse />
+                        //         if (item.type === 'error') return <AiFailResponse />
+                        //         if (item.type === 'success') return <AiSuccessResponse content={item.content} />
+                        //         if (item.type === 'user' || item.type === 'ai') {
+                        //             return (
+                        //                 <TextMessage
+                        //                     name={item.role == AIChatRole.USER ? 'Bạn' : 'AI'}
+                        //                     image={item.role == AIChatRole.USER ? user.avatar : 'https://media.licdn.com/dms/image/D4D12AQEvIMjoRlFGZA/article-cover_image-shrink_600_2000/0/1697794459592?e=2147483647&v=beta&t=r-U9j2bHdCsI7vP62SrP6dodTFq_Laj4KQB26c_Zvoo'}
+                        //                     content={item.content}
+                        //                     time={item.createdAt}
+                        //                     isOwn={item.role == AIChatRole.USER}
+                        //                 />
+                        //             )
+                        //         }
+                        //         return null
+                        //     }}
+                        //     estimatedItemSize={200}
+                        //     refreshControl={<RefreshControl refreshing={refreshing} onRefresh={onRefresh} />}
+                        //     keyboardShouldPersistTaps="handled"
+                        //     scrollEventThrottle={16}
+                        //     onContentSizeChange={() => {
+                        //         flashListRef.current?.scrollToEnd({ animated: false })
+                        //     }}
+                        //     onEndReachedThreshold={0.5}
+                        // />
                     )}
                 </View>
                 <View className='flex-row gap-1 justify-center items-center p-2'>

@@ -4,19 +4,19 @@ import { Text } from '../ui/text'
 import SectionTitle from '../home/common/section-title'
 import { Activity } from '../../lib/icons/Activity'
 import { GlobalColor } from '../../global-color'
-import { DiaType, getDiaTypeName } from '../../assets/enum/dia-type'
+import { DiaType } from '../../assets/enum/dia-type'
 import { Patient } from '../../assets/types/user/patient'
-import { DiagnosisRecency, getDiagnosisRecencyString } from '../../assets/enum/diagnosis-recency'
 import { getType2TreatmentMethodString, Type2TreatmentMethod } from '../../assets/enum/type-2-treatment-method'
 import { getInsulinInjectionFrequencyString, InsulinInjectionFrequency } from '../../assets/enum/insulin-injection-frequency'
 import { Stethoscope } from '../../lib/icons/Stethoscope'
 import { Syringe } from '../../lib/icons/Syringe'
 import { PencilLine } from '../../lib/icons/PencilLine'
-import { ControlLevel, getControlLevelInfo, getControlLevelString } from '../../assets/enum/control-level'
+import { getControlLevelInfo } from '../../assets/enum/control-level'
 import { Dumbbell } from '../../lib/icons/Dumbbell'
 import { ExerciseFrequency, getExerciseFrequencyString } from '../../assets/enum/exercise-frequency'
 import { UtensilsCrossed } from '../../lib/icons/UtensilsCrossed'
 import { EatingHabit, getEatingHabitString } from '../../assets/enum/eating-habit'
+import RoundedIcon from '../common/icons/rouned-icon'
 
 type Prop = {
     profile: Patient
@@ -44,12 +44,11 @@ export default function GeneralInfo({ profile }: Prop) {
             />
             {displayTreatment && (
                 <View className='flex-row px-2 gap-3 items-center w-full'>
-                    <View
-                        style={{ backgroundColor: GlobalColor.ORANGE_NEON_BG }}
-                        className='flex p-3 justify-center items-center rounded-full'
-                    >
-                        <Stethoscope color={GlobalColor.ORANGE_NEON_BORDER} size={18} />
-                    </View>
+                    <RoundedIcon
+                        background={GlobalColor.ORANGE_NEON_BG}
+                        size={3}
+                        icon={<Stethoscope color={GlobalColor.ORANGE_NEON_BORDER} size={17} />}
+                    />
                     <View className='flex-col gap-1'>
                         <Text className='text-base font-semibold tracking-wider'>Phương pháp điều trị</Text>
                         <Text className='text-sm text-[var(--fade-text-color)] tracking-wider'>
@@ -60,12 +59,11 @@ export default function GeneralInfo({ profile }: Prop) {
             )}
             {displayInsulinFrequency && (
                 <View className='flex-row px-2 gap-3 items-center w-full'>
-                    <View
-                        style={{ backgroundColor: GlobalColor.PURPLE_NEON_BG }}
-                        className='flex p-3 justify-center items-center rounded-full'
-                    >
-                        <Syringe color={GlobalColor.PURPLE_NEON_BORDER} size={18} />
-                    </View>
+                    <RoundedIcon
+                        background={GlobalColor.PURPLE_NEON_BG}
+                        size={3}
+                        icon={<Syringe color={GlobalColor.PURPLE_NEON_BORDER} size={17} />}
+                    />
                     <View className='flex-col gap-1'>
                         <Text className='text-base font-semibold tracking-wider'>Tần suất tiêm insulin</Text>
                         <Text className='text-sm text-[var(--fade-text-color)] tracking-wider'>
@@ -77,12 +75,11 @@ export default function GeneralInfo({ profile }: Prop) {
 
             {displayControlLevel && (
                 <View className='flex-row px-2 gap-3 items-center w-full'>
-                    <View
-                        style={{ backgroundColor: GlobalColor.CYAN_NEON_BG }}
-                        className='flex p-3 justify-center items-center rounded-full'
-                    >
-                        <PencilLine color={GlobalColor.CYAN_NEON_BORDER} size={18} />
-                    </View>
+                    <RoundedIcon
+                        background={GlobalColor.CYAN_NEON_BG}
+                        size={3}
+                        icon={<PencilLine color={GlobalColor.CYAN_NEON_BORDER} size={17} />}
+                    />
                     <View className='flex-col gap-1'>
                         <Text className='text-base font-semibold tracking-wider'>Mức độ kiểm soát</Text>
                         <Text className='text-sm text-[var(--fade-text-color)] tracking-wider'>
@@ -100,12 +97,11 @@ export default function GeneralInfo({ profile }: Prop) {
 
             {displayExerciseFrequency && (
                 <View className="flex-row px-2 gap-3 items-center w-full">
-                    <View
-                        style={{ backgroundColor: GlobalColor.BLUE_NEON_BG }}
-                        className='flex p-3 justify-center items-center rounded-full'
-                    >
-                        <Dumbbell color={GlobalColor.BLUE_NEON_BORDER} size={20} />
-                    </View>
+                    <RoundedIcon
+                        background={GlobalColor.BLUE_NEON_BG}
+                        size={3}
+                        icon={<Dumbbell color={GlobalColor.BLUE_NEON_BORDER} size={17} />}
+                    />
                     <View className='flex-col gap-1'>
                         <Text className='text-base font-bold tracking-wider'>Tần suất tập thể dục</Text>
                         <Text className='text-sm text-[var(--fade-text-color)] tracking-wider'>
@@ -116,12 +112,11 @@ export default function GeneralInfo({ profile }: Prop) {
             )}
             {displayEatingHabit && (
                 <View className="flex-row px-2 gap-3 items-center w-full">
-                    <View
-                        style={{ backgroundColor: GlobalColor.GREEN_NEON_BG }}
-                        className='flex p-3 justify-center items-center rounded-full'
-                    >
-                        <UtensilsCrossed color={GlobalColor.GREEN_NEON_BORDER} size={20} />
-                    </View>
+                    <RoundedIcon
+                        background={GlobalColor.GREEN_NEON_BG}
+                        size={3}
+                        icon={<UtensilsCrossed color={GlobalColor.GREEN_NEON_BORDER} size={17} />}
+                    />
                     <View className='flex-col gap-1'>
                         <Text className='text-base font-bold tracking-wider'>Chế độ ăn uống</Text>
                         <Text className='text-sm text-[var(--fade-text-color)] tracking-wider'>

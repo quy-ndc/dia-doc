@@ -1,6 +1,6 @@
-import * as React from 'react';
-import { Skeleton } from '../../ui/skeleton';
-import { Dimensions, View } from 'react-native';
+import * as React from 'react'
+import { Skeleton } from '../../ui/skeleton'
+import { Dimensions, View } from 'react-native'
 
 const { width } = Dimensions.get('window')
 
@@ -23,9 +23,8 @@ export default function ProfileSkeleton() {
             </View>
             <Skeleton className='w-full h-[80]' />
             <Skeleton className='w-full h-[200]' />
-            <View className='flex w-full items-center justify-center'>
-                <Skeleton className='w-1/2 h-[40]' />
-            </View>
+            <Skeleton className='w-full h-[80]' />
+            <Skeleton className='w-full h-[80]' />
         </View>
-    );
+    )
 }

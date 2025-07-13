@@ -2,8 +2,7 @@ import * as React from 'react'
 import { LogOut } from '../../lib/icons/LogOut'
 import useUserStore from '../../store/userStore'
 import { useRouter } from 'expo-router'
-import { Pressable, View } from 'react-native'
-import { Text } from '../../components/ui/text'
+import { Pressable } from 'react-native'
 import { GlobalColor } from '../../global-color'
 import { useQueryClient } from '@tanstack/react-query'
 import { invalidateQuery } from '../../util/invalidate-queries'
@@ -21,15 +20,11 @@ export default function LogoutButton() {
     }
 
     return (
-        <View className='flex-1 justify-center items-center'>
-            <Pressable
-                style={{ borderColor: GlobalColor.RED_NEON_BORDER, backgroundColor: GlobalColor.RED_NEON_BG }}
-                className='flex-row p-3 gap-2 w-1/2 border justify-center items-center rounded-md active:opacity-80'
-                onPress={onLogout}
-            >
-                <LogOut className='text-red-500' size={19} />
-                <Text className='text-base font-bold text-red-500 tracking-wider capitalize'>Đăng xuất</Text>
-            </Pressable>
-        </View>
+        <Pressable
+            className='flex p-3 gap-2 justify-center items-center rounded-md active:bg-[#ef44441A]'
+            onPress={onLogout}
+        >
+            <LogOut color={GlobalColor.RED_NEON_BORDER} size={17} />
+        </Pressable>
     )
 }

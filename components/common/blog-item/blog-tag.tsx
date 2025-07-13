@@ -2,6 +2,7 @@ import { View } from "react-native";
 import { Text } from '../../../components/ui/text'
 import { getBlogTagColor } from "../../../util/get-blog-tag-color";
 import { BlogCategory } from "../../../assets/types/media/blog-post";
+import Tag from "../tag";
 
 type Prop = {
     tag: BlogCategory
@@ -13,12 +14,11 @@ export default function BlogTag({ tag }: Prop) {
 
     return (
         <View className="flex-row gap-3 items-center">
-            <Text
-                style={{ backgroundColor: tagBorder, color: 'white' }}
-                className={`text-center text-sm font-semibold px-3 py-1 rounded-full tracking-wider capitalize`}
-            >
-                {tag.name}
-            </Text>
+            <Tag
+                background={tagBorder}
+                textColor={'white'}
+                text={tag.name}
+            />
         </View>
     )
 }

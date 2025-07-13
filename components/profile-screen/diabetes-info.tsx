@@ -11,6 +11,7 @@ import { LinearGradient } from 'expo-linear-gradient';
 import { Heart } from '../../lib/icons/Heart';
 import { Stethoscope } from '../../lib/icons/Stethoscope';
 import { Calendar } from '../../lib/icons/Calendar';
+import Tag from '../common/tag';
 
 type Prop = {
     profile: Patient
@@ -39,16 +40,12 @@ export default function DiabetesInfo({ profile }: Prop) {
                         <Text className='text-sm text-[var(--fade-text-color)] tracking-wider'>Phân loại bệnh</Text>
                     </View>
                 </View>
-                <Text
-                    style={{
-                        backgroundColor: GlobalColor.PINK_NEON_BG,
-                        color: GlobalColor.PINK_NEON_BORDER,
-                        borderColor: GlobalColor.PINK_NEON_BORDER
-                    }}
-                    className={`text-center text-sm font-semibold px-4 py-1 border rounded-full tracking-wider capitalize`}
-                >
-                    {getDiaTypeName(profile.diabetesType)}
-                </Text>
+                <Tag
+                    background={GlobalColor.PINK_NEON_BG}
+                    textColor={GlobalColor.PINK_NEON_BORDER}
+                    text={getDiaTypeName(profile.diabetesType)}
+                    borderColor={GlobalColor.PINK_NEON_BORDER}
+                />
             </View>
             <View className='flex-row gap-2 items-center'>
                 <Calendar color={GlobalColor.INDIGO_NEON_BORDER} size={18} />

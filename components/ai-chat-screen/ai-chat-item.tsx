@@ -10,7 +10,7 @@ const { height } = Dimensions.get('window')
 export default function AiChatItem() {
 
     return (
-        <View className=''>
+        <View className='px-2'>
             <Pressable
                 style={{ borderColor: GlobalColor.BLUE_NEON_BORDER, borderRightWidth: 4 }}
                 className='flex-col w-full p-3 gap-2 bg-[var(--blog-bg)] active:bg-[var(--click-bg)] rounded-md relative'

@@ -13,6 +13,7 @@ import { Bookmark } from '../../../lib/icons/Bookmark'
 import { Heart } from '../../../lib/icons/Heart'
 import { Users } from '../../../lib/icons/Users'
 import { Bot } from '../../../lib/icons/Bot'
+import RoundedIcon from '../../common/icons/rouned-icon'
 
 const { width } = Dimensions.get('window')
 
@@ -36,12 +37,11 @@ export default function QuickAccess() {
                 <View className='flex flex-row justify-between'>
                     <QuickButton
                         icon={
-                            <View
-                                style={{ backgroundColor: GlobalColor.GREEN_NEON_BG }}
-                                className='flex p-3 justify-center items-center rounded-full'
-                            >
-                                <MessageCircleMore color={GlobalColor.GREEN_NEON_BORDER} size={17} />
-                            </View>
+                            <RoundedIcon
+                                background={GlobalColor.GREEN_NEON_BG}
+                                size={3}
+                                icon={<MessageCircleMore color={GlobalColor.GREEN_NEON_BORDER} size={17} />}
+                            />
                         }
                         title='Tin nhắn'
                         onPress={() => router.push({
@@ -51,12 +51,11 @@ export default function QuickAccess() {
                     />
                     <QuickButton
                         icon={
-                            <View
-                                style={{ backgroundColor: GlobalColor.PURPLE_NEON_BG }}
-                                className='flex p-3 justify-center items-center rounded-full'
-                            >
-                                <Users color={GlobalColor.PURPLE_NEON_BORDER} size={17} />
-                            </View>
+                            <RoundedIcon
+                                background={GlobalColor.PURPLE_NEON_BG}
+                                size={3}
+                                icon={<Users color={GlobalColor.PURPLE_NEON_BORDER} size={17} />}
+                            />
                         }
                         title='Tư vấn'
                         onPress={() => router.push({
@@ -67,12 +66,11 @@ export default function QuickAccess() {
                     <NotificationAccess position='quick' />
                     <QuickButton
                         icon={
-                            <View
-                                style={{ backgroundColor: GlobalColor.CYAN_NEON_BG }}
-                                className='flex p-3 justify-center items-center rounded-full'
-                            >
-                                <Bot color={GlobalColor.CYAN_NEON_BORDER} size={17} />
-                            </View>
+                            <RoundedIcon
+                                background={GlobalColor.CYAN_NEON_BG}
+                                size={3}
+                                icon={<Bot color={GlobalColor.CYAN_NEON_BORDER} size={17} />}
+                            />
                         }
                         title='AI Chat'
                         onPress={() => router.push('/ai-chat-screen')}
@@ -81,48 +79,44 @@ export default function QuickAccess() {
                 <View className='flex flex-row justify-between'>
                     <QuickButton
                         icon={
-                            <View
-                                style={{ backgroundColor: GlobalColor.BLUE_NEON_BG }}
-                                className='flex p-3 justify-center items-center rounded-full'
-                            >
-                                <Newspaper color={GlobalColor.BLUE_NEON_BORDER} size={17} />
-                            </View>
+                            <RoundedIcon
+                                background={GlobalColor.BLUE_NEON_BG}
+                                size={3}
+                                icon={<Newspaper color={GlobalColor.BLUE_NEON_BORDER} size={17} />}
+                            />
                         }
                         title='Bài viết'
                         onPress={() => router.push('/blog-screen')}
                     />
                     <QuickButton
                         icon={
-                            <View
-                                style={{ backgroundColor: GlobalColor.ORANGE_NEON_BG }}
-                                className='flex p-3 justify-center items-center rounded-full'
-                            >
-                                <Bookmark color={GlobalColor.ORANGE_NEON_BORDER} size={17} />
-                            </View>
+                            <RoundedIcon
+                                background={GlobalColor.ORANGE_NEON_BG}
+                                size={3}
+                                icon={<Bookmark color={GlobalColor.ORANGE_NEON_BORDER} size={17} />}
+                            />
                         }
                         title='Đã lưu'
                         onPress={() => router.push('/saved-blog-screen')}
                     />
                     <QuickButton
                         icon={
-                            <View
-                                style={{ backgroundColor: GlobalColor.PINK_NEON_BG }}
-                                className='flex p-3 justify-center items-center rounded-full'
-                            >
-                                <Heart color={GlobalColor.PINK_NEON_BORDER} size={17} />
-                            </View>
+                            <RoundedIcon
+                                background={GlobalColor.PINK_NEON_BG}
+                                size={3}
+                                icon={<Bookmark color={GlobalColor.PINK_NEON_BORDER} size={17} />}
+                            />
                         }
                         title='Yêu thích'
                         onPress={() => router.push('/liked-blog-screen')}
                     />
                     <QuickButton
                         icon={
-                            <View
-                                style={{ backgroundColor: GlobalColor.RED_NEON_BG }}
-                                className='flex p-3 justify-center items-center rounded-full'
-                            >
-                                <User color={GlobalColor.RED_NEON_BORDER} size={17} />
-                            </View>
+                            <RoundedIcon
+                                background={GlobalColor.RED_NEON_BG}
+                                size={3}
+                                icon={<User color={GlobalColor.RED_NEON_BORDER} size={17} />}
+                            />
                         }
                         title='Hồ sơ'
                         onPress={() => router.push('/profile-screen')}

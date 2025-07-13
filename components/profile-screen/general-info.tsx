@@ -17,6 +17,7 @@ import { ExerciseFrequency, getExerciseFrequencyString } from '../../assets/enum
 import { UtensilsCrossed } from '../../lib/icons/UtensilsCrossed'
 import { EatingHabit, getEatingHabitString } from '../../assets/enum/eating-habit'
 import RoundedIcon from '../common/icons/rouned-icon'
+import { Beer } from '../../lib/icons/Beer'
 
 type Prop = {
     profile: Patient
@@ -35,6 +36,7 @@ export default function GeneralInfo({ profile }: Prop) {
     const displayControlLevel = profile.diabetesCondition.controlLevel !== undefined && controlLevelInfo !== undefined
     const displayExerciseFrequency = profile.diabetesCondition.exerciseFrequency !== undefined
     const displayEatingHabit = profile.diabetesCondition.eatingHabit !== undefined
+    const displayTobacoAlcoholUsage = profile.diabetesCondition.usesAlcoholOrTobacco !== undefined
 
     return (
         <View className='flex-col items-center gap-4 px-2 py-3 bg-[var(--blog-bg)] rounded-lg'>
@@ -121,6 +123,24 @@ export default function GeneralInfo({ profile }: Prop) {
                         <Text className='text-base font-bold tracking-wider'>Chế độ ăn uống</Text>
                         <Text className='text-sm text-[var(--fade-text-color)] tracking-wider'>
                             {getEatingHabitString(profile.diabetesCondition.eatingHabit as EatingHabit)}
+                        </Text>
+                    </View>
+                </View>
+            )}
+            {displayTobacoAlcoholUsage && (
+                <View className="flex-row px-2 gap-3 items-center w-full">
+                    <RoundedIcon
+                        background={GlobalColor.YELLOW_NEON_BG}
+                        size={3}
+                        icon={<Beer color={GlobalColor.YELLOW_NEON_BORDER} size={17} />}
+                    />
+                    <View className='flex-col gap-1'>
+                        <Text className='text-base font-bold tracking-wider'>Sử dụng cồn hoặc hút thuốc</Text>
+                        <Text
+                            style={{ color: profile.diabetesCondition.usesAlcoholOrTobacco ? GlobalColor.RED_NEON_BORDER : GlobalColor.GREEN_NEON_BORDER }}
+                            className='text-sm  text-[var(--fade-text-color)] tracking-wider'
+                        >
+                            {profile.diabetesCondition.usesAlcoholOrTobacco ? 'Có sử dụng' : 'Không sử dụng'}
                         </Text>
                     </View>
                 </View>

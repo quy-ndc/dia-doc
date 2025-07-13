@@ -104,7 +104,7 @@ export default function QuickAccess() {
                             <RoundedIcon
                                 background={GlobalColor.PINK_NEON_BG}
                                 size={3}
-                                icon={<Bookmark color={GlobalColor.PINK_NEON_BORDER} size={17} />}
+                                icon={<Heart color={GlobalColor.PINK_NEON_BORDER} size={17} />}
                             />
                         }
                         title='Yêu thích'

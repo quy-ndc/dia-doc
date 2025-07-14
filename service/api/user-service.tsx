@@ -45,7 +45,8 @@ export const GetUserHealthRecord = async (params: {
     recordTypes: string,
     newest: boolean,
     fromDate?: string,
-    toDate?: string
+    toDate?: string,
+    onePerType: boolean
 }) => {
     try {
         const queryString = createQueryString(params)

@@ -11,6 +11,7 @@ import { calculateReadTime } from "../../../util/readtime-calc";
 import BlogTag from "./blog-tag";
 import { formatDate } from "../../../util/format-date";
 import { GlobalColor } from "../../../global-color";
+import Tag from "../tag";
 
 
 type Prop = {
@@ -71,23 +72,21 @@ export default function BlogItem({ blogPost, showLikeDate, showBookmarkDate }: P
                 </Text>
                 {showBookmarkDate && blogPost.bookmarkedDate && (
                     <View className="flex-row w-full px-2 justify-between items-center">
-                        <Text
-                            style={{ backgroundColor: GlobalColor.ORANGE_NEON_BG, color: GlobalColor.ORANGE_NEON_BORDER }}
-                            className="text-sm font-semibold px-4 py-1 tracking-wider rounded-full"
-                        >
-                            Đã lưu vào {formatDate(blogPost.bookmarkedDate)}
-                        </Text>
+                        <Tag
+                            background={GlobalColor.ORANGE_NEON_BG}
+                            text={`Đã lưu vào ${formatDate(blogPost.bookmarkedDate)}`}
+                            textColor={GlobalColor.ORANGE_NEON_BORDER}
+                        />
                         <View />
                     </View>
                 )}
                 {showLikeDate && blogPost.likedDate && (
                     <View className="flex-row w-full px-2 justify-between items-center">
-                        <Text
-                            style={{ backgroundColor: GlobalColor.PINK_NEON_BG, color: GlobalColor.PINK_NEON_BORDER }}
-                            className="text-sm font-semibold px-4 py-1 tracking-wider rounded-full"
-                        >
-                            Đã thích vào {formatDate(blogPost.likedDate)}
-                        </Text>
+                        <Tag
+                            background={GlobalColor.PINK_NEON_BG}
+                            text={`Đã thích vào ${formatDate(blogPost.likedDate)}`}
+                            textColor={GlobalColor.PINK_NEON_BORDER}
+                        />
                         <View />
                     </View>
                 )}

@@ -9,7 +9,6 @@ import SearchField from '../../components/blog-screen/search-field'
 import BlogList from '../../components/blog-screen/blog-list'
 import { Text } from '../../components/ui/text'
 import { ChevronUp } from '../../lib/icons/ChevronUp'
-import SortButton from '../../components/blog-screen/sort-button'
 
 export default function LikedBlogScreen() {
 

@@ -51,18 +51,22 @@ export default function HealthcarePlanDetailItem({ item, hidden }: Prop) {
             </View>
             <Text className='text-lg font-semibold tracking-widest capitalize'>Đo {recordDisplay.name}</Text>
             <View className='flex-row gap-2 items-center'>
+                {/* {!item.period && ( */}
                 <Text
                     style={{ color: recordDisplay.iconColor, borderColor: recordDisplay.iconColor }}
                     className='text-sm px-4 py-1 font-medium border rounded-full tracking-wider'
                 >
-                    {period}
+                    {item.period}
                 </Text>
+                {/* )} */}
+                {/* {!item.subtype && ( */}
                 <Text
                     style={{ color: recordDisplay.iconColor, borderColor: recordDisplay.iconColor }}
                     className='text-sm px-4 py-1 font-medium border rounded-full tracking-wider'
                 >
-                    {subType}
+                    {item.subtype}
                 </Text>
+                {/* )} */}
             </View>
             <View className='flex-row gap-2 items-center'>
                 <Clock color={GlobalColor.BLUE_NEON_BORDER} size={20} />

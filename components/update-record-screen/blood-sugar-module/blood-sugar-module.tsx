@@ -93,7 +93,7 @@ export default function BloodSugarUpdateModule({ lastMesurement }: Props) {
                 <NoteField note={note} setNote={setNote} placeholder='Ăn nhiều ngọt trước đó, cảm thấy chóng mặt' />
                 <RecordConfirmButton
                     isLoading={isLoading}
-                    disabled={!value || !selectedTime || !selectPeriod}
+                    disabled={value == '' || selectedTime == '' || selectPeriod == undefined}
                     onPress={handleUpdateBloodSugar}
                 />
             </View>

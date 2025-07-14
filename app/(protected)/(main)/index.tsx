@@ -7,7 +7,6 @@ import { useQuery } from '@tanstack/react-query'
 import { useTopMediaQuery } from '../../../service/query/media-query'
 import { BlogPost } from '../../../assets/types/media/blog-post'
 import DailyTip from '../../../components/home/daily-tip.tsx/daily-tip'
-import LogoutButton from '../../../components/profile-screen/logout-button'
 import HealthTracker from '../../../components/home/health-track.tsx/health-track'
 import { useUserHealthCarePlan, useUserHealthRecordProfile } from '../../../service/query/user-query'
 import { HealthTrackItem } from '../../../assets/types/user/health-track'
@@ -36,7 +35,8 @@ export default function HomeScreen() {
     } = useQuery({
         ...useUserHealthRecordProfile({
             recordTypes: '0,1,2,3,4',
-            newest: true
+            newest: true,
+            onePerType: true
         }),
         retry: 2,
         retryDelay: attempt => Math.min(1000 * 2 ** attempt, 5000)

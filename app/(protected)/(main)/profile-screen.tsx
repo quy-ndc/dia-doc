@@ -1,16 +1,14 @@
 import * as React from 'react'
 import { View, ScrollView, RefreshControl } from 'react-native'
 import { useQuery } from '@tanstack/react-query'
-import { useUserProfile } from '../../../service/query/user-query'
+import { useUserHealthRecordProfile, useUserProfile } from '../../../service/query/user-query'
 import { useCallback, useState } from 'react'
 import { Patient } from '../../../assets/types/user/patient'
 import ProfileSkeleton from '../../../components/common/skeleton/profile-skeleton'
 import ErrorDisplay from '../../../components/common/error-display'
-import GeneralInfo from '../../../components/profile-screen/general-info'
-import Complication from '../../../components/profile-screen/complication'
-import DiabetesInfo from '../../../components/profile-screen/diabetes-info'
-import MedicalHistories from '../../../components/profile-screen/medical-histories'
-import BasicInfo from '../../../components/profile-screen/basic-infor'
+import ProfileModule from '../../../components/profile-screen/profile-module'
+import { HealthTrackItem } from '../../../assets/types/user/health-track'
+import ProfileHealthRecord from '../../../components/profile-screen/health-record/profile-health-record'
 
 export default function ProfileScreen() {
 
@@ -22,13 +20,33 @@ export default function ProfileScreen() {
         retryDelay: attempt => Math.min(1000 * 2 ** attempt, 5000)
     })
 
+    const {
+        data: healthRecordData,
+        isLoading: healthRecordLoading,
+        isError: healthRecordError,
+        refetch: healthRecordRefetch,
+        remove: healthRecordRemove
+    } = useQuery({
+        ...useUserHealthRecordProfile({
+            recordTypes: '0,1,2,3,4',
+            newest: true,
+            onePerType: true
+        }),
+        retry: 2,
+        retryDelay: attempt => Math.min(1000 * 2 ** attempt, 5000)
+    })
+
     const onRefresh = useCallback(() => {
         setRefreshing(true)
         remove()
-        refetch().finally(() => setRefreshing(false))
-    }, [refetch])
+        refetch()
+        healthRecordRemove()
+        healthRecordRefetch().finally(() => setRefreshing(false))
+    }, [refetch, remove, healthRecordRefetch, healthRecordRemove])
 
     const profile: Patient | undefined = data?.data?.data ?? undefined
+    const healthRecordItems: HealthTrackItem[] = healthRecordData?.data?.data || []
+
 
     if (isLoading) {
         return (
@@ -55,17 +73,22 @@ export default function ProfileScreen() {
 
     return (
         <ScrollView refreshControl={<RefreshControl refreshing={refreshing} onRefresh={onRefresh} />}>
-            <View className='flex-col gap-4 px-3 pb-3'>
-                <BasicInfo profile={profile} />
-                <DiabetesInfo profile={profile} />
-                <GeneralInfo profile={profile} />
-                {profile.diabetesCondition.hasComplications && (
-                    <Complication profile={profile} />
-                )}
-                {profile.medicalHistories.length !== 0 && (
-                    <MedicalHistories profile={profile} />
-                )}
-            </View>
+            <ProfileModule
+                profile={profile}
+                isLoading={isLoading}
+                isError={isError}
+                refetch={refetch}
+                refreshing={refreshing}
+                remove={remove}
+            />
+            <ProfileHealthRecord
+                items={healthRecordItems}
+                isLoading={healthRecordLoading}
+                isError={healthRecordError}
+                refetch={healthRecordRefetch}
+                remove={healthRecordRemove}
+                refreshing={refreshing}
+            />
         </ScrollView>
     )
 }

@@ -1,4 +1,4 @@
 export enum LikeStatus {
-    ADD_LIKE = 'post05',
-    REMOVE_LIKE = 'post06',
+    ADD_LIKE = 'like_01',
+    REMOVE_LIKE = 'like_02',
 }

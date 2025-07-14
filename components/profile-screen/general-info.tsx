@@ -138,7 +138,7 @@ export default function GeneralInfo({ profile }: Prop) {
                         <Text className='text-base font-bold tracking-wider'>Sử dụng cồn hoặc hút thuốc</Text>
                         <Text
                             style={{ color: profile.diabetesCondition.usesAlcoholOrTobacco ? GlobalColor.RED_NEON_BORDER : GlobalColor.GREEN_NEON_BORDER }}
-                            className='text-sm  text-[var(--fade-text-color)] tracking-wider'
+                            className='text-sm font-bold text-[var(--fade-text-color)] tracking-wider'
                         >
                             {profile.diabetesCondition.usesAlcoholOrTobacco ? 'Có sử dụng' : 'Không sử dụng'}
                         </Text>

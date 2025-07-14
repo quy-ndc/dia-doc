@@ -25,7 +25,7 @@ export function AuthorProvider({ children }: { children: React.ReactNode }) {
         }
 
         if (!user.expiresAt || !user.refreshToken) {
-            console.log("No token expiration or refresh token available")
+            ("No token expiration or refresh token available")
             return
         }
 

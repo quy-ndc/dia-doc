@@ -12,10 +12,8 @@ import { useCallback, useState } from 'react'
 import { Check } from '../../../lib/icons/Check'
 import { ListChecks } from '../../../lib/icons/ListChecks'
 import HealthcarePlanDetailItem from './healthcare-plan-detail-item'
-import { Accordion, AccordionContent, AccordionItem, AccordionTrigger } from '../../ui/accordion'
 
-
-const { width } = Dimensions.get('window')
+const { height, width } = Dimensions.get('window')
 
 type Prop = {
     items: HealthCarePlan[]
@@ -73,7 +71,7 @@ export default function HealthcarePlan({ items, isLoading, isError, refetch, rem
             {isLoading ? (
                 <HealthcarePlanSkeleton />
             ) : isError || items.length === 0 ? (
-                <View className='py-5'>
+                <View className='py-10'>
                     <ErrorDisplay
                         text='Không có lịch chăm sóc sức khỏe'
                         onRefresh={onRefresh}

@@ -48,7 +48,8 @@ export const useUserHealthRecordProfile = (params: {
     recordTypes: string,
     newest: boolean,
     fromDate?: string,
-    toDate?: string
+    toDate?: string,
+    onePerType: boolean
 }) => {
     const queryKey = [QueryKeys.HEALTH_RECORD]
     const queryFn = async () => {

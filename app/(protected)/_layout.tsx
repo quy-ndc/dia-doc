@@ -42,7 +42,6 @@ export default function ProtectedLayout() {
 
         addMessage(response.Conversation.ConversationId, newMessage)
         setLatestMessage(response.Conversation.ConversationId, newMessage)
-        console.log(response)
     })
 
     return (

@@ -39,12 +39,16 @@ export default function HealthcarePlanItem({ item }: Prop) {
                     </View>
                 </View>
                 <View className='flex-row items-center gap-2'>
-                    <Text className='text-sm font-semibold px-4 py-1 rounded-full tracking-wider bg-[var(--click-bg)]'>
-                        {period}
-                    </Text>
-                    <Text className='text-sm font-semibold px-4 py-1 rounded-full tracking-wider bg-[var(--click-bg)]'>
-                        {subType}
-                    </Text>
+                    {item.period !== undefined && (
+                        <Text className='text-sm font-semibold px-4 py-1 rounded-full tracking-wider bg-[var(--click-bg)]'>
+                            {item.period}
+                        </Text>
+                    )}
+                    {item.subtype && (
+                        <Text className='text-sm font-semibold px-4 py-1 rounded-full tracking-wider bg-[var(--click-bg)]'>
+                            {item.subtype}
+                        </Text>
+                    )}
                 </View>
             </View>
             {item.isCompleted ? (

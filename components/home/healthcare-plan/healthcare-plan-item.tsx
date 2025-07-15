@@ -18,7 +18,7 @@ export default function HealthcarePlanItem({ item }: Prop) {
 
     const recordDisplay = getHealthRecordDisplay(item.recordType)
     const period = getHealthCarePlanPeriodString(item.period)
-    const subType = getHealthCarePlanSubTypeString(item.subtype)
+    const subtype = getHealthCarePlanSubTypeString(item.subtype)
 
     return (
         <View className='flex-row justify-between items-center px-3 py-4 mt-3 rounded-xl bg-[var(--blog-bg)]'>
@@ -39,14 +39,14 @@ export default function HealthcarePlanItem({ item }: Prop) {
                     </View>
                 </View>
                 <View className='flex-row items-center gap-2'>
-                    {item.period !== undefined && (
+                    {period !== undefined && (
                         <Text className='text-sm font-semibold px-4 py-1 rounded-full tracking-wider bg-[var(--click-bg)]'>
-                            {item.period}
+                            {period}
                         </Text>
                     )}
-                    {item.subtype && (
+                    {subtype !== undefined && (
                         <Text className='text-sm font-semibold px-4 py-1 rounded-full tracking-wider bg-[var(--click-bg)]'>
-                            {item.subtype}
+                            {subtype}
                         </Text>
                     )}
                 </View>
@@ -54,7 +54,7 @@ export default function HealthcarePlanItem({ item }: Prop) {
             {item.isCompleted ? (
                 <View
                     style={{ borderColor: GlobalColor.GREEN_NEON_BORDER, borderWidth: 1 }}
-                    className='p-2 border rounded-full'
+                    className='p-1.5 border rounded-full'
                 >
                     <Check color={GlobalColor.GREEN_NEON_BORDER} size={15} />
                 </View>

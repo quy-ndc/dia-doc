@@ -36,11 +36,15 @@ export default function HomeScreen() {
         ...useUserHealthRecordProfile({
             recordTypes: '0,1,2,3,4',
             newest: true,
-            onePerType: true
+            onePerType: true,
         }),
         retry: 2,
         retryDelay: attempt => Math.min(1000 * 2 ** attempt, 5000)
     })
+
+    const today = new Date();
+    const fromDate = new Date(today.getTime() - 24 * 60 * 60 * 1000).toISOString();
+    const toDate = new Date(today.getTime() + 24 * 60 * 60 * 1000).toISOString();
 
     const {
         data: healthCarePlanData,
@@ -49,7 +53,10 @@ export default function HomeScreen() {
         refetch: healthCarePlanRefetch,
         remove: healthCarePlanRemove
     } = useQuery({
-        ...useUserHealthCarePlan({}),
+        ...useUserHealthCarePlan({
+            fromDate: fromDate,
+            toDate: toDate
+        }),
         retry: 2,
         retryDelay: attempt => Math.min(1000 * 2 ** attempt, 5000)
     })

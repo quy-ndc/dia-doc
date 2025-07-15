@@ -81,7 +81,8 @@ export default function HealthcarePlan({ items, isLoading, isError, refetch, rem
             ) : (
                 <>
                     <HealthcarePlanDetailItem
-                        item={nextItem || undefined}
+                        item={items[0]}
+                        // item={nextItem || undefined}
                         hidden={value === 'list'}
                     />
                     <View className={`w-full px-1 ${value === 'detail' ? 'hidden' : ''}`}>

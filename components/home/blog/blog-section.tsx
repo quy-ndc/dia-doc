@@ -45,11 +45,13 @@ export default function HomeBlogSection({ isLoading, isError, items, refetch, re
             {isLoading ? (
                 <BlogSkeleton />
             ) : isError || items.length === 0 ? (
-                <ErrorDisplay
-                    onRefresh={onRefresh}
-                    refreshing={refreshing}
-                    text="Không có bài viết để hiển thị"
-                />
+                <View className="py-5">
+                    <ErrorDisplay
+                        onRefresh={onRefresh}
+                        refreshing={refreshing}
+                        text="Không có bài viết để hiển thị"
+                    />
+                </View>
             ) : (
                 <View style={{ width: width }} className="px-2">
                     <FeatureBlogItem blogPost={items[0]} />

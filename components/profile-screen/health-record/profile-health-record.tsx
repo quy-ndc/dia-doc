@@ -10,6 +10,7 @@ import { FlashList } from '@shopify/flash-list'
 import ProfileHealthRecordItem from './profile-health-record-item'
 import SectionTitle from '../../home/common/section-title'
 import { Cross } from '../../../lib/icons/Cross'
+import ProfileHealthTrackingSkeleton from '../../common/skeleton/profile-health-tracking-skeleton'
 
 const { width } = Dimensions.get('window')
 
@@ -36,7 +37,7 @@ export default function ProfileHealthRecord({ items, isLoading, isError, refetch
                 title='Theo dõi sức khỏe'
             />
             {isLoading ? (
-                <HealthTrackingSkeleton />
+                <ProfileHealthTrackingSkeleton />
             ) : isError || items.length === 0 ? (
                 <ErrorDisplay
                     text={isError ? 'Lỗi khi tải dữ liệu' : 'Không có dữ liệu'}

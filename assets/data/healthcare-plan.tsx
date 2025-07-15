@@ -1,6 +1,6 @@
-import { HealthCarePlanPeriod, HealthCarePlanSubType } from "../enum/healtcare-plan"
+import { HealthCarePlanPeriod, HealthCarePlanSubType } from "../enum/healthcare-plan"
 
-export const getHealthCarePlanPeriodString = (period: HealthCarePlanPeriod): string => {
+export const getHealthCarePlanPeriodString = (period: HealthCarePlanPeriod): string | undefined => {
     const periodStrings: Record<HealthCarePlanPeriod, string> = {
         [HealthCarePlanPeriod.BEFORE_BREAKFAST]: 'Trước ăn sáng',
         [HealthCarePlanPeriod.AFTER_BREAKFAST]: 'Sau ăn sáng',
@@ -13,10 +13,10 @@ export const getHealthCarePlanPeriodString = (period: HealthCarePlanPeriod): str
         [HealthCarePlanPeriod.AFTERNOON]: 'Buổi chiều',
         [HealthCarePlanPeriod.EVENING]: 'Buổi tối',
     }
-    return periodStrings[period]
+    return period in periodStrings ? periodStrings[period] : undefined
 }
 
-export const getHealthCarePlanSubTypeString = (subType: HealthCarePlanSubType): string => {
+export const getHealthCarePlanSubTypeString = (subType: HealthCarePlanSubType): string | undefined => {
     const subTypeStrings: Record<HealthCarePlanSubType, string> = {
         [HealthCarePlanSubType.FASTING]: 'Lúc đói',
         [HealthCarePlanSubType.POST_PARANDIAL]: 'Sau ăn',
@@ -24,5 +24,5 @@ export const getHealthCarePlanSubTypeString = (subType: HealthCarePlanSubType): 
         [HealthCarePlanSubType.SITTING]: 'Khi ngồi',
         [HealthCarePlanSubType.STANDING]: 'Khi đứng',
     }
-    return subTypeStrings[subType]
+    return subType in subTypeStrings ? subTypeStrings[subType] : undefined
 }

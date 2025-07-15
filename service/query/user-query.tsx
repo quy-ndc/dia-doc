@@ -51,7 +51,7 @@ export const useUserHealthRecordProfile = (params: {
     toDate?: string,
     onePerType: boolean
 }) => {
-    const queryKey = [QueryKeys.HEALTH_RECORD]
+    const queryKey = [QueryKeys.HEALTH_RECORD, params]
     const queryFn = async () => {
         return GetUserHealthRecord(params)
     }
@@ -141,6 +141,7 @@ export const useUpdateUserWeightMutation = () => {
                 })
             } else {
                 queryClient.invalidateQueries({ queryKey: [QueryKeys.HEALTH_RECORD] })
+                queryClient.invalidateQueries({ queryKey: [QueryKeys.HEALTH_CARE_PLAN] })
                 Toast.show({
                     type: 'success',
                     text1: 'Cập nhật cân nặng thành công',
@@ -178,6 +179,7 @@ export const useUpdateUserHeightMutation = () => {
                 })
             } else {
                 queryClient.invalidateQueries({ queryKey: [QueryKeys.HEALTH_RECORD] })
+                queryClient.invalidateQueries({ queryKey: [QueryKeys.HEALTH_CARE_PLAN] })
                 Toast.show({
                     type: 'success',
                     text1: 'Cập nhật chiều cao thành công',
@@ -217,6 +219,7 @@ export const useUpdateUserBloodPressureMutation = () => {
                 })
             } else {
                 queryClient.invalidateQueries({ queryKey: [QueryKeys.HEALTH_RECORD] })
+                queryClient.invalidateQueries({ queryKey: [QueryKeys.HEALTH_CARE_PLAN] })
                 Toast.show({
                     type: 'success',
                     text1: 'Cập nhật huyết áp thành công',
@@ -256,6 +259,7 @@ export const useUpdateUserBloodSugarMutation = () => {
                 })
             } else {
                 queryClient.invalidateQueries({ queryKey: [QueryKeys.HEALTH_RECORD] })
+                queryClient.invalidateQueries({ queryKey: [QueryKeys.HEALTH_CARE_PLAN] })
                 Toast.show({
                     type: 'success',
                     text1: 'Cập nhật huyết đường thành công',
@@ -294,6 +298,7 @@ export const useUpdateUserHbA1cMutation = () => {
                 })
             } else {
                 queryClient.invalidateQueries({ queryKey: [QueryKeys.HEALTH_RECORD] })
+                queryClient.invalidateQueries({ queryKey: [QueryKeys.HEALTH_CARE_PLAN] })
                 Toast.show({
                     type: 'success',
                     text1: 'Cập nhật hbA1c thành công',

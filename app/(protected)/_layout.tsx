@@ -53,7 +53,8 @@ export default function ProtectedLayout() {
             <Stack.Screen name="blog-detail-screen" options={{ headerTitle: '', headerShadowVisible: false }} />
             <Stack.Screen name="liked-blog-screen" options={{ headerTitle: 'Bài viết đã thích', headerShadowVisible: false }} />
             <Stack.Screen name="saved-blog-screen" options={{ headerTitle: 'Bài viết đã lưu', headerShadowVisible: false }} />
-            <Stack.Screen name="update-record-screen" options={{ headerTitle: '', headerShadowVisible: false, headerRight: () => <ThemeToggle /> }} />
+            <Stack.Screen name="update-record-screen" options={{ headerTitle: '', headerShadowVisible: false }} />
+            <Stack.Screen name="health-record-history-screen" options={{ headerTitle: '', headerShadowVisible: false }} />
         </Stack>
     )
 }

@@ -33,8 +33,8 @@ export default function ProfileHealthRecordItem({ item }: Prop) {
 
     const handlePress = () => {
         router.push({
-            pathname: "/update-record-screen",
-            params: { type: item.recordType, lastMesurement: getValue() }
+            pathname: "/health-record-history-screen",
+            params: { type: item.recordType }
         })
     }
 

@@ -1,7 +1,7 @@
 import * as React from 'react';
 import { Text } from '../../components/ui/text';
-import { Stack, useLocalSearchParams } from 'expo-router';
-import { View } from 'react-native';
+import { router, Stack, useLocalSearchParams } from 'expo-router';
+import { Pressable, View } from 'react-native';
 import { getHealthRecordDisplay } from '../../assets/data/health-record-type';
 import { HealthRecordType } from '../../assets/enum/health-record';
 import WeightUpdateModule from '../../components/update-record-screen/weight-update-module';
@@ -9,6 +9,8 @@ import HeightUpdateModule from '../../components/update-record-screen/height-upd
 import BloodSugarUpdateModule from '../../components/update-record-screen/blood-sugar-module/blood-sugar-module';
 import BloodPressureUpdateModule from '../../components/update-record-screen/blood-pressure-module';
 import Hb1AcUpdateModule from '../../components/update-record-screen/hba1c-module';
+import IconButton from '../../components/common/icon-button';
+import { History } from '../../lib/icons/History'
 
 const updateModules = {
     [HealthRecordType.WEIGHT]: WeightUpdateModule,
@@ -46,10 +48,36 @@ export default function UpdateRecordScreen() {
                                     Theo dõi {recordDisplay.name}
                                 </Text>
                             </View>
-                        </View>
+                        </View>,
+                    headerRight: () =>
+                        <IconButton
+                            icon={<History className='text-foreground' size={18} />}
+                            buttonSize={3}
+                            possition={'other'}
+                            onPress={() => {
+                                router.push({
+                                    pathname: "/health-record-history-screen",
+                                    params: { type: recordType }
+                                })
+                            }}
+                        />
                 }}
             />
-            <UpdateModule lastMesurement={lastMesurement as string} />
+            <View className='flex-1 relative'>
+                <UpdateModule lastMesurement={lastMesurement as string} />
+                <Pressable
+                    style={{ backgroundColor: recordDisplay.iconColor }}
+                    className='flex absolute bottom-5 right-7 p-4 items-center justify-center rounded-full active:opacity-80'
+                    onPress={() => {
+                        router.push({
+                            pathname: "/health-record-history-screen",
+                            params: { type: recordType }
+                        })
+                    }}
+                >
+                    <History className='text-white' size={17} />
+                </Pressable>
+            </View>
         </>
     );
 }

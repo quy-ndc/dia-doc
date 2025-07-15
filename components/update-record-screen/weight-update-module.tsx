@@ -34,7 +34,7 @@ export default function WeightUpdateModule({ lastMesurement }: Props) {
     useEffect(() => {
         if (isError || !data || data.status !== 200) return
 
-        router.push('/(protected)/(main)')
+        router.back()
     }, [data])
 
     return (

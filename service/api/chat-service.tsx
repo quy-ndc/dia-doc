@@ -43,14 +43,12 @@ export const GetAllChatMessages = async (params: {
     conversationId: string
     Cursor?: string
     PageSize?: number
-    Sort?: string
-    Direction?: string
-    Search?: string
 }) => {
 
     try {
-        const queryString = createQueryString(params)
-        const response = await axiosServices.get(`${endpointChat.GET_ALL_MESSAGES}?${queryString}`)
+        const { conversationId, ...rest } = params
+        const queryString = createQueryString(rest)
+        const response = await axiosServices.get(`${endpointChat.GET_ALL_MESSAGES}/${conversationId}/messages?${queryString}`)
 
         return {
             success: true,

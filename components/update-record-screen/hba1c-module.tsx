@@ -11,7 +11,7 @@ import NoteField from './common/note-field'
 import RecordConfirmButton from './common/record-confirm-button'
 
 
-const { width } = Dimensions.get('window')  
+const { width } = Dimensions.get('window')
 
 type Props = {
     lastMesurement: string
@@ -38,7 +38,7 @@ export default function Hb1AcUpdateModule({ lastMesurement }: Props) {
     useEffect(() => {
         if (isError || !data || data.status !== 200) return
 
-        router.push('/(protected)/(main)')
+        router.back()
     }, [data])
 
     return (

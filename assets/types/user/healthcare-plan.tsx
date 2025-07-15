@@ -1,4 +1,4 @@
-import { HealthCarePlanPeriod, HealthCarePlanSubType } from "../../enum/healtcare-plan"
+import { HealthCarePlanPeriod, HealthCarePlanSubType } from "../../enum/healthcare-plan"
 import { HealthRecordType } from "../../enum/health-record"
 
 export type HealthCarePlan = {

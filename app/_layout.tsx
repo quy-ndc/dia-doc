@@ -63,6 +63,7 @@ export default function RootLayout() {
 
       Alert.alert('New Notification', JSON.stringify(remoteMessage))
       console.log(JSON.stringify(remoteMessage))
+      console.log(remoteMessage)
     })
 
     return unsubscribeOnMessage

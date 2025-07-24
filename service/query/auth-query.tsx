@@ -44,7 +44,7 @@ export const useLoginUserMutation = () => {
             if (data.status !== 200) {
                 Toast.show({
                     type: 'error',
-                    text1: data.data.detail,
+                    text1: data?.data?.errors[0].message || 'Đăng nhập thất bại',
                     text2: 'Vui lòng thử lại sau',
                     visibilityTime: 2000,
                 })
@@ -79,7 +79,7 @@ export const useRegisterUserMutation = () => {
             if (data.status !== 200) {
                 Toast.show({
                     type: 'error',
-                    text1: data.data.detail,
+                    text1: data?.data?.errors[0].message || 'Đăng ký thất bại',
                     text2: 'Vui lòng thử lại sau',
                     visibilityTime: 2000,
                 })
@@ -114,7 +114,7 @@ export const useVerifyPhoneMutation = () => {
             if (data.status !== 200) {
                 Toast.show({
                     type: 'error',
-                    text1: data.data.detail,
+                    text1: data?.data?.errors[0].message || 'Xác thực thất bại',
                     text2: 'Vui lòng thử lại sau',
                     visibilityTime: 2000,
                 })
@@ -146,7 +146,7 @@ export const useResendOtpMutation = () => {
             if (data.status !== 200) {
                 Toast.show({
                     type: 'error',
-                    text1: data.data.detail,
+                    text1: data?.data?.errors[0].message || 'Gửi lại OTP thất bại',
                     text2: 'Vui lòng thử lại sau',
                     visibilityTime: 2000,
                 })
@@ -175,15 +175,6 @@ export const useRefreshTokenMutation = () => {
     return useMutation({
         mutationFn: RefreshToken,
         onSuccess: (data) => {
-            if (data.status !== 200) {
-                Toast.show({
-                    type: 'error',
-                    text1: data.data.detail,
-                    text2: 'Vui lòng thử lại sau',
-                    visibilityTime: 2000,
-                })
-            }
-
             return data
         },
         onError: (error) => {

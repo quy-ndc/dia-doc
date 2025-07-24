@@ -1,0 +1,34 @@
+CALLER                                       CALLEE
+─────────────────────────────────────────────────────────────────────
+
+1. Get local media stream (camera + mic)    [WAITING]
+
+2. Create RTCPeerConnection
+3. Add local tracks to peer connection
+4. Create offer
+5. Set offer as local description
+6. Send offer to callee (via signaling)
+
+                                      ← 7. Receive offer
+                                      8. Create RTCPeerConnection
+                                      9. Set offer as remote description
+                                     10. Get local media stream
+                                     11. Add local tracks to peer connection
+                                     12. Create answer
+                                     13. Set answer as local description
+                                     14. Send answer to caller (via signaling)
+
+15. Receive answer
+16. Set answer as remote description
+
+17. Both sides start ICE candidate gathering
+    (peerConnection.onicecandidate)
+→ 18. Caller sends ICE candidates via signaling
+← 19. Callee sends ICE candidates via signaling
+
+20. Both sides add received ICE candidates
+
+21. peerConnection.ontrack triggers (both sides)
+22. Remote media received and rendered on screen
+
+🎉 Video/audio connection is now live

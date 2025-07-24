@@ -7,7 +7,6 @@ import { formatDateBlog } from '../../../util/format-date-post'
 import { BloodPressureRecord, HealthTrackItem } from '../../../assets/types/user/health-track'
 import { router } from 'expo-router'
 import { ChevronRight } from '../../../lib/icons/ChevronRight'
-import { GlobalColor } from '../../../global-color'
 import RoundedIcon from '../../common/icons/rouned-icon'
 
 type Prop = {

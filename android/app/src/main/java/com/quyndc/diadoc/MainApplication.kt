@@ -19,6 +19,10 @@ import expo.modules.ReactNativeHostWrapper
 
 import com.zing.zalo.zalosdk.oauth.ZaloSDKApplication;
 
+import com.oney.WebRTCModule.WebRTCModuleOptions;
+import android.media.AudioAttributes;
+import org.webrtc.audio.JavaAudioDeviceModule;
+
 class MainApplication : Application(), ReactApplication {
 
   override val reactNativeHost: ReactNativeHost = ReactNativeHostWrapper(
@@ -46,6 +50,14 @@ class MainApplication : Application(), ReactApplication {
   override fun onCreate() {
     super.onCreate()
     ZaloSDKApplication.wrap(this)
+    val options = WebRTCModuleOptions.getInstance()
+		val audioAttributes = AudioAttributes.Builder()
+			.setUsage(AudioAttributes.USAGE_MEDIA)
+			.setContentType(AudioAttributes.CONTENT_TYPE_SPEECH)
+			.build()
+		options.audioDeviceModule = JavaAudioDeviceModule.builder(this)
+			.setAudioAttributes(audioAttributes)
+			.createAudioDeviceModule()
     SoLoader.init(this, OpenSourceMergedSoMapping)
     if (BuildConfig.IS_NEW_ARCHITECTURE_ENABLED) {
       // If you opted-in for the New Architecture, we load the native entry point for this app.

@@ -1,3 +1,4 @@
+import { ConversationType } from "../../assets/enum/conversation-type"
 import { MessageType } from "../../assets/enum/message-type"
 import axiosServices from "../axios"
 import { createQueryString, endpointChat } from "../endpoint"
@@ -6,9 +7,7 @@ import axios from 'axios'
 export const GetAllChatGroups = async (params: {
     Cursor?: string
     PageSize?: number
-    Sort?: string
-    Direction?: string
-    Search?: string
+    Type: ConversationType
 }) => {
 
     try {

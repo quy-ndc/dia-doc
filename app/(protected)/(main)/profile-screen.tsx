@@ -9,6 +9,7 @@ import ErrorDisplay from '../../../components/common/error-display'
 import ProfileModule from '../../../components/profile-screen/profile-module'
 import { HealthTrackItem } from '../../../assets/types/user/health-track'
 import ProfileHealthRecord from '../../../components/profile-screen/health-record/profile-health-record'
+import LogoutButton from '../../../components/profile-screen/logout-button'
 
 export default function ProfileScreen() {
 
@@ -47,30 +48,6 @@ export default function ProfileScreen() {
     const profile: Patient | undefined = data?.data?.data ?? undefined
     const healthRecordItems: HealthTrackItem[] = healthRecordData?.data?.data || []
 
-
-    if (isLoading) {
-        return (
-            <ProfileSkeleton />
-        )
-    }
-
-    if (!profile || isError) {
-        return (
-            <ScrollView
-                contentContainerStyle={{ flexGrow: 1 }}
-                refreshControl={<RefreshControl refreshing={refreshing} onRefresh={onRefresh} />}
-            >
-                <View className="flex-1 justify-center items-center">
-                    <ErrorDisplay
-                        onRefresh={onRefresh}
-                        refreshing={refreshing}
-                        text='Không thể lấy hồ sơ người dùng'
-                    />
-                </View>
-            </ScrollView>
-        )
-    }
-
     return (
         <ScrollView refreshControl={<RefreshControl refreshing={refreshing} onRefresh={onRefresh} />}>
             <ProfileModule
@@ -89,6 +66,7 @@ export default function ProfileScreen() {
                 remove={healthRecordRemove}
                 refreshing={refreshing}
             />
+            <LogoutButton />
         </ScrollView>
     )
 }

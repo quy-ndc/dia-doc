@@ -20,7 +20,6 @@ export default function OtpScreen() {
     const { mutateAsync, data, isLoading, isError } = useVerifyPhoneMutation()
     const { mutateAsync: resendMutate, isLoading: isLoadingResend } = useResendOtpMutation()
 
-
     const schema = yup.object({
         otp: yup
             .string()

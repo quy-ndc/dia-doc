@@ -48,16 +48,14 @@ export function AuthorProvider({ children }: { children: React.ReactNode }) {
 
     const refreshAuthor = async () => {
         try {
-            console.log("Rotating token...")
-            console.log("Current user:", user)
             const data = await refreshToken(user.refreshToken)
             if (data.status === 200) {
                 console.log("Token rotated successfully")
                 setUser({
                     ...user,
-                    refreshToken: data.data.value.data.authToken.refreshToken,
-                    accessToken: data.data.value.data.authToken.accessToken,
-                    expiresAt: data.data.value.data.authToken.expiresAt
+                    refreshToken: data.data.data.authToken.refreshToken,
+                    accessToken: data.data.data.authToken.accessToken,
+                    expiresAt: data.data.data.authToken.expiresAt
                 })
             } else {
                 console.error("Failed to rotate token:", data.message)

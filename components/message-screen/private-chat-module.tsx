@@ -63,7 +63,11 @@ export default function PrivateChatModule({ userId, targetUserId }: Props) {
 
                 res.on(ConsultationVideoCall.ACCEPT_CALL_RECEIVE, (userId: string, answer: any) => {
                     console.log('[ACCEPT_CALL_RECEIVE]', answer)
-                    peerConnection.current?.setRemoteDescription(new RTCSessionDescription(answer.sdp))
+                    try {
+                        peerConnection.current?.setRemoteDescription(new RTCSessionDescription(answer.sdp))
+                    } catch (e) {
+                        console.error('Failed to set remote description:', e)
+                    }
                 })
 
                 res.on(ConsultationVideoCall.SEND_ICE_RECEIVE, (response: any) => {
@@ -150,19 +154,36 @@ export default function PrivateChatModule({ userId, targetUserId }: Props) {
         }
     }
 
+    console.log('imcoming call', incomingCall)
+
     const acceptCall = async () => {
+        console.log('before send')
         if (!connection || !incomingCall) return
+        console.log('after send')
+
         createPeer()
         await getLocalStream()
-        await peerConnection.current?.setRemoteDescription(new RTCSessionDescription(incomingCall.sdp))
+
+        try {
+            await peerConnection.current?.setRemoteDescription(new RTCSessionDescription(incomingCall))
+        } catch (e) {
+            console.error('[ERROR setting remote description]', e)
+            return
+        }
+
         const answer = await peerConnection.current?.createAnswer()
         await peerConnection.current?.setLocalDescription(answer!)
-        connection.invoke(ConsultationVideoCall.ACCEPT_CALL_INVOKE,
-            targetUserId,
-            answer,
-        )
+
+        try {
+            console.log('INVOKING ACCEPT CALL')
+            connection.invoke(ConsultationVideoCall.ACCEPT_CALL_INVOKE, targetUserId, answer)
+        } catch (e) {
+            console.error('[ERROR INVOKING ACCEPT CALL]', e)
+        }
+
         setIncomingCall(null)
     }
+
 
     const toggleMic = () => {
         const audioTrack = localStream?.getAudioTracks()[0]
@@ -186,7 +207,7 @@ export default function PrivateChatModule({ userId, targetUserId }: Props) {
     }
 
     useEffect(() => {
-        getLocalStream()
+        // getLocalStream()
         return () => {
             peerConnection.current?.close()
         }

@@ -61,7 +61,7 @@ export default function PrivateChatModule({ userId, targetUserId }: Props) {
                     setIncomingCall(offer)
                 })
 
-                res.on(ConsultationVideoCall.ACCEPT_CALL_RECEIVE, (answer: any) => {
+                res.on(ConsultationVideoCall.ACCEPT_CALL_RECEIVE, (userId: string, answer: any) => {
                     console.log('[ACCEPT_CALL_RECEIVE]', answer)
                     peerConnection.current?.setRemoteDescription(new RTCSessionDescription(answer.sdp))
                 })
@@ -112,7 +112,7 @@ export default function PrivateChatModule({ userId, targetUserId }: Props) {
 
         pc.addEventListener('icecandidate', (event) => {
             if (event.candidate && connection) {
-                // console.log('[ICE] Candidate generated:', event.candidate)
+                console.log('[ICE] Candidate generated:', event.candidate)
                 connection.invoke(ConsultationVideoCall.SEND_ICE_INVOKE,
                     targetUserId,
                     event.candidate,
@@ -123,12 +123,12 @@ export default function PrivateChatModule({ userId, targetUserId }: Props) {
         pc.addEventListener(ConsultationVideoCall.TRACK_EVENT, (event) => {
             const incomingStream = event.streams?.[0]
             if (incomingStream) {
-                // console.log('Received remote stream via event.streams')
+                console.log('Received remote stream via event.streams')
                 setRemoteStream(incomingStream)
             } else {
                 const newStream = new MediaStream()
                 newStream.addTrack(event.track as MediaStreamTrack)
-                // console.log('Received remote stream via fallback')
+                console.log('Received remote stream via fallback')
                 setRemoteStream(newStream)
             }
         })
@@ -158,7 +158,7 @@ export default function PrivateChatModule({ userId, targetUserId }: Props) {
         const answer = await peerConnection.current?.createAnswer()
         await peerConnection.current?.setLocalDescription(answer!)
         connection.invoke(ConsultationVideoCall.ACCEPT_CALL_INVOKE,
-            incomingCall,
+            targetUserId,
             answer,
         )
         setIncomingCall(null)

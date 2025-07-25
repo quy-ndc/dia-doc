@@ -1,26 +1,26 @@
 import * as React from 'react'
 import GroupChatModule from '../../../components/message-screen/group-chat-module'
-import { useEffect, useState } from 'react';
-import { View } from 'react-native';
-import { Tabs, TabsContent, TabsList, TabsTrigger } from '../../../components/ui/tabs';
-import { Text } from '../../../components/ui/text';
-import { useLocalSearchParams } from 'expo-router';
-import PrivateChatModule from '../../../components/message-screen/private-chat-module';
-import { Shield } from '../../../lib/icons/Shield';
-import { Users } from '../../../lib/icons/Users';
-import { GlobalColor } from '../../../global-color';
-import useUserStore from '../../../store/userStore';
+import { useEffect, useState } from 'react'
+import { View } from 'react-native'
+import { Tabs, TabsContent, TabsList, TabsTrigger } from '../../../components/ui/tabs'
+import { Text } from '../../../components/ui/text'
+import { useLocalSearchParams } from 'expo-router'
+import PrivateChatModule from '../../../components/message-screen/private-chat-module'
+import { Shield } from '../../../lib/icons/Shield'
+import { Users } from '../../../lib/icons/Users'
+import { GlobalColor } from '../../../global-color'
+import useUserStore from '../../../store/userStore'
 
 export default function MessagesScreen() {
-    const { type } = useLocalSearchParams();
-    const [value, setValue] = useState('group');
+    const { type } = useLocalSearchParams()
+    const [value, setValue] = useState('group')
     const { user } = useUserStore()
 
     useEffect(() => {
         if (type) {
-            setValue(type as string);
+            setValue(type as string)
         }
-    }, [type]);
+    }, [type])
 
     return (
         <>
@@ -55,6 +55,8 @@ export default function MessagesScreen() {
                                     '83cc8e98-9a98-4c4b-93bd-fe6d2dc7f99c'
                             }
                             userId={user.id}
+                            // targetUserId={user.id}
+                            // userId={user.id}
                         />
                     </TabsContent>
                 </Tabs>

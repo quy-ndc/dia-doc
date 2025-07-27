@@ -9,11 +9,13 @@ import HealthcarePlanItem from './healthcare-plan-item'
 import HealthcarePlanSkeleton from '../../common/skeleton/healthcare-plan-skeleton'
 import ErrorDisplay from '../../common/error-display'
 import { useCallback, useState } from 'react'
-import { Check } from '../../../lib/icons/Check'
-import { ListChecks } from '../../../lib/icons/ListChecks'
 import HealthcarePlanDetailItem from './healthcare-plan-detail-item'
+import { PencilLine } from '../../../lib/icons/PencilLine'
+import { ArrowRightLeft } from '../../../lib/icons/ArrowRightLeft'
+import { router } from 'expo-router'
 
-const { height, width } = Dimensions.get('window')
+
+const { width } = Dimensions.get('window')
 
 type Prop = {
     items: HealthCarePlan[]
@@ -52,18 +54,18 @@ export default function HealthcarePlan({ items, isLoading, isError, refetch, rem
                     <Calendar color={GlobalColor.PURPLE_NEON_BORDER} size={18} />
                     <Text className='text-lg mb-1 font-bold tracking-widest capitalize'>Lịch chăm sóc sức khỏe</Text>
                 </View>
-                <View className='flex-row gap-2 items-center bg-[var(--blog-bg)] rounded-lg'>
+                <View className='flex-row gap-2 items-center rounded-lg'>
                     <Pressable
-                        className={`p-2 rounded-lg ${value === 'detail' ? 'bg-[var(--click-bg)]' : ''}`}
-                        onPress={() => setValue('detail')}
+                        className={`p-2 rounded-full active:bg-[var(--click-bg)]`}
+                        onPress={() => setValue(value == 'detail' ? 'list' : 'detail')}
                     >
-                        <Check className='text-foreground' size={17} />
+                        <ArrowRightLeft className='text-foreground' size={17} />
                     </Pressable>
                     <Pressable
-                        className={`p-2 rounded-lg ${value === 'list' ? 'bg-[var(--click-bg)]' : ''}`}
-                        onPress={() => setValue('list')}
+                        className={`p-2 rounded-full active:bg-[var(--click-bg)]`}
+                        onPress={() => { router.push('manage-care-plan-screen') }}
                     >
-                        <ListChecks className='text-foreground' size={17} />
+                        <PencilLine color={GlobalColor.BLUE_NEON_BORDER} size={17} />
                     </Pressable>
                 </View>
             </View>
@@ -81,8 +83,7 @@ export default function HealthcarePlan({ items, isLoading, isError, refetch, rem
             ) : (
                 <>
                     <HealthcarePlanDetailItem
-                        item={items[0]}
-                        // item={nextItem || undefined}
+                        item={nextItem || undefined}
                         hidden={value === 'list'}
                     />
                     <View className={`w-full px-1 ${value === 'detail' ? 'hidden' : ''}`}>

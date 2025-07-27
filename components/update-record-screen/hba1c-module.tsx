@@ -15,10 +15,10 @@ const { width } = Dimensions.get('window')
 
 type Props = {
     lastMesurement: string
+    initialTime?: string | null
 }
 
-
-export default function Hb1AcUpdateModule({ lastMesurement }: Props) {
+export default function Hb1AcUpdateModule({ lastMesurement, initialTime }: Props) {
 
     const [value, setValue] = useState('')
     const [note, setNote] = useState('')
@@ -55,7 +55,7 @@ export default function Hb1AcUpdateModule({ lastMesurement }: Props) {
                             value={value}
                             onChangeText={setValue}
                             keyboardType='numeric'
-                            placeholder={lastMesurement as string || 'Nhập HbA1c'}
+                            placeholder={lastMesurement as string || '0'}
                             className='w-full'
                         />
                         <Text className='absolute right-3  -translate-y-1/2 top-[50%] text-base font-bold text-[var(--fade-text-color)] tracking-wider'>
@@ -74,7 +74,10 @@ export default function Hb1AcUpdateModule({ lastMesurement }: Props) {
                         </View>
                     )}
                 </View>
-                <RecordTimePicker setSelectedTime={setSelectedTime} />
+                <RecordTimePicker
+                    setSelectedTime={setSelectedTime}
+                    initialTime={initialTime}
+                />
                 <NoteField note={note} setNote={setNote} placeholder='Đi làm, cảm thấy chóng mặt' />
                 <RecordConfirmButton
                     isLoading={isLoading}

@@ -8,6 +8,8 @@ import { useMessageStore } from '../../store/useMessage'
 import { ThemeToggle } from '../../components/ThemeToggle'
 import { MessageType } from '../../assets/enum/message-type'
 import { UserRoleNumber } from '../../assets/enum/user-role'
+import { View } from 'react-native'
+import { Text } from '../../components/ui/text'
 
 export default function ProtectedLayout() {
     const { user } = useUserStore()
@@ -55,6 +57,19 @@ export default function ProtectedLayout() {
             <Stack.Screen name="saved-blog-screen" options={{ headerTitle: 'Bài viết đã lưu', headerShadowVisible: false }} />
             <Stack.Screen name="update-record-screen" options={{ headerTitle: '', headerShadowVisible: false }} />
             <Stack.Screen name="health-record-history-screen" options={{ headerTitle: '', headerShadowVisible: false }} />
+            <Stack.Screen name="manage-care-plan-screen" options={{
+                headerTitle: () =>
+                    <View className='flex-col'>
+                        <Text className='text-lg font-bold tracking-wider capitalize'>
+                            Quản lý lịch trình
+                        </Text>
+                        <Text className='text-sm text-[var(--fade-text-color)] tracking-wider'>
+                            Thay đổi lịch trình hằng ngày
+                        </Text>
+                    </View>,
+                headerShadowVisible: false
+            }}
+            />
         </Stack>
     )
 }

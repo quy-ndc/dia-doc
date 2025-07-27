@@ -1,5 +1,5 @@
 import * as React from 'react'
-import { View } from 'react-native'
+import { Pressable, View } from 'react-native'
 import { Text } from '../../ui/text'
 import { GlobalColor } from '../../../global-color'
 import { HealthCarePlan } from '../../../assets/types/user/healthcare-plan'
@@ -9,6 +9,7 @@ import { Check } from '../../../lib/icons/Check'
 import { X } from '../../../lib/icons/X'
 import { getHealthCarePlanPeriodString, getHealthCarePlanSubTypeString } from '../../../assets/data/healthcare-plan'
 import { Clock } from '../../../lib/icons/Clock'
+import { router } from 'expo-router'
 
 type Prop = {
     item: HealthCarePlan
@@ -21,7 +22,15 @@ export default function HealthcarePlanItem({ item }: Prop) {
     const subtype = getHealthCarePlanSubTypeString(item.subtype)
 
     return (
-        <View className='flex-row justify-between items-center px-3 py-4 mt-3 rounded-xl bg-[var(--blog-bg)]'>
+        <Pressable
+            className='flex-row justify-between items-center px-3 py-4 mt-3 rounded-xl bg-[var(--blog-bg)] active:bg-[var(--click-bg)]'
+            onPress={() => {
+                router.push({
+                    pathname: 'update-record-screen',
+                    params: { type: item.recordType, time: item.scheduledAt }
+                })
+            }}
+        >
             <View className='flex-col gap-3'>
                 <View className='flex-row items-center gap-3'>
                     <View
@@ -66,6 +75,6 @@ export default function HealthcarePlanItem({ item }: Prop) {
                     <X color={GlobalColor.RED_NEON_BORDER} size={12} />
                 </View>
             )}
-        </View>
+        </Pressable>
     )
 }

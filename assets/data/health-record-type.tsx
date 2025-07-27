@@ -7,6 +7,14 @@ import { Droplet } from "../../lib/icons/Droplet"
 import { TrendingUp } from "../../lib/icons/TrendingUp"
 import * as React from 'react'
 
+export const healthRecord = [
+    { label: 'Chiều cao', value: HealthRecordType.HEIGHT.toString() },
+    { label: 'Cân nặng', value: HealthRecordType.WEIGHT.toString() },
+    { label: 'Đường huyết', value: HealthRecordType.BLOOD_SUGAR.toString() },
+    { label: 'Huyết áp', value: HealthRecordType.BLOOD_PRESSURE.toString() },
+    { label: 'HbA1c', value: HealthRecordType.HBA1C.toString() },
+]
+
 const healthRecordDisplayMap = {
     [HealthRecordType.HEIGHT]: {
         name: 'Chiều cao',

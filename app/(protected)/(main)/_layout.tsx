@@ -62,7 +62,7 @@ export default function MainLayout() {
             <Tabs.Screen
                 name="ai-chat-session-screen"
                 options={{
-                    headerTitle: 'Bác sỹ AI',
+                    headerTitle: 'Trợ lý AI',
                     title: 'AI Chat',
                     tabBarIcon: () => <Bot color={GlobalColor.BLUE_NEON_BORDER} size={17} />,
                     headerRight: () => <HeaderRight />,

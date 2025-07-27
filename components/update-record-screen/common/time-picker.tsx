@@ -1,30 +1,29 @@
-import * as React from 'react';
-import { Text } from '../../ui/text';
-import { Dimensions, Pressable, useColorScheme, View } from 'react-native';
-import { useState } from 'react';
-import { GlobalColor } from '../../../global-color';
-import { Clock } from '../../../lib/icons/Clock';
-import { Calendar } from '../../../lib/icons/Calendar';
-import { Sun } from '../../../lib/icons/Sun';
-import { Moon } from '../../../lib/icons/Moon';
+import * as React from 'react'
+import { Text } from '../../ui/text'
+import { Dimensions, Pressable, useColorScheme, View } from 'react-native'
+import { useEffect, useState } from 'react'
+import { GlobalColor } from '../../../global-color'
+import { Clock } from '../../../lib/icons/Clock'
+import { Calendar } from '../../../lib/icons/Calendar'
+import { Sun } from '../../../lib/icons/Sun'
+import { Moon } from '../../../lib/icons/Moon'
 import DateTimePicker from '@react-native-community/datetimepicker'
-import { formatTime } from '../../../util/format-time';
-import SectionTitle from '../../home/common/section-title';
-import { Sunrise } from '../../../lib/icons/Sunrise';
-
-
+import { formatTime } from '../../../util/format-time'
+import SectionTitle from '../../home/common/section-title'
+import { Sunrise } from '../../../lib/icons/Sunrise'
 
 const { width } = Dimensions.get('window')
 
 type Props = {
     setSelectedTime: (time: string) => void
+    initialTime?: string | null
 }
 
-export default function RecordTimePicker({ setSelectedTime }: Props) {
+export default function RecordTimePicker({ setSelectedTime, initialTime }: Props) {
 
     const [show, setShow] = useState(false)
     const [selectedItem, setSelectedItem] = useState<number | null>(null)
-    const [customTime, setCustomTime] = useState('')
+    const [customTime, setCustomTime] = useState(initialTime || '')
 
     const theme = useColorScheme()
     const themeColor = theme == 'dark' ? GlobalColor.HALF_LIGHT_THEME_COL : GlobalColor.HALF_DARK_THEME_COL
@@ -33,7 +32,6 @@ export default function RecordTimePicker({ setSelectedTime }: Props) {
         setSelectedTime(time)
         setSelectedItem(id)
     }
-
 
     const timeOptions = [
         {
@@ -80,6 +78,11 @@ export default function RecordTimePicker({ setSelectedTime }: Props) {
         setSelectedItem(4)
     }
 
+    useEffect(() => {
+        if (initialTime) {
+            handleCustomTime(initialTime)
+        }
+    }, [])
 
     return (
         <View className='flex-col gap-2 w-full px-5'>
@@ -141,5 +144,5 @@ export default function RecordTimePicker({ setSelectedTime }: Props) {
                 )}
             </View>
         </View>
-    );
+    )
 }

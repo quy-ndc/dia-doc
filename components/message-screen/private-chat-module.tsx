@@ -64,7 +64,7 @@ export default function PrivateChatModule({ userId, targetUserId }: Props) {
                 res.on(ConsultationVideoCall.ACCEPT_CALL_RECEIVE, (userId: string, answer: any) => {
                     console.log('[ACCEPT_CALL_RECEIVE]', answer)
                     try {
-                        peerConnection.current?.setRemoteDescription(new RTCSessionDescription(answer.sdp))
+                        peerConnection.current?.setRemoteDescription(new RTCSessionDescription(answer))
                     } catch (e) {
                         console.error('Failed to set remote description:', e)
                     }
@@ -127,12 +127,12 @@ export default function PrivateChatModule({ userId, targetUserId }: Props) {
         pc.addEventListener(ConsultationVideoCall.TRACK_EVENT, (event) => {
             const incomingStream = event.streams?.[0]
             if (incomingStream) {
-                console.log('Received remote stream via event.streams')
+                console.log('[ON TRACK] Received remote stream via event.streams')
                 setRemoteStream(incomingStream)
             } else {
                 const newStream = new MediaStream()
                 newStream.addTrack(event.track as MediaStreamTrack)
-                console.log('Received remote stream via fallback')
+                console.log('[ON TRACK] Received remote stream via fallback')
                 setRemoteStream(newStream)
             }
         })
@@ -154,36 +154,16 @@ export default function PrivateChatModule({ userId, targetUserId }: Props) {
         }
     }
 
-    console.log('imcoming call', incomingCall)
-
     const acceptCall = async () => {
-        console.log('before send')
         if (!connection || !incomingCall) return
-        console.log('after send')
-
         createPeer()
         await getLocalStream()
-
-        try {
-            await peerConnection.current?.setRemoteDescription(new RTCSessionDescription(incomingCall))
-        } catch (e) {
-            console.error('[ERROR setting remote description]', e)
-            return
-        }
-
+        await peerConnection.current?.setRemoteDescription(new RTCSessionDescription(incomingCall))
         const answer = await peerConnection.current?.createAnswer()
         await peerConnection.current?.setLocalDescription(answer!)
-
-        try {
-            console.log('INVOKING ACCEPT CALL')
-            connection.invoke(ConsultationVideoCall.ACCEPT_CALL_INVOKE, targetUserId, answer)
-        } catch (e) {
-            console.error('[ERROR INVOKING ACCEPT CALL]', e)
-        }
-
+        connection.invoke(ConsultationVideoCall.ACCEPT_CALL_INVOKE, targetUserId, answer)
         setIncomingCall(null)
     }
-
 
     const toggleMic = () => {
         const audioTrack = localStream?.getAudioTracks()[0]
@@ -207,7 +187,7 @@ export default function PrivateChatModule({ userId, targetUserId }: Props) {
     }
 
     useEffect(() => {
-        // getLocalStream()
+        getLocalStream()
         return () => {
             peerConnection.current?.close()
         }
@@ -230,8 +210,9 @@ export default function PrivateChatModule({ userId, targetUserId }: Props) {
             <View style={styles.section}>
                 <Text style={styles.title}>Callee Area</Text>
                 {incomingCall && <Button title="Accept Call" onPress={acceptCall} />}
-                {remoteStream && (
+                {remoteStream && remoteStream.toURL() && (
                     <RTCView
+                        key={remoteStream.toURL()}
                         streamURL={remoteStream.toURL()}
                         style={styles.video}
                         objectFit="cover"

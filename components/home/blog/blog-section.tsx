@@ -54,9 +54,10 @@ export default function HomeBlogSection({ isLoading, isError, items, refetch, re
                 </View>
             ) : (
                 <View style={{ width: width }} className="px-2">
-                    <FeatureBlogItem blogPost={items[0]} />
+                    {/* <FeatureBlogItem blogPost={items[0]} /> */}
                     <FlashList<BlogPost>
-                        data={items.slice(1)}
+                        data={items}
+                        // data={items.slice(1)}
                         keyExtractor={(_, index) => index.toString()}
                         renderItem={({ item }) =>
                             <BlogItem blogPost={item} showBookmarkDate={false} showLikeDate={false} />

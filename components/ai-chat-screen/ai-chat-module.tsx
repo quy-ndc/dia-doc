@@ -16,6 +16,7 @@ import { AiSuccessResponse } from './ai-success-response'
 import { AiFailResponse } from './ai-fail-response'
 import { AiLoadingResponse } from './ai-loading-response'
 import ErrorDisplay from '../common/error-display'
+import { AiMessage } from './ai-message'
 
 const { height } = Dimensions.get('window')
 
@@ -25,11 +26,52 @@ type ChatItem =
     | { type: 'error' }
     | { type: 'success'; content: string }
 
+// Dummy data for initial messages
+const dummyMessages: ChatItem[] = [
+    {
+        role: AIChatRole.USER,
+        content: "Xin chào! Tôi có thể giúp gì cho bạn?",
+        metadata: {
+            timestamp: new Date(Date.now() - 300000).toISOString() // 5 minutes ago
+        },
+        createdAt: new Date(Date.now() - 300000).toISOString(),
+        type: 'user'
+    },
+    {
+        role: AIChatRole.ASSISTANT,
+        content: "Chào bạn! Tôi là trợ lý AI của DiaDoc. Tôi có thể giúp bạn với các câu hỏi về bệnh tiểu đường, chế độ ăn uống, tập luyện và nhiều thông tin hữu ích khác. Bạn có câu hỏi gì không?",
+        metadata: {
+            timestamp: new Date(Date.now() - 240000).toISOString() // 4 minutes ago
+        },
+        createdAt: new Date(Date.now() - 240000).toISOString(),
+        type: 'ai'
+    },
+    {
+        role: AIChatRole.USER,
+        content: "Tôi muốn biết về chế độ ăn cho người tiểu đường",
+        metadata: {
+            timestamp: new Date(Date.now() - 180000).toISOString() // 3 minutes ago
+        },
+        createdAt: new Date(Date.now() - 180000).toISOString(),
+        type: 'user'
+    },
+    {
+        role: AIChatRole.ASSISTANT,
+        content: "Chế độ ăn cho người tiểu đường cần chú ý:\n\n1. Hạn chế tinh bột và đường\n2. Ăn nhiều rau xanh và trái cây ít ngọt\n3. Chọn protein nạc như thịt gà, cá\n4. Uống đủ nước\n5. Chia nhỏ bữa ăn trong ngày\n\nBạn có muốn biết thêm chi tiết về phần nào không?",
+        metadata: {
+            timestamp: new Date(Date.now() - 120000).toISOString() // 2 minutes ago
+        },
+        createdAt: new Date(Date.now() - 120000).toISOString(),
+        type: 'ai'
+    }
+]
+
 export default function AiChatModule() {
     const flashListRef = useRef<FlashList<ChatItem>>(null)
-    const [aiMessages, setAiMessages] = useState<ChatItem[]>([])
+    const [aiMessages, setAiMessages] = useState<ChatItem[]>(dummyMessages)
     const [refreshing, setRefreshing] = useState(false)
     const [newMessage, setNewMessage] = useState('')
+    const [isLoadingResponse, setIsLoadingResponse] = useState(false)
     const { user } = useUserStore()
 
     const {
@@ -50,15 +92,62 @@ export default function AiChatModule() {
 
     const onRefresh = useCallback(() => {
         setRefreshing(true)
-        removeAiChatData()
-        refetchAiChatData().finally(() => setRefreshing(false))
-    }, [removeAiChatData, refetchAiChatData])
+        // Simulate refresh by resetting to dummy data
+        setTimeout(() => {
+            setAiMessages(dummyMessages)
+            setRefreshing(false)
+        }, 1000)
+    }, [])
 
-    useEffect(() => {
-        if (!aiChatData || isErrorAiChatData || aiChatData?.data?.messages.length == 0 || aiChatData.status !== 200) return
-        const chatItems: ChatItem[] = aiChatData.data.messages.map((msg: AIMessage) => ({ ...msg, type: msg.role === AIChatRole.USER ? 'user' : 'ai' }))
-        setAiMessages(chatItems)
-    }, [aiChatData])
+    // Simulated mutation function
+    const simulateAiResponse = async (userMessage: string) => {
+        setIsLoadingResponse(true)
+        
+        // Simulate 1 second loading
+        await new Promise(resolve => setTimeout(resolve, 1000))
+        
+        // 50% chance of failure
+        const shouldFail = Math.random() < 0.5
+        
+        if (shouldFail) {
+            setAiMessages(prev => {
+                const lastIdx = prev.length - 1
+                if (lastIdx < 0) return prev
+                if (prev[lastIdx].type === 'loading') {
+                    return [
+                        ...prev.slice(0, lastIdx),
+                        { type: 'error' }
+                    ]
+                }
+                return prev
+            })
+        } else {
+            // Success - add AI response
+            const aiResponse: ChatItem = {
+                role: AIChatRole.ASSISTANT,
+                content: `Đây là phản hồi mô phỏng cho câu hỏi: "${userMessage}". Tôi đang trong chế độ demo nên đây chỉ là dữ liệu giả.`,
+                metadata: {
+                    timestamp: new Date().toISOString()
+                },
+                createdAt: new Date().toISOString(),
+                type: 'ai'
+            }
+            
+            setAiMessages(prev => {
+                const lastIdx = prev.length - 1
+                if (lastIdx < 0) return prev
+                if (prev[lastIdx].type === 'loading') {
+                    return [
+                        ...prev.slice(0, lastIdx),
+                        { type: 'success', content: aiResponse.content }
+                    ]
+                }
+                return prev
+            })
+        }
+        
+        setIsLoadingResponse(false)
+    }
 
     const handleSend = async () => {
         const userMessage: ChatItem = {
@@ -76,47 +165,46 @@ export default function AiChatModule() {
             { type: 'loading' }
         ])
         setNewMessage('')
+        
         try {
-            await mutateAiMessage({
-                user_id: user.id,
-                query: newMessage
-            })
+            await simulateAiResponse(userMessage.content)
         } catch (e) {
             console.log("error sending message to ai", e)
         }
     }
 
-    useEffect(() => {
-        if (isLoadingAiResponseData) return
-        setAiMessages(prev => {
-            const lastIdx = prev.length - 1
-            if (lastIdx < 0) return prev
-            if (prev[lastIdx].type === 'loading') {
-                if (aiResponseData?.data?.message && aiResponseData.status === 200) {
-                    return [
-                        ...prev.slice(0, lastIdx),
-                        { type: 'success', content: aiResponseData.data.message.content }
-                    ]
-                } else {
-                    return [
-                        ...prev.slice(0, lastIdx),
-                        { type: 'error' }
-                    ]
-                }
-            }
-            return prev
-        })
-    }, [aiResponseData, isLoadingAiResponseData])
+    // useEffect(() => {
+    //     if (isLoadingAiResponseData) return
+    //     setAiMessages(prev => {
+    //         const lastIdx = prev.length - 1
+    //         if (lastIdx < 0) return prev
+    //         if (prev[lastIdx].type === 'loading') {
+    //             if (aiResponseData?.data?.message && aiResponseData.status === 200) {
+    //                 return [
+    //                     ...prev.slice(0, lastIdx),
+    //                     { type: 'success', content: aiResponseData.data.message.content }
+    //                 ]
+    //             } else {
+    //                 return [
+    //                     ...prev.slice(0, lastIdx),
+    //                     { type: 'error' }
+    //                 ]
+    //             }
+    //         }
+    //         return prev
+    //     })
+    // }, [aiResponseData, isLoadingAiResponseData])
 
     return (
         <View className='flex-1'>
             <View className='relative h-full w-full items-center justify-center'>
                 <View className='flex-1 flex-col w-full px-3'>
-                    {isLoadingAiChatData ? (
+                    {/* {isLoadingAiChatData ? (
                         <View className='flex-1 w-full items-center justify-center'>
                             <SpinningIcon icon={<Loader className='text-foreground' size={20} />} />
                         </View>
-                    ) : aiMessages.length == 0 ? (
+                    ) : aiMessages.length == 0 ? ( */}
+                    {aiMessages.length == 0 ? (
                         <ScrollView refreshControl={<RefreshControl refreshing={refreshing} onRefresh={onRefresh} />}>
                             <View className='flex-1 items-center justify-center' style={{ height: height * 0.7 }}>
                                 <ErrorDisplay
@@ -127,37 +215,37 @@ export default function AiChatModule() {
                             </View>
                         </ScrollView>
                     ) : (
-                        <></>
-                        // <FlashList<ChatItem>
-                        //     ref={flashListRef}
-                        //     data={aiMessages}
-                        //     keyExtractor={(_, index) => index.toString()}
-                        //     renderItem={({ item }) => {
-                        //         if (item.type === 'loading') return <AiLoadingResponse />
-                        //         if (item.type === 'error') return <AiFailResponse />
-                        //         if (item.type === 'success') return <AiSuccessResponse content={item.content} />
-                        //         if (item.type === 'user' || item.type === 'ai') {
-                        //             return (
-                        //                 <TextMessage
-                        //                     name={item.role == AIChatRole.USER ? 'Bạn' : 'AI'}
-                        //                     image={item.role == AIChatRole.USER ? user.avatar : 'https://media.licdn.com/dms/image/D4D12AQEvIMjoRlFGZA/article-cover_image-shrink_600_2000/0/1697794459592?e=2147483647&v=beta&t=r-U9j2bHdCsI7vP62SrP6dodTFq_Laj4KQB26c_Zvoo'}
-                        //                     content={item.content}
-                        //                     time={item.createdAt}
-                        //                     isOwn={item.role == AIChatRole.USER}
-                        //                 />
-                        //             )
-                        //         }
-                        //         return null
-                        //     }}
-                        //     estimatedItemSize={200}
-                        //     refreshControl={<RefreshControl refreshing={refreshing} onRefresh={onRefresh} />}
-                        //     keyboardShouldPersistTaps="handled"
-                        //     scrollEventThrottle={16}
-                        //     onContentSizeChange={() => {
-                        //         flashListRef.current?.scrollToEnd({ animated: false })
-                        //     }}
-                        //     onEndReachedThreshold={0.5}
-                        // />
+                        <FlashList<ChatItem>
+                            ref={flashListRef}
+                            data={aiMessages}
+                            keyExtractor={(_, index) => index.toString()}
+                            renderItem={({ item }) => {
+                                if (item.type === 'loading') return <AiLoadingResponse />
+                                if (item.type === 'error') return <AiFailResponse />
+                                if (item.type === 'success') return <AiSuccessResponse content={item.content} />
+                                if (item.type === 'user' || item.type === 'ai') {
+                                    return (
+                                        <AiMessage
+                                            name={item.role == AIChatRole.USER ? 'Bạn' : 'AI'}
+                                            image={item.role == AIChatRole.USER ? user.avatar : 'https://media.licdn.com/dms/image/D4D12AQEvIMjoRlFGZA/article-cover_image-shrink_600_2000/0/1697794459592?e=2147483647&v=beta&t=r-U9j2bHdCsI7vP62SrP6dodTFq_Laj4KQB26c_Zvoo'}
+                                            content={item.content}
+                                            time={item.createdAt}
+                                            isOwn={item.role == AIChatRole.USER}
+                                        />
+                                    )
+                                }
+                                return null
+                            }}
+                            estimatedItemSize={200}
+                            style={{ flex: 1 }}
+                            refreshControl={<RefreshControl refreshing={refreshing} onRefresh={onRefresh} />}
+                            keyboardShouldPersistTaps="handled"
+                            scrollEventThrottle={16}
+                            onContentSizeChange={() => {
+                                flashListRef.current?.scrollToEnd({ animated: true })
+                            }}
+                            onEndReachedThreshold={0.5}
+                        />
                     )}
                 </View>
                 <View className='flex-row gap-1 justify-center items-center p-2'>
@@ -176,9 +264,9 @@ export default function AiChatModule() {
                             ${newMessage == '' && 'opacity-50'}
                         `}
                         onPress={handleSend}
-                        disabled={newMessage == '' || isLoadingAiResponseData}
+                        disabled={newMessage == '' || isLoadingResponse}
                     >
-                        {isLoadingAiResponseData ? (
+                        {isLoadingResponse ? (
                             <SpinningIcon icon={<Loader className='text-foreground' size={20} />} />
                         ) : (
                             <SendHorizontal className='text-foreground' size={20} />

@@ -15,9 +15,10 @@ const { width } = Dimensions.get('window')
 
 type Props = {
     lastMesurement: string
+    initialTime?: string | null
 }
 
-export default function BloodPressureUpdateModule({ lastMesurement }: Props) {
+export default function BloodPressureUpdateModule({ lastMesurement, initialTime }: Props) {
 
     const [lastSystolic, lastDiastolic] = useMemo(() => {
         if (!lastMesurement || lastMesurement === '0') return ['0', '0']
@@ -114,7 +115,10 @@ export default function BloodPressureUpdateModule({ lastMesurement }: Props) {
                         </View>
                     )}
                 </View>
-                <RecordTimePicker setSelectedTime={setSelectedTime} />
+                <RecordTimePicker
+                    setSelectedTime={setSelectedTime}
+                    initialTime={initialTime}
+                />
                 <NoteField note={note} setNote={setNote} placeholder='Đi làm, cảm thấy chóng mặt' />
                 <RecordConfirmButton
                     isLoading={isLoading}

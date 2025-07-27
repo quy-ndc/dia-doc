@@ -11,6 +11,8 @@ import { Complications } from "../../assets/enum/complications";
 import { ExerciseFrequency } from "../../assets/enum/exercise-frequency";
 import { EatingHabit } from "../../assets/enum/eating-habit";
 import { MedicalHistories } from "../../assets/enum/medical-histories";
+import { HealthRecordType } from "../../assets/enum/health-record";
+import { HealthCarePlanPeriod, HealthCarePlanSubType } from "../../assets/enum/healthcare-plan";
 
 export const GetUserProfile = async () => {
     try {
@@ -381,6 +383,149 @@ export const UpdateUserHbA1c = async (params: {
             personNote: params.personNote,
             measurementAt: params.measurementAt
         })
+
+        return {
+            success: true,
+            status: response.status,
+            data: response.data
+        }
+
+    } catch (e) {
+        if (axios.isAxiosError(e) && e.response) {
+            return {
+                success: false,
+                status: e.response.status,
+                message: e.response.data.message || 'An error occurred',
+                data: e.response.data
+            };
+        }
+
+        return {
+            success: false,
+            status: 500,
+            message: 'An error occurred',
+            data: null
+        }
+    }
+}
+
+export const GetCarePlanTemplate = async (params: {
+    Cursor?: string,
+    Search?: string,
+    RecordType?: HealthRecordType,
+    Period?: HealthCarePlanPeriod,
+    SubType?: HealthCarePlanSubType,
+    PageSize?: number,
+    SortBy: string,
+    SortDirection: number
+}) => {
+    try {
+        const queryString = createQueryString(params)
+        const response = await axiosServices.get(`${endpointUser.GET_CARE_PLAN_TEMPLATE}?${queryString}`)
+
+        return {
+            success: true,
+            status: response.status,
+            data: response.data
+        }
+
+    } catch (e) {
+        if (axios.isAxiosError(e) && e.response) {
+            return {
+                success: false,
+                status: e.response.status,
+                message: e.response.data.message || 'An error occurred',
+                data: e.response.data
+            };
+        }
+
+        return {
+            success: false,
+            status: 500,
+            message: 'An error occurred',
+            data: null
+        }
+    }
+}
+
+export const CreateCarePlanTemplate = async (params: {
+    recordType: HealthRecordType,
+    period: HealthCarePlanPeriod,
+    subType?: HealthCarePlanSubType,
+}) => {
+    try {
+        const response = await axiosServices.post(`${endpointUser.GET_CARE_PLAN_TEMPLATE}`, {
+            recordType: params.recordType,
+            period: params.period,
+            subType: params.subType
+        })
+
+        return {
+            success: true,
+            status: response.status,
+            data: response.data
+        }
+
+    } catch (e) {
+        if (axios.isAxiosError(e) && e.response) {
+            return {
+                success: false,
+                status: e.response.status,
+                message: e.response.data.message || 'An error occurred',
+                data: e.response.data
+            };
+        }
+
+        return {
+            success: false,
+            status: 500,
+            message: 'An error occurred',
+            data: null
+        }
+    }
+}
+
+export const UpdateCarePlanTemplate = async (params: {
+    id: string
+    recordType?: HealthRecordType,
+    period?: HealthCarePlanPeriod,
+    subType?: HealthCarePlanSubType,
+}) => {
+    try {
+        const response = await axiosServices.put(`${endpointUser.GET_CARE_PLAN_TEMPLATE}/${params.id}`, {
+            recordType: params.recordType,
+            period: params.period,
+            subType: params.subType
+        })
+
+        return {
+            success: true,
+            status: response.status,
+            data: response.data
+        }
+
+    } catch (e) {
+        if (axios.isAxiosError(e) && e.response) {
+            return {
+                success: false,
+                status: e.response.status,
+                message: e.response.data.message || 'An error occurred',
+                data: e.response.data
+            };
+        }
+
+        return {
+            success: false,
+            status: 500,
+            message: 'An error occurred',
+            data: null
+        }
+    }
+}
+
+export const DeleteCarePlanTemplate = async (id: string) => {
+    try {
+        const response = await axiosServices.delete(`${endpointUser.GET_CARE_PLAN_TEMPLATE}/${id}`)
 
         return {
             success: true,

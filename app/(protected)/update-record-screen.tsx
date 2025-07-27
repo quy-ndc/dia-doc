@@ -1,15 +1,15 @@
-import * as React from 'react';
-import { Text } from '../../components/ui/text';
-import { router, Stack, useLocalSearchParams } from 'expo-router';
-import { Pressable, View } from 'react-native';
-import { getHealthRecordDisplay } from '../../assets/data/health-record-type';
-import { HealthRecordType } from '../../assets/enum/health-record';
-import WeightUpdateModule from '../../components/update-record-screen/weight-update-module';
-import HeightUpdateModule from '../../components/update-record-screen/height-update-module';
-import BloodSugarUpdateModule from '../../components/update-record-screen/blood-sugar-module/blood-sugar-module';
-import BloodPressureUpdateModule from '../../components/update-record-screen/blood-pressure-module';
-import Hb1AcUpdateModule from '../../components/update-record-screen/hba1c-module';
-import IconButton from '../../components/common/icon-button';
+import * as React from 'react'
+import { Text } from '../../components/ui/text'
+import { router, Stack, useLocalSearchParams } from 'expo-router'
+import { Pressable, View } from 'react-native'
+import { getHealthRecordDisplay } from '../../assets/data/health-record-type'
+import { HealthRecordType } from '../../assets/enum/health-record'
+import WeightUpdateModule from '../../components/update-record-screen/weight-update-module'
+import HeightUpdateModule from '../../components/update-record-screen/height-update-module'
+import BloodSugarUpdateModule from '../../components/update-record-screen/blood-sugar-module/blood-sugar-module'
+import BloodPressureUpdateModule from '../../components/update-record-screen/blood-pressure-module'
+import Hb1AcUpdateModule from '../../components/update-record-screen/hba1c-module'
+import IconButton from '../../components/common/icon-button'
 import { History } from '../../lib/icons/History'
 
 const updateModules = {
@@ -18,14 +18,14 @@ const updateModules = {
     [HealthRecordType.BLOOD_SUGAR]: BloodSugarUpdateModule,
     [HealthRecordType.BLOOD_PRESSURE]: BloodPressureUpdateModule,
     [HealthRecordType.HBA1C]: Hb1AcUpdateModule,
-} as const;
+} as const
 
 function getUpdateModule(type: HealthRecordType) {
-    return updateModules[type] || updateModules[HealthRecordType.WEIGHT];
+    return updateModules[type] || updateModules[HealthRecordType.WEIGHT]
 }
 
 export default function UpdateRecordScreen() {
-    const { type, lastMesurement } = useLocalSearchParams()
+    const { type, lastMesurement, time } = useLocalSearchParams()
     const recordType = type as unknown as HealthRecordType
     const recordDisplay = getHealthRecordDisplay(recordType)
     const UpdateModule = getUpdateModule(recordType)
@@ -64,7 +64,10 @@ export default function UpdateRecordScreen() {
                 }}
             />
             <View className='flex-1 relative'>
-                <UpdateModule lastMesurement={lastMesurement as string} />
+                <UpdateModule
+                    lastMesurement={lastMesurement as string}
+                    initialTime={time as string}
+                />
                 <Pressable
                     style={{ backgroundColor: recordDisplay.iconColor }}
                     className='flex absolute bottom-5 right-7 p-4 items-center justify-center rounded-full active:opacity-80'
@@ -79,5 +82,5 @@ export default function UpdateRecordScreen() {
                 </Pressable>
             </View>
         </>
-    );
+    )
 }

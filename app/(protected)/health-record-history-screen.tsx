@@ -86,7 +86,6 @@ export default function HealthRecordHistoryScreen() {
         return (healthRecordItems[0].healthRecord as any).value ?? 'N/A'
     }
 
-
     return (
         <>
             <Stack.Screen

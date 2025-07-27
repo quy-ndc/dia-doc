@@ -1,18 +1,17 @@
-import { Image, ImageBackground } from "expo-image";
-import { useRouter } from "expo-router";
-import { View, Pressable, Dimensions } from "react-native";
+import { Image, ImageBackground } from "expo-image"
+import { useRouter } from "expo-router"
+import { View, Pressable, Dimensions } from "react-native"
 import { Text } from '../../../components/ui/text'
-import { formatDateBlog } from "../../../util/format-date-post";
-import LikeButton from "./like-button";
-import BookmarkButton from "./bookmark-button";
-import { Eye } from "../../../lib/icons/Eye";
-import { BlogPost } from "../../../assets/types/media/blog-post";
-import { calculateReadTime } from "../../../util/readtime-calc";
-import BlogTag from "./blog-tag";
-import { formatDate } from "../../../util/format-date";
-import { GlobalColor } from "../../../global-color";
-import Tag from "../tag";
-
+import { formatDateBlog } from "../../../util/format-date-post"
+import LikeButton from "./like-button"
+import BookmarkButton from "./bookmark-button"
+import { Eye } from "../../../lib/icons/Eye"
+import { BlogPost } from "../../../assets/types/media/blog-post"
+import { calculateReadTime } from "../../../util/readtime-calc"
+import BlogTag from "./blog-tag"
+import { formatDate } from "../../../util/format-date"
+import { GlobalColor } from "../../../global-color"
+import Tag from "../tag"
 
 type Prop = {
     blogPost: BlogPost

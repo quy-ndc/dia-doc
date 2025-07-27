@@ -20,9 +20,10 @@ const { width } = Dimensions.get('window')
 
 type Props = {
     lastMesurement: string
+    initialTime?: string | null
 }
 
-export default function BloodSugarUpdateModule({ lastMesurement }: Props) {
+export default function BloodSugarUpdateModule({ lastMesurement, initialTime }: Props) {
 
     const [value, setValue] = useState('')
     const change = calculateChange(lastMesurement as string, value)
@@ -60,7 +61,7 @@ export default function BloodSugarUpdateModule({ lastMesurement }: Props) {
                             value={value}
                             onChangeText={setValue}
                             keyboardType='numeric'
-                            placeholder={lastMesurement as string || 'Nhập đường huyết'}
+                            placeholder={lastMesurement as string || '0'}
                             className='w-full'
                         />
                         <Text className='absolute right-3  -translate-y-1/2 top-[50%] text-base font-bold text-[var(--fade-text-color)] tracking-wider'>
@@ -89,7 +90,10 @@ export default function BloodSugarUpdateModule({ lastMesurement }: Props) {
                     </View>
                     <GlucoseTimingPicker setSelectPeriod={setSelectPeriod} />
                 </View>
-                <RecordTimePicker setSelectedTime={setSelectedTime} />
+                <RecordTimePicker
+                    setSelectedTime={setSelectedTime}
+                    initialTime={initialTime}
+                />
                 <NoteField note={note} setNote={setNote} placeholder='Ăn nhiều ngọt trước đó, cảm thấy chóng mặt' />
                 <RecordConfirmButton
                     isLoading={isLoading}

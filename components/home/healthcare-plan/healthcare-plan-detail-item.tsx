@@ -1,5 +1,5 @@
 import * as React from 'react'
-import { View } from 'react-native'
+import { Pressable, View } from 'react-native'
 import { Text } from '../../ui/text'
 import { GlobalColor } from '../../../global-color'
 import { HealthCarePlan } from '../../../assets/types/user/healthcare-plan'
@@ -8,6 +8,7 @@ import { formatTime } from '../../../util/format-time'
 import { Check } from '../../../lib/icons/Check'
 import { getHealthCarePlanPeriodString, getHealthCarePlanSubTypeString } from '../../../assets/data/healthcare-plan'
 import { Clock } from '../../../lib/icons/Clock'
+import { router } from 'expo-router'
 
 type Prop = {
     item?: HealthCarePlan
@@ -33,9 +34,15 @@ export default function HealthcarePlanDetailItem({ item, hidden }: Prop) {
     const subtype = getHealthCarePlanSubTypeString(item.subtype)
 
     return (
-        <View
+        <Pressable
             style={{ borderColor: recordDisplay.iconColor, borderLeftWidth: 4 }}
-            className={`flex-col w-full justify-between border-l items-center gap-3 px-3 py-4 mt-3 rounded-xl bg-[var(--blog-bg)] relative ${hidden ? 'hidden' : ''}`}
+            className={`flex-col w-full justify-between border-l items-center gap-3 px-3 py-4 mt-3 rounded-xl bg-[var(--blog-bg)] relative active:bg-[var(--click-bg)] ${hidden ? 'hidden' : ''}`}
+            onPress={() => {
+                router.push({
+                    pathname: 'update-record-screen',
+                    params: { type: item.recordType, time: item.scheduledAt }
+                })
+            }}
         >
             <Text
                 style={{ backgroundColor: recordDisplay.iconColor, left: -1, borderTopRightRadius: 100, borderBottomRightRadius: 100 }}
@@ -87,6 +94,6 @@ export default function HealthcarePlanDetailItem({ item, hidden }: Prop) {
                     {item.isCompleted ? 'Đã hoàn thành' : 'Chưa hoàn thành'}
                 </Text>
             </Text>
-        </View>
+        </Pressable>
     )
 }

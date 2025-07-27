@@ -66,6 +66,11 @@ const endpointUser = {
     UPDATE_USER_BLOOD_PRESSURE: `${API_GATEWAY_ENDPOINT}/${apiPrefixV1}/users/patients/records/blood-pressure`,
     UPDATE_USER_BLOOD_SUGAR: `${API_GATEWAY_ENDPOINT}/${apiPrefixV1}/users/patients/records/blood-glucose`,
     UPDATE_USER_HBA1C: `${API_GATEWAY_ENDPOINT}/${apiPrefixV1}/users/patients/records/hba1c`,
+
+    CREATE_CARE_PLAN_TEMPLATE: `${API_GATEWAY_ENDPOINT}/${apiPrefixV1}/users/patients/template`,
+    UPDATE_CARE_PLAN_TEMPLATE: `${API_GATEWAY_ENDPOINT}/${apiPrefixV1}/users/patients/template`,
+    GET_CARE_PLAN_TEMPLATE: `${API_GATEWAY_ENDPOINT}/${apiPrefixV1}/users/patients/template`,
+    DELETE_CARE_PLAN_TEMPLATE: `${API_GATEWAY_ENDPOINT}/${apiPrefixV1}/users/patients/template`,
 }
 
 const endpointMedia = {

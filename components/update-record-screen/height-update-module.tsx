@@ -14,9 +14,10 @@ const { width } = Dimensions.get('window')
 
 type Props = {
     lastMesurement: string
+    initialTime?: string | null
 }
 
-export default function HeightUpdateModule({ lastMesurement }: Props) {
+export default function HeightUpdateModule({ lastMesurement, initialTime }: Props) {
 
     const [value, setValue] = useState('')
     const change = calculateChange(lastMesurement as string, value)
@@ -51,7 +52,7 @@ export default function HeightUpdateModule({ lastMesurement }: Props) {
                             value={value}
                             onChangeText={setValue}
                             keyboardType='numeric'
-                            placeholder={lastMesurement as string || 'Nhập chiều cao'}
+                            placeholder={lastMesurement as string || '0'}
                             className='w-full'
                         />
                         <Text className='absolute right-3  -translate-y-1/2 top-[50%] text-base font-bold text-[var(--fade-text-color)] tracking-wider'>
@@ -70,7 +71,10 @@ export default function HeightUpdateModule({ lastMesurement }: Props) {
                         </View>
                     )}
                 </View>
-                <RecordTimePicker setSelectedTime={setSelectedTime} />
+                <RecordTimePicker
+                    setSelectedTime={setSelectedTime}
+                    initialTime={initialTime}
+                />
                 <RecordConfirmButton
                     isLoading={isLoading}
                     disabled={!value || !selectedTime}

@@ -5,7 +5,7 @@ export type CarePlanTemplate = {
     id: string
     recordType: HealthRecordType
     period: HealthCarePlanPeriod
-    subtype?: HealthCarePlanSubType
+    subType?: HealthCarePlanSubType
     reason: string
     createdDate: string
 }

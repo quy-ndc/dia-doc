@@ -2,7 +2,7 @@ import * as React from 'react'
 import { Text } from '../../components/ui/text'
 import { useQuery } from '@tanstack/react-query'
 import { useCarePlanTemplateQuery } from '../../service/query/user-query'
-import { Modal, Pressable, RefreshControl, ScrollView, View } from 'react-native'
+import { Pressable, RefreshControl, ScrollView, View } from 'react-native'
 import { CarePlanTemplate } from '../../assets/types/user/care-plan-template'
 import { GlobalColor } from '../../global-color'
 import { Plus } from '../../lib/icons/Plus'
@@ -10,23 +10,18 @@ import { Info } from '../../lib/icons/Info'
 import { FlashList } from '@shopify/flash-list'
 import CarePlanTemplateItem from '../../components/manage-care-plan-screen/care-plan-template-item'
 import { useCallback, useState } from 'react'
-import { Calendar } from '../../lib/icons/Calendar'
-import { Dimensions } from 'react-native'
-import CarePlanAddEditModal from '../../components/manage-care-plan-screen/add-edit-modal'
 import HealthcarePlanSkeleton from '../../components/common/skeleton/healthcare-plan-skeleton'
 import ErrorDisplay from '../../components/common/error-display'
-
-const { width } = Dimensions.get('window')
+import { router } from 'expo-router'
 
 export default function ManageCarePlanScreen() {
 
     const [refreshing, setRefreshing] = useState(false)
-    const [visible, setVisible] = useState(false)
 
     const { data, isLoading, isError, refetch, remove } = useQuery({
         ...useCarePlanTemplateQuery({
             SortBy: 'createdDate',
-            SortDirection: 0
+            SortDirection: 1
         }),
         retry: 2,
         retryDelay: attempt => Math.min(1000 * 2 ** attempt, 5000)
@@ -59,22 +54,8 @@ export default function ManageCarePlanScreen() {
                                 </Text>
                             </View>
                             <Text className='text-base tracking-wider'>
-                                Sau khi cập nhật lịch đo, lịch đo mới sẽ được hiển thị vào ngày tiếp theo, lịch đo sẽ được áp dụng hằng ngày
+                                Sau khi cập nhật, lịch đo mới sẽ được hiển thị vào ngày tiếp theo, lịch đo sẽ được áp dụng hằng ngày
                             </Text>
-                        </View>
-                        <View className="flex-row w-full px-2 pt-2 justify-between items-center">
-                            <View className='flex-row gap-3 items-center text-center'>
-                                <Calendar color={GlobalColor.PURPLE_NEON_BORDER} size={18} />
-                                <Text className='text-lg mb-1 font-bold tracking-widest capitalize'>Lịch trình hiện tại</Text>
-                            </View>
-                            <View className='flex-row gap-2 items-center rounded-lg'>
-                                <Pressable
-                                    className={`flex-row items-center gap-2 p-2 rounded-full active:bg-[var(--click-bg)]`}
-                                    onPress={() => setVisible(true)}
-                                >
-                                    <Plus className='text-foreground' size={17} />
-                                </Pressable>
-                            </View>
                         </View>
                         {isLoading ? (
                             <HealthcarePlanSkeleton />
@@ -91,27 +72,21 @@ export default function ManageCarePlanScreen() {
                                     <CarePlanTemplateItem
                                         key={index}
                                         item={item}
-                                        setVisible={setVisible}
                                     />
                                 )}
                                 estimatedItemSize={30}
                             />
                         )}
-
                     </View>
                 </ScrollView>
                 <Pressable
                     style={{ backgroundColor: GlobalColor.BLUE_NEON_BORDER }}
                     className='flex absolute bottom-5 right-7 p-4 items-center justify-center rounded-full active:opacity-80'
-                    onPress={() => setVisible(true)}
+                    onPress={() => router.push('add-edit-care-plan-screen')}
                 >
                     <Plus className='text-white' size={17} />
                 </Pressable>
             </View>
-            <CarePlanAddEditModal
-                visible={visible}
-                setVisible={setVisible}
-            />
         </>
     )
 }

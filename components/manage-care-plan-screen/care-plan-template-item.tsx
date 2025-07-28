@@ -1,33 +1,37 @@
 import * as React from 'react'
 import { Text } from '../../components/ui/text'
-import { Dimensions, Modal, Pressable, View } from 'react-native'
+import { Pressable, View } from 'react-native'
 import { CarePlanTemplate } from '../../assets/types/user/care-plan-template'
 import { GlobalColor } from '../../global-color'
 import { getHealthRecordDisplay } from '../../assets/data/health-record-type'
 import { getHealthCarePlanPeriodString, getHealthCarePlanSubTypeString } from '../../assets/data/healthcare-plan'
-import { Clock } from '../../lib/icons/Clock'
-import { formatTime } from '../../util/format-time'
-import { PencilLine } from '../../lib/icons/PencilLine'
-import { Trash2 } from '../../lib/icons/Trash2'
+import { router } from 'expo-router'
+import { ChevronRight } from '../../lib/icons/ChevronRight'
+import { formatDate } from '../../util/format-date'
 
 type Prop = {
     item: CarePlanTemplate
-    setVisible: (visible: boolean) => void
 }
 
-const { width } = Dimensions.get('window');
-
-export default function CarePlanTemplateItem({ item, setVisible }: Prop) {
+export default function CarePlanTemplateItem({ item }: Prop) {
 
     const recordDisplay = getHealthRecordDisplay(item.recordType)
     const period = getHealthCarePlanPeriodString(item.period)
-    const subtype = item.subtype ? getHealthCarePlanSubTypeString(item.subtype) : undefined
+    const subtype = item.subType ? getHealthCarePlanSubTypeString(item.subType) : undefined
 
     return (
         <>
             <Pressable
                 className='flex-row justify-between items-center px-3 py-4 mt-3 rounded-xl bg-[var(--blog-bg)] active:bg-[var(--click-bg)]'
-                onPress={() => setVisible(true)}
+                onPress={() => router.push({
+                    pathname: 'add-edit-care-plan-screen',
+                    params: {
+                        id: item.id,
+                        type: item.recordType,
+                        per: item.period,
+                        sub: item.subType
+                    }
+                })}
             >
                 <View className='flex-col gap-3'>
                     <View className='flex-row items-center gap-3'>
@@ -37,13 +41,7 @@ export default function CarePlanTemplateItem({ item, setVisible }: Prop) {
                         >
                             {recordDisplay.coloredIcon}
                         </View>
-                        <View className='flex-col gap-1'>
-                            <Text className='text-base font-bold tracking-widest capitalize'>Đo {recordDisplay.name}</Text>
-                            <View className='flex-row items-center gap-2'>
-                                <Clock color={GlobalColor.BLUE_NEON_BORDER} size={15} />
-                                <Text className='text-sm text-[var(--fade-text-color)] tracking-widest'>{formatTime(item.createdDate)}</Text>
-                            </View>
-                        </View>
+                        <Text className='text-base font-bold tracking-widest capitalize'>Đo {recordDisplay.name}</Text>
                     </View>
                     <View className='flex-row items-center gap-2'>
                         {period !== undefined && (
@@ -57,20 +55,14 @@ export default function CarePlanTemplateItem({ item, setVisible }: Prop) {
                             </Text>
                         )}
                     </View>
-                </View>
-                <View className='flex-row gap-2 items-center'>
-                    <Pressable
-                        className='flex p-2 rounded-full items-center justify-center active:bg-[var(--click-bg)]'
-                        onPress={() => setVisible(true)}
+                    <Text
+                        style={{ backgroundColor: GlobalColor.BLUE_NEON_BG, color: GlobalColor.BLUE_NEON_BORDER }}
+                        className='text-sm px-4 py-1 font-bold rounded-full tracking-widest self-start'
                     >
-                        <PencilLine color={GlobalColor.CYAN_NEON_BORDER} size={17} />
-                    </Pressable>
-                    <Pressable
-                        className='flex p-2 rounded-full items-center justify-center active:bg-[var(--click-bg)]'
-                    >
-                        <Trash2 color={GlobalColor.RED_NEON_BORDER} size={17} />
-                    </Pressable>
+                        Tạo vào {formatDate(item.createdDate)}
+                    </Text>
                 </View>
+                <ChevronRight className='text-foreground' size={17} />
             </Pressable>
         </>
     )

@@ -54,8 +54,8 @@ export default function HomeScreen() {
         remove: healthCarePlanRemove
     } = useQuery({
         ...useUserHealthCarePlan({
-            fromDate: '2025-07-23',
-            toDate: '2025-07-25'
+            fromDate: '2025-07-29',
+            toDate: '2025-07-27'
         }),
         retry: 2,
         retryDelay: attempt => Math.min(1000 * 2 ** attempt, 5000)

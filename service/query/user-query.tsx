@@ -359,7 +359,7 @@ export const useCreateCarePlanTemplateMutation = () => {
                 queryClient.invalidateQueries({ queryKey: [QueryKeys.CARE_PLAN_TEMPLATE] })
                 Toast.show({
                     type: 'success',
-                    text1: 'Tạo lịch đo thất bại',
+                    text1: 'Tạo lịch đo thành công',
                     visibilityTime: 2000,
                 })
             }
@@ -398,7 +398,7 @@ export const useUpdateCarePlanTemplateMutation = () => {
                 queryClient.invalidateQueries({ queryKey: [QueryKeys.CARE_PLAN_TEMPLATE] })
                 Toast.show({
                     type: 'success',
-                    text1: 'Cập nhật lịch đo thất bại',
+                    text1: 'Cập nhật lịch đo thành công',
                     visibilityTime: 2000,
                 })
             }
@@ -432,7 +432,7 @@ export const useDeleteCarePlanTemplateMutation = () => {
                 queryClient.invalidateQueries({ queryKey: [QueryKeys.CARE_PLAN_TEMPLATE] })
                 Toast.show({
                     type: 'success',
-                    text1: 'Xóa lịch đo thất bại',
+                    text1: 'Xóa lịch đo thành công',
                     visibilityTime: 2000,
                 })
             }

@@ -1,8 +1,3 @@
-const {
-  appDelegateContent,
-  mainActivityContent,
-  mainApplicationContent,
-} = require("./zalokitStrings");
 
 export default {
   expo: {
@@ -43,27 +38,7 @@ export default {
     },
     plugins: [
       "expo-router",
-      [
-        "expo-build-properties",
-        {
-          android: {
-            extraProguardRules: `
-              -keep class com.zing.zalo.**{ *; }
-              -keep enum com.zing.zalo.**{ *; }
-              -keep interface com.zing.zalo.**{ *; }
-            `,
-          },
-        },
-      ],
-      [
-        "react-native-zalo-kit/expo",
-        {
-          appId: "350132100575839532",
-          appDelegateContent,
-          mainActivityContent,
-          mainApplicationContent,
-        },
-      ],
+      ["expo-build-properties"],
     ],
     experiments: {
       typedRoutes: true

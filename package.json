@@ -78,7 +78,6 @@
     "react-native-toast-message": "^2.2.1",
     "react-native-web": "~0.19.13",
     "react-native-webrtc": "^124.0.5",
-    "react-native-zalo-kit": "^4.0.5",
     "tailwind-merge": "^2.2.1",
     "tailwindcss": "3.3.5",
     "tailwindcss-animate": "^1.0.7",

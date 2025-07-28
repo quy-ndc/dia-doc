@@ -17,8 +17,6 @@ import com.facebook.soloader.SoLoader
 import expo.modules.ApplicationLifecycleDispatcher
 import expo.modules.ReactNativeHostWrapper
 
-import com.zing.zalo.zalosdk.oauth.ZaloSDKApplication;
-
 import com.oney.WebRTCModule.WebRTCModuleOptions;
 import android.media.AudioAttributes;
 import org.webrtc.audio.JavaAudioDeviceModule;
@@ -49,7 +47,6 @@ class MainApplication : Application(), ReactApplication {
 
   override fun onCreate() {
     super.onCreate()
-    ZaloSDKApplication.wrap(this)
     val options = WebRTCModuleOptions.getInstance()
 		val audioAttributes = AudioAttributes.Builder()
 			.setUsage(AudioAttributes.USAGE_MEDIA)

@@ -1,5 +1,5 @@
 import { useMutation, useQueryClient } from "@tanstack/react-query"
-import { CreateCarePlanTemplate, CreateUserProfile, DeleteCarePlanTemplate, GetCarePlanTemplate, GetUserHealthCarePlan, GetUserHealthRecord, GetUserProfile, UpdateCarePlanTemplate, UpdateUserBloodPressure, UpdateUserBloodSugar, UpdateUserHbA1c, UpdateUserHeight, UpdateUserProfile, UpdateUserWeight } from "../api/user-service"
+import { CreateCarePlanTemplate, CreateUserProfile, DeleteCarePlanTemplate, GetCarePlanTemplate, GetDoctorProfile, GetUserHealthCarePlan, GetUserHealthRecord, GetUserProfile, UpdateCarePlanTemplate, UpdateUserBloodPressure, UpdateUserBloodSugar, UpdateUserHbA1c, UpdateUserHeight, UpdateUserProfile, UpdateUserWeight } from "../api/user-service"
 import { QueryKeys } from "../../assets/enum/query"
 import { GenderNumber } from "../../assets/enum/gender"
 import { DiagnosisRecency } from "../../assets/enum/diagnosis-recency"
@@ -41,6 +41,15 @@ export const useUserProfile = () => {
     const queryKey = [QueryKeys.USER]
     const queryFn = async () => {
         return GetUserProfile()
+    }
+
+    return { queryKey, queryFn }
+}
+
+export const useDoctorProfile = () => {
+    const queryKey = [QueryKeys.DOCTOR]
+    const queryFn = async () => {
+        return GetDoctorProfile()
     }
 
     return { queryKey, queryFn }

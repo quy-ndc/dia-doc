@@ -1,6 +1,6 @@
 import { useMutation } from "@tanstack/react-query"
 import { LoginPatientRequest } from "../type/auth-type"
-import { LoginPatient, LoginUser, RefreshToken, RegisterUser, ResendOtp, VerifyPhone } from "../api/auth-service"
+import { LoginPatient, LoginUser, RefreshToken, RegisterUser, ResendOtp, SaveFcmToken, VerifyPhone } from "../api/auth-service"
 import Toast from "react-native-toast-message"
 
 export const useLoginPatientMutation = () => {
@@ -185,5 +185,18 @@ export const useRefreshTokenMutation = () => {
             })
             return error
         },
+    })
+}
+
+
+export const useSaveFcmTokenMutation = () => {
+    return useMutation({
+        mutationFn: (fcmToken: string) => SaveFcmToken(fcmToken),
+        onSuccess: (data) => {
+            return data
+        },
+        onError: (error) => {
+            return error
+        }
     })
 }

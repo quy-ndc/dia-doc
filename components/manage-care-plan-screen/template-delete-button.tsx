@@ -29,7 +29,7 @@ export default function TemplateDeleteButton({ id }: Prop) {
         if (!data || isError || isLoading || data.status !== 200) return
 
         setVisible(false)
-        router.push('manage-care-plan-screen')
+        router.back()
     }, [data])
 
     return (

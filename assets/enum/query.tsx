@@ -17,6 +17,7 @@ export enum QueryKeys {
     NOTIFICATIONS = 'notifications',
     // User service
     USER = 'user',
+    DOCTOR = 'doctor',
     HEALTH_RECORD = 'healthRecord',
     HEALTH_CARE_PLAN = 'healthCarePlan',
     CARE_PLAN_TEMPLATE = 'carePlanTemplate'

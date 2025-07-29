@@ -205,3 +205,33 @@ export const RefreshToken = async (refreshToken: string) => {
         }
     }
 }
+
+export const SaveFcmToken = async (fcmToken: string) => {
+    try {
+        const response = await axiosServices.post(`${endpointAuth.SAVE_FCM_TOKEN}`, {
+            fcmToken: fcmToken
+        })
+
+        return {
+            success: true,
+            status: response.status,
+            data: response.data
+        }
+    } catch (e) {
+        if (axios.isAxiosError(e) && e.response) {
+            return {
+                success: false,
+                status: e.response.status,
+                message: e.response.data.message || 'An error occurred',
+                data: e.response.data
+            }
+        }
+
+        return {
+            success: false,
+            status: 500,
+            message: 'An error occurred',
+            data: null
+        }
+    }
+}

@@ -7,7 +7,6 @@ import { Phone } from '../../lib/icons/Phone'
 import { User } from '../../lib/icons/User'
 import { getGenderString } from '../../assets/enum/gender'
 import { getAge } from '../../util/getAge'
-import LogoutButton from './logout-button'
 
 type Prop = {
     profile: Patient
@@ -34,9 +33,6 @@ export default function BasicInfo({ profile }: Prop) {
                         <Text className='text base text-[--fade-text-color] trakcing-wider'>{getGenderString(profile.gender)} • {getAge(profile.dateOfBirth)}</Text>
                     </View>
                 </View>
-            </View>
-            <View style={{ alignSelf: 'flex-start' }}>
-                <LogoutButton />
             </View>
         </View>
     )

@@ -10,7 +10,6 @@ import DiabetesInfo from '../../components/profile-screen/diabetes-info'
 import MedicalHistories from '../../components/profile-screen/medical-histories'
 import BasicInfo from '../../components/profile-screen/basic-infor'
 
-
 type Prop = {
     profile?: Patient
     isLoading: boolean

@@ -8,6 +8,7 @@ import { getHealthCarePlanPeriodString, getHealthCarePlanSubTypeString } from '.
 import { router } from 'expo-router'
 import { ChevronRight } from '../../lib/icons/ChevronRight'
 import { formatDate } from '../../util/format-date'
+import { formatDateMessage } from '../../util/format-date-message'
 
 type Prop = {
     item: CarePlanTemplate
@@ -59,7 +60,7 @@ export default function CarePlanTemplateItem({ item }: Prop) {
                         style={{ backgroundColor: GlobalColor.BLUE_NEON_BG, color: GlobalColor.BLUE_NEON_BORDER }}
                         className='text-sm px-4 py-1 font-bold rounded-full tracking-widest self-start'
                     >
-                        Tạo vào {formatDate(item.createdDate)}
+                        Tạo vào {formatDateMessage(item.createdDate)}
                     </Text>
                 </View>
                 <ChevronRight className='text-foreground' size={17} />

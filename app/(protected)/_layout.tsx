@@ -5,15 +5,16 @@ import { useChannel } from 'ably/react'
 import { GLOBAL_CHAT_EVENT_CHANNEL, GLOBAL_CHAT_EVENT_NAME } from '@env'
 import { GlobalMessageEvent, Message } from '../../assets/types/chat/message'
 import { useMessageStore } from '../../store/useMessage'
-import { ThemeToggle } from '../../components/ThemeToggle'
 import { MessageType } from '../../assets/enum/message-type'
 import { UserRoleNumber } from '../../assets/enum/user-role'
 import { View } from 'react-native'
 import { Text } from '../../components/ui/text'
+import { useSaveFcmTokenMutation } from '../../service/query/auth-query'
 
 export default function ProtectedLayout() {
     const { user } = useUserStore()
     const { addMessage, setLatestMessage } = useMessageStore()
+    const { mutateAsync, data } = useSaveFcmTokenMutation()
 
     if (!user.isAuthenticated) {
         return <Redirect href="/landing-screen" />
@@ -72,7 +73,7 @@ export default function ProtectedLayout() {
                     headerShadowVisible: false
                 }}
             />
-            <Stack.Screen name="add-edit-care-plan-screen" options={{ headerTitle: 'Chỉnh sửa lịch đo', headerShadowVisible: false }} />            
+            <Stack.Screen name="add-edit-care-plan-screen" options={{ headerTitle: '', headerShadowVisible: false }} />
         </Stack>
     )
 }

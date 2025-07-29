@@ -81,7 +81,6 @@ export default function RootLayout() {
       )
       if (result === PermissionsAndroid.RESULTS.GRANTED) {
       } else {
-        // Alert.alert('Notification Permission Required', 'Please enable notifications in settings.')
       }
     }
   }

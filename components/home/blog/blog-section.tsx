@@ -7,7 +7,6 @@ import { useRouter } from "expo-router"
 import BlogItem from "../../common/blog-item/blog-item"
 import { FlashList } from "@shopify/flash-list"
 import { BlogPost } from "../../../assets/types/media/blog-post"
-import FeatureBlogItem from "../../common/blog-item/feature-blog-item"
 import BlogSkeleton from "../../common/skeleton/blog-skeleton"
 import ErrorDisplay from "../../common/error-display"
 import { GlobalColor } from "../../../global-color"
@@ -54,10 +53,8 @@ export default function HomeBlogSection({ isLoading, isError, items, refetch, re
                 </View>
             ) : (
                 <View style={{ width: width }} className="px-2">
-                    {/* <FeatureBlogItem blogPost={items[0]} /> */}
                     <FlashList<BlogPost>
                         data={items}
-                        // data={items.slice(1)}
                         keyExtractor={(_, index) => index.toString()}
                         renderItem={({ item }) =>
                             <BlogItem blogPost={item} showBookmarkDate={false} showLikeDate={false} />
@@ -71,10 +68,10 @@ export default function HomeBlogSection({ isLoading, isError, items, refetch, re
                         />
                         <Pressable
                             style={{ width: width * 0.4 }}
-                            className="flex-row gap-2 px-4 py-1 justify-center items-center border border-[var(--fade-text-color)] rounded-full active:bg-[var(--click-bg)]"
+                            className="flex-row gap-2 px-4 py-2 justify-center items-center border border-[var(--fade-text-color)] rounded-full active:bg-[var(--click-bg)]"
                             onPress={() => router.push('/blog-screen')}
                         >
-                            <Text className="text-base font-semibold tracking-wider">Xem thêm</Text>
+                            <Text className="text-sm font-semibold tracking-wider">Xem thêm</Text>
                             <ChevronDown className="text-foreground" size={18} />
                         </Pressable>
                         <View

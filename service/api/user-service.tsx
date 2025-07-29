@@ -43,6 +43,35 @@ export const GetUserProfile = async () => {
     }
 }
 
+export const GetDoctorProfile = async () => {
+    try {
+        const response = await axiosServices.get(`${endpointUser.GET_DOCTOR_PROFILE}`)
+
+        return {
+            success: true,
+            status: response.status,
+            data: response.data
+        }
+
+    } catch (e) {
+        if (axios.isAxiosError(e) && e.response) {
+            return {
+                success: false,
+                status: e.response.status,
+                message: e.response.data.message || 'An error occurred',
+                data: e.response.data
+            };
+        }
+
+        return {
+            success: false,
+            status: 500,
+            message: 'An error occurred',
+            data: null
+        }
+    }
+}
+
 export const GetUserHealthRecord = async (params: {
     recordTypes: string,
     newest: boolean,

@@ -3,6 +3,7 @@ import { QueryKeys } from "../assets/enum/query";
 
 export const invalidateQuery = (queryClient: QueryClient) => {
     queryClient?.invalidateQueries({ queryKey: [QueryKeys.USER] })
+    queryClient?.invalidateQueries({ queryKey: [QueryKeys.DOCTOR] })
 
     queryClient.invalidateQueries({
         predicate: (query) => query.queryKey[0] === QueryKeys.HEALTH_RECORD,
@@ -17,7 +18,14 @@ export const invalidateQuery = (queryClient: QueryClient) => {
     queryClient.removeQueries({
         predicate: (query) => query.queryKey[0] === QueryKeys.HEALTH_CARE_PLAN,
     })
-
+    
+    queryClient.invalidateQueries({
+        predicate: (query) => query.queryKey[0] === QueryKeys.CARE_PLAN_TEMPLATE,
+    })
+    queryClient.removeQueries({
+        predicate: (query) => query.queryKey[0] === QueryKeys.CARE_PLAN_TEMPLATE,
+    })
+    
     queryClient.invalidateQueries({
         predicate: (query) => query.queryKey[0] === QueryKeys.GROUP_CHATS,
     })

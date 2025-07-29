@@ -42,9 +42,11 @@ export default function HomeScreen() {
         retryDelay: attempt => Math.min(1000 * 2 ** attempt, 5000)
     })
 
-    const today = new Date();
-    const fromDate = new Date(today.getTime() - 24 * 60 * 60 * 1000).toISOString();
-    const toDate = new Date(today.getTime() + 24 * 60 * 60 * 1000).toISOString();
+    // const today = new Date()
+    // const fromDate = new Date(today.getTime() - 24 * 60 * 60 * 1000).toISOString()
+    // const toDate = new Date(today.getTime() + 24 * 60 * 60 * 1000).toISOString()
+    const fromDate = new Date('2025-07-28T00:00:00.000Z').toISOString()
+    const toDate = new Date('2025-07-30T00:00:00.000Z').toISOString()
 
     const {
         data: healthCarePlanData,
@@ -54,8 +56,8 @@ export default function HomeScreen() {
         remove: healthCarePlanRemove
     } = useQuery({
         ...useUserHealthCarePlan({
-            fromDate: '2025-07-29',
-            toDate: '2025-07-27'
+            fromDate: fromDate,
+            toDate: toDate
         }),
         retry: 2,
         retryDelay: attempt => Math.min(1000 * 2 ** attempt, 5000)

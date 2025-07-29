@@ -12,7 +12,8 @@ import CarePlanTemplateItem from '../../components/manage-care-plan-screen/care-
 import { useCallback, useState } from 'react'
 import HealthcarePlanSkeleton from '../../components/common/skeleton/healthcare-plan-skeleton'
 import ErrorDisplay from '../../components/common/error-display'
-import { router } from 'expo-router'
+import { router, Stack } from 'expo-router'
+import IconButton from '../../components/common/icon-button'
 
 export default function ManageCarePlanScreen() {
 
@@ -37,6 +38,17 @@ export default function ManageCarePlanScreen() {
 
     return (
         <>
+            <Stack.Screen
+                options={{
+                    headerRight: () =>
+                        <IconButton
+                            icon={<Plus className='text-foreground' size={18} />}
+                            buttonSize={3}
+                            possition={'other'}
+                            onPress={() => router.push('add-edit-care-plan-screen')}
+                        />
+                }}
+            />
             <View className='flex-1 relative p-3'>
                 <ScrollView refreshControl={<RefreshControl refreshing={refreshing} onRefresh={onRefresh} />}>
                     <View className='w-full flex-col gap-3'>
@@ -69,10 +81,7 @@ export default function ManageCarePlanScreen() {
                             <FlashList<CarePlanTemplate>
                                 data={templateItems}
                                 renderItem={({ item, index }) => (
-                                    <CarePlanTemplateItem
-                                        key={index}
-                                        item={item}
-                                    />
+                                    <CarePlanTemplateItem key={index} item={item} />
                                 )}
                                 estimatedItemSize={30}
                             />

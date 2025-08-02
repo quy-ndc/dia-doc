@@ -1,38 +1,6 @@
 import { useMutation } from "@tanstack/react-query"
-import { LoginPatientRequest } from "../type/auth-type"
-import { LoginPatient, LoginUser, RefreshToken, RegisterUser, ResendOtp, SaveFcmToken, VerifyPhone } from "../api/auth-service"
+import { ChangePassword, ForgotPassword, LoginUser, RefreshToken, RegisterUser, ResendOtp, ResetPassword, SaveFcmToken, VerifyPhone } from "../api/auth-service"
 import Toast from "react-native-toast-message"
-
-export const useLoginPatientMutation = () => {
-    return useMutation({
-        mutationFn: (data: LoginPatientRequest) => LoginPatient(data),
-        onSuccess: (data) => {
-            if (data.status !== 200) {
-                Toast.show({
-                    type: 'error',
-                    text1: 'Đăng nhập thất bại',
-                    text2: 'Vui lòng thử lại sau',
-                    visibilityTime: 2000,
-                })
-            } else {
-                Toast.show({
-                    type: 'success',
-                    text1: 'Đăng nhập thành công',
-                    visibilityTime: 2000,
-                })
-            }
-            return data
-        },
-        onError: (error) => {
-            Toast.show({
-                type: 'error',
-                text1: 'Đăng nhập thất bại',
-                visibilityTime: 2000
-            })
-            return error
-        }
-    })
-}
 
 export const useLoginUserMutation = () => {
     return useMutation({
@@ -196,6 +164,110 @@ export const useSaveFcmTokenMutation = () => {
             return data
         },
         onError: (error) => {
+            return error
+        }
+    })
+}
+
+export const useChangePasswordMutation = () => {
+    return useMutation({
+        mutationFn: (params: {
+            otp: string,
+            oldPassword: string,
+            newPassword: string
+        }) => ChangePassword(params),
+        onSuccess: (data) => {
+            if (data.status !== 200) {
+                Toast.show({
+                    type: 'error',
+                    text1: data?.data?.errors[0].message || 'Đổi mật khẩu thất bại',
+                    text2: 'Vui lòng thử lại sau',
+                    visibilityTime: 2000,
+                })
+            } else {
+                Toast.show({
+                    type: 'success',
+                    text1: 'Đổi mật khẩu thành công',
+                    visibilityTime: 2000,
+                })
+            }
+            return data
+        },
+        onError: (error) => {
+            Toast.show({
+                type: 'error',
+                text1: 'Đổi mật khẩu thất bại',
+                text2: 'Vui lòng thử lại sau',
+                visibilityTime: 2000
+            })
+            return error
+        }
+    })
+}
+
+export const useForgotPasswordMutation = () => {
+    return useMutation({
+        mutationFn: (phoneNumber: string) => ForgotPassword(phoneNumber),
+        onSuccess: (data) => {
+            if (data.status !== 200) {
+                Toast.show({
+                    type: 'error',
+                    text1: data?.data?.errors[0].message || 'Gửi OTP thất bại',
+                    text2: 'Vui lòng thử lại sau',
+                    visibilityTime: 2000,
+                })
+            } else {
+                Toast.show({
+                    type: 'success',
+                    text1: 'Gửi OTP thành công',
+                    visibilityTime: 2000,
+                })
+            }
+            return data
+        },
+        onError: (error) => {
+            Toast.show({
+                type: 'error',
+                text1: 'Gửi OTP thất bại',
+                text2: 'Vui lòng thử lại sau',
+                visibilityTime: 2000
+            })
+            return error
+        }
+    })
+}
+
+export const useResetPasswordMutation = () => {
+    return useMutation({
+        mutationFn: (params: {
+            phoneNumber: string,
+            otp: string,
+            password: string
+        }) => ResetPassword(params),
+        onSuccess: (data) => {
+            if (data.status !== 200) {
+                Toast.show({
+                    type: 'error',
+                    text1: data?.data?.errors[0].message || 'Đổi mật khẩu thất bại',
+                    text2: 'Vui lòng thử lại sau',
+                    visibilityTime: 2000,
+                })
+            } else {
+                Toast.show({
+                    type: 'success',
+                    text1: 'Đổi mật khẩu thành công',
+                    visibilityTime: 2000,
+                })
+            }
+            return data
+        },
+        onError: (error) => {
+            Toast.show({
+                type: 'error',
+                text1: 'Đổi mật khẩu thất bại',
+                text2: 'Vui lòng thử lại sau',
+                visibilityTime: 2000
+            })
             return error
         }
     })

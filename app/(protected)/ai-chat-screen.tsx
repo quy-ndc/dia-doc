@@ -7,12 +7,14 @@ import { truncateText } from '../../util/truncate-text';
 
 export default function AiChatScreen() {
 
-    const { title } = useLocalSearchParams();
+    const { id, title } = useLocalSearchParams();
+
+    const session_id = id ? id as string : undefined
 
     return (
         <>
             <Stack.Screen options={{ headerTitle: truncateText(title as string, 20) || '' }} />
-            <AiChatModule />
+            <AiChatModule session_id={session_id} />
         </>
     )
 }

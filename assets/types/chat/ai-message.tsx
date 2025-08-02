@@ -1,13 +1,9 @@
-import { AIChatRole } from "../../enum/ai-chat-role"
-
 export type AIMessage = {
-    role: AIChatRole
+    id: string
+    session_id: string
+    user_id: string
     content: string
-    metadata: {
-        timestamp: string
-        contextCount?: number
-        templateUsed?: boolean
-        processingTime?: number
-    }
-    createdAt: string
+    role: string
+    created_at: string
+    updated_at: string
 }

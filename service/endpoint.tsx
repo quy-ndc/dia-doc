@@ -31,16 +31,16 @@ export const authApiConfig = () => {
 const apiPrefixV1 = 'api/v1'
 
 const endpointAuth = {
-    LOGIN_PATIENT: `${AUTH_SERVICE_ENDPOINT}/${apiPrefixV1}/auth/login-by-zalo`,
-    LOGIN_DOCTOR: `${AUTH_SERVICE_ENDPOINT}/${apiPrefixV1}/auth`,
-
     LOGIN_PHONE: `${API_GATEWAY_ENDPOINT}/${apiPrefixV1}/auth/patient/login-phone`,
     REGISTER_PHONE: `${API_GATEWAY_ENDPOINT}/${apiPrefixV1}/auth/patient/register-phone`,
     VERIFY_PHONE: `${API_GATEWAY_ENDPOINT}/${apiPrefixV1}/auth/patient/verify-otp-register`,
     RESEND_PHONE: `${API_GATEWAY_ENDPOINT}/${apiPrefixV1}/auth/patient/resend-otp-register`,
     REFRESH_TOKEN: `${API_GATEWAY_ENDPOINT}/${apiPrefixV1}/auth/refresh-token`,
     LOGOUT_USER: `${API_GATEWAY_ENDPOINT}/${apiPrefixV1}/auth/logout`,
-    SAVE_FCM_TOKEN: `${API_GATEWAY_ENDPOINT}/${apiPrefixV1}/auth/fcm-token`
+    SAVE_FCM_TOKEN: `${API_GATEWAY_ENDPOINT}/${apiPrefixV1}/auth/fcm-token`,
+    CHANGE_PASSWORD: `${API_GATEWAY_ENDPOINT}/${apiPrefixV1}/auth/change-password`,
+    FORGOT_PASSWORD: `${API_GATEWAY_ENDPOINT}/${apiPrefixV1}/auth/forgot-password`,
+    RESET_PASSWORD: `${API_GATEWAY_ENDPOINT}/${apiPrefixV1}/auth/reset-password`
 }
 
 const endpointAI = {
@@ -48,16 +48,12 @@ const endpointAI = {
     GET_ALL_MESSAGE: `${NEW_AUTH_SERVICE_ENDPOINT}/${apiPrefixV1}/auth/chat`,
 
     SEND_MESSAGE_TO_AI: `${AI_SERVICE_ENDPOINT}/${apiPrefixV1}/rag/chat`,
-    GET_ALL_MESSAGE_WITH_AI: `${AI_SERVICE_ENDPOINT}/${apiPrefixV1}/rag/chat/sessions`,
+    GET_ALL_MESSAGE_WITH_AI: `${AI_SERVICE_ENDPOINT}/${apiPrefixV1}/rag/chat`,
+    GET_ALL_AI_SESSION: `${AI_SERVICE_ENDPOINT}/${apiPrefixV1}/rag/session-chat`,
+    DELETE_AI_SESSION: `${AI_SERVICE_ENDPOINT}/${apiPrefixV1}/rag/session-chat`
 }
 
 const endpointUser = {
-    CREATE_HOSPITAL: `${USER_SERVICE_ENDPOINT}/${apiPrefixV1}/hospitals/create-hospital`,
-    CREATE_USER: `${USER_SERVICE_ENDPOINT}/${apiPrefixV1}/users/create-user`,
-    UPDATE_USER: `${USER_SERVICE_ENDPOINT}/${apiPrefixV1}/users/patients`,
-    GET_CURRENT_USER: `${USER_SERVICE_ENDPOINT}/${apiPrefixV1}/patients/me`,
-    EDIT_USER: `${USER_SERVICE_ENDPOINT}/${apiPrefixV1}/patients`,
-
     CREATE_USER_PROFILE: `${API_GATEWAY_ENDPOINT}/${apiPrefixV1}/users/patients`,
     GET_USER_PROFILE: `${API_GATEWAY_ENDPOINT}/${apiPrefixV1}/users/patients/profile`,
     GET_DOCTOR_PROFILE: `${AI_SERVICE_ENDPOINT}/${apiPrefixV1}/doctors/profile`,
@@ -94,7 +90,8 @@ const endpointChat = {
     GET_ALL_GROUP_CHAT: `${CHAT_SERVICE_ENDPOINT}/${apiPrefixV1}/conversations`,
     GET_ALL_MESSAGES: `${CHAT_SERVICE_ENDPOINT}/${apiPrefixV1}/conversations`,
     SEND_MESSAGE: `${CHAT_SERVICE_ENDPOINT}/${apiPrefixV1}/conversations`,
-    UPLOAD_IMAGE: `${CHAT_SERVICE_ENDPOINT}/${apiPrefixV1}/media/upload`
+    UPLOAD_IMAGE: `${CHAT_SERVICE_ENDPOINT}/${apiPrefixV1}/media/upload`,
+
 }
 
 const endpointNoti = {

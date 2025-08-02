@@ -1,9 +1,8 @@
 import * as React from 'react'
 import { Dimensions, Pressable, RefreshControl, ScrollView, View } from 'react-native'
-import { useAiChatMutation, useAiChatQuery } from '../../service/query/ai-query'
-import { useQuery } from '@tanstack/react-query'
+import { useAiChatMutation, useAiSessionQuery } from '../../service/query/ai-query'
 import { Input } from '../ui/input'
-import { useCallback, useEffect, useRef, useState } from 'react'
+import { useCallback, useRef, useState } from 'react'
 import SpinningIcon from '../common/icons/spinning-icon'
 import { SendHorizontal } from '../../lib/icons/SendHorizontal'
 import { Loader } from '../../lib/icons/Loader'
@@ -18,6 +17,7 @@ import ErrorDisplay from '../common/error-display'
 import { AiMessage } from './ai-message'
 import { ScrollableSuggestion } from './ai-suggestion'
 import { useAiMessageStore } from '../../store/useAiMessage'
+import { useQueryClient } from '@tanstack/react-query'
 
 const { height } = Dimensions.get('window')
 
@@ -27,35 +27,18 @@ type ChatItem =
     | { type: 'error' }
     | { type: 'success'; content: string }
 
-type Prop = {
-    session_id: string
-}
 
-export default function AiChatModule({ session_id }: Prop) {
+export default function EmptyAiChatModule() {
 
     const flashListRef = useRef<FlashList<ChatItem>>(null)
     const { user } = useUserStore()
+    const [currentSessionId, setCurrentSessionId] = useState<string | null>(null)
+    const [aiMessages, setAiMessages] = useState<ChatItem[]>([])
     const [refreshing, setRefreshing] = useState(false)
     const [newMessage, setNewMessage] = useState('')
-
-    const { addMessage, setMessages, getMessages } = useAiMessageStore()
-
-    const storeMessages = getMessages(session_id!)
-    const aiMessages: ChatItem[] = storeMessages.map(msg => ({
-        ...msg,
-        type: msg.role === AIChatRole.USER ? 'user' : 'ai'
-    } as ChatItem))
-
-    const {
-        data: aiChatData,
-        isLoading: isLoadingAiChatData,
-        isError: isErrorAiChatData,
-        refetch: refetchAiChatData,
-        remove: removeAiChatData
-    } = useQuery({
-        ...useAiChatQuery({ session_id: session_id! }),
-        enabled: !!session_id
-    })
+    
+    const { addSession, addMessages } = useAiMessageStore()
+    const queryClient = useQueryClient()
 
     const {
         mutateAsync: mutateAiMessage,
@@ -66,91 +49,118 @@ export default function AiChatModule({ session_id }: Prop) {
 
     const onRefresh = useCallback(() => {
         setRefreshing(true)
-        removeAiChatData()
-        refetchAiChatData().finally(() => setRefreshing(false))
-    }, [refetchAiChatData])
+        setAiMessages([])
+        setCurrentSessionId(null)
+        setRefreshing(false)
+    }, [])
 
     const handleSend = async () => {
         const messageContent = newMessage
-        setNewMessage('')
-
-        const userMessage: AIMessage = {
+        const userMessage: ChatItem = {
             id: `temp_user_${Date.now()}`,
-            session_id: session_id!,
+            session_id: currentSessionId || '',
             user_id: user.id || '',
             content: messageContent,
             role: AIChatRole.USER,
             created_at: new Date().toISOString(),
-            updated_at: new Date().toISOString()
+            updated_at: new Date().toISOString(),
+            type: 'user'
         }
 
-        addMessage(session_id!, userMessage)
+        setAiMessages(prev => [
+            ...prev,
+            userMessage,
+            { type: 'loading' }
+        ])
+        setNewMessage('')
 
         try {
             const response = await mutateAiMessage({
                 content: messageContent,
                 user_id: user.id,
-                session_id: session_id!
+                session_id: currentSessionId || ''
             })
 
             if (response?.data && response.status === 200) {
                 const responseData = response.data.value.data.data
-                const aiMessage: AIMessage = {
+                const sessionId = responseData.session_id
+                
+                const aiMessage: ChatItem = {
                     id: responseData.id || `ai_${Date.now()}`,
-                    session_id: session_id!,
+                    session_id: sessionId,
                     user_id: responseData.user_id || '',
                     content: responseData.content || '',
                     role: responseData.role || AIChatRole.ASSISTANT,
                     created_at: responseData.created_at || new Date().toISOString(),
-                    updated_at: responseData.updated_at || new Date().toISOString()
+                    updated_at: responseData.updated_at || new Date().toISOString(),
+                    type: 'ai'
                 }
 
-                addMessage(session_id!, aiMessage)
+                setAiMessages(prev => [
+                    ...prev.slice(0, -1),
+                    aiMessage
+                ])
+
+                if (!currentSessionId && sessionId) {
+                    setCurrentSessionId(sessionId)
+                    
+                    const newSession = {
+                        id: sessionId,
+                        user_id: user.id,
+                        title: 'Cuộc trò chuyện mới',
+                        created_at: new Date().toISOString(),
+                        updated_at: new Date().toISOString()
+                    }
+                    
+                    addSession(newSession)
+                    
+                    const userMessageForStore: AIMessage = {
+                        id: userMessage.id,
+                        session_id: sessionId,
+                        user_id: userMessage.user_id,
+                        content: userMessage.content,
+                        role: userMessage.role,
+                        created_at: userMessage.created_at,
+                        updated_at: userMessage.updated_at
+                    }
+                    
+                    const aiMessageForStore: AIMessage = {
+                        id: aiMessage.id,
+                        session_id: sessionId,
+                        user_id: aiMessage.user_id,
+                        content: aiMessage.content,
+                        role: aiMessage.role,
+                        created_at: aiMessage.created_at,
+                        updated_at: aiMessage.updated_at
+                    }
+                    
+                    addMessages(sessionId, [userMessageForStore, aiMessageForStore])
+                    
+                    queryClient.invalidateQueries({
+                        queryKey: useAiSessionQuery({ user_id: user.id }).queryKey
+                    })
+                }
+            } else {
+                setAiMessages(prev => [
+                    ...prev.slice(0, -1),
+                    { type: 'error' } as ChatItem
+                ])
             }
         } catch (error) {
-            console.error('Failed to send message:', error)
+            setAiMessages(prev => [
+                ...prev.slice(0, -1),
+                { type: 'error' } as ChatItem
+            ])
         }
     }
 
-    useEffect(() => {
-        if (aiChatData?.data && aiChatData.status === 200) {
-            const apiMessages: AIMessage[] = aiChatData.data.value.data.map((message: any) => ({
-                id: message.id,
-                session_id: message.session_id,
-                user_id: message.user_id,
-                content: message.content,
-                role: message.role,
-                created_at: message.created_at,
-                updated_at: message.updated_at
-            }))
 
-            setMessages(session_id!, apiMessages)
-        }
-    }, [aiChatData, session_id, setMessages])
 
     return (
         <View className='flex-1'>
             <View className='relative h-full w-full items-center justify-center'>
                 <View className='flex-1 flex-col w-full px-3'>
-                    {isLoadingAiChatData ? (
-                        <View className='flex-1 w-full items-center justify-center'>
-                            <SpinningIcon icon={<Loader className='text-foreground' size={20} />} />
-                        </View>
-                    ) : aiMessages.length == 0 ? (
-                        <ScrollView refreshControl={<RefreshControl refreshing={refreshing} onRefresh={onRefresh} />}>
-                            <View className='flex-1 items-center justify-center' style={{ height: height * 0.7 }}>
-                                <ErrorDisplay
-                                    onRefresh={onRefresh}
-                                    refreshing={refreshing}
-                                    text='Bắt đầu trò chuyện nào'
-                                />
-                            </View>
-                        </ScrollView>
-                    ) : isLoadingAiChatData ? (
-                        <View className='flex-1 w-full items-center justify-center'>
-                            <SpinningIcon icon={<Loader className='text-foreground' size={20} />} />
-                        </View>
-                    ) : aiMessages.length == 0 ? (
+                    {aiMessages.length == 0 ? (
                         <ScrollView refreshControl={<RefreshControl refreshing={refreshing} onRefresh={onRefresh} />}>
                             <View className='flex-1 items-center justify-center' style={{ height: height * 0.7 }}>
                                 <ErrorDisplay

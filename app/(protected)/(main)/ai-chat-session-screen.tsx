@@ -1,6 +1,6 @@
 import * as React from 'react'
 import AiChatItem from '../../../components/ai-chat-screen/ai-chat-item'
-import { Pressable, RefreshControl, ScrollView, View } from 'react-native'
+import { Pressable, RefreshControl, View } from 'react-native'
 import { GlobalColor } from '../../../global-color'
 import { Plus } from '../../../lib/icons/Plus'
 import { useAiSessionQuery } from '../../../service/query/ai-query'
@@ -9,13 +9,17 @@ import useUserStore from '../../../store/userStore'
 import { AiSession } from '../../../assets/types/chat/ai-session'
 import { FlashList } from '@shopify/flash-list'
 import { router } from 'expo-router'
-import { useCallback, useState } from 'react'
+import { useCallback, useState, useEffect } from 'react'
+import { useAiMessageStore } from '../../../store/useAiMessage'
+import AiSessionSkeleton from '../../../components/common/skeleton/ai-session-skeleton'
+import ErrorDisplay from '../../../components/common/error-display'
 
 
 export default function AiChatSessionScreen() {
 
     const { user } = useUserStore()
     const [refreshing, setRefreshing] = useState(false)
+    const { setSessions, sessionsList } = useAiMessageStore()
 
     const { data, isLoading, isError, refetch, remove } = useQuery({
         ...useAiSessionQuery({
@@ -31,22 +35,38 @@ export default function AiChatSessionScreen() {
         refetch().finally(() => setRefreshing(false))
     }, [refetch])
 
-    const sessions: AiSession[] = data?.data?.value?.data || []
+    const apiSessions: AiSession[] = data?.data?.value?.data || []
+
+    useEffect(() => {
+        if (apiSessions.length > 0) {
+            setSessions(apiSessions)
+        }
+    }, [apiSessions, setSessions])
 
     return (
         <View className='flex-1 relative'>
-            <FlashList<AiSession>
-                refreshControl={<RefreshControl refreshing={refreshing} onRefresh={onRefresh} />}
-                data={sessions}
-                renderItem={({ item }) =>
-                    <AiChatItem item={item} />
-                }
-                keyExtractor={item => item.id}
-                estimatedItemSize={100}
-            />
+            {isLoading ? (
+                <AiSessionSkeleton />
+            ) : sessionsList.length == 0 || isError ? (
+                <ErrorDisplay
+                    text={'Không có lịch sử chat để hiển thị'}
+                    onRefresh={onRefresh}
+                    refreshing={refreshing}
+                />
+            ) : (
+                <FlashList<AiSession>
+                    refreshControl={<RefreshControl refreshing={refreshing} onRefresh={onRefresh} />}
+                    data={sessionsList}
+                    renderItem={({ item }) =>
+                        <AiChatItem item={item} />
+                    }
+                    keyExtractor={item => item.id}
+                    estimatedItemSize={100}
+                />
+            )}
             <Pressable
                 style={{ backgroundColor: GlobalColor.BLUE_NEON_BORDER }}
-                className='flex absolute bottom-7 right-7 p-4 items-center justify-center rounded-full active:opacity-80'
+                className='flex absolute bottom-5 right-5 p-4 items-center justify-center rounded-full active:opacity-80'
                 onPress={() => router.push({
                     pathname: 'ai-chat-screen',
                     params: {

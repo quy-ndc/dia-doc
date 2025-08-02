@@ -1,6 +1,5 @@
 import { Stack } from 'expo-router'
 import useUserStore from '../../store/userStore'
-import { Redirect } from 'expo-router'
 import { useChannel } from 'ably/react'
 import { GLOBAL_CHAT_EVENT_CHANNEL, GLOBAL_CHAT_EVENT_NAME } from '@env'
 import { GlobalMessageEvent, Message } from '../../assets/types/chat/message'
@@ -24,13 +23,13 @@ export default function ProtectedLayout() {
     const { addMessage, setLatestMessage } = useMessageStore()
     const { mutateAsync, data } = useSaveFcmTokenMutation()
 
-    if (!user.isAuthenticated) {
-        return <Redirect href="/landing-screen" />
-    }
+    // if (!user.isAuthenticated) {
+    //     return <Redirect href="/landing-screen" />
+    // }
 
-    if (user.isAuthenticated && !user.isSetUp) {
-        return <Redirect href="/set-up-screen" />
-    }
+    // if (user.isAuthenticated && !user.isSetUp) {
+    //     return <Redirect href="/set-up-screen" />
+    // }
 
     const saveTokenDevice = async (token: string) => {
         if (!tokenDevice) {

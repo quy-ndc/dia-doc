@@ -10,7 +10,6 @@ import HomeHeaderBg from '../../../components/home/header/header-bg'
 import HomeHeaderText from '../../../components/home/header/header-text'
 import { Bot } from '../../../lib/icons/Bot'
 
-
 const { height } = Dimensions.get('window')
 
 export default function MainLayout() {

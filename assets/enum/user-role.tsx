@@ -1,7 +1,7 @@
 export enum UserRole {
     UNKNOWN = 'UNKNOWN',
-    PATIENT = 'PATIENT',
-    DOCTOR = 'DOCTOR',
+    PATIENT = 'Patient',
+    DOCTOR = 'Doctor',
 }
 
 export enum UserRoleNumber {

@@ -301,3 +301,32 @@ export const ResetPassword = async (params: {
         }
     }
 }
+
+
+export const ResendOtpChangePassword = async () => {
+    try {
+        const response = await axiosServices.post(`${endpointAuth.RESEND_OTP_CHANGE_PASSWORD}`)
+
+        return {
+            success: true,
+            status: response.status,
+            data: response.data
+        }
+    } catch (e) {
+        if (axios.isAxiosError(e) && e.response) {
+            return {
+                success: false,
+                status: e.response.status,
+                message: e.response.data.message || 'An error occurred',
+                data: e.response.data
+            }
+        }
+
+        return {
+            success: false,
+            status: 500,
+            message: 'An error occurred',
+            data: null
+        }
+    }
+}

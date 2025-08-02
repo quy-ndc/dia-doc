@@ -12,9 +12,12 @@ import { useUserHealthCarePlan, useUserHealthRecordProfile } from '../../../serv
 import { HealthTrackItem } from '../../../assets/types/user/health-track'
 import HealthcarePlan from '../../../components/home/healthcare-plan/healthcare-plan'
 import { HealthCarePlan } from '../../../assets/types/user/healthcare-plan'
+import useUserStore from '../../../store/userStore'
+import { UserRole } from '../../../assets/enum/user-role'
 
 export default function HomeScreen() {
 
+    const { user } = useUserStore()
     const [refreshing, setRefreshing] = useState(false)
 
     const { data, isLoading, isError, refetch, remove } = useQuery({
@@ -39,7 +42,8 @@ export default function HomeScreen() {
             onePerType: true,
         }),
         retry: 2,
-        retryDelay: attempt => Math.min(1000 * 2 ** attempt, 5000)
+        retryDelay: attempt => Math.min(1000 * 2 ** attempt, 5000),
+        enabled: user.role === UserRole.PATIENT
     })
 
     // const today = new Date()
@@ -60,16 +64,24 @@ export default function HomeScreen() {
             toDate: toDate
         }),
         retry: 2,
-        retryDelay: attempt => Math.min(1000 * 2 ** attempt, 5000)
+        retryDelay: attempt => Math.min(1000 * 2 ** attempt, 5000),
+        enabled: user.role === UserRole.PATIENT
     })
 
     const onRefresh = useCallback(() => {
         setRefreshing(true)
         remove()
-        healthRecordRemove()
-        healthCarePlanRemove()
-        Promise.all([refetch(), healthRecordRefetch(), healthCarePlanRefetch()]).finally(() => setRefreshing(false))
-    }, [refetch, healthRecordRefetch, healthCarePlanRefetch, remove, healthRecordRemove, healthCarePlanRemove])
+
+        const refreshPromises = [refetch()]
+
+        if (user.role === UserRole.PATIENT) {
+            healthRecordRemove()
+            healthCarePlanRemove()
+            refreshPromises.push(healthRecordRefetch(), healthCarePlanRefetch())
+        }
+
+        Promise.all(refreshPromises).finally(() => setRefreshing(false))
+    }, [refetch, healthRecordRefetch, healthCarePlanRefetch, remove, healthRecordRemove, healthCarePlanRemove, user.role])
 
     const items: BlogPost[] = data?.data?.data || []
     const healthRecordItems: HealthTrackItem[] = healthRecordData?.data?.data || []
@@ -86,22 +98,26 @@ export default function HomeScreen() {
                 <View className='flex-col items-center gap-5'>
                     <QuickAccess />
                     <DailyTip />
-                    <HealthTracker
-                        items={healthRecordItems}
-                        isLoading={healthRecordLoading}
-                        isError={healthRecordError}
-                        refetch={healthRecordRefetch}
-                        remove={healthRecordRemove}
-                        refreshing={refreshing}
-                    />
-                    <HealthcarePlan
-                        items={healthCarePlanItems}
-                        isLoading={healthCarePlanLoading}
-                        isError={healthCarePlanError}
-                        refetch={healthCarePlanRefetch}
-                        remove={healthCarePlanRemove}
-                        refreshing={refreshing}
-                    />
+                    {user.role === UserRole.PATIENT && (
+                        <>
+                            <HealthTracker
+                                items={healthRecordItems}
+                                isLoading={healthRecordLoading}
+                                isError={healthRecordError}
+                                refetch={healthRecordRefetch}
+                                remove={healthRecordRemove}
+                                refreshing={refreshing}
+                            />
+                            <HealthcarePlan
+                                items={healthCarePlanItems}
+                                isLoading={healthCarePlanLoading}
+                                isError={healthCarePlanError}
+                                refetch={healthCarePlanRefetch}
+                                remove={healthCarePlanRemove}
+                                refreshing={refreshing}
+                            />
+                        </>
+                    )}
                     <HomeBlogSection
                         isLoading={isLoading}
                         isError={isError}

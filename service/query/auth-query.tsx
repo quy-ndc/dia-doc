@@ -1,5 +1,5 @@
 import { useMutation } from "@tanstack/react-query"
-import { ChangePassword, ForgotPassword, LoginUser, RefreshToken, RegisterUser, ResendOtp, ResetPassword, SaveFcmToken, VerifyPhone } from "../api/auth-service"
+import { ChangePassword, ForgotPassword, LoginUser, RefreshToken, RegisterUser, ResendOtp, ResendOtpChangePassword, ResetPassword, SaveFcmToken, VerifyPhone } from "../api/auth-service"
 import Toast from "react-native-toast-message"
 
 export const useLoginUserMutation = () => {
@@ -265,6 +265,38 @@ export const useResetPasswordMutation = () => {
             Toast.show({
                 type: 'error',
                 text1: 'Đổi mật khẩu thất bại',
+                text2: 'Vui lòng thử lại sau',
+                visibilityTime: 2000
+            })
+            return error
+        }
+    })
+}
+
+export const useResendOtpChangePasswordMutation = () => {
+    return useMutation({
+        mutationFn: () => ResendOtpChangePassword(),
+        onSuccess: (data) => {
+            if (data.status !== 200) {
+                Toast.show({
+                    type: 'error',
+                    text1: data?.data?.errors[0].message || 'Gửi lại OTP thất bại',
+                    text2: 'Vui lòng thử lại sau',
+                    visibilityTime: 2000,
+                })
+            } else {
+                Toast.show({
+                    type: 'success',
+                    text1: 'Gửi lại OTP thành công',
+                    visibilityTime: 2000,
+                })
+            }
+            return data
+        },
+        onError: (error) => {
+            Toast.show({
+                type: 'error',
+                text1: 'Gửi lại OTP thất bại',
                 text2: 'Vui lòng thử lại sau',
                 visibilityTime: 2000
             })

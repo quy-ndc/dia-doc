@@ -4,66 +4,76 @@ import { Text } from '../../components/ui/text'
 import { Image } from 'expo-image'
 import * as yup from 'yup'
 import { useEffect, useState } from 'react'
-import { useRegisterUserMutation } from '../../service/query/auth-query'
+import { useChangePasswordMutation, useResendOtpChangePasswordMutation } from '../../service/query/auth-query'
 import { Controller, useForm } from 'react-hook-form'
 import { yupResolver } from '@hookform/resolvers/yup'
-import { Link, router } from 'expo-router'
+import { router } from 'expo-router'
 import { Input } from '../../components/ui/input'
 import { Eye } from '../../lib/icons/Eye'
 import { EyeOff } from '../../lib/icons/EyeOff'
-import { Checkbox } from '../../components/ui/checkbox'
 import SpinningIcon from '../../components/common/icons/spinning-icon'
 import { Loader } from '../../lib/icons/Loader'
-import { LogIn } from '../../lib/icons/Login'
 import { ArrowLeft } from '../../lib/icons/ArrowLeft'
+import { Check } from '../../lib/icons/Check'
+import useUserStore from '../../store/userStore'
 
-export default function RegisterScreen() {
+export default function ChangePasswordScreen() {
 
-    const [termAgreed, setTermAgreed] = useState(false)
-    const [phoneNumber, setPhoneNumber] = useState('')
-    const { mutateAsync, isLoading, isError, data } = useRegisterUserMutation()
-    const [show, setShow] = useState(false)
-    const [showConfirm, setShowConfirm] = useState(false)
+    const { user, setUser } = useUserStore()
+    const { mutateAsync, isLoading, isError, data } = useChangePasswordMutation()
+    const { mutateAsync: resendOtp, isLoading: isLoadingResendOtp } = useResendOtpChangePasswordMutation()
+    const [showOldPassword, setShowOldPassword] = useState(false)
+    const [showNewPassword, setShowNewPassword] = useState(false)
+    const [showConfirmPassword, setShowConfirmPassword] = useState(false)
 
     const schema = yup.object({
-        phone: yup
+        otp: yup
             .string()
             .required('Không được trống')
-            .matches(/^0\d{9}$/, 'Phải bắt đầu bằng 0 và gồm 10 chữ số'),
-        password: yup
+            .matches(/^\d{6}$/, 'Mã OTP phải gồm 6 chữ số'),
+        oldPassword: yup
+            .string()
+            .required('Không được trống')
+            .min(6, 'Mật khẩu phải có ít nhất 6 ký tự'),
+        newPassword: yup
             .string()
             .required('Không được trống')
             .min(6, 'Mật khẩu phải có ít nhất 6 ký tự'),
         confirmPassword: yup
             .string()
             .required('Không được trống')
-            .oneOf([yup.ref('password')], 'Mật khẩu không khớp')
+            .oneOf([yup.ref('newPassword')], 'Mật khẩu không khớp')
     }).required()
 
     const { control, handleSubmit, formState: { errors } } = useForm({
         resolver: yupResolver(schema),
         defaultValues: {
-            phone: '',
-            password: '',
+            otp: '',
+            oldPassword: '',
+            newPassword: '',
             confirmPassword: ''
         }
     })
 
     const onLogin = async (data: any) => {
-        setPhoneNumber(data.phone)
         await mutateAsync({
-            phoneNumber: data.phone,
-            password: data.password
+            otp: data.otp,
+            oldPassword: data.oldPassword,
+            newPassword: data.newPassword
         })
+    }
+
+    const onResend = async () => {
+        await resendOtp()
     }
 
     useEffect(() => {
         if (!data?.data || isError || data.status !== 200) return
-
-        router.push({
-            pathname: '/otp-screen',
-            params: { phone: phoneNumber }
+        setUser({
+            ...user,
+            isSetUp: true
         })
+        router.replace('/')
     }, [data, isLoading])
 
 
@@ -76,60 +86,92 @@ export default function RegisterScreen() {
                         source={require('../../assets/images/logo.png')}
                         contentFit="contain"
                     />
-                    <Text className="text-3xl font-bold text-[#248fca] tracking-wider uppercase">Đăng ký</Text>
+                    <Text className="text-3xl font-bold text-[#248fca] tracking-wider uppercase">Đổi mật khẩu</Text>
                 </View>
-                <Text className='text-base font-semibold tracking-wider'>Nhập thông tin để tiếp tục</Text>
+                <Text className='text-base font-semibold tracking-wider'>Bác sĩ lần đầu đăng nhập phải đổi mật khẩu</Text>
             </View>
             <View className='flex-col w-full gap-6 justify-center items-center px-5'>
                 <View className='flex-col gap-2 w-full'>
-                    <Text className='text-base font-bold tracking-widest capitalize'>Số điện thoại</Text>
+                    <Text className='text-base font-bold tracking-widest'>Mã OTP</Text>
                     <Controller
                         control={control}
-                        name="phone"
+                        name="otp"
                         render={({ field: { onChange, onBlur, value } }) => (
                             <>
                                 <Input
                                     style={{ letterSpacing: 2, borderRadius: 100 }}
-                                    placeholder={'0123456789'}
+                                    placeholder={'123456'}
                                     value={value}
-                                    maxLength={10}
+                                    maxLength={6}
                                     onChangeText={onChange}
                                     onBlur={onBlur}
                                     keyboardType='numeric'
                                 />
-                                {errors.phone && <Text className='text-red-500'>{errors.phone.message}</Text>}
+                                {errors.otp && <Text className='text-red-500'>{errors.otp.message}</Text>}
                             </>
                         )}
                     />
                 </View>
                 <View className='flex-col gap-2 w-full'>
-                    <Text className='text-base font-bold tracking-widest capitalize'>Mật khẩu</Text>
+                    <Text className='text-base font-bold tracking-widest capitalize'>Mật khẩu cũ</Text>
                     <Controller
                         control={control}
-                        name="password"
+                        name="oldPassword"
                         render={({ field: { onChange, onBlur, value } }) => (
                             <>
                                 <View className='relative'>
                                     <Input
                                         style={{ letterSpacing: 3, borderRadius: 100 }}
-                                        placeholder={show ? '123456789' : '********'}
+                                        placeholder={showOldPassword ? '123456789' : '********'}
                                         value={value}
                                         onChangeText={onChange}
                                         onBlur={onBlur}
-                                        secureTextEntry={!show}
+                                        secureTextEntry={!showOldPassword}
                                     />
                                     <Pressable
                                         className='absolute right-1 -translate-y-1/2 top-[50%] p-2 rounded-full active:bg-[var(--click-bg)]'
-                                        onPress={() => setShow(!show)}
+                                        onPress={() => setShowOldPassword(!showOldPassword)}
                                     >
-                                        {show ? (
+                                        {showOldPassword ? (
                                             <Eye className='text-foreground' size={18} />
                                         ) : (
                                             <EyeOff className='text-foreground' size={18} />
                                         )}
                                     </Pressable>
                                 </View>
-                                {errors.password && <Text className='text-red-500'>{errors.password.message}</Text>}
+                                {errors.oldPassword && <Text className='text-red-500'>{errors.oldPassword.message}</Text>}
+                            </>
+                        )}
+                    />
+                </View>
+                <View className='flex-col gap-2 w-full'>
+                    <Text className='text-base font-bold tracking-widest capitalize'>Mật khẩu mới</Text>
+                    <Controller
+                        control={control}
+                        name="newPassword"
+                        render={({ field: { onChange, onBlur, value } }) => (
+                            <>
+                                <View className='relative'>
+                                    <Input
+                                        style={{ letterSpacing: 3, borderRadius: 100 }}
+                                        placeholder={showNewPassword ? '123456789' : '********'}
+                                        value={value}
+                                        onChangeText={onChange}
+                                        onBlur={onBlur}
+                                        secureTextEntry={!showNewPassword}
+                                    />
+                                    <Pressable
+                                        className='absolute right-1 -translate-y-1/2 top-[50%] p-2 rounded-full active:bg-[var(--click-bg)]'
+                                        onPress={() => setShowNewPassword(!showNewPassword)}
+                                    >
+                                        {showNewPassword ? (
+                                            <Eye className='text-foreground' size={18} />
+                                        ) : (
+                                            <EyeOff className='text-foreground' size={18} />
+                                        )}
+                                    </Pressable>
+                                </View>
+                                {errors.newPassword && <Text className='text-red-500'>{errors.newPassword.message}</Text>}
                             </>
                         )}
                     />
@@ -144,17 +186,17 @@ export default function RegisterScreen() {
                                 <View className='relative'>
                                     <Input
                                         style={{ letterSpacing: 3, borderRadius: 100 }}
-                                        placeholder={showConfirm ? '123456789' : '********'}
+                                        placeholder={showConfirmPassword ? '123456789' : '********'}
                                         value={value}
                                         onChangeText={onChange}
                                         onBlur={onBlur}
-                                        secureTextEntry={!showConfirm}
+                                        secureTextEntry={!showConfirmPassword}
                                     />
                                     <Pressable
                                         className='absolute right-1 -translate-y-1/2 top-[50%] p-2 rounded-full active:bg-[var(--click-bg)]'
-                                        onPress={() => setShowConfirm(!showConfirm)}
+                                        onPress={() => setShowConfirmPassword(!showConfirmPassword)}
                                     >
-                                        {showConfirm ? (
+                                        {showConfirmPassword ? (
                                             <Eye className='text-foreground' size={18} />
                                         ) : (
                                             <EyeOff className='text-foreground' size={18} />
@@ -166,55 +208,45 @@ export default function RegisterScreen() {
                         )}
                     />
                 </View>
-                <View className='flex-row w-full gap-2 justify-between items-center'>
-                    <View className='flex-row gap-2 items-center'>
-                        <Checkbox checked={termAgreed} onCheckedChange={setTermAgreed} />
-                        <Text
-                            className='text-base tracking-wider'
-                            onPress={() => setTermAgreed(!termAgreed)}
-                        >
-                            Tôi đồng ý với các điều khoản của ứng dụng
-                        </Text>
-                    </View>
+
+                <View className='flex-row items-center w-full justify-between px-2'>
                     <View />
+                    <Pressable
+                        onPress={onResend}
+                        disabled={isLoadingResendOtp}
+                    >
+                        <Text className='text-base font-semibold tracking-wider capitalize underline'>Gửi lại OTP</Text>
+                    </Pressable>
                 </View>
+
                 <View className='flex-col gap-3 w-full items-center'>
                     <Pressable
-                        style={{ opacity: isLoading || !termAgreed ? 0.5 : 1 }}
+                        style={{ opacity: isLoading || isLoadingResendOtp ? 0.5 : 1 }}
                         className="flex-row w-full gap-2 px-5 py-3 justify-center items-center bg-[var(--oppo-theme-col)] border border-[var(--same-theme-col)] rounded-full active:bg-[var(--oppo-click-bg)]"
-                        disabled={isLoading || !termAgreed}
+                        disabled={isLoading || isLoadingResendOtp}
                         onPress={handleSubmit(onLogin)}
                     >
-                        <Text className="text-base text-[var(--same-theme-col)] font-semibold tracking-wider capitalize">Đăng ký</Text>
-                        {isLoading ? (
+                        <Text className="text-base text-[var(--same-theme-col)] font-semibold tracking-wider capitalize">Đồng ý</Text>
+                        {isLoading || isLoadingResendOtp ? (
                             <SpinningIcon icon={<Loader className='text-[var(--same-theme-col)]' size={18} />} />
                         ) : (
-                            <LogIn className="text-[var(--same-theme-col)]" size={18} />
+                            <Check className="text-[var(--same-theme-col)]" size={18} />
                         )}
                     </Pressable>
 
                     <Pressable
-                        style={{ opacity: isLoading ? 0.5 : 1 }}
+                        style={{ opacity: isLoading || isLoadingResendOtp ? 0.5 : 1 }}
                         className="flex-row w-full gap-2 px-5 py-3 justify-center items-center border border-[var(--oppo-theme-col)] rounded-full active:bg-[var(--click-bg)]"
-                        disabled={isLoading}
+                        disabled={isLoading || isLoadingResendOtp}
                         onPress={() => router.push('/landing-screen')}
                     >
-                        {isLoading ? (
+                        {isLoading || isLoadingResendOtp ? (
                             <SpinningIcon icon={<Loader className='text-[var(--oppo-theme-col)]' size={18} />} />
                         ) : (
                             <ArrowLeft className="text-[var(--oppo-theme-col)]" size={18} />
                         )}
                         <Text className="text-base text-[var(--oppo-theme-col)] font-semibold tracking-wider capitalize">Quay lại</Text>
                     </Pressable>
-                </View>
-                <View className='flex-row gap-2 items-center'>
-                    <Text className='tracking-wider'>Đã có tài khoản?</Text>
-                    <Link
-                        className='text-blue-400 font-semibold underline'
-                        href={'/authen-screen'}
-                    >
-                        Đăng nhập
-                    </Link>
                 </View>
             </View >
         </View>

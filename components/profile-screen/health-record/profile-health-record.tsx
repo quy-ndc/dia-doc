@@ -55,7 +55,6 @@ export default function ProfileHealthRecord() {
                     </View>
                     <ChevronRight className='text-foreground' size={17} />
                 </Pressable>
-                <LogoutButton />
             </View>
         </View>
     )

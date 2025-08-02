@@ -1,11 +1,9 @@
-import { useMutation } from "@tanstack/react-query"
+import { useMutation, useQueryClient } from "@tanstack/react-query"
 import { QueryKeys } from "../../assets/enum/query"
 import { DeleteSession, GetAllAIMessage, GetAllSession, SendMessageToAI } from "../api/ai-service"
 
-
-
 export const useAiSessionQuery = (params: { user_id: string }) => {
-    const queryKey = [QueryKeys.AI_SESSION]
+    const queryKey = [QueryKeys.AI_SESSION, params.user_id]
     const queryFn = async () => {
         return GetAllSession(params)
     }
@@ -39,11 +37,13 @@ export const useAiChatMutation = () => {
 }
 
 export const useDeleteAiSessionMutation = () => {
+    const queryClient = useQueryClient()
     return useMutation({
         mutationFn: (params: {
             session_id: string
         }) => DeleteSession(params),
         onSuccess: (data) => {
+            queryClient.invalidateQueries({ queryKey: [QueryKeys.AI_SESSION] })
             return data
         },
         onError: (error) => {

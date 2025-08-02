@@ -16,8 +16,8 @@ import { LogIn } from '../../lib/icons/Login'
 import { Link, useRouter } from 'expo-router'
 import { ArrowLeft } from '../../lib/icons/ArrowLeft'
 import useUserStore from '../../store/userStore'
-import { UserRole } from '../../assets/enum/user-role'
 import { User } from '../../assets/types/zustand/user-z'
+import { UserRole } from '../../assets/enum/user-role'
 
 export default function LoginScreen() {
 
@@ -43,10 +43,8 @@ export default function LoginScreen() {
     })
 
     const onLogin = async (data: any) => {
-        const formattedPhone = data.phone.replace(/^0/, '+84')
-
         await mutateAsync({
-            phoneNumber: formattedPhone,
+            phoneNumber: data.phone,
             password: data.password
         })
     }
@@ -61,7 +59,7 @@ export default function LoginScreen() {
             refreshToken: result.authToken.refreshToken || '',
             expiresAt: result.authToken.expiresAt || '',
             id: result.authUser.id || '',
-            role: UserRole.PATIENT,
+            role: result.authUser.roles[0],
             fullname: result.authUser.fullName || '',
             avatar: result.authUser.avatarUrl || '',
         }
@@ -69,7 +67,11 @@ export default function LoginScreen() {
         if (result.authUser.isFirstUpdated) {
             router.replace('/')
         } else {
-            router.replace('/set-up-screen')
+            if (result.authUser.roles[0] === UserRole.PATIENT) {
+                router.replace('/set-up-screen')
+            } else {
+                router.replace('/change-password-screen')
+            }
         }
     }, [data, isLoading])
 
@@ -139,6 +141,15 @@ export default function LoginScreen() {
                             </>
                         )}
                     />
+                </View>
+                <View className='flex-row items-center w-full justify-between px-2'>
+                    <View />
+                    <Link
+                        className='font-semibold underline'
+                        href={'/forgot-password-screen'}
+                    >
+                        Quên mật khẩu
+                    </Link>
                 </View>
                 <View className='flex-col gap-3 w-full items-center'>
                     <Pressable

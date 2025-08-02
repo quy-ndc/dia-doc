@@ -6,36 +6,21 @@ import { useCallback, useState } from 'react'
 import { Patient } from '../../../assets/types/user/patient'
 import ProfileModule from '../../../components/profile-screen/profile-module'
 import ProfileHealthRecord from '../../../components/profile-screen/health-record/profile-health-record'
+import useUserStore from '../../../store/userStore'
+import { UserRole } from '../../../assets/enum/user-role'
+import PatientProfileModule from '../../../components/profile-screen/patient-profile-module'
+import LogoutButton from '../../../components/profile-screen/logout-button'
 
 export default function ProfileScreen() {
 
-    const [refreshing, setRefreshing] = useState(false)
+    const { user } = useUserStore()
 
-    const { data, isLoading, remove, refetch, isError } = useQuery({
-        ...useUserProfile(),
-        retry: 2,
-        retryDelay: attempt => Math.min(1000 * 2 ** attempt, 5000)
-    })
 
-    const onRefresh = useCallback(() => {
-        setRefreshing(true)
-        remove()
-        refetch().finally(() => setRefreshing(false))
-    }, [refetch, remove])
-
-    const profile: Patient | undefined = data?.data?.data ?? undefined
-
-    return (
-        <ScrollView refreshControl={<RefreshControl refreshing={refreshing} onRefresh={onRefresh} />}>
-            <ProfileModule
-                profile={profile}
-                isLoading={isLoading}
-                isError={isError}
-                refetch={refetch}
-                refreshing={refreshing}
-                remove={remove}
-            />
-            <ProfileHealthRecord />
-        </ScrollView>
-    )
+    if (user.role === UserRole.PATIENT) {
+        return <PatientProfileModule />
+    } else {
+        null
+        // return <LogoutButton />
+        // return <DoctorProfileModule />
+    }
 }

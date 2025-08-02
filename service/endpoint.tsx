@@ -40,7 +40,8 @@ const endpointAuth = {
     SAVE_FCM_TOKEN: `${API_GATEWAY_ENDPOINT}/${apiPrefixV1}/auth/fcm-token`,
     CHANGE_PASSWORD: `${API_GATEWAY_ENDPOINT}/${apiPrefixV1}/auth/change-password`,
     FORGOT_PASSWORD: `${API_GATEWAY_ENDPOINT}/${apiPrefixV1}/auth/forgot-password`,
-    RESET_PASSWORD: `${API_GATEWAY_ENDPOINT}/${apiPrefixV1}/auth/reset-password`
+    RESET_PASSWORD: `${API_GATEWAY_ENDPOINT}/${apiPrefixV1}/auth/reset-password`,
+    RESEND_OTP_CHANGE_PASSWORD: `${API_GATEWAY_ENDPOINT}/${apiPrefixV1}/auth/send-otp-change-password`
 }
 
 const endpointAI = {
@@ -91,7 +92,6 @@ const endpointChat = {
     GET_ALL_MESSAGES: `${CHAT_SERVICE_ENDPOINT}/${apiPrefixV1}/conversations`,
     SEND_MESSAGE: `${CHAT_SERVICE_ENDPOINT}/${apiPrefixV1}/conversations`,
     UPLOAD_IMAGE: `${CHAT_SERVICE_ENDPOINT}/${apiPrefixV1}/media/upload`,
-
 }
 
 const endpointNoti = {

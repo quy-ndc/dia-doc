@@ -6,6 +6,7 @@ import { GlobalColor } from '../../global-color'
 import { useQueryClient } from '@tanstack/react-query'
 import { invalidateQuery } from '../../util/invalidate-queries'
 import { Text } from '../../components/ui/text'
+import { LogOut } from '../../lib/icons/LogOut'
 
 const { width } = Dimensions.get('window')
 
@@ -27,6 +28,7 @@ export default function LogoutButton() {
             className={`flex-row items-center justify-center px-4 py-3 gap-2 rounded-xl active:bg-[#ef44441A] w-full`}
             onPress={onLogout}
         >
+            <LogOut color={GlobalColor.RED_NEON_BORDER} size={17} />
             <Text
                 style={{ color: GlobalColor.RED_NEON_BORDER }}
                 className='text-base font-semibold tracking-wider capitalize'

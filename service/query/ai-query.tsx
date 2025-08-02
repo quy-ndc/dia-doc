@@ -14,7 +14,7 @@ export const useAiSessionQuery = (params: { user_id: string }) => {
 }
 
 export const useAiChatQuery = (params: { session_id: string }) => {
-    const queryKey = [QueryKeys.AI_CHAT]
+    const queryKey = [QueryKeys.AI_CHAT, params.session_id]
     const queryFn = async () => {
         return GetAllAIMessage(params)
     }

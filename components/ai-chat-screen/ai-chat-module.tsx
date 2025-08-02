@@ -17,6 +17,8 @@ import { AiFailResponse } from './ai-fail-response'
 import { AiLoadingResponse } from './ai-loading-response'
 import ErrorDisplay from '../common/error-display'
 import { AiMessage } from './ai-message'
+import { endpointAI } from '../../service/endpoint'
+import { ScrollableSuggestion } from './ai-suggestion'
 
 const { height } = Dimensions.get('window')
 
@@ -47,7 +49,7 @@ export default function AiChatModule({ session_id }: Prop) {
         remove: removeAiChatData
     } = useQuery({
         ...useAiChatQuery({ session_id: currentSessionId ?? '' }),
-        enabled: !!currentSessionId
+        enabled: currentSessionId != null && currentSessionId != '' && currentSessionId !== undefined
     })
 
     const {
@@ -74,6 +76,7 @@ export default function AiChatModule({ session_id }: Prop) {
             updated_at: new Date().toISOString(),
             type: 'user'
         }
+
         setAiMessages(prev => [
             ...prev,
             userMessage,
@@ -86,12 +89,16 @@ export default function AiChatModule({ session_id }: Prop) {
             user_id: user.id || '',
             session_id: currentSessionId || ''
         })
-        
+
         // Set session_id from response if current is null
-        if (!currentSessionId && response?.data?.value?.data?.session_id) {
-            setCurrentSessionId(response.data.value.data.session_id)
+        if (!currentSessionId && response?.data?.value?.data?.data?.session_id) {
+            setCurrentSessionId(response.data.value.data.data.session_id)
         }
     }
+
+    useEffect(() => {
+        console.log('AI Messages:', aiMessages)
+    }, [aiMessages])
 
     useEffect(() => {
         if (aiChatData?.data && aiChatData.status === 200) {
@@ -202,6 +209,7 @@ export default function AiChatModule({ session_id }: Prop) {
                         />
                     )}
                 </View>
+                <ScrollableSuggestion setMessage={setNewMessage} />
                 <View className='flex-row gap-1 justify-center items-center p-2'>
                     <Input
                         className='flex-1 rounded-full bg-[var(--input-bg)]'

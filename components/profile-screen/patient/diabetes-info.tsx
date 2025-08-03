@@ -1,17 +1,17 @@
 import * as React from 'react';
 import { View } from 'react-native';
-import { Text } from '../ui/text';
-import SectionTitle from '../home/common/section-title';
-import { GlobalColor } from '../../global-color';
-import { getDiaTypeName } from '../../assets/enum/dia-type';
-import { Patient } from '../../assets/types/user/patient';
-import { DiagnosisRecency, getDiagnosisRecencyString } from '../../assets/enum/diagnosis-recency';
-import { Cross } from '../../lib/icons/Cross';
+import { Text } from '../../ui/text';
+import SectionTitle from '../../home/common/section-title';
+import { GlobalColor } from '../../../global-color';
+import { getDiaTypeName } from '../../../assets/enum/dia-type';
+import { Patient } from '../../../assets/types/user/patient';
+import { DiagnosisRecency, getDiagnosisRecencyString } from '../../../assets/enum/diagnosis-recency';
+import { Cross } from '../../../lib/icons/Cross';
 import { LinearGradient } from 'expo-linear-gradient';
-import { Heart } from '../../lib/icons/Heart';
-import { Stethoscope } from '../../lib/icons/Stethoscope';
-import { Calendar } from '../../lib/icons/Calendar';
-import Tag from '../common/tag';
+import { Heart } from '../../../lib/icons/Heart';
+import { Stethoscope } from '../../../lib/icons/Stethoscope';
+import { Calendar } from '../../../lib/icons/Calendar';
+import Tag from '../../common/tag';
 
 type Prop = {
     profile: Patient

@@ -9,6 +9,7 @@ export enum HealthCarePlanPeriod {
     MORNING = 7,
     AFTERNOON = 8,
     EVENING = 9,
+    NOON = 10
 }
 
 export enum HealthCarePlanSubType {

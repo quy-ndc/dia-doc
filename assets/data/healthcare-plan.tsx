@@ -12,6 +12,7 @@ export const getHealthCarePlanPeriodString = (period: HealthCarePlanPeriod): str
         [HealthCarePlanPeriod.MORNING]: 'Buổi sáng',
         [HealthCarePlanPeriod.AFTERNOON]: 'Buổi chiều',
         [HealthCarePlanPeriod.EVENING]: 'Buổi tối',
+        [HealthCarePlanPeriod.NOON]: 'Buổi trưa',
     }
     return period in periodStrings ? periodStrings[period] : undefined
 }
@@ -38,6 +39,7 @@ export const healthCarePlanPeriod = [
     { label: 'Buổi sáng', value: HealthCarePlanPeriod.MORNING.toString() },
     { label: 'Buổi chiều', value: HealthCarePlanPeriod.AFTERNOON.toString() },
     { label: 'Buổi tối', value: HealthCarePlanPeriod.EVENING.toString() },
+    { label: 'Buổi trưa', value: HealthCarePlanPeriod.NOON.toString() },
 ]
 
 export const healthCarePlanSubType = [

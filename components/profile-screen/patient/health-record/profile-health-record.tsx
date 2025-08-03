@@ -1,16 +1,15 @@
 import * as React from 'react'
 import { Dimensions, Pressable, View } from "react-native"
-import { GlobalColor } from "../../../global-color"
+import { GlobalColor } from "../../../../global-color"
 import { FlashList } from '@shopify/flash-list'
 import ProfileHealthRecordItem from './profile-health-record-item'
-import SectionTitle from '../../home/common/section-title'
-import { Cross } from '../../../lib/icons/Cross'
+import SectionTitle from '../../../home/common/section-title'
+import { Cross } from '../../../../lib/icons/Cross'
 import { router } from 'expo-router'
-import RoundedIcon from '../../common/icons/rouned-icon'
-import { Calendar } from '../../../lib/icons/Calendar'
-import { Text } from '../../../components/ui/text'
-import { ChevronRight } from '../../../lib/icons/ChevronRight'
-import LogoutButton from '../logout-button'
+import RoundedIcon from '../../../common/icons/rouned-icon'
+import { Calendar } from '../../../../lib/icons/Calendar'
+import { Text } from '../../../ui/text'
+import { ChevronRight } from '../../../../lib/icons/ChevronRight'
 
 const { width } = Dimensions.get('window')
 

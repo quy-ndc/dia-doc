@@ -46,11 +46,11 @@ export default function HomeScreen() {
         enabled: user.role === UserRole.PATIENT
     })
 
-    // const today = new Date()
-    // const fromDate = new Date(today.getTime() - 24 * 60 * 60 * 1000).toISOString()
-    // const toDate = new Date(today.getTime() + 24 * 60 * 60 * 1000).toISOString()
-    const fromDate = new Date('2025-07-28T00:00:00.000Z').toISOString()
-    const toDate = new Date('2025-07-30T00:00:00.000Z').toISOString()
+    const today = new Date()
+    const fromDate = new Date(today.getTime() - 24 * 60 * 60 * 1000).toISOString()
+    const toDate = new Date(today.getTime() + 24 * 60 * 60 * 1000).toISOString()
+    // const fromDate = new Date('2025-07-28T00:00:00.000Z').toISOString()
+    // const toDate = new Date('2025-07-30T00:00:00.000Z').toISOString()
 
     const {
         data: healthCarePlanData,

@@ -1,11 +1,11 @@
 import * as React from 'react'
 import { Dimensions, Pressable, View } from "react-native"
-import { Text } from "../../../components/ui/text"
-import { getHealthRecordDisplay } from '../../../assets/data/health-record-type'
-import { HealthRecordType } from '../../../assets/enum/health-record'
+import { Text } from "../../../ui/text"
+import { getHealthRecordDisplay } from '../../../../assets/data/health-record-type'
+import { HealthRecordType } from '../../../../assets/enum/health-record'
 import { router } from 'expo-router'
-import { ChevronRight } from '../../../lib/icons/ChevronRight'
-import RoundedIcon from '../../common/icons/rouned-icon'
+import { ChevronRight } from '../../../../lib/icons/ChevronRight'
+import RoundedIcon from '../../../common/icons/rouned-icon'
 
 type Prop = {
     type: HealthRecordType

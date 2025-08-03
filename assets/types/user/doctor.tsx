@@ -1,0 +1,21 @@
+import { DoctorRole } from "../../enum/doctor-role"
+import { GenderNumber } from "../../enum/gender"
+
+export type Doctor = {
+    id: string
+    phoneNumber: string
+    avatar: string
+    name: string
+    dateOfBirth: string
+    gender: GenderNumber
+    numberOfExperiences: number
+    position: DoctorRole
+    introduction: string
+    hospital: {
+        id: string
+        name: string
+        phoneNumber: string
+        thumbnail: string
+    },
+    createdDate: string
+}

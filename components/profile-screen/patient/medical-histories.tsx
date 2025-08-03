@@ -1,12 +1,12 @@
 
 import * as React from 'react'
 import { View } from 'react-native'
-import SectionTitle from '../home/common/section-title'
-import { GlobalColor } from '../../global-color'
-import { Patient } from '../../assets/types/user/patient'
-import { HeartPulse } from '../../lib/icons/HeartPulse'
-import { getMedicalHistoriesString } from '../../assets/enum/medical-histories'
-import Tag from '../common/tag'
+import SectionTitle from '../../home/common/section-title'
+import { GlobalColor } from '../../../global-color'
+import { Patient } from '../../../assets/types/user/patient'
+import { HeartPulse } from '../../../lib/icons/HeartPulse'
+import { getMedicalHistoriesString } from '../../../assets/enum/medical-histories'
+import Tag from '../../common/tag'
 
 type Prop = {
     profile: Patient

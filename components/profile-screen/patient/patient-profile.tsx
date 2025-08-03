@@ -1,14 +1,14 @@
 import * as React from 'react'
 import { View } from 'react-native'
 import { useCallback } from 'react'
-import { Patient } from '../../assets/types/user/patient'
-import ProfileSkeleton from '../../components/common/skeleton/profile-skeleton'
-import ErrorDisplay from '../../components/common/error-display'
-import GeneralInfo from '../../components/profile-screen/general-info'
-import Complication from '../../components/profile-screen/complication'
-import DiabetesInfo from '../../components/profile-screen/diabetes-info'
-import MedicalHistories from '../../components/profile-screen/medical-histories'
-import BasicInfo from '../../components/profile-screen/basic-infor'
+import { Patient } from '../../../assets/types/user/patient'
+import ProfileSkeleton from '../../common/skeleton/profile-skeleton'
+import ErrorDisplay from '../../common/error-display'
+import GeneralInfo from './general-info'
+import Complication from './complication'
+import DiabetesInfo from './diabetes-info'
+import MedicalHistories from './medical-histories'
+import BasicInfo from '../basic-infor'
 
 type Prop = {
     profile?: Patient
@@ -19,7 +19,7 @@ type Prop = {
     refreshing: boolean
 }
 
-export default function ProfileModule({ profile, isLoading, isError, refetch, refreshing, remove }: Prop) {
+export default function PatientProfile({ profile, isLoading, isError, refetch, refreshing, remove }: Prop) {
 
     const onRefresh = useCallback(() => {
         remove()

@@ -11,6 +11,7 @@ import GroupChatSkeleton from '../common/skeleton/chat-group-skeleton'
 import { QueryKeys } from '../../assets/enum/query'
 import ErrorDisplay from '../common/error-display'
 import { UserRoleNumber } from '../../assets/enum/user-role'
+import { ConversationType } from '../../assets/enum/conversation-type'
 
 const { width, height } = Dimensions.get('window')
 
@@ -18,15 +19,12 @@ export default function GroupChatModule() {
 
     const queryClient = useQueryClient();
     const [refreshing, setRefreshing] = useState(false)
-    const {setGroups, setLatestMessage } = useMessageStore()
+    const { setGroups, setLatestMessage } = useMessageStore()
 
-    const { data,
-        isLoading,
-        isError,
-        remove,
-        refetch,
-    } = useQuery({
-        ...useGroupChatQuery({}),
+    const { data, isLoading, isError, remove, refetch } = useQuery({
+        ...useGroupChatQuery({
+            Type: ConversationType.GROUP_CHAT
+        }),
         retry: 2,
         retryDelay: attempt => Math.min(1000 * 2 ** attempt, 5000),
         onSuccess: () => {

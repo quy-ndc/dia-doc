@@ -1,6 +1,6 @@
 import * as React from 'react'
 import AiChatItem from '../../../components/ai-chat-screen/ai-chat-item'
-import { Pressable, RefreshControl, View } from 'react-native'
+import { Dimensions, Pressable, RefreshControl, ScrollView, View } from 'react-native'
 import { GlobalColor } from '../../../global-color'
 import { Plus } from '../../../lib/icons/Plus'
 import { useAiSessionQuery } from '../../../service/query/ai-query'
@@ -14,6 +14,7 @@ import { useAiMessageStore } from '../../../store/useAiMessage'
 import AiSessionSkeleton from '../../../components/common/skeleton/ai-session-skeleton'
 import ErrorDisplay from '../../../components/common/error-display'
 
+const { height } = Dimensions.get('window')
 
 export default function AiChatSessionScreen() {
 
@@ -48,11 +49,18 @@ export default function AiChatSessionScreen() {
             {isLoading ? (
                 <AiSessionSkeleton />
             ) : sessionsList.length == 0 || isError ? (
-                <ErrorDisplay
-                    text={'Không có lịch sử chat để hiển thị'}
-                    onRefresh={onRefresh}
-                    refreshing={refreshing}
-                />
+                <ScrollView refreshControl={<RefreshControl refreshing={refreshing} onRefresh={onRefresh} />}>
+                    <View
+                        style={{ height: height * 0.8 }}
+                        className='flex-1 items-center justify-center'
+                    >
+                        <ErrorDisplay
+                            text={'Không có lịch sử chat để hiển thị'}
+                            onRefresh={onRefresh}
+                            refreshing={refreshing}
+                        />
+                    </View>
+                </ScrollView>
             ) : (
                 <FlashList<AiSession>
                     refreshControl={<RefreshControl refreshing={refreshing} onRefresh={onRefresh} />}

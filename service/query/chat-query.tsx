@@ -3,13 +3,12 @@ import { GetAllChatGroups, GetAllChatMessages, SendMessage } from "../api/chat-s
 import { MessageType } from "../../assets/enum/message-type"
 import Toast from "react-native-toast-message"
 import { QueryKeys } from "../../assets/enum/query"
+import { ConversationType } from "../../assets/enum/conversation-type"
 
 export const useGroupChatQuery = (params: {
     Cursor?: string
     PageSize?: number
-    Sort?: string
-    Direction?: string
-    Search?: string
+    Type: ConversationType
 }) => {
     const queryKey = [QueryKeys.GROUP_CHATS, params]
     const queryFn = async () => {
@@ -21,10 +20,8 @@ export const useGroupChatQuery = (params: {
 
 export const useChatMessagesQuery = (params: {
     conversationId: string
+    Cursor?: string
     PageSize?: number
-    Sort?: string
-    Direction?: string
-    Search?: string
 }) => {
     const queryKey = [QueryKeys.CHAT_MESSAGES, params]
 
@@ -33,9 +30,6 @@ export const useChatMessagesQuery = (params: {
             conversationId: params.conversationId,
             Cursor: pageParam,
             PageSize: params.PageSize,
-            Sort: params.Sort,
-            Direction: params.Direction,
-            Search: params.Search,
         })
     }
 

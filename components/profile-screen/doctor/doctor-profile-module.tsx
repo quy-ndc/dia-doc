@@ -25,7 +25,7 @@ export default function DoctorProfileModule() {
     const profile: Doctor | undefined = data?.data?.data ?? undefined
 
     return (
-        <ScrollView>
+        <ScrollView refreshControl={<RefreshControl refreshing={refreshing} onRefresh={onRefresh} />}>
             <DoctorProfile
                 profile={profile}
                 isLoading={isLoading}
@@ -34,7 +34,6 @@ export default function DoctorProfileModule() {
                 refreshing={refreshing}
                 remove={remove}
             />
-            {/* <ProfileHealthRecord /> */}
             <ProfileAction />
         </ScrollView>
     )

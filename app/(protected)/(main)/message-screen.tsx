@@ -8,7 +8,6 @@ import { useLocalSearchParams } from 'expo-router'
 import PrivateChatModule from '../../../components/message-screen/private-chat-module'
 import { Shield } from '../../../lib/icons/Shield'
 import { Users } from '../../../lib/icons/Users'
-import { GlobalColor } from '../../../global-color'
 import useUserStore from '../../../store/userStore'
 
 export default function MessagesScreen() {

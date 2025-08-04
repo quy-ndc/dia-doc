@@ -7,6 +7,7 @@ import ChatModule from '../../components/chat-screen/chat-module';
 import { useState } from 'react';
 import { AllFeaturesEnabled, ChatRoomProvider } from '@ably/chat';
 import { ChannelProvider } from 'ably/react';
+import { truncateText } from '../../util/truncate-text';
 
 
 export default function ChatScreen() {
@@ -26,7 +27,7 @@ export default function ChatScreen() {
                                 source={image}
                                 contentFit='cover'
                             />
-                            <Text className='text-xl font-bold'>{title}</Text>
+                            <Text className='text-lg font-bold tracking-wider'>{truncateText(title as string, 23)}</Text>
                         </View>
                 }}
             />

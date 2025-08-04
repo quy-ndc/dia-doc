@@ -41,7 +41,7 @@ export default function GroupChatModule() {
         }
     })
 
-    const groups: GroupChat[] = data?.data?.conversations?.items || []
+    const groups: GroupChat[] = data?.data?.data?.items || []
     const groupIds: string[] = groups.map(group => group.id)
 
     const onRefresh = useCallback(() => {
@@ -121,6 +121,6 @@ export default function GroupChatModule() {
                     estimatedItemSize={100}
                 />
             </View>
-        </ScrollView >
+        </ScrollView>
     )
 }

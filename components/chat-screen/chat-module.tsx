@@ -23,6 +23,7 @@ import { useMessageStore } from '../../store/useMessage'
 import { FlashList } from '@shopify/flash-list'
 import { useDebounce } from '../../util/hook/useDebounce'
 import { usePresence } from '@ably/chat'
+import ErrorDisplay from '../common/error-display'
 
 
 type Prop = {
@@ -75,7 +76,8 @@ export default function ChatModule({
 
     useEffect(() => {
         if (!data) return
-        const messages: Message[] = data.pages.at(-1)?.data?.messages?.items ?? []
+        const messages: Message[] = data.pages.at(-1)?.data?.data?.items ?? []
+        console.log()
         if (messages.length) {
             if (data.pages.length === 1) {
                 setMessages(groupId, messages)
@@ -164,22 +166,11 @@ export default function ChatModule({
                         contentContainerStyle={{ alignItems: 'center', justifyContent: 'center', flexGrow: 1 }}
                         refreshControl={<RefreshControl refreshing={refreshing} onRefresh={onRefresh} />}
                     >
-                        <View className="flex-col gap-2 items-center">
-                            <Text className="text-muted-foreground text-lg font-semibold italic tracking-wider">
-                                Không có tin nhắn nào
-                            </Text>
-                            <Pressable
-                                className="flex-row gap-3 items-center px-4 py-2 rounded-full active:bg-[var(--click-bg)]"
-                                onPress={onRefresh}
-                            >
-                                <Text className="text-foreground text-base font-semibold tracking-wider capitalize">Thử lại</Text>
-                                {refreshing ? (
-                                    <SpinningIcon icon={<RefreshCcw className="text-foreground" size={15} />} />
-                                ) : (
-                                    <RefreshCcw className="text-foreground" size={15} />
-                                )}
-                            </Pressable>
-                        </View>
+                        <ErrorDisplay
+                            text={'Không có tin nhắn nào'}
+                            onRefresh={onRefresh}
+                            refreshing={refreshing}
+                        />
                     </ScrollView>
                 ) : (
                     <View className='flex-1 flex-col w-full px-3'>

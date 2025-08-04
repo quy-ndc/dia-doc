@@ -1,5 +1,5 @@
 import * as React from 'react'
-import { View, ScrollView, RefreshControl } from 'react-native'
+import { View, ScrollView, RefreshControl, Pressable } from 'react-native'
 import QuickAccess from '../../../components/home/quick-access/quick-access'
 import HomeBlogSection from '../../../components/home/blog/blog-section'
 import { useCallback, useState } from 'react'
@@ -14,6 +14,10 @@ import HealthcarePlan from '../../../components/home/healthcare-plan/healthcare-
 import { HealthCarePlan } from '../../../assets/types/user/healthcare-plan'
 import useUserStore from '../../../store/userStore'
 import { UserRole } from '../../../assets/enum/user-role'
+import { GlobalColor } from '../../../global-color'
+import { router } from 'expo-router'
+import { Bot } from '../../../lib/icons/Bot'
+import AiAccess from '../../../components/home/ai-access/ai-access'
 
 export default function HomeScreen() {
 
@@ -89,45 +93,48 @@ export default function HomeScreen() {
 
     return (
         <>
-            <ScrollView
-                className='w-full py-5'
-                contentContainerStyle={{ alignItems: 'center' }}
-                decelerationRate={'normal'}
-                refreshControl={<RefreshControl refreshing={refreshing} onRefresh={onRefresh} />}
-            >
-                <View className='flex-col items-center gap-5'>
-                    <QuickAccess />
-                    <DailyTip />
-                    {user.role === UserRole.PATIENT && (
-                        <>
-                            <HealthTracker
-                                items={healthRecordItems}
-                                isLoading={healthRecordLoading}
-                                isError={healthRecordError}
-                                refetch={healthRecordRefetch}
-                                remove={healthRecordRemove}
-                                refreshing={refreshing}
-                            />
-                            <HealthcarePlan
-                                items={healthCarePlanItems}
-                                isLoading={healthCarePlanLoading}
-                                isError={healthCarePlanError}
-                                refetch={healthCarePlanRefetch}
-                                remove={healthCarePlanRemove}
-                                refreshing={refreshing}
-                            />
-                        </>
-                    )}
-                    <HomeBlogSection
-                        isLoading={isLoading}
-                        isError={isError}
-                        items={items}
-                        refetch={refetch}
-                        remove={remove}
-                        refreshing={refreshing}
-                    />
-                </View>
-            </ScrollView>
+            <View className='flex-1 w-full pb-5 relative'>
+                <ScrollView
+                    className='w-full py-5'
+                    contentContainerStyle={{ alignItems: 'center' }}
+                    decelerationRate={'normal'}
+                    refreshControl={<RefreshControl refreshing={refreshing} onRefresh={onRefresh} />}
+                >
+                    <View className='flex-col items-center gap-5'>
+                        <QuickAccess />
+                        <DailyTip />
+                        {user.role === UserRole.PATIENT && (
+                            <>
+                                <HealthTracker
+                                    items={healthRecordItems}
+                                    isLoading={healthRecordLoading}
+                                    isError={healthRecordError}
+                                    refetch={healthRecordRefetch}
+                                    remove={healthRecordRemove}
+                                    refreshing={refreshing}
+                                />
+                                <HealthcarePlan
+                                    items={healthCarePlanItems}
+                                    isLoading={healthCarePlanLoading}
+                                    isError={healthCarePlanError}
+                                    refetch={healthCarePlanRefetch}
+                                    remove={healthCarePlanRemove}
+                                    refreshing={refreshing}
+                                />
+                            </>
+                        )}
+                        <HomeBlogSection
+                            isLoading={isLoading}
+                            isError={isError}
+                            items={items}
+                            refetch={refetch}
+                            remove={remove}
+                            refreshing={refreshing}
+                        />
+                    </View>
+                </ScrollView>
+                <AiAccess />
+            </View>
         </>
     )
 }

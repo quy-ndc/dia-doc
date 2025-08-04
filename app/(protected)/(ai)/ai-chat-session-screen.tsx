@@ -1,14 +1,11 @@
 import * as React from 'react'
 import AiChatItem from '../../../components/ai-chat-screen/ai-chat-item'
-import { Dimensions, Pressable, RefreshControl, ScrollView, View } from 'react-native'
-import { GlobalColor } from '../../../global-color'
-import { Plus } from '../../../lib/icons/Plus'
+import { Dimensions, RefreshControl, ScrollView, View } from 'react-native'
 import { useAiSessionQuery } from '../../../service/query/ai-query'
 import { useQuery } from '@tanstack/react-query'
 import useUserStore from '../../../store/userStore'
 import { AiSession } from '../../../assets/types/chat/ai-session'
 import { FlashList } from '@shopify/flash-list'
-import { router } from 'expo-router'
 import { useCallback, useState, useEffect } from 'react'
 import { useAiMessageStore } from '../../../store/useAiMessage'
 import AiSessionSkeleton from '../../../components/common/skeleton/ai-session-skeleton'
@@ -60,7 +57,7 @@ export default function AiChatSessionScreen() {
                             refreshing={refreshing}
                         />
                     </View>
-                </ScrollView>
+                </ScrollView> 
             ) : (
                 <FlashList<AiSession>
                     refreshControl={<RefreshControl refreshing={refreshing} onRefresh={onRefresh} />}
@@ -72,18 +69,6 @@ export default function AiChatSessionScreen() {
                     estimatedItemSize={100}
                 />
             )}
-            <Pressable
-                style={{ backgroundColor: GlobalColor.BLUE_NEON_BORDER }}
-                className='flex absolute bottom-5 right-5 p-4 items-center justify-center rounded-full active:opacity-80'
-                onPress={() => router.push({
-                    pathname: 'ai-chat-screen',
-                    params: {
-                        title: 'Cuộc trò chuyện mới'
-                    }
-                })}
-            >
-                <Plus className='text-white' size={17} />
-            </Pressable>
         </View>
     )
 }

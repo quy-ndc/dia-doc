@@ -2,13 +2,13 @@ import { ScrollView, RefreshControl, Pressable, View, NativeScrollEvent, NativeS
 import { useRef, useCallback, useState } from 'react'
 import { Animated as RNAnimated } from 'react-native'
 import { useInfiniteQuery } from '@tanstack/react-query'
-import { BlogPost } from '../../assets/types/media/blog-post'
-import { useBookmarkMediaQuery } from '../../service/query/media-query'
-import FilterButton from '../../components/blog-screen/filter-button'
-import SearchField from '../../components/blog-screen/search-field'
-import BlogList from '../../components/blog-screen/blog-list'
-import { Text } from '../../components/ui/text'
-import { ChevronUp } from '../../lib/icons/ChevronUp'
+import { BlogPost } from '../../../assets/types/media/blog-post'
+import { useBookmarkMediaQuery } from '../../../service/query/media-query'
+import FilterButton from '../../../components/blog-screen/filter-button'
+import SearchField from '../../../components/blog-screen/search-field'
+import BlogList from '../../../components/blog-screen/blog-list'
+import { Text } from '../../../components/ui/text'
+import { ChevronUp } from '../../../lib/icons/ChevronUp'
 
 export default function SavedBlogScreen() {
 

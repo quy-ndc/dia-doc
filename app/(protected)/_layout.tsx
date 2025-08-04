@@ -1,19 +1,20 @@
-import { Stack } from 'expo-router'
+import { Redirect, Stack } from 'expo-router'
 import useUserStore from '../../store/userStore'
 import { useChannel } from 'ably/react'
 import { GLOBAL_CHAT_EVENT_CHANNEL, GLOBAL_CHAT_EVENT_NAME } from '@env'
 import { GlobalMessageEvent, Message } from '../../assets/types/chat/message'
 import { useMessageStore } from '../../store/useMessage'
 import { MessageType } from '../../assets/enum/message-type'
-import { UserRoleNumber } from '../../assets/enum/user-role'
+import { UserRole, UserRoleNumber } from '../../assets/enum/user-role'
 import { Alert, PermissionsAndroid, Platform, Vibration, View } from 'react-native'
-import { Text } from '../../components/ui/text'
 import { useSaveFcmTokenMutation } from '../../service/query/auth-query'
 import useConfigStore from '../../store/appConfigStore'
 import { useEffect } from 'react'
 import { getApp } from '@react-native-firebase/app'
 import notifee from '@notifee/react-native'
 import messaging from '@react-native-firebase/messaging'
+import IncomingCallModal from '../../components/common/incoming-call-modal'
+import React from 'react'
 
 export type NotificationPermissionResponse = "granted" | "denied" | "never_ask_again" | "not_response"
 
@@ -23,13 +24,17 @@ export default function ProtectedLayout() {
     const { addMessage, setLatestMessage } = useMessageStore()
     const { mutateAsync, data } = useSaveFcmTokenMutation()
 
-    // if (!user.isAuthenticated) {
-    //     return <Redirect href="/landing-screen" />
-    // }
+    if (!user.isAuthenticated) {
+        return <Redirect href="/landing-screen" />
+    }
 
-    // if (user.isAuthenticated && !user.isSetUp) {
-    //     return <Redirect href="/set-up-screen" />
-    // }
+    if (user.isAuthenticated && !user.isSetUp) {
+        if (user.role == UserRole.PATIENT) {
+            return <Redirect href="/set-up-screen" />
+        } else {
+            return <Redirect href="/change-password-screen" />
+        }
+    }
 
     const saveTokenDevice = async (token: string) => {
         if (!tokenDevice) {
@@ -129,32 +134,16 @@ export default function ProtectedLayout() {
     })
 
     return (
-        <Stack>
-            <Stack.Screen name="(main)" options={{ headerShown: false }} />
-            <Stack.Screen name="chat-screen" options={{ headerTitle: '' }} />
-            <Stack.Screen name="edit-profile-screen" options={{ headerTitle: '' }} />
-            <Stack.Screen name="ai-chat-screen" options={{ headerTitle: '', headerShadowVisible: false }} />
-            <Stack.Screen name="blog-detail-screen" options={{ headerTitle: '', headerShadowVisible: false }} />
-            <Stack.Screen name="liked-blog-screen" options={{ headerTitle: 'Bài viết đã thích', headerShadowVisible: false }} />
-            <Stack.Screen name="saved-blog-screen" options={{ headerTitle: 'Bài viết đã lưu', headerShadowVisible: false }} />
-            <Stack.Screen name="update-record-screen" options={{ headerTitle: '', headerShadowVisible: false }} />
-            <Stack.Screen name="health-record-history-screen" options={{ headerTitle: '', headerShadowVisible: false }} />
-            <Stack.Screen
-                name="manage-care-plan-screen"
-                options={{
-                    headerTitle: () =>
-                        <View className='flex-col'>
-                            <Text className='text-lg font-bold tracking-wider capitalize'>
-                                Quản lý lịch trình
-                            </Text>
-                            <Text className='text-sm text-[var(--fade-text-color)] tracking-wider'>
-                                Thay đổi lịch trình hằng ngày
-                            </Text>
-                        </View>,
-                    headerShadowVisible: false
-                }}
-            />
-            <Stack.Screen name="add-edit-care-plan-screen" options={{ headerTitle: '', headerShadowVisible: false }} />
-        </Stack>
+        <>
+            <Stack>
+                <Stack.Screen name="(main)" options={{ headerShown: false }} />
+                <Stack.Screen name="chat-screen" options={{ headerTitle: '', headerShadowVisible: false }} />
+                <Stack.Screen name="edit-profile-screen" options={{ headerTitle: '' }} />
+                <Stack.Screen name="(ai)" options={{ headerShown: false }} />
+                <Stack.Screen name="(blog)" options={{ headerShown: false }} />
+                <Stack.Screen name="(health)" options={{ headerShown: false }} />
+            </Stack>
+            <IncomingCallModal />
+        </>
     )
 }

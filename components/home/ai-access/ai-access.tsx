@@ -16,7 +16,7 @@ export default function AiAccess() {
                 shadowRadius: 4.65,
                 elevation: 8,
             }}
-            className='flex absolute bottom-5 right-7 items-center justify-center rounded-full active:opacity-80 overflow-hidden'
+            className='flex absolute bottom-5 right-5 items-center justify-center rounded-full active:opacity-80 overflow-hidden'
             onPress={() => router.push({
                 pathname: 'ai-chat-screen',
                 params: {
@@ -30,7 +30,7 @@ export default function AiAccess() {
                 end={{ x: 1, y: 1 }}
                 className='p-4'
             >
-                <Bot className='text-white' size={17} />
+                <Bot className='text-white' size={22} />
             </LinearGradient>
         </Pressable>
     )

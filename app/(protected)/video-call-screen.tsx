@@ -1,6 +1,5 @@
-import { HubConnection } from '@microsoft/signalr'
 import React, { useCallback, useEffect, useRef, useState } from 'react'
-import { View, Button, Text, StyleSheet, ScrollView, RefreshControl, Dimensions, Modal, } from 'react-native'
+import { View, Button, Text, StyleSheet, ScrollView, Dimensions, Modal } from 'react-native'
 import {
     RTCPeerConnection,
     RTCIceCandidate,
@@ -10,89 +9,51 @@ import {
     MediaStreamTrack,
     mediaDevices,
 } from 'react-native-webrtc'
-import { connectToSignalR } from '../../util/video-calling/connect-signal-r'
 import { ConsultationVideoCall } from '../../assets/enum/consulation-video-call'
-
-
-interface Props {
-    userId: string
-    targetUserId: string
-}
+import useVideoCallStore from '../../store/videoCallStore'
+import { useLocalSearchParams } from 'expo-router'
 
 const { width, height } = Dimensions.get('window')
 
-export default function VideoCallScreen({ userId, targetUserId }: Props) {
+const peerConfig = {
+    iceServers: [{ urls: ConsultationVideoCall.ICE_SERVER }],
+}
 
-    const [visible, setVisible] = useState(false)
+const sessionConstraints = {
+    mandatory: {
+        OfferToReceiveAudio: true,
+        OfferToReceiveVideo: true,
+        VoiceActivityDetection: true,
+    },
+}
 
-    const [connection, setConnection] = useState<HubConnection | null>(null)
+export default function VideoCallScreen() {
+    const params = useLocalSearchParams<{
+        userId: string
+        targetUserId: string
+        mode?: 'answer' | 'call'
+        offer?: string
+    }>()
+
+    const { connection, acceptCall, sendIceCandidate, startCall, setCallbacks } = useVideoCallStore()
     const [localStream, setLocalStream] = useState<MediaStream | null>(null)
     const [remoteStream, setRemoteStream] = useState<MediaStream | null>(null)
     const [isMuted, setIsMuted] = useState(false)
     const [cameraCount, setCameraCount] = useState(1)
-    const [incomingCall, setIncomingCall] = useState<any>(null)
 
     const peerConnection = useRef<RTCPeerConnection | null>(null)
     const isFrontCam = useRef(true)
 
-    const peerConfig = {
-        iceServers: [{ urls: ConsultationVideoCall.ICE_SERVER }],
-    }
-
-    const sessionConstraints = {
-        mandatory: {
-            OfferToReceiveAudio: true,
-            OfferToReceiveVideo: true,
-            VoiceActivityDetection: true,
-        },
-    }
-
-    useEffect(() => {
-        const setupConnection = async () => {
-            const res = await connectToSignalR()
-            if (res) {
-                res.serverTimeoutInMilliseconds = 1000 * 60000
-                res.keepAliveIntervalInMilliseconds = 1000 * 10
-                setConnection(res)
-
-                res.on(ConsultationVideoCall.CALL_USER_RECEIVE, (userId: string, offer: any) => {
-                    console.log('[CALL_USER_RECEIVE]', offer)
-                    setIncomingCall(offer)
-                })
-
-                res.on(ConsultationVideoCall.ACCEPT_CALL_RECEIVE, (userId: string, answer: any) => {
-                    console.log('[ACCEPT_CALL_RECEIVE]', answer)
-                    try {
-                        peerConnection.current?.setRemoteDescription(new RTCSessionDescription(answer))
-                    } catch (e) {
-                        console.error('Failed to set remote description:', e)
-                    }
-                })
-
-                res.on(ConsultationVideoCall.SEND_ICE_RECEIVE, (response: any) => {
-                    console.log('[SEND_ICE_RECEIVE]', response)
-                    try {
-                        const candidate = new RTCIceCandidate(response)
-                        peerConnection.current?.addIceCandidate(candidate)
-                    } catch (err) {
-                        console.error('Failed to add ICE candidate:', err)
-                    }
-                })
-            }
-        }
-
-        if (!connection) setupConnection()
-
-        return () => {
-            if (connection) connection.stop()
-        }
-    }, [connection])
-
     const getLocalStream = async () => {
         try {
+            console.log('📱 Getting local media stream...')
             const stream = await mediaDevices.getUserMedia({
                 audio: true,
                 video: { facingMode: 'user', frameRate: 30 },
+            })
+            console.log('✅ Local stream obtained:', {
+                audioTracks: stream.getAudioTracks().length,
+                videoTracks: stream.getVideoTracks().length
             })
 
             const devices = await mediaDevices.enumerateDevices()
@@ -101,65 +62,175 @@ export default function VideoCallScreen({ userId, targetUserId }: Props) {
             setLocalStream(stream)
 
             if (peerConnection.current) {
+                console.log('🔄 Adding tracks to peer connection...')
                 stream.getTracks().forEach((track) => {
+                    console.log('➕ Adding track:', track.kind)
                     peerConnection.current?.addTrack(track, stream)
                 })
+            } else {
+                console.warn('⚠️ No peer connection available when adding tracks')
             }
         } catch (err) {
-            console.error('Failed to get media stream:', err)
+            console.error('❌ Failed to get media stream:', err)
         }
     }
 
     const createPeer = () => {
+        console.log('🔄 Creating peer connection...')
         const pc = new RTCPeerConnection(peerConfig)
+        
+        pc.addEventListener('connectionstatechange', () => {
+            console.log('🔄 Connection state changed:', pc.connectionState)
+        })
+
+        pc.addEventListener('signalingstatechange', () => {
+            console.log('🔄 Signaling state changed:', pc.signalingState)
+        })
+
+        pc.addEventListener('iceconnectionstatechange', () => {
+            console.log('🔄 ICE connection state:', pc.iceConnectionState)
+        })
+
+        pc.addEventListener('icegatheringstatechange', () => {
+            console.log('🔄 ICE gathering state:', pc.iceGatheringState)
+        })
+        
         pc.addEventListener('icecandidate', (event) => {
-            if (event.candidate && connection) {
-                console.log('[ICE] Candidate generated:', event.candidate)
-                connection.invoke(ConsultationVideoCall.SEND_ICE_INVOKE,
-                    targetUserId,
-                    event.candidate,
-                )
+            if (event.candidate && connection && params.targetUserId) {
+                console.log('❄️ ICE Candidate generated:', {
+                    sdpMid: event.candidate.sdpMid,
+                    sdpMLineIndex: event.candidate.sdpMLineIndex,
+                    candidate: event.candidate.candidate.substring(0, 50) + '...'
+                })
+                sendIceCandidate(params.targetUserId, event.candidate)
             }
         })
-        pc.addEventListener(ConsultationVideoCall.TRACK_EVENT, (event) => {
+
+        pc.addEventListener('track', (event) => {
+            if (!event.track) {
+                console.warn('⚠️ Received track event without track')
+                return
+            }
+
+            console.log('📡 Track event received:', {
+                kind: event.track.kind,
+                enabled: event.track.enabled,
+                streams: event.streams?.length || 0
+            })
+            
             const incomingStream = event.streams?.[0]
             if (incomingStream) {
-                console.log('[ON TRACK] Received remote stream via event.streams')
+                console.log('✅ Received remote stream via event.streams:', {
+                    audioTracks: incomingStream.getAudioTracks().length,
+                    videoTracks: incomingStream.getVideoTracks().length
+                })
                 setRemoteStream(incomingStream)
             } else {
+                console.log('⚠️ No stream in track event, creating new stream')
                 const newStream = new MediaStream()
-                newStream.addTrack(event.track as MediaStreamTrack)
-                console.log('[ON TRACK] Received remote stream via fallback')
+                newStream.addTrack(event.track)
+                console.log('✅ Created new stream with track:', {
+                    kind: event.track.kind,
+                    enabled: event.track.enabled
+                })
                 setRemoteStream(newStream)
             }
         })
+
         peerConnection.current = pc
+
+        // Set up callbacks for remote description and ICE candidates
+        setCallbacks({
+            onRemoteDescription: (description) => {
+                console.log('📝 Setting remote description:', {
+                    type: description.type,
+                    sdp: description.sdp.substring(0, 100) + '...'
+                })
+                pc.setRemoteDescription(description).catch(err => {
+                    console.error('❌ Failed to set remote description:', err)
+                })
+            },
+            onIceCandidate: (candidate) => {
+                console.log('❄️ Adding received ICE candidate:', {
+                    sdpMid: candidate.sdpMid,
+                    sdpMLineIndex: candidate.sdpMLineIndex,
+                    candidate: candidate.candidate.substring(0, 50) + '...'
+                })
+                pc.addIceCandidate(candidate).catch(err => {
+                    console.error('❌ Failed to add ICE candidate:', err)
+                })
+            }
+        })
     }
 
-    const startCall = async () => {
-        if (!connection) return
+    const handleIncomingCall = async () => {
+        if (!params.offer || !params.targetUserId) {
+            console.error('❌ Missing offer or targetUserId for incoming call')
+            return
+        }
+        console.log('📞 Handling incoming call from:', params.targetUserId)
         createPeer()
         await getLocalStream()
-        const offer = await peerConnection.current?.createOffer(sessionConstraints)
-        if (offer) {
-            await peerConnection.current?.setLocalDescription(offer)
-            connection.invoke(ConsultationVideoCall.CALL_USER_INVOKE,
-                targetUserId,
-                offer,
-            )
+        const offer = JSON.parse(params.offer)
+        console.log('📝 Setting remote description from offer')
+        await peerConnection.current?.setRemoteDescription(new RTCSessionDescription(offer))
+        console.log('📝 Creating answer')
+        const answer = await peerConnection.current?.createAnswer()
+        if (answer) {
+            console.log('📝 Setting local description (answer)')
+            await peerConnection.current?.setLocalDescription(answer)
+            console.log('📞 Accepting call with answer')
+            await acceptCall(params.targetUserId, answer)
         }
     }
 
-    const acceptCall = async () => {
-        if (!connection || !incomingCall) return
+    const initiateCall = async () => {
+        if (!params.targetUserId) {
+            console.error('❌ Missing targetUserId for outgoing call')
+            return
+        }
+        console.log('📞 Initiating call to:', params.targetUserId)
         createPeer()
         await getLocalStream()
-        await peerConnection.current?.setRemoteDescription(new RTCSessionDescription(incomingCall))
-        const answer = await peerConnection.current?.createAnswer()
-        await peerConnection.current?.setLocalDescription(answer!)
-        connection.invoke(ConsultationVideoCall.ACCEPT_CALL_INVOKE, targetUserId, answer)
-        setIncomingCall(null)
+        console.log('📝 Creating offer')
+        const offer = await peerConnection.current?.createOffer(sessionConstraints)
+        if (offer) {
+            console.log('📝 Setting local description (offer)')
+            await peerConnection.current?.setLocalDescription(offer)
+            console.log('📞 Starting call with offer')
+            await startCall(params.targetUserId, offer)
+        }
     }
+
+    useEffect(() => {
+        console.log('🔄 VideoCallScreen mounted:', {
+            mode: params.mode,
+            hasOffer: !!params.offer
+        })
+        
+        if (params.mode === 'answer' && params.offer) {
+            handleIncomingCall()
+        } else {
+            initiateCall()
+        }
+
+        return () => {
+            console.log('🧹 Cleaning up VideoCallScreen')
+            localStream?.getTracks().forEach(track => {
+                console.log('🛑 Stopping local track:', track.kind)
+                track.stop()
+            })
+            remoteStream?.getTracks().forEach(track => {
+                console.log('🛑 Stopping remote track:', track.kind)
+                track.stop()
+            })
+            if (peerConnection.current) {
+                console.log('🛑 Closing peer connection')
+                peerConnection.current.close()
+            }
+            setCallbacks({}) // Clear callbacks
+        }
+    }, [])
 
     const toggleMic = () => {
         const audioTrack = localStream?.getAudioTracks()[0]
@@ -182,52 +253,43 @@ export default function VideoCallScreen({ userId, targetUserId }: Props) {
         }
     }
 
-    useEffect(() => {
-        getLocalStream()
-        return () => {
-            peerConnection.current?.close()
-        }
-    }, [])
-
     return (
-        <Modal visible={visible}>
-            <ScrollView contentContainerStyle={styles.container}>
-                <View style={styles.section}>
-                    <Text style={styles.title}>Caller Area</Text>
-                    {localStream && (
-                        <RTCView
-                            streamURL={localStream.toURL()}
-                            style={styles.video}
-                            objectFit="cover"
-                            mirror={true}
-                        />
-                    )}
-                    <Button title="Start Call" onPress={startCall} />
-                </View>
-                <View style={styles.section}>
-                    <Text style={styles.title}>Callee Area</Text>
-                    {incomingCall && <Button title="Accept Call" onPress={acceptCall} />}
-                    {remoteStream && remoteStream.toURL() && (
-                        <RTCView
-                            key={remoteStream.toURL()}
-                            streamURL={remoteStream.toURL()}
-                            style={styles.video}
-                            objectFit="cover"
-                            mirror={false}
-                        />
-                    )}
-                </View>
+        <View style={styles.container}>
+            <View style={styles.section}>
+                <Text style={styles.title}>Local Stream</Text>
+                {localStream && (
+                    <RTCView
+                        streamURL={localStream.toURL()}
+                        style={styles.video}
+                        objectFit="cover"
+                        mirror={true}
+                    />
+                )}
+            </View>
+            <View style={styles.section}>
+                <Text style={styles.title}>Remote Stream</Text>
+                {remoteStream && (
+                    <RTCView
+                        streamURL={remoteStream.toURL()}
+                        style={styles.video}
+                        objectFit="cover"
+                        mirror={false}
+                    />
+                )}
+            </View>
+            <View style={styles.controls}>
                 <Button title={isMuted ? 'Unmute Mic' : 'Mute Mic'} onPress={toggleMic} />
                 <Button title="Switch Camera" onPress={switchCamera} />
-            </ScrollView>
-        </Modal>
+            </View>
+        </View>
     )
 }
 
 const styles = StyleSheet.create({
     container: {
+        flex: 1,
         padding: 12,
-        alignItems: 'center',
+        backgroundColor: '#f5f5f5',
     },
     video: {
         width: '100%',
@@ -236,15 +298,21 @@ const styles = StyleSheet.create({
         marginVertical: 8,
     },
     section: {
-        width: '100%',
+        flex: 1,
         marginBottom: 16,
-        padding: 12,
-        backgroundColor: '#f0f0f0',
-        borderRadius: 8,
     },
     title: {
         fontSize: 18,
         fontWeight: '600',
         marginBottom: 8,
     },
+    controls: {
+        flexDirection: 'row',
+        justifyContent: 'space-around',
+        padding: 16,
+        backgroundColor: 'white',
+        borderTopWidth: 1,
+        borderTopColor: '#e0e0e0',
+    }
 })
+

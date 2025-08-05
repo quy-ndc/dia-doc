@@ -10,7 +10,6 @@ import { useMessageStore } from '../../store/useMessage'
 import GroupChatSkeleton from '../common/skeleton/chat-group-skeleton'
 import { QueryKeys } from '../../assets/enum/query'
 import ErrorDisplay from '../common/error-display'
-import { UserRoleNumber } from '../../assets/enum/user-role'
 import { ConversationType } from '../../assets/enum/conversation-type'
 
 const { width, height } = Dimensions.get('window')
@@ -56,8 +55,8 @@ export default function GroupChatModule() {
             setGroups(groupIds)
 
             groups.forEach(group => {
-                if (group.message) {
-                    setLatestMessage(group.id, group.message)
+                if (group.lastMessage) {
+                    setLatestMessage(group.id, group.lastMessage)
                 }
             })
         }
@@ -107,16 +106,7 @@ export default function GroupChatModule() {
                     data={groups}
                     keyExtractor={(_, index) => index.toString()}
                     renderItem={({ item }) => (
-                        <ChatItem
-                            id={item.id}
-                            img={item.avatar}
-                            name={item.name}
-                            user={item.message ? item.message.participant.fullName : undefined}
-                            message={item.message ? item.message.content : undefined}
-                            type={item.message ? item.message.type : undefined}
-                            time={item.message ? item.message.createdDate : undefined}
-                            hasNewMessage={item.message ? item.message.participant.role === UserRoleNumber.PATIENT : false}
-                        />
+                        <ChatItem item={item} />
                     )}
                     estimatedItemSize={100}
                 />

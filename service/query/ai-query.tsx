@@ -3,7 +3,7 @@ import { QueryKeys } from "../../assets/enum/query"
 import { DeleteSession, GetAllAIMessage, GetAllSession, SendMessageToAI } from "../api/ai-service"
 
 export const useAiSessionQuery = (params: { user_id: string }) => {
-    const queryKey = [QueryKeys.AI_SESSION, params.user_id]
+    const queryKey = [QueryKeys.AI_SESSION, params]
     const queryFn = async () => {
         return GetAllSession(params)
     }

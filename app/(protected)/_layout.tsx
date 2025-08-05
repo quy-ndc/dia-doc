@@ -15,6 +15,8 @@ import notifee from '@notifee/react-native'
 import messaging from '@react-native-firebase/messaging'
 import IncomingCallModal from '../../components/common/incoming-call-modal'
 import React from 'react'
+import useVideoCallStore from '../../store/videoCallStore'
+import { useAppState } from '../../util/hook/useAppState'
 
 export type NotificationPermissionResponse = "granted" | "denied" | "never_ask_again" | "not_response"
 
@@ -23,6 +25,8 @@ export default function ProtectedLayout() {
     const { tokenDevice, setTokenDevice } = useConfigStore()
     const { addMessage, setLatestMessage } = useMessageStore()
     const { mutateAsync, data } = useSaveFcmTokenMutation()
+    const { initialize, cleanup } = useVideoCallStore()
+    const isBackground = useAppState()
 
     if (!user.isAuthenticated) {
         return <Redirect href="/landing-screen" />
@@ -110,6 +114,12 @@ export default function ProtectedLayout() {
         })
     }, [])
 
+    useEffect(() => {
+        if (user.isAuthenticated && !isBackground) initialize()
+
+        return () => { cleanup() }
+    }, [user.isAuthenticated, isBackground])
+
     const { } = useChannel(`${GLOBAL_CHAT_EVENT_CHANNEL}`, `${GLOBAL_CHAT_EVENT_NAME}`, (payload) => {
         const response: GlobalMessageEvent = JSON.parse(payload.data.Value.Message)
         const newMessage: Message = {
@@ -142,6 +152,7 @@ export default function ProtectedLayout() {
                 <Stack.Screen name="(ai)" options={{ headerShown: false }} />
                 <Stack.Screen name="(blog)" options={{ headerShown: false }} />
                 <Stack.Screen name="(health)" options={{ headerShown: false }} />
+                <Stack.Screen name="video-call-screen" options={{ headerShown: false }} />
             </Stack>
             <IncomingCallModal />
         </>

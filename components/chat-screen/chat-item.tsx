@@ -7,37 +7,38 @@ import { truncateText } from '../../util/truncate-text';
 import { formatDateBlog } from '../../util/format-date-post';
 import { MessageType } from '../../assets/enum/message-type';
 import { useMessageStore } from '../../store/useMessage';
+import { usePrivateMessageStore } from '../../store/usePrivateMessage';
+import { GroupChat } from '../../assets/types/chat/group';
+import { ConversationType } from '../../assets/enum/conversation-type';
 
 type Prop = {
-    id: string
-    img: string
-    name: string
-    user?: string
-    time?: string
-    message?: string
-    type?: MessageType
-    hasNewMessage?: boolean
+    item: GroupChat
 }
 
-export default function ChatItem({ id, img, name, user, time, message, type, hasNewMessage }: Prop) {
-
+export default function ChatItem({ item }: Prop) {
     const router = useRouter()
-
-    const { getLatestMessage } = useMessageStore()
+    const { getLatestMessage: getGroupLatestMessage } = useMessageStore()
+    const { getLatestMessage: getPrivateLatestMessage } = usePrivateMessageStore()
 
     const handleChatSelect = () => {
         router.push({
             pathname: '/chat-screen',
             params: {
-                id: id,
-                title: name,
-                image: img
+                id: item.id,
+                title: item.name,
+                image: item.avatar,
+                type: item.conversationType
             }
         })
     }
 
-    const displayMessage = getLatestMessage(id)
-        ? `${getLatestMessage(id)?.participant.fullName}: ${type === MessageType.PICTURE ? 'Đã gửi một ảnh' : truncateText(getLatestMessage(id)?.content as string, 25)}`
+    const isPrivateChat = item.conversationType === ConversationType.PRIVATE_CHAT
+    const latestMessage = isPrivateChat 
+        ? getPrivateLatestMessage(item.id)
+        : getGroupLatestMessage(item.id)
+
+    const displayMessage = latestMessage
+        ? `${latestMessage.participant.fullName}: ${latestMessage.type === MessageType.PICTURE ? 'Đã gửi một ảnh' : truncateText(latestMessage.content as string, 25)}`
         : 'Nhóm này chưa có tin nhắn'
 
     return (
@@ -47,17 +48,17 @@ export default function ChatItem({ id, img, name, user, time, message, type, has
         >
             <Image
                 style={{ width: 60, height: 60, borderRadius: 1000 }}
-                source={img}
+                source={item.avatar}
                 contentFit='cover'
             />
             <View className='flex-col justify-center gap-2 w-[80%]'>
                 <View className='flex-row justify-between items-center'>
-                    <Text className={`text-xl tracking-wider ${hasNewMessage && 'font-bold'}`}>{name}</Text>
-                    {time && (
-                        <Text className={`text-sm tracking-wider ${hasNewMessage && 'font-bold'}`}>{formatDateBlog(time)}</Text>
+                    <Text className={`text-xl tracking-wider`}>{truncateText(item.name, 18)}</Text>
+                    {latestMessage?.createdDate && (
+                        <Text className={`text-sm tracking-wider`}>{formatDateBlog(latestMessage.createdDate)}</Text>
                     )}
                 </View>
-                <Text className={`text-base tracking-wider ${hasNewMessage ? 'font-bold' : 'opacity-[60%]'}`}>
+                <Text className={`text-base tracking-wider`}>
                     {displayMessage}
                 </Text>
             </View>

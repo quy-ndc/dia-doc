@@ -18,25 +18,21 @@ import Toast from 'react-native-toast-message'
 import { useInfiniteQuery } from '@tanstack/react-query'
 import SpinningIcon from '../common/icons/spinning-icon'
 import { Loader } from '../../lib/icons/Loader'
-import { RefreshCcw } from '../../lib/icons/RefreshCcw'
-import { useMessageStore } from '../../store/useMessage'
+import { usePrivateMessageStore } from '../../store/usePrivateMessage'
 import { FlashList } from '@shopify/flash-list'
 import { useDebounce } from '../../util/hook/useDebounce'
-import { usePresence } from '@ably/chat'
 import ErrorDisplay from '../common/error-display'
-
 
 type Prop = {
     groupId: string
     setIsCameraOn: (state: boolean) => void
 }
 
-export default function ChatModule({
+export default function PrivateChatModule({
     groupId,
     setIsCameraOn,
 }: Prop) {
-
-    const { groups, setMessages, addMessages } = useMessageStore()
+    const { groups, setMessages, addMessages } = usePrivateMessageStore()
     const { user } = useUserStore()
     const [showScrollButton, setShowScrollButton] = useState(false)
     const listRef = useRef<FlashList<Message>>(null)
@@ -77,7 +73,6 @@ export default function ChatModule({
     useEffect(() => {
         if (!data) return
         const messages: Message[] = data.pages.at(-1)?.data?.data?.items ?? []
-        console.log()
         if (messages.length) {
             if (data.pages.length === 1) {
                 setMessages(groupId, messages)
@@ -86,7 +81,6 @@ export default function ChatModule({
             }
         }
     }, [data])
-
 
     const onTextChange = (m: string) => {
         setNewMessage(m)
@@ -135,7 +129,7 @@ export default function ChatModule({
     const handleSend = async () => {
         const response = await mutateAsync({
             conversationId: groupId,
-            conversationType: 0,
+            conversationType: 1,
             content: newMessage,
             mediaId: ' ',
             messageType: MessageType.TEXT
@@ -193,13 +187,10 @@ export default function ChatModule({
                             onEndReachedThreshold={0.5}
                         />
                     </View>
-                )
-                }
+                )}
 
                 <View className='flex-row gap-1 justify-center items-center pt-2 pb-2'>
                     <View className={`flex-row items-center ${!showUtil && 'hidden'}`}>
-                        {/* <CameraAccess setIsCameraOn={(state) => setIsCameraOn(state)} /> */}
-                        {/* <GalleryAccess onImagePick={(image) => console.log(image)} /> */}
                         <VoiceRecord setNewMessage={setNewMessage} />
                     </View>
                     <Pressable
@@ -242,7 +233,7 @@ export default function ChatModule({
                         <ChevronDown className='text-[var(--go-up-btn-icon)]' size={22} />
                     </Pressable>
                 </RNAnimated.View>
-            </View >
-        </KeyboardAvoidingView >
+            </View>
+        </KeyboardAvoidingView>
     )
-}
+} 

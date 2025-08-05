@@ -14,12 +14,25 @@ import { Heart } from '../../../lib/icons/Heart'
 import { Users } from '../../../lib/icons/Users'
 import { Bot } from '../../../lib/icons/Bot'
 import RoundedIcon from '../../common/icons/rouned-icon'
+import { Phone } from '../../../lib/icons/Phone'
+import useUserStore from '../../../store/userStore'
 
 const { width } = Dimensions.get('window')
 
 export default function QuickAccess() {
-
     const router = useRouter()
+    const { user } = useUserStore()
+
+    const handleTestCall = () => {
+        router.push({
+            pathname: '/(protected)/video-call-screen',
+            params: {
+                userId: user.id,
+                targetUserId: '9554b171-acdc-42c3-8dec-5d3aba44ca99',
+                mode: 'call'
+            }
+        })
+    }
 
     return (
         <View
@@ -115,11 +128,14 @@ export default function QuickAccess() {
                             <RoundedIcon
                                 background={GlobalColor.RED_NEON_BG}
                                 size={3}
-                                icon={<User color={GlobalColor.RED_NEON_BORDER} size={17} />}
+                                icon={<Phone color={GlobalColor.RED_NEON_BORDER} size={17} />}
+                            // icon={<User color={GlobalColor.RED_NEON_BORDER} size={17} />}
                             />
                         }
-                        title='Hồ sơ'
-                        onPress={() => router.push('/profile-screen')}
+                        // title='Hồ sơ'
+                        // onPress={() => router.push('/profile-screen')}
+                        title='Test Call'
+                        onPress={handleTestCall}
                     />
                 </View>
             </View>

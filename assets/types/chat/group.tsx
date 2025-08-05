@@ -5,7 +5,9 @@ export type GroupChat = {
     name: string
     avatar: string
     conversationType: number
-    message: Message
-    members: any[]
+    memberCount: number
+    status: number
+    canView: boolean
     modifiedDate: string
+    lastMessage?: Message
 }

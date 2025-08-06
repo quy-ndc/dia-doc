@@ -133,3 +133,33 @@ export const SendMessageToAI = async (params: {
         }
     }
 }
+
+export const GenrateAINote = async (recordId: string) => {
+
+    try {
+        const response = await axiosServices.patch(`${endpointAI.GENERATE_AI_NOTE}/${recordId}`)
+
+        return {
+            success: true,
+            status: response.status,
+            data: response.data
+        }
+
+    } catch (e) {
+        if (axios.isAxiosError(e) && e.response) {
+            return {
+                success: false,
+                status: e.response.status,
+                message: e.response.data.message || 'An error occurred',
+                data: e.response.data
+            }
+        }
+
+        return {
+            success: false,
+            status: 500,
+            message: 'An error occurred',
+            data: null
+        }
+    }
+}

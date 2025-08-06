@@ -45,13 +45,12 @@ const endpointAuth = {
 }
 
 const endpointAI = {
-    SEND_MESSAGE: `${NEW_AUTH_SERVICE_ENDPOINT}/${apiPrefixV1}/auth/chat`,
-    GET_ALL_MESSAGE: `${NEW_AUTH_SERVICE_ENDPOINT}/${apiPrefixV1}/auth/chat`,
-
     SEND_MESSAGE_TO_AI: `${AI_SERVICE_ENDPOINT}/${apiPrefixV1}/rag/chat`,
     GET_ALL_MESSAGE_WITH_AI: `${AI_SERVICE_ENDPOINT}/${apiPrefixV1}/rag/chat`,
     GET_ALL_AI_SESSION: `${AI_SERVICE_ENDPOINT}/${apiPrefixV1}/rag/session-chat`,
-    DELETE_AI_SESSION: `${AI_SERVICE_ENDPOINT}/${apiPrefixV1}/rag/session-chat`
+    DELETE_AI_SESSION: `${AI_SERVICE_ENDPOINT}/${apiPrefixV1}/rag/session-chat`,
+
+    GENERATE_AI_NOTE: `${API_GATEWAY_ENDPOINT}/${apiPrefixV1}/users/patients/records/ai-note`
 }
 
 const endpointUser = {

@@ -51,8 +51,8 @@ export default function HomeScreen() {
     })
 
     const today = new Date()
-    const fromDate = new Date(today.getTime() - 24 * 60 * 60 * 1000).toISOString()
-    const toDate = new Date(today.getTime() + 24 * 60 * 60 * 1000).toISOString()
+    // const fromDate = new Date(today.getTime() - 24 * 60 * 60 * 1000).toISOString()
+    // const toDate = new Date(today.getTime() + 24 * 60 * 60 * 1000).toISOString()
     // const fromDate = new Date('2025-07-28T00:00:00.000Z').toISOString()
     // const toDate = new Date('2025-07-30T00:00:00.000Z').toISOString()
 
@@ -63,10 +63,7 @@ export default function HomeScreen() {
         refetch: healthCarePlanRefetch,
         remove: healthCarePlanRemove
     } = useQuery({
-        ...useUserHealthCarePlan({
-            fromDate: fromDate,
-            toDate: toDate
-        }),
+        ...useUserHealthCarePlan({}),
         retry: 2,
         retryDelay: attempt => Math.min(1000 * 2 ** attempt, 5000),
         enabled: user.role === UserRole.PATIENT

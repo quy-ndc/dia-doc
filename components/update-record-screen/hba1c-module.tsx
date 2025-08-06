@@ -9,6 +9,8 @@ import { useUpdateUserHbA1cMutation } from '../../service/query/user-query'
 import { router } from 'expo-router'
 import NoteField from './common/note-field'
 import RecordConfirmButton from './common/record-confirm-button'
+import LoadingBanner from './common/loading-banner'
+import { useGenerateAiNoteMutation } from '../../service/query/ai-query'
 
 
 const { width } = Dimensions.get('window')
@@ -25,25 +27,48 @@ export default function Hb1AcUpdateModule({ lastMesurement, initialTime }: Props
     const change = calculateChange(lastMesurement as string, value)
     const [selectedTime, setSelectedTime] = useState('')
 
-    const { mutate, isLoading, data, isError } = useUpdateUserHbA1cMutation()
+    const { mutateAsync, isLoading, data, isError } = useUpdateUserHbA1cMutation()
+    const {
+        mutateAsync: generateAiNote,
+        isLoading: isLoadingAiNote,
+        data: aiNoteData,
+        isError: isErrorAiNote
+    } = useGenerateAiNoteMutation()
 
-    const handleUpdateHbA1c = () => {
-        mutate({
+    const handleUpdateHbA1c = async () => {
+        await mutateAsync({
             value: Number(value),
             personNote: note,
             measurementAt: selectedTime
         })
     }
 
+    const handleGenerateAiNote = async () => {
+        await generateAiNote(data?.data?.data)
+    }
+
     useEffect(() => {
         if (isError || !data || data.status !== 200) return
-
-        router.back()
+        handleGenerateAiNote()
     }, [data])
+
+    useEffect(() => {
+        if (isErrorAiNote || !aiNoteData || aiNoteData.status !== 200) return
+        router.replace({
+            pathname: "/health-record-history-screen",
+            params: { type: 4 }
+        })
+    })
 
     return (
         <ScrollView>
             <View className='flex-1 flex-col gap-7 items-center pt-5 pb-10'>
+                <LoadingBanner
+                    text1="Đang cập nhật chỉ số HbA1c, giai đoạn này sẽ hoàn thành trong giây lát"
+                    text2="Đang tạo ghi chú AI cho chỉ số mới, vui lòng đợi trong giây lát, giai đoạn này có thể mất vài giây"
+                    loading1={isLoading}
+                    loading2={isLoadingAiNote}
+                />
                 <View
                     style={{ width: width * 0.7 }}
                     className='flex-col gap-3 items-center'
@@ -80,7 +105,7 @@ export default function Hb1AcUpdateModule({ lastMesurement, initialTime }: Props
                 />
                 <NoteField note={note} setNote={setNote} placeholder='Đi làm, cảm thấy chóng mặt' />
                 <RecordConfirmButton
-                    isLoading={isLoading}
+                    isLoading={isLoading || isLoadingAiNote}
                     disabled={!value || !selectedTime}
                     onPress={handleUpdateHbA1c}
                 />

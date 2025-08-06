@@ -6,8 +6,12 @@ import { useEffect, useState } from 'react'
 import { calculateChange } from '../../util/calculate-change'
 import RecordTimePicker from './common/time-picker'
 import { useUpdateUserWeightMutation } from '../../service/query/user-query'
-import { router } from 'expo-router'
 import RecordConfirmButton from './common/record-confirm-button'
+import { useGenerateAiNoteMutation } from '../../service/query/ai-query'
+import { router } from 'expo-router'
+import { Info } from '../../lib/icons/Info'
+import { GlobalColor } from '../../global-color'
+import LoadingBanner from './common/loading-banner'
 
 
 const { width } = Dimensions.get('window')
@@ -23,23 +27,46 @@ export default function WeightUpdateModule({ lastMesurement, initialTime }: Prop
     const change = calculateChange(lastMesurement as string, value)
     const [selectedTime, setSelectedTime] = useState('')
 
-    const { mutate, isLoading, data, isError } = useUpdateUserWeightMutation()
+    const { mutateAsync, isLoading, data, isError } = useUpdateUserWeightMutation()
+    const {
+        mutateAsync: generateAiNote,
+        isLoading: isLoadingAiNote,
+        data: aiNoteData,
+        isError: isErrorAiNote
+    } = useGenerateAiNoteMutation()
 
-    const handleUpdateWeight = () => {
-        mutate({
+    const handleUpdateWeight = async () => {
+        await mutateAsync({
             value: Number(value),
             measurementAt: selectedTime
         })
     }
 
+    const handleGenerateAiNote = async () => {
+        await generateAiNote(data?.data?.data)
+    }
+
     useEffect(() => {
         if (isError || !data || data.status !== 200) return
-
-        router.back()
+        handleGenerateAiNote()
     }, [data])
+
+    useEffect(() => {
+        if (isErrorAiNote || !aiNoteData || aiNoteData.status !== 200) return
+        router.replace({
+            pathname: "/health-record-history-screen",
+            params: { type: 0 }
+        })
+    })
 
     return (
         <View className='flex-1 flex-col gap-5 items-center pt-5'>
+            <LoadingBanner
+                text1="Đang cập nhật chỉ số cân nặng, giai đoạn này sẽ hoàn thành trong giây lát"
+                text2="Đang tạo ghi chú AI cho chỉ số mới, vui lòng đợi trong giây lát, giai đoạn này có thể mất vài giây"
+                loading1={isLoading}
+                loading2={isLoadingAiNote}
+            />
             <View
                 style={{ width: width * 0.7 }}
                 className='flex-col gap-3 items-center'
@@ -75,7 +102,7 @@ export default function WeightUpdateModule({ lastMesurement, initialTime }: Prop
                 initialTime={initialTime}
             />
             <RecordConfirmButton
-                isLoading={isLoading}
+                isLoading={isLoading || isLoadingAiNote}
                 disabled={!value || !selectedTime}
                 onPress={handleUpdateWeight}
             />

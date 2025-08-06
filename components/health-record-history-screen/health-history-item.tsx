@@ -68,7 +68,7 @@ export default function HealthRecordHistoryItem({ item }: Prop) {
                         {!item.personNote || item.personNote == '' ? 'Không có ghi chú cá nhân' : item.personNote}
                     </Text>
                 </View>
-                <View className='flex-row gap-2 items-center'>
+                <View className='flex-col gap-2'>
                     <Bot color={GlobalColor.BLUE_NEON_BORDER} size={17} />
                     <Text className='text-base font-semibold tracking-wider'>
                         {item.assistantNote ? item.assistantNote : 'Không có lời khuyên từ tư vấn AI'}

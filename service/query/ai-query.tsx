@@ -1,6 +1,7 @@
 import { useMutation, useQueryClient } from "@tanstack/react-query"
 import { QueryKeys } from "../../assets/enum/query"
-import { DeleteSession, GetAllAIMessage, GetAllSession, SendMessageToAI } from "../api/ai-service"
+import { DeleteSession, GenrateAINote, GetAllAIMessage, GetAllSession, SendMessageToAI } from "../api/ai-service"
+import Toast from "react-native-toast-message"
 
 export const useAiSessionQuery = (params: { user_id: string }) => {
     const queryKey = [QueryKeys.AI_SESSION, params]
@@ -47,6 +48,40 @@ export const useDeleteAiSessionMutation = () => {
             return data
         },
         onError: (error) => {
+            return error
+        }
+    })
+}
+
+export const useGenerateAiNoteMutation = () => {
+    const queryClient = useQueryClient()
+    return useMutation({
+        mutationFn: (recordId: string) => GenrateAINote(recordId),
+        onSuccess: (data) => {
+            if (data.status !== 200) {
+                Toast.show({
+                    type: 'error',
+                    text1: data.data.detail || 'Tạo ghi chú AI thất bại',
+                    text2: 'Vui lòng thử lại sau',
+                    visibilityTime: 2000,
+                })
+            } else {
+                queryClient.invalidateQueries({ queryKey: [QueryKeys.HEALTH_RECORD] })
+                Toast.show({
+                    type: 'success',
+                    text1: 'Tạo ghi chú AI thành công',
+                    visibilityTime: 2000,
+                })
+            }
+            return data
+        },
+        onError: (error) => {
+            Toast.show({
+                type: 'error',
+                text1: 'Tạo ghi chú AI thất bại',
+                text2: 'Vui lòng thử lại sau',
+                visibilityTime: 2000,
+            })
             return error
         }
     })

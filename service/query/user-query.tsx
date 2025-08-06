@@ -1,5 +1,5 @@
 import { useMutation, useQueryClient } from "@tanstack/react-query"
-import { CreateCarePlanTemplate, CreateUserProfile, DeleteCarePlanTemplate, GetCarePlanTemplate, GetDoctorProfile, GetUserHealthCarePlan, GetUserHealthRecord, GetUserProfile, UpdateCarePlanTemplate, UpdateUserBloodPressure, UpdateUserBloodSugar, UpdateUserHbA1c, UpdateUserHeight, UpdateUserProfile, UpdateUserWeight } from "../api/user-service"
+import { CreateCarePlanTemplate, CreateUserProfile, DeleteCarePlanTemplate, GetCarePlanTemplate, GetDoctorProfile, GetUserHealthCarePlan, GetUserHealthRecord, GetUserProfile, UpdateCarePlanTemplate, UpdateUserBloodPressure, UpdateUserBloodSugar, UpdateUserHbA1c, UpdateUserHeight, UpdateUserWeight } from "../api/user-service"
 import { QueryKeys } from "../../assets/enum/query"
 import { GenderNumber } from "../../assets/enum/gender"
 import { DiagnosisRecency } from "../../assets/enum/diagnosis-recency"
@@ -15,27 +15,6 @@ import Toast from "react-native-toast-message"
 import { HealthRecordType } from "../../assets/enum/health-record"
 import { HealthCarePlanPeriod, HealthCarePlanSubType } from "../../assets/enum/healthcare-plan"
 
-export const useEditPatientMutation = () => {
-    const queryClient = useQueryClient()
-    return useMutation({
-        mutationFn: (params: {
-            dateOfBirth: string,
-            genderType: number,
-            bloodType: number,
-            weight: number,
-            height: number,
-            diabetesType: number,
-            medicalRecord?: any
-        }) => UpdateUserProfile(params),
-        onSuccess: (data) => {
-            queryClient.invalidateQueries({ queryKey: [QueryKeys.USER] })
-            return data
-        },
-        onError: (error) => {
-            return error
-        }
-    })
-}
 
 export const useUserProfile = () => {
     const queryKey = [QueryKeys.USER]

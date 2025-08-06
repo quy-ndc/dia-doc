@@ -14,6 +14,8 @@ import GlucoseTimingPicker from './glucose-timing-picker'
 import { MeasureTime } from '../../../assets/data/measure-time'
 import NoteField from '../common/note-field'
 import RecordConfirmButton from '../common/record-confirm-button'
+import { useGenerateAiNoteMutation } from '../../../service/query/ai-query'
+import LoadingBanner from '../common/loading-banner'
 
 
 const { width } = Dimensions.get('window')
@@ -30,10 +32,16 @@ export default function BloodSugarUpdateModule({ lastMesurement, initialTime }: 
     const [selectedTime, setSelectedTime] = useState('')
     const [selectPeriod, setSelectPeriod] = useState<MeasureTime | undefined>(undefined)
     const [note, setNote] = useState('')
-    const { mutate, isLoading, data, isError } = useUpdateUserBloodSugarMutation()
+    const { mutateAsync, isLoading, data, isError } = useUpdateUserBloodSugarMutation()
+    const {
+        mutateAsync: generateAiNote,
+        isLoading: isLoadingAiNote,
+        data: aiNoteData,
+        isError: isErrorAiNote
+    } = useGenerateAiNoteMutation()
 
-    const handleUpdateBloodSugar = () => {
-        mutate({
+    const handleUpdateBloodSugar = async () => {
+        await mutateAsync({
             value: Number(value),
             measureTime: selectPeriod as number,
             personNote: note,
@@ -41,15 +49,32 @@ export default function BloodSugarUpdateModule({ lastMesurement, initialTime }: 
         })
     }
 
+    const handleGenerateAiNote = async () => {
+        await generateAiNote(data?.data?.data)
+    }
+
     useEffect(() => {
         if (isError || !data || data.status !== 200) return
-
-        router.back()
+        handleGenerateAiNote()
     }, [data])
+
+    useEffect(() => {
+        if (isErrorAiNote || !aiNoteData || aiNoteData.status !== 200) return
+        router.replace({
+            pathname: "/health-record-history-screen",
+            params: { type: 2 }
+        })
+    })
 
     return (
         <ScrollView>
             <View className='flex-1 flex-col gap-5 items-center pt-5 pb-10'>
+                <LoadingBanner
+                    text1="Đang cập nhật chỉ số đường huyết, giai đoạn này sẽ hoàn thành trong giây lát"
+                    text2="Đang tạo ghi chú AI cho chỉ số mới, vui lòng đợi trong giây lát, giai đoạn này có thể mất vài giây"
+                    loading1={isLoading}
+                    loading2={isLoadingAiNote}
+                />
                 <View
                     style={{ width: width * 0.7 }}
                     className='flex-col gap-3 items-center'
@@ -96,7 +121,7 @@ export default function BloodSugarUpdateModule({ lastMesurement, initialTime }: 
                 />
                 <NoteField note={note} setNote={setNote} placeholder='Ăn nhiều ngọt trước đó, cảm thấy chóng mặt' />
                 <RecordConfirmButton
-                    isLoading={isLoading}
+                    isLoading={isLoading || isLoadingAiNote}
                     disabled={value == '' || selectedTime == '' || selectPeriod == undefined}
                     onPress={handleUpdateBloodSugar}
                 />

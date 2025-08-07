@@ -15,7 +15,7 @@ import { useRouter } from 'expo-router'
 import useUserStore from '../../store/userStore'
 
 export default function ChatScreen() {
-    const { id, title, image, type } = useLocalSearchParams()
+    const { id, title, image, type, target } = useLocalSearchParams()
     const router = useRouter()
     const { user } = useUserStore()
     const [isCameraOn, setIsCameraOn] = useState(false)
@@ -25,7 +25,7 @@ export default function ChatScreen() {
             pathname: '/(protected)/video-call-screen',
             params: {
                 userId: user.id,
-                targetUserId: id as string,
+                targetUserId: target as string,
                 mode: 'call'
             }
         })
@@ -44,7 +44,7 @@ export default function ChatScreen() {
                             />
                             <Text className='text-lg font-bold tracking-wider'>{truncateText(title as string, 23)}</Text>
                         </View>,
-                    headerRight: () => type as string == ConversationType.PRIVATE_CHAT.toString() ?
+                    headerRight: () => target ? 
                         <IconButton
                             icon={<Phone className='text-foreground' size={17} />}
                             buttonSize={3}

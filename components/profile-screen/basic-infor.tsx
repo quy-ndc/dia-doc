@@ -9,6 +9,9 @@ import { getGenderString } from '../../assets/enum/gender'
 import { getAge } from '../../util/getAge'
 import { Doctor } from '../../assets/types/user/doctor'
 import { formatPhone } from '../../util/format-phone-number'
+import IconButton from '../common/icon-button'
+import { PencilLine } from '../../lib/icons/PencilLine'
+import EditProfileModal from './popup-modal/edit-profile-modal'
 
 type Prop = {
     profile: Patient | Doctor
@@ -20,7 +23,7 @@ export default function BasicInfo({ profile }: Prop) {
 
     return (
         <View className='flex-row p-3 justify-between items-center'>
-            <View className='flex-row gap-4 items-center'>
+            <View className='flex-row gap-4'>
                 <Image
                     style={{ width: 70, height: 70, borderRadius: 1000 }}
                     source={profile.avatar}
@@ -38,6 +41,7 @@ export default function BasicInfo({ profile }: Prop) {
                     </View>
                 </View>
             </View>
+            <EditProfileModal profile={profile} />
         </View>
     )
 }

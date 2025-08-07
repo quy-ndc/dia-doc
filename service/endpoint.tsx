@@ -55,6 +55,7 @@ const endpointAI = {
 
 const endpointUser = {
     CREATE_USER_PROFILE: `${API_GATEWAY_ENDPOINT}/${apiPrefixV1}/users/patients`,
+    EDIT_USER_PROFILE: `${API_GATEWAY_ENDPOINT}/${apiPrefixV1}/users/patients/profile`,
     GET_USER_PROFILE: `${API_GATEWAY_ENDPOINT}/${apiPrefixV1}/users/patients/profile`,
     GET_DOCTOR_PROFILE: `${API_GATEWAY_ENDPOINT}/${apiPrefixV1}/doctors/profile`,
     GET_USER_HEALTH_RECORD: `${API_GATEWAY_ENDPOINT}/${apiPrefixV1}/users/patients/records`,

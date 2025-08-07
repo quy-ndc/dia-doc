@@ -5,11 +5,12 @@ import { router } from 'expo-router'
 import useUserStore from '../../store/userStore'
 
 export default function IncomingCallModal() {
-    const { incomingCall, acceptCall, declineCall } = useVideoCallStore()
+    const { incomingCall, acceptCall, declineCall, clearIncomingCall } = useVideoCallStore()
     const { user } = useUserStore()
 
     const handleAccept = async () => {
         if (incomingCall) {
+            clearIncomingCall() // Clear the incoming call before navigation
             router.push({
                 pathname: '/(protected)/video-call-screen',
                 params: {

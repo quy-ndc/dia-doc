@@ -64,13 +64,13 @@ export default function HealthRecordHistoryItem({ item }: Prop) {
                 )}
                 <View className='flex-row gap-2 items-center'>
                     <PenLine color={GlobalColor.CYAN_NEON_BORDER} size={17} />
-                    <Text className='text-base font-semibold tracking-wider'>
+                    <Text className='text-base font-medium tracking-wider'>
                         {!item.personNote || item.personNote == '' ? 'Không có ghi chú cá nhân' : item.personNote}
                     </Text>
                 </View>
                 <View className='flex-col gap-2'>
                     <Bot color={GlobalColor.BLUE_NEON_BORDER} size={17} />
-                    <Text className='text-base font-semibold tracking-wider'>
+                    <Text className='text-base font-medium tracking-wider'>
                         {item.assistantNote ? item.assistantNote : 'Không có lời khuyên từ tư vấn AI'}
                     </Text>
                 </View>

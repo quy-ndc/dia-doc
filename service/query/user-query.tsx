@@ -1,5 +1,5 @@
 import { useMutation, useQueryClient } from "@tanstack/react-query"
-import { CreateCarePlanTemplate, CreateUserProfile, DeleteCarePlanTemplate, GetCarePlanTemplate, GetDoctorProfile, GetUserHealthCarePlan, GetUserHealthRecord, GetUserProfile, UpdateCarePlanTemplate, UpdateUserBloodPressure, UpdateUserBloodSugar, UpdateUserHbA1c, UpdateUserHeight, UpdateUserWeight } from "../api/user-service"
+import { CreateCarePlanTemplate, CreateUserProfile, DeleteCarePlanTemplate, EditUserProfile, GetCarePlanTemplate, GetDoctorProfile, GetUserHealthCarePlan, GetUserHealthRecord, GetUserProfile, UpdateCarePlanTemplate, UpdateUserBloodPressure, UpdateUserBloodSugar, UpdateUserHbA1c, UpdateUserHeight, UpdateUserWeight } from "../api/user-service"
 import { QueryKeys } from "../../assets/enum/query"
 import { GenderNumber } from "../../assets/enum/gender"
 import { DiagnosisRecency } from "../../assets/enum/diagnosis-recency"
@@ -23,6 +23,47 @@ export const useUserProfile = () => {
     }
 
     return { queryKey, queryFn }
+}
+
+
+export const useEditUserProfileMutation = () => {
+    const queryClient = useQueryClient()
+    return useMutation({
+        mutationFn: (data: {
+            lastName?: string,
+            middleName?: string,
+            firstName?: string,
+            dateOfBirth?: string,
+            gender?: GenderNumber
+        }) => EditUserProfile(data),
+        onSuccess: (data) => {
+            if (data.status !== 200) {
+                Toast.show({
+                    type: 'error',
+                    text1: data.data.detail || 'Cập nhật hồ sơ thất bại',
+                    text2: 'Vui lòng thử lại sau',
+                    visibilityTime: 2000,
+                })
+            } else {
+                queryClient.invalidateQueries({ queryKey: [QueryKeys.USER] })
+                Toast.show({
+                    type: 'success',
+                    text1: 'Cập nhật hồ sơ thành công',
+                    visibilityTime: 2000,
+                })
+            }
+            return data
+        },
+        onError: (error) => {
+            Toast.show({
+                type: 'error',
+                text1: 'Cập nhật hồ sơ thất bại',
+                text2: 'Vui lòng thử lại sau',
+                visibilityTime: 2000,
+            })
+            return error
+        }
+    })
 }
 
 export const useDoctorProfile = () => {

@@ -315,4 +315,3 @@ const styles = StyleSheet.create({
         borderTopColor: '#e0e0e0',
     }
 })
-

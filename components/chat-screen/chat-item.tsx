@@ -1,15 +1,15 @@
-import * as React from 'react';
-import { View, Pressable } from 'react-native';
-import { Text } from '../ui/text';
-import { useRouter } from 'expo-router';
+import * as React from 'react'
+import { View, Pressable } from 'react-native'
+import { Text } from '../ui/text'
+import { useRouter } from 'expo-router'
 import { Image } from 'expo-image'
-import { truncateText } from '../../util/truncate-text';
-import { formatDateBlog } from '../../util/format-date-post';
-import { MessageType } from '../../assets/enum/message-type';
-import { useMessageStore } from '../../store/useMessage';
-import { usePrivateMessageStore } from '../../store/usePrivateMessage';
-import { GroupChat } from '../../assets/types/chat/group';
-import { ConversationType } from '../../assets/enum/conversation-type';
+import { truncateText } from '../../util/truncate-text'
+import { formatDateBlog } from '../../util/format-date-post'
+import { MessageType } from '../../assets/enum/message-type'
+import { useMessageStore } from '../../store/useMessage'
+import { usePrivateMessageStore } from '../../store/usePrivateMessage'
+import { GroupChat } from '../../assets/types/chat/group'
+import { ConversationType } from '../../assets/enum/conversation-type'
 
 type Prop = {
     item: GroupChat
@@ -27,7 +27,8 @@ export default function ChatItem({ item }: Prop) {
                 id: item.id,
                 title: item.name,
                 image: item.avatar,
-                type: item.conversationType
+                type: item.conversationType,
+                target: isPrivateChat ? item.otherUserId : undefined
             }
         })
     }
@@ -63,5 +64,5 @@ export default function ChatItem({ item }: Prop) {
                 </Text>
             </View>
         </Pressable>
-    );
+    )
 }

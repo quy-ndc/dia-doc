@@ -12,6 +12,12 @@ import {
 import { ConsultationVideoCall } from '../../assets/enum/consulation-video-call'
 import useVideoCallStore from '../../store/videoCallStore'
 import { useLocalSearchParams } from 'expo-router'
+import IconButton from '../../components/common/icon-button'
+import { Mic } from '../../lib/icons/Mic'
+import { MicOff } from '../../lib/icons/MicOff'
+import { SwitchCamera } from '../../lib/icons/SwitchCamera'
+import { PhoneOff } from '../../lib/icons/PhoneOff'
+import { GlobalColor } from '../../global-color'
 
 const { width, height } = Dimensions.get('window')
 
@@ -35,13 +41,27 @@ export default function VideoCallScreen() {
         offer?: string
     }>()
 
-    const { connection, acceptCall, sendIceCandidate, startCall, setCallbacks } = useVideoCallStore()
-    const [localStream, setLocalStream] = useState<MediaStream | null>(null)
-    const [remoteStream, setRemoteStream] = useState<MediaStream | null>(null)
+    const {
+        connection,
+        peerConnection,
+        localStream,
+        remoteStream,
+        callDuration,
+        isInCall,
+        acceptCall,
+        sendIceCandidate,
+        startCall,
+        setCallbacks,
+        setLocalStream,
+        setRemoteStream,
+        createPeerConnection,
+        addLocalStreamToPeer,
+        updateCallDuration,
+        cleanupCall
+    } = useVideoCallStore()
+
     const [isMuted, setIsMuted] = useState(false)
     const [cameraCount, setCameraCount] = useState(1)
-
-    const peerConnection = useRef<RTCPeerConnection | null>(null)
     const isFrontCam = useRef(true)
 
     const getLocalStream = async () => {
@@ -61,106 +81,10 @@ export default function VideoCallScreen() {
             setCameraCount(videoDevices.length)
             setLocalStream(stream)
 
-            if (peerConnection.current) {
-                console.log('🔄 Adding tracks to peer connection...')
-                stream.getTracks().forEach((track) => {
-                    console.log('➕ Adding track:', track.kind)
-                    peerConnection.current?.addTrack(track, stream)
-                })
-            } else {
-                console.warn('⚠️ No peer connection available when adding tracks')
-            }
+            addLocalStreamToPeer(stream)
         } catch (err) {
             console.error('❌ Failed to get media stream:', err)
         }
-    }
-
-    const createPeer = () => {
-        console.log('🔄 Creating peer connection...')
-        const pc = new RTCPeerConnection(peerConfig)
-        
-        pc.addEventListener('connectionstatechange', () => {
-            console.log('🔄 Connection state changed:', pc.connectionState)
-        })
-
-        pc.addEventListener('signalingstatechange', () => {
-            console.log('🔄 Signaling state changed:', pc.signalingState)
-        })
-
-        pc.addEventListener('iceconnectionstatechange', () => {
-            console.log('🔄 ICE connection state:', pc.iceConnectionState)
-        })
-
-        pc.addEventListener('icegatheringstatechange', () => {
-            console.log('🔄 ICE gathering state:', pc.iceGatheringState)
-        })
-        
-        pc.addEventListener('icecandidate', (event) => {
-            if (event.candidate && connection && params.targetUserId) {
-                console.log('❄️ ICE Candidate generated:', {
-                    sdpMid: event.candidate.sdpMid,
-                    sdpMLineIndex: event.candidate.sdpMLineIndex,
-                    candidate: event.candidate.candidate.substring(0, 50) + '...'
-                })
-                sendIceCandidate(params.targetUserId, event.candidate)
-            }
-        })
-
-        pc.addEventListener('track', (event) => {
-            if (!event.track) {
-                console.warn('⚠️ Received track event without track')
-                return
-            }
-
-            console.log('📡 Track event received:', {
-                kind: event.track.kind,
-                enabled: event.track.enabled,
-                streams: event.streams?.length || 0
-            })
-            
-            const incomingStream = event.streams?.[0]
-            if (incomingStream) {
-                console.log('✅ Received remote stream via event.streams:', {
-                    audioTracks: incomingStream.getAudioTracks().length,
-                    videoTracks: incomingStream.getVideoTracks().length
-                })
-                setRemoteStream(incomingStream)
-            } else {
-                console.log('⚠️ No stream in track event, creating new stream')
-                const newStream = new MediaStream()
-                newStream.addTrack(event.track)
-                console.log('✅ Created new stream with track:', {
-                    kind: event.track.kind,
-                    enabled: event.track.enabled
-                })
-                setRemoteStream(newStream)
-            }
-        })
-
-        peerConnection.current = pc
-
-        // Set up callbacks for remote description and ICE candidates
-        setCallbacks({
-            onRemoteDescription: (description) => {
-                console.log('📝 Setting remote description:', {
-                    type: description.type,
-                    sdp: description.sdp.substring(0, 100) + '...'
-                })
-                pc.setRemoteDescription(description).catch(err => {
-                    console.error('❌ Failed to set remote description:', err)
-                })
-            },
-            onIceCandidate: (candidate) => {
-                console.log('❄️ Adding received ICE candidate:', {
-                    sdpMid: candidate.sdpMid,
-                    sdpMLineIndex: candidate.sdpMLineIndex,
-                    candidate: candidate.candidate.substring(0, 50) + '...'
-                })
-                pc.addIceCandidate(candidate).catch(err => {
-                    console.error('❌ Failed to add ICE candidate:', err)
-                })
-            }
-        })
     }
 
     const handleIncomingCall = async () => {
@@ -169,18 +93,25 @@ export default function VideoCallScreen() {
             return
         }
         console.log('📞 Handling incoming call from:', params.targetUserId)
-        createPeer()
-        await getLocalStream()
-        const offer = JSON.parse(params.offer)
-        console.log('📝 Setting remote description from offer')
-        await peerConnection.current?.setRemoteDescription(new RTCSessionDescription(offer))
-        console.log('📝 Creating answer')
-        const answer = await peerConnection.current?.createAnswer()
-        if (answer) {
-            console.log('📝 Setting local description (answer)')
-            await peerConnection.current?.setLocalDescription(answer)
-            console.log('📞 Accepting call with answer')
-            await acceptCall(params.targetUserId, answer)
+
+        try {
+            const pc = createPeerConnection()
+
+            await getLocalStream()
+
+            const offer = JSON.parse(params.offer)
+            console.log('📝 Setting remote description from offer')
+            await pc.setRemoteDescription(new RTCSessionDescription(offer))
+            console.log('📝 Creating answer')
+            const answer = await pc.createAnswer()
+            if (answer) {
+                console.log('📝 Setting local description (answer)')
+                await pc.setLocalDescription(answer)
+                console.log('📞 Accepting call with answer')
+                await acceptCall(params.targetUserId, answer)
+            }
+        } catch (error) {
+            console.error('❌ Error handling incoming call:', error)
         }
     }
 
@@ -190,45 +121,102 @@ export default function VideoCallScreen() {
             return
         }
         console.log('📞 Initiating call to:', params.targetUserId)
-        createPeer()
-        await getLocalStream()
-        console.log('📝 Creating offer')
-        const offer = await peerConnection.current?.createOffer(sessionConstraints)
-        if (offer) {
-            console.log('📝 Setting local description (offer)')
-            await peerConnection.current?.setLocalDescription(offer)
-            console.log('📞 Starting call with offer')
-            await startCall(params.targetUserId, offer)
+
+        try {
+            const pc = createPeerConnection()
+
+            await getLocalStream()
+
+            console.log('📝 Creating offer')
+            const offer = await pc.createOffer(sessionConstraints)
+            if (offer) {
+                console.log('📝 Setting local description (offer)')
+                await pc.setLocalDescription(offer)
+                console.log('📞 Starting call with offer')
+                await startCall(params.targetUserId, offer)
+            }
+        } catch (error) {
+            console.error('❌ Error initiating call:', error)
         }
     }
+
+    useEffect(() => {
+        console.log('Stream state changed:', {
+            hasLocalStream: !!localStream,
+            hasRemoteStream: !!remoteStream,
+            localStreamTracks: localStream?.getTracks().length || 0,
+            remoteStreamTracks: remoteStream?.getTracks().length || 0,
+        })
+    }, [localStream, remoteStream])
+
+    useEffect(() => {
+        let interval: NodeJS.Timeout | null = null
+
+        if (isInCall) {
+            interval = setInterval(() => {
+                updateCallDuration(callDuration + 1)
+            }, 1000)
+        }
+
+        return () => {
+            if (interval) {
+                clearInterval(interval)
+            }
+        }
+    }, [isInCall, callDuration])
 
     useEffect(() => {
         console.log('🔄 VideoCallScreen mounted:', {
             mode: params.mode,
             hasOffer: !!params.offer
         })
-        
-        if (params.mode === 'answer' && params.offer) {
-            handleIncomingCall()
-        } else {
-            initiateCall()
+
+        // Initialize the store first
+        const initializeStore = async () => {
+            const { initialize, setCallbacks } = useVideoCallStore.getState()
+            await initialize()
+
+            // Set up callbacks for remote description and ICE candidates
+            setCallbacks({
+                onRemoteDescription: (description) => {
+                    console.log('📝 Setting remote description:', {
+                        type: description.type,
+                        sdp: description.sdp.substring(0, 100) + '...'
+                    })
+                    const { peerConnection } = useVideoCallStore.getState()
+                    if (peerConnection) {
+                        peerConnection.setRemoteDescription(description).catch(err => {
+                            console.error('❌ Failed to set remote description:', err)
+                        })
+                    }
+                },
+                onIceCandidate: (candidate) => {
+                    console.log('❄️ Adding received ICE candidate:', {
+                        sdpMid: candidate.sdpMid,
+                        sdpMLineIndex: candidate.sdpMLineIndex,
+                        candidate: candidate.candidate.substring(0, 50) + '...'
+                    })
+                    const { peerConnection } = useVideoCallStore.getState()
+                    if (peerConnection) {
+                        peerConnection.addIceCandidate(candidate).catch(err => {
+                            console.error('❌ Failed to add ICE candidate:', err)
+                        })
+                    }
+                }
+            })
         }
+
+        initializeStore().then(() => {
+            if (params.mode === 'answer' && params.offer) {
+                handleIncomingCall()
+            } else {
+                initiateCall()
+            }
+        })
 
         return () => {
             console.log('🧹 Cleaning up VideoCallScreen')
-            localStream?.getTracks().forEach(track => {
-                console.log('🛑 Stopping local track:', track.kind)
-                track.stop()
-            })
-            remoteStream?.getTracks().forEach(track => {
-                console.log('🛑 Stopping remote track:', track.kind)
-                track.stop()
-            })
-            if (peerConnection.current) {
-                console.log('🛑 Closing peer connection')
-                peerConnection.current.close()
-            }
-            setCallbacks({}) // Clear callbacks
+            cleanupCall()
         }
     }, [])
 
@@ -253,65 +241,90 @@ export default function VideoCallScreen() {
         }
     }
 
+    const hasLocalVideo = !!localStream && localStream.getTracks().length > 0
+    const hasRemoteVideo = !!remoteStream && remoteStream.getTracks().length > 0
+
     return (
-        <View style={styles.container}>
-            <View style={styles.section}>
-                <Text style={styles.title}>Local Stream</Text>
-                {localStream && (
-                    <RTCView
-                        streamURL={localStream.toURL()}
-                        style={styles.video}
-                        objectFit="cover"
-                        mirror={true}
-                    />
-                )}
-            </View>
-            <View style={styles.section}>
-                <Text style={styles.title}>Remote Stream</Text>
-                {remoteStream && (
+        <View className='flex-1 bg-black'>
+            {hasLocalVideo && localStream && (
+                <RTCView
+                    streamURL={localStream.toURL()}
+                    style={{ position: 'absolute', left: 0, right: 0, top: 0, bottom: 0 }}
+                    objectFit="cover"
+                    mirror={true}
+                />
+            )}
+
+            {hasRemoteVideo && remoteStream && (
+                <View style={styles.remoteContainer}>
                     <RTCView
                         streamURL={remoteStream.toURL()}
-                        style={styles.video}
+                        style={{ height: '100%', width: '100%' }}
                         objectFit="cover"
                         mirror={false}
                     />
-                )}
+                </View>
+            )}
+
+            <View style={styles.timerContainer}>
+                <Text style={styles.timerText}>
+                    {callDuration > 0 && (
+                        `${Math.floor(callDuration / 60)}:${(callDuration % 60).toString().padStart(2, '0')}`
+                    )}
+                </Text>
             </View>
-            <View style={styles.controls}>
-                <Button title={isMuted ? 'Unmute Mic' : 'Mute Mic'} onPress={toggleMic} />
-                <Button title="Switch Camera" onPress={switchCamera} />
+
+            <View
+                style={{ position: 'absolute', left: 0, right: 0, bottom: 24 }}
+                className='flex-row items-center gap-5 justify-center'
+            >
+                <IconButton
+                    icon={isMuted ? <Mic className='text-white' size={20} /> : <MicOff className='text-white' size={20} />}
+                    buttonSize={3}
+                    possition={'camera'}
+                    onPress={toggleMic}
+                />
+                <IconButton
+                    icon={<SwitchCamera className='text-white' size={20} />}
+                    buttonSize={3}
+                    possition={'camera'}
+                    onPress={switchCamera}
+                />
+                <IconButton
+                    icon={<PhoneOff color={GlobalColor.RED_NEON_BORDER} size={20} />}
+                    buttonSize={3}
+                    possition={'camera'}
+                    onPress={cleanupCall}
+                />
             </View>
         </View>
     )
 }
 
 const styles = StyleSheet.create({
-    container: {
-        flex: 1,
-        padding: 12,
-        backgroundColor: '#f5f5f5',
-    },
-    video: {
-        width: '100%',
-        height: 220,
+    remoteContainer: {
+        position: 'absolute',
+        top: 16,
+        right: 16,
+        width: 120,
+        height: 160,
+        borderRadius: 8,
+        overflow: 'hidden',
         backgroundColor: 'black',
-        marginVertical: 8,
+        borderWidth: 1,
+        borderColor: 'rgba(255,255,255,0.15)',
     },
-    section: {
-        flex: 1,
-        marginBottom: 16,
+    timerContainer: {
+        position: 'absolute',
+        top: 16,
+        left: 16,
+        backgroundColor: 'rgba(0,0,0,0.5)',
+        padding: 8,
+        borderRadius: 4,
     },
-    title: {
-        fontSize: 18,
-        fontWeight: '600',
-        marginBottom: 8,
-    },
-    controls: {
-        flexDirection: 'row',
-        justifyContent: 'space-around',
-        padding: 16,
-        backgroundColor: 'white',
-        borderTopWidth: 1,
-        borderTopColor: '#e0e0e0',
+    timerText: {
+        color: 'white',
+        fontSize: 14,
+        fontWeight: '500',
     }
 })

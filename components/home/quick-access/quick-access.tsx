@@ -128,14 +128,11 @@ export default function QuickAccess() {
                             <RoundedIcon
                                 background={GlobalColor.RED_NEON_BG}
                                 size={3}
-                                icon={<Phone color={GlobalColor.RED_NEON_BORDER} size={17} />}
-                            // icon={<User color={GlobalColor.RED_NEON_BORDER} size={17} />}
+                                icon={<User color={GlobalColor.RED_NEON_BORDER} size={17} />}
                             />
                         }
-                        // title='Hồ sơ'
-                        // onPress={() => router.push('/profile-screen')}
-                        title='Test Call'
-                        onPress={handleTestCall}
+                        title='Hồ sơ'
+                        onPress={() => router.push('/profile-screen')}
                     />
                 </View>
             </View>

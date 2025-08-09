@@ -1,5 +1,5 @@
 import * as React from 'react'
-import { Dimensions, Modal, Pressable, View } from 'react-native'
+import { Modal, Pressable, View } from 'react-native'
 import { Text } from '../../ui/text'
 import { useEffect, useMemo, useState } from 'react'
 import { useEditUserProfileMutation } from '../../../service/query/user-query'
@@ -14,13 +14,10 @@ import { Controller, useForm } from 'react-hook-form'
 import { yupResolver } from '@hookform/resolvers/yup'
 import { Patient } from '../../../assets/types/user/patient'
 import { Doctor } from '../../../assets/types/user/doctor'
-import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '../../ui/select'
-import { genders } from '../../../assets/data/genders'
 import DateTimePicker from '@react-native-community/datetimepicker'
 import { Calendar } from '../../../lib/icons/Calendar'
 import { GenderNumber } from '../../../assets/enum/gender'
 
-const { width } = Dimensions.get('window')
 
 const schema = yup.object({
     lastName: yup.string().nullable(),
@@ -200,28 +197,25 @@ export default function EditProfileModal({ profile }: Props) {
                             <Controller
                                 control={control}
                                 name="gender"
-                                render={({ field: { onChange, value } }) => (
-                                    <>
-                                        <Select onValueChange={onChange}>
-                                            <SelectTrigger>
-                                                <SelectValue placeholder="Chọn giới tính" />
-                                            </SelectTrigger>
-                                            <SelectContent>
-                                                {genders.map((gender) => (
-                                                    <SelectItem
-                                                        key={gender.value}
-                                                        value={gender.value}
-                                                        label={gender.label}
-                                                        closeOnPress
-                                                    >
-                                                        {gender.label}
-                                                    </SelectItem>
-                                                ))}
-                                            </SelectContent>
-                                        </Select>
-                                        {errors.gender && <Text className='text-red-500'>{errors.gender.message}</Text>}
-                                    </>
-                                )}
+                                render={({ field: { onChange, value } }) => {
+                                    const isMale = value != null ? parseInt(value) === GenderNumber.MALE : false
+                                    return (
+                                        <View className='flex-row gap-3'>
+                                            <Pressable
+                                                onPress={() => onChange(GenderNumber.FAMALE.toString())}
+                                                className={`px-5 py-2 items-center justify-center rounded-full active:bg-[var(--click-bg)] ${!isMale ? 'bg-[var(--oppo-theme-col)]' : ''}`}
+                                            >
+                                                <Text className={!isMale ? 'text-[var(--same-theme-col)] font-semibold' : 'text-foreground'}>Nữ</Text>
+                                            </Pressable>
+                                            <Pressable
+                                                onPress={() => onChange(GenderNumber.MALE.toString())}
+                                                className={`px-5 py-2 items-center justify-center rounded-full active:bg-[var(--click-bg)] ${isMale ? 'bg-[var(--oppo-theme-col)]' : ''}`}
+                                            >
+                                                <Text className={isMale ? 'text-[var(--same-theme-col)] font-semibold' : 'text-foreground'}>Nam</Text>
+                                            </Pressable>
+                                        </View>
+                                    )
+                                }}
                             />
                         </View>
 

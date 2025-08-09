@@ -1,15 +1,11 @@
-import React, { useCallback, useEffect, useRef, useState } from 'react'
-import { View, Button, Text, StyleSheet, ScrollView, Dimensions, Modal } from 'react-native'
+import React, { useEffect, useRef, useState } from 'react'
+import { View, Text, StyleSheet } from 'react-native'
 import {
-    RTCPeerConnection,
-    RTCIceCandidate,
     RTCSessionDescription,
     RTCView,
-    MediaStream,
     MediaStreamTrack,
     mediaDevices,
 } from 'react-native-webrtc'
-import { ConsultationVideoCall } from '../../assets/enum/consulation-video-call'
 import useVideoCallStore from '../../store/videoCallStore'
 import { useLocalSearchParams } from 'expo-router'
 import IconButton from '../../components/common/icon-button'
@@ -19,11 +15,6 @@ import { SwitchCamera } from '../../lib/icons/SwitchCamera'
 import { PhoneOff } from '../../lib/icons/PhoneOff'
 import { GlobalColor } from '../../global-color'
 
-const { width, height } = Dimensions.get('window')
-
-const peerConfig = {
-    iceServers: [{ urls: ConsultationVideoCall.ICE_SERVER }],
-}
 
 const sessionConstraints = {
     mandatory: {
@@ -42,21 +33,17 @@ export default function VideoCallScreen() {
     }>()
 
     const {
-        connection,
-        peerConnection,
         localStream,
         remoteStream,
-        callDuration,
-        isInCall,
         acceptCall,
-        sendIceCandidate,
         startCall,
-        setCallbacks,
         setLocalStream,
-        setRemoteStream,
         createPeerConnection,
         addLocalStreamToPeer,
-        updateCallDuration,
+        initialize,
+        setCallbacks,
+        endCall,
+        terminationMessage,
         cleanupCall
     } = useVideoCallStore()
 
@@ -98,7 +85,6 @@ export default function VideoCallScreen() {
             const pc = createPeerConnection()
 
             await getLocalStream()
-
             const offer = JSON.parse(params.offer)
             console.log('📝 Setting remote description from offer')
             await pc.setRemoteDescription(new RTCSessionDescription(offer))
@@ -124,9 +110,7 @@ export default function VideoCallScreen() {
 
         try {
             const pc = createPeerConnection()
-
             await getLocalStream()
-
             console.log('📝 Creating offer')
             const offer = await pc.createOffer(sessionConstraints)
             if (offer) {
@@ -150,33 +134,14 @@ export default function VideoCallScreen() {
     }, [localStream, remoteStream])
 
     useEffect(() => {
-        let interval: NodeJS.Timeout | null = null
-
-        if (isInCall) {
-            interval = setInterval(() => {
-                updateCallDuration(callDuration + 1)
-            }, 1000)
-        }
-
-        return () => {
-            if (interval) {
-                clearInterval(interval)
-            }
-        }
-    }, [isInCall, callDuration])
-
-    useEffect(() => {
         console.log('🔄 VideoCallScreen mounted:', {
             mode: params.mode,
             hasOffer: !!params.offer
         })
 
-        // Initialize the store first
         const initializeStore = async () => {
-            const { initialize, setCallbacks } = useVideoCallStore.getState()
             await initialize()
 
-            // Set up callbacks for remote description and ICE candidates
             setCallbacks({
                 onRemoteDescription: (description) => {
                     console.log('📝 Setting remote description:', {
@@ -266,18 +231,13 @@ export default function VideoCallScreen() {
                 </View>
             )}
 
-            <View style={styles.timerContainer}>
-                <Text style={styles.timerText}>
-                    {callDuration > 0 && (
-                        `${Math.floor(callDuration / 60)}:${(callDuration % 60).toString().padStart(2, '0')}`
-                    )}
-                </Text>
-            </View>
+            {terminationMessage && (
+                <View className='flex absolute top-0 left-0 right-0 bottom-0 items-center justify-center'>
+                    <Text className='text-lg text-white tracking-wider'>{terminationMessage}</Text>
+                </View>
+            )}
 
-            <View
-                style={{ position: 'absolute', left: 0, right: 0, bottom: 24 }}
-                className='flex-row items-center gap-5 justify-center'
-            >
+            <View className='flex-row items-center gap-5 justify-center absolute left-0 right-0 bottom-15'>
                 <IconButton
                     icon={isMuted ? <Mic className='text-white' size={20} /> : <MicOff className='text-white' size={20} />}
                     buttonSize={3}
@@ -294,7 +254,7 @@ export default function VideoCallScreen() {
                     icon={<PhoneOff color={GlobalColor.RED_NEON_BORDER} size={20} />}
                     buttonSize={3}
                     possition={'camera'}
-                    onPress={cleanupCall}
+                    onPress={endCall}
                 />
             </View>
         </View>
@@ -307,24 +267,6 @@ const styles = StyleSheet.create({
         top: 16,
         right: 16,
         width: 120,
-        height: 160,
-        borderRadius: 8,
-        overflow: 'hidden',
-        backgroundColor: 'black',
-        borderWidth: 1,
-        borderColor: 'rgba(255,255,255,0.15)',
-    },
-    timerContainer: {
-        position: 'absolute',
-        top: 16,
-        left: 16,
-        backgroundColor: 'rgba(0,0,0,0.5)',
-        padding: 8,
-        borderRadius: 4,
-    },
-    timerText: {
-        color: 'white',
-        fontSize: 14,
-        fontWeight: '500',
+        height: 160
     }
 })

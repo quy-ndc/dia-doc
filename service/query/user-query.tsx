@@ -1,5 +1,5 @@
 import { useMutation, useQueryClient } from "@tanstack/react-query"
-import { CreateCarePlanTemplate, CreateUserProfile, DeleteCarePlanTemplate, EditUserProfile, GetCarePlanTemplate, GetDoctorProfile, GetUserHealthCarePlan, GetUserHealthRecord, GetUserProfile, UpdateCarePlanTemplate, UpdateUserBloodPressure, UpdateUserBloodSugar, UpdateUserHbA1c, UpdateUserHeight, UpdateUserWeight } from "../api/user-service"
+import { CreateCarePlanTemplate, CreateUserProfile, DeleteCarePlanTemplate, EditUserProfile, GetAllServicePackages, GetCarePlanTemplate, GetDoctorProfile, GetUserHealthCarePlan, GetUserHealthRecord, GetUserProfile, UpdateCarePlanTemplate, UpdateUserBloodPressure, UpdateUserBloodSugar, UpdateUserHbA1c, UpdateUserHeight, UpdateUserWeight } from "../api/user-service"
 import { QueryKeys } from "../../assets/enum/query"
 import { GenderNumber } from "../../assets/enum/gender"
 import { DiagnosisRecency } from "../../assets/enum/diagnosis-recency"
@@ -14,6 +14,7 @@ import { MedicalHistories } from "../../assets/enum/medical-histories"
 import Toast from "react-native-toast-message"
 import { HealthRecordType } from "../../assets/enum/health-record"
 import { HealthCarePlanPeriod, HealthCarePlanSubType } from "../../assets/enum/healthcare-plan"
+import { GetAllMedias } from "../api/media-service"
 
 
 export const useUserProfile = () => {
@@ -477,4 +478,23 @@ export const useDeleteCarePlanTemplateMutation = () => {
             return error
         }
     })
+}
+
+
+export const useServicePackageQuery = (params: {
+    search?: string,
+    pageSize?: number,
+    sortBy: string,
+    sortDirection: number
+}) => {
+    const queryKey = [QueryKeys.SERVICE_PACKAGES, params]
+
+    const queryFn = async ({ pageParam = undefined }) => {
+        return GetAllServicePackages({
+            ...params,
+            cursor: pageParam,
+        })
+    }
+
+    return { queryKey, queryFn }
 }

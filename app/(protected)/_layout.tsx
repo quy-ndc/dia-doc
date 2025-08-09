@@ -25,7 +25,7 @@ export default function ProtectedLayout() {
     const { tokenDevice, setTokenDevice } = useConfigStore()
     const { addMessage, setLatestMessage } = useMessageStore()
     const { mutateAsync, data } = useSaveFcmTokenMutation()
-    const { initialize, cleanup } = useVideoCallStore()
+    const { initialize, cleanupCall } = useVideoCallStore()
     const isBackground = useAppState()
 
     if (!user.isAuthenticated) {
@@ -116,8 +116,9 @@ export default function ProtectedLayout() {
 
     useEffect(() => {
         if (user.isAuthenticated && !isBackground) initialize()
-
-        return () => { cleanup() }
+        return () => {
+            cleanupCall()
+        }
     }, [user.isAuthenticated, isBackground])
 
     const { } = useChannel(`${GLOBAL_CHAT_EVENT_CHANNEL}`, `${GLOBAL_CHAT_EVENT_NAME}`, (payload) => {
@@ -147,11 +148,10 @@ export default function ProtectedLayout() {
         <>
             <Stack>
                 <Stack.Screen name="(main)" options={{ headerShown: false }} />
-                <Stack.Screen name="chat-screen" options={{ headerTitle: '', headerShadowVisible: false }} />
-                <Stack.Screen name="edit-profile-screen" options={{ headerTitle: '' }} />
                 <Stack.Screen name="(ai)" options={{ headerShown: false }} />
                 <Stack.Screen name="(blog)" options={{ headerShown: false }} />
                 <Stack.Screen name="(health)" options={{ headerShown: false }} />
+                <Stack.Screen name="chat-screen" options={{ headerTitle: '', headerShadowVisible: false }} />
                 <Stack.Screen name="video-call-screen" options={{ headerShown: false }} />
             </Stack>
             <IncomingCallModal />

@@ -577,3 +577,39 @@ export const DeleteCarePlanTemplate = async (id: string) => {
         }
     }
 }
+
+export const GetAllServicePackages = async (params: {
+    search?: string,
+    cursor?: string,
+    pageSize?: number,
+    sortBy: string,
+    sortDirection: number
+}) => {
+    try {
+        const queryString = createQueryString(params)
+        const response = await axiosServices.get(`${endpointUser.GET_ALL_SERVICE_PACKAGES}?${queryString}`)
+
+        return {
+            success: true,
+            status: response.status,
+            data: response.data
+        }
+
+    } catch (e) {
+        if (axios.isAxiosError(e) && e.response) {
+            return {
+                success: false,
+                status: e.response.status,
+                message: e.response.data.message || 'An error occurred',
+                data: e.response.data
+            };
+        }
+
+        return {
+            success: false,
+            status: 500,
+            message: 'An error occurred',
+            data: null
+        }
+    }
+}

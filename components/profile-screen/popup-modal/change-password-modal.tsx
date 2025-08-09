@@ -99,7 +99,6 @@ export default function ChangePasswordModal() {
             <Modal
                 visible={visible}
                 animationType='slide'
-                onRequestClose={() => setVisible(false)}
             >
                 <View className='flex-1 bg-background p-5'>
                     <View className='flex-col w-full gap-6 justify-center items-center'>

@@ -58,6 +58,7 @@ const endpointUser = {
     EDIT_USER_PROFILE: `${API_GATEWAY_ENDPOINT}/${apiPrefixV1}/users/patients/profile`,
     GET_USER_PROFILE: `${API_GATEWAY_ENDPOINT}/${apiPrefixV1}/users/patients/profile`,
     GET_DOCTOR_PROFILE: `${API_GATEWAY_ENDPOINT}/${apiPrefixV1}/doctors/profile`,
+    
     GET_USER_HEALTH_RECORD: `${API_GATEWAY_ENDPOINT}/${apiPrefixV1}/users/patients/records`,
     GET_USER_HEALTH_CARE_PLAN: `${API_GATEWAY_ENDPOINT}/${apiPrefixV1}/users/patients/careplan`,
     UPDATE_USER_WEIGHT: `${API_GATEWAY_ENDPOINT}/${apiPrefixV1}/users/patients/records/weight`,
@@ -70,6 +71,8 @@ const endpointUser = {
     UPDATE_CARE_PLAN_TEMPLATE: `${API_GATEWAY_ENDPOINT}/${apiPrefixV1}/users/patients/template`,
     GET_CARE_PLAN_TEMPLATE: `${API_GATEWAY_ENDPOINT}/${apiPrefixV1}/users/patients/template`,
     DELETE_CARE_PLAN_TEMPLATE: `${API_GATEWAY_ENDPOINT}/${apiPrefixV1}/users/patients/template`,
+
+    GET_ALL_SERVICE_PACKAGES: `${API_GATEWAY_ENDPOINT}/${apiPrefixV1}/service-packages`,
 }
 
 const endpointMedia = {

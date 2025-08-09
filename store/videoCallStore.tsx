@@ -16,13 +16,13 @@ interface CallState {
     } | null
     localStream: MediaStream | null
     remoteStream: MediaStream | null
-    callDuration: number
     lastActivity: number
     pendingLocalIce: RTCIceCandidateInit[]
     pendingRemoteIce: RTCIceCandidateInit[]
     remoteDescriptionSet: boolean
     onRemoteDescription?: (description: RTCSessionDescription) => void
     onIceCandidate?: (candidate: RTCIceCandidate) => void
+    terminationMessage?: string | null
 }
 
 interface VideoCallStore extends CallState {
@@ -36,13 +36,13 @@ interface VideoCallStore extends CallState {
     clearIncomingCall: () => void
     acceptCall: (targetUserId: string, answer: RTCSessionDescriptionInit) => Promise<void>
     declineCall: (targetUserId: string) => Promise<void>
+    endCall: () => Promise<void>
     startCall: (targetUserId: string, offer: RTCSessionDescriptionInit) => Promise<void>
     sendIceCandidate: (targetUserId: string, candidate: any) => Promise<void>
     setIsInCall: (isInCall: boolean) => void
     setCurrentCallData: (data: { userId: string; targetUserId: string } | null) => void
     setLocalStream: (stream: MediaStream | null) => void
     setRemoteStream: (stream: MediaStream | null) => void
-    updateCallDuration: (duration: number) => void
     setRemoteDescriptionSet: (isSet: boolean) => void
     flushPendingLocalIce: () => void
     flushPendingRemoteIce: () => void
@@ -60,13 +60,13 @@ const useVideoCallStore = create<VideoCallStore>((set, get) => ({
     currentCallData: null,
     localStream: null,
     remoteStream: null,
-    callDuration: 0,
     lastActivity: 0,
     pendingLocalIce: [],
     pendingRemoteIce: [],
     remoteDescriptionSet: false,
     onRemoteDescription: undefined,
     onIceCandidate: undefined,
+    terminationMessage: null,
 
     initialize: async () => {
         try {
@@ -94,7 +94,8 @@ const useVideoCallStore = create<VideoCallStore>((set, get) => ({
             })
 
             connection.on(ConsultationVideoCall.DECLINE_CALL_RECEIVE, () => {
-                set({ isInCall: false, currentCallData: null })
+                get().cleanupCall()
+                set({ terminationMessage: 'Cuộc gọi đã kết thúc.' })
             })
 
             set({ connection })
@@ -123,18 +124,17 @@ const useVideoCallStore = create<VideoCallStore>((set, get) => ({
             currentCallData: null,
             localStream: null,
             remoteStream: null,
-            callDuration: 0,
+            lastActivity: 0,
             pendingLocalIce: [],
             pendingRemoteIce: [],
             remoteDescriptionSet: false,
             onRemoteDescription: undefined,
-            onIceCandidate: undefined
+            onIceCandidate: undefined,
+            terminationMessage: null
         })
     },
 
     createPeerConnection: () => {
-        console.log('🔄 Creating new peer connection')
-
         const currentState = get()
         if (currentState.peerConnection) {
             currentState.peerConnection.close()
@@ -174,16 +174,10 @@ const useVideoCallStore = create<VideoCallStore>((set, get) => ({
                 return
             }
             const cand = event.candidate
-            console.log('❄️ ICE Candidate generated:', {
-                sdpMid: cand.sdpMid,
-                sdpMLineIndex: cand.sdpMLineIndex,
-                candidate: (cand.candidate ? cand.candidate.substring(0, 50) : '') + '...'
-            })
             const s = get()
             if (s.currentCallData?.targetUserId) {
                 get().sendIceCandidate(s.currentCallData.targetUserId, cand)
             } else {
-                console.log('🕒 Queuing local ICE until targetUserId is set')
                 set(state => ({ pendingLocalIce: [...state.pendingLocalIce, cand.toJSON()] }))
             }
         })
@@ -227,7 +221,8 @@ const useVideoCallStore = create<VideoCallStore>((set, get) => ({
             set({
                 isInCall: true,
                 currentCallData: { userId: connection.connectionId!, targetUserId },
-                incomingCall: null
+                incomingCall: null,
+                terminationMessage: null
             })
             get().flushPendingLocalIce()
         }
@@ -237,8 +232,18 @@ const useVideoCallStore = create<VideoCallStore>((set, get) => ({
         const { connection } = get()
         if (connection) {
             await connection.invoke(ConsultationVideoCall.DECLINE_CALL_INVOKE, targetUserId)
-            set({ incomingCall: null })
         }
+        get().cleanupCall()
+        set({ terminationMessage: 'Cuộc gọi bị từ chối.' })
+    },
+
+    endCall: async () => {
+        const { currentCallData, connection } = get()
+        if (connection && currentCallData?.targetUserId) {
+            try { await connection.invoke(ConsultationVideoCall.DECLINE_CALL_INVOKE, currentCallData.targetUserId) } catch { }
+        }
+        get().cleanupCall()
+        set({ terminationMessage: 'Cuộc gọi đã kết thúc.' })
     },
 
     startCall: async (targetUserId, offer) => {
@@ -247,7 +252,8 @@ const useVideoCallStore = create<VideoCallStore>((set, get) => ({
             await connection.invoke(ConsultationVideoCall.CALL_USER_INVOKE, targetUserId, offer)
             set({
                 isInCall: true,
-                currentCallData: { userId: connection.connectionId!, targetUserId }
+                currentCallData: { userId: connection.connectionId!, targetUserId },
+                terminationMessage: null
             })
             get().flushPendingLocalIce()
         }
@@ -277,10 +283,6 @@ const useVideoCallStore = create<VideoCallStore>((set, get) => ({
 
     setRemoteStream: (stream) => {
         set({ remoteStream: stream })
-    },
-
-    updateCallDuration: (duration) => {
-        set({ callDuration: duration })
     },
 
     setRemoteDescriptionSet: (isSet) => {
@@ -317,7 +319,6 @@ const useVideoCallStore = create<VideoCallStore>((set, get) => ({
     setCallbacks: (callbacks) => {
         set(callbacks)
     },
-
 }))
 
 export default useVideoCallStore 

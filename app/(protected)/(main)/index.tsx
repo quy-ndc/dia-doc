@@ -1,5 +1,5 @@
 import * as React from 'react'
-import { View, ScrollView, RefreshControl, Pressable } from 'react-native'
+import { View, ScrollView, RefreshControl } from 'react-native'
 import QuickAccess from '../../../components/home/quick-access/quick-access'
 import HomeBlogSection from '../../../components/home/blog/blog-section'
 import { useCallback, useState } from 'react'
@@ -8,19 +8,16 @@ import { useTopMediaQuery } from '../../../service/query/media-query'
 import { BlogPost } from '../../../assets/types/media/blog-post'
 import DailyTip from '../../../components/home/daily-tip.tsx/daily-tip'
 import HealthTracker from '../../../components/home/health-track.tsx/health-track'
-import { useUserHealthCarePlan, useUserHealthRecordProfile } from '../../../service/query/user-query'
+import { useUserHealthCarePlan, useUserHealthRecordProfile, useUserSessionAmountQuery } from '../../../service/query/user-query'
 import { HealthTrackItem } from '../../../assets/types/user/health-track'
 import HealthcarePlan from '../../../components/home/healthcare-plan/healthcare-plan'
 import { HealthCarePlan } from '../../../assets/types/user/healthcare-plan'
 import useUserStore from '../../../store/userStore'
 import { UserRole } from '../../../assets/enum/user-role'
-import { GlobalColor } from '../../../global-color'
-import { router } from 'expo-router'
-import { Bot } from '../../../lib/icons/Bot'
 import AiAccess from '../../../components/home/ai-access/ai-access'
+import ConsultSession from '../../../components/home/consult-session/consult-session'
 
 export default function HomeScreen() {
-
     const { user } = useUserStore()
     const [refreshing, setRefreshing] = useState(false)
 
@@ -50,7 +47,7 @@ export default function HomeScreen() {
         enabled: user.role === UserRole.PATIENT
     })
 
-    const today = new Date()
+    // const today = new Date()
     // const fromDate = new Date(today.getTime() - 24 * 60 * 60 * 1000).toISOString()
     // const toDate = new Date(today.getTime() + 24 * 60 * 60 * 1000).toISOString()
     // const fromDate = new Date('2025-07-28T00:00:00.000Z').toISOString()
@@ -69,6 +66,19 @@ export default function HomeScreen() {
         enabled: user.role === UserRole.PATIENT
     })
 
+    const {
+        data: consultSessionData,
+        isLoading: consultSessionLoading,
+        isError: consultSessionError,
+        refetch: consultSessionRefetch,
+        remove: consultSessionRemove
+    } = useQuery({
+        ...useUserSessionAmountQuery(),
+        retry: 2,
+        retryDelay: attempt => Math.min(1000 * 2 ** attempt, 5000),
+        enabled: user.role === UserRole.PATIENT
+    })
+
     const onRefresh = useCallback(() => {
         setRefreshing(true)
         remove()
@@ -78,15 +88,17 @@ export default function HomeScreen() {
         if (user.role === UserRole.PATIENT) {
             healthRecordRemove()
             healthCarePlanRemove()
-            refreshPromises.push(healthRecordRefetch(), healthCarePlanRefetch())
+            consultSessionRemove()
+            refreshPromises.push(healthRecordRefetch(), healthCarePlanRefetch(), consultSessionRefetch())
         }
 
         Promise.all(refreshPromises).finally(() => setRefreshing(false))
-    }, [refetch, healthRecordRefetch, healthCarePlanRefetch, remove, healthRecordRemove, healthCarePlanRemove, user.role])
+    }, [user.role, refetch, healthRecordRefetch, healthCarePlanRefetch, consultSessionRefetch, remove, healthRecordRemove, healthCarePlanRemove, consultSessionRemove])
 
     const items: BlogPost[] = data?.data?.data || []
     const healthRecordItems: HealthTrackItem[] = healthRecordData?.data?.data || []
     const healthCarePlanItems: HealthCarePlan[] = healthCarePlanData?.data?.data || []
+    const sessionAmount = consultSessionData?.data?.data || 0
 
     return (
         <>
@@ -116,6 +128,14 @@ export default function HomeScreen() {
                                     isError={healthCarePlanError}
                                     refetch={healthCarePlanRefetch}
                                     remove={healthCarePlanRemove}
+                                    refreshing={refreshing}
+                                />
+                                <ConsultSession
+                                    amount={sessionAmount}
+                                    isLoading={consultSessionLoading}
+                                    isError={consultSessionError}
+                                    refetch={consultSessionRefetch}
+                                    remove={consultSessionRemove}
                                     refreshing={refreshing}
                                 />
                             </>

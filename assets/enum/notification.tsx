@@ -1,5 +1,3 @@
-import { PermissionsAndroid } from "react-native";
-
 export enum Notification {
     NOTIFEE_CHANNEL_ID = 'foreground-noti',
     NOTIFEE_CHANNEL_NAME = 'Thông báo trong ứng dụng',

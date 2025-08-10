@@ -5,6 +5,7 @@ declare module '@env' {
     export const MEDIA_SERVICE_ENDPOINT: string
     export const CHAT_SERVICE_ENDPOINT: string
     export const NOTIFICATION_SERVICE_ENDPOINT: string
+    export const CONSULTATION_SERVICE_ENDPOINT: string
     export const CHAT_LATEST_MESSAGE_CHANNEL: string
     export const GLOBAL_CHAT_EVENT_CHANNEL: string
     export const GLOBAL_CHAT_EVENT_NAME: string

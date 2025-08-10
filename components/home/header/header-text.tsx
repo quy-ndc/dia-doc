@@ -8,7 +8,7 @@ export default function HomeHeaderText() {
 
     const welcomeComponent = useWelcomeGradientColors()
     const { user } = useUserStore()
-    const name = user.fullname.trim().split(/\s+/).pop() || ' '
+    const name = user.fullName.trim().split(/\s+/).pop() || ' '
 
     return (
         <View className='flex-col ml-5 gap-1'>

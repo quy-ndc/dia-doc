@@ -6,7 +6,7 @@ import { GlobalMessageEvent, Message } from '../../assets/types/chat/message'
 import { useMessageStore } from '../../store/useMessage'
 import { MessageType } from '../../assets/enum/message-type'
 import { UserRole, UserRoleNumber } from '../../assets/enum/user-role'
-import { Alert, PermissionsAndroid, Platform, Vibration, View } from 'react-native'
+import { PermissionsAndroid, Platform, Vibration, View } from 'react-native'
 import { useSaveFcmTokenMutation } from '../../service/query/auth-query'
 import useConfigStore from '../../store/appConfigStore'
 import { useEffect } from 'react'
@@ -18,7 +18,6 @@ import React from 'react'
 import useVideoCallStore from '../../store/videoCallStore'
 import { useAppState } from '../../util/hook/useAppState'
 
-export type NotificationPermissionResponse = "granted" | "denied" | "never_ask_again" | "not_response"
 
 export default function ProtectedLayout() {
     const { user } = useUserStore()
@@ -67,7 +66,7 @@ export default function ProtectedLayout() {
                 },
             })
 
-            Alert.alert('New Notification', JSON.stringify(remoteMessage))
+            // Alert.alert('New Notification', JSON.stringify(remoteMessage))
             console.log(JSON.stringify(remoteMessage))
             console.log(remoteMessage)
         })
@@ -75,7 +74,7 @@ export default function ProtectedLayout() {
         return unsubscribeOnMessage
     }, [])
 
-    async function requestUserPermission(): Promise<NotificationPermissionResponse> {
+    async function requestUserPermission() {
         const authStatus = await getApp().messaging().requestPermission()
         const enabled =
             authStatus === messaging.AuthorizationStatus.AUTHORIZED ||
@@ -85,11 +84,7 @@ export default function ProtectedLayout() {
             const result = await PermissionsAndroid.request(
                 PermissionsAndroid.PERMISSIONS.POST_NOTIFICATIONS
             )
-
-            return result as NotificationPermissionResponse;
         }
-
-        return "not_response";
     }
 
     async function getDeviceToken() {
@@ -103,13 +98,13 @@ export default function ProtectedLayout() {
     }
 
     useEffect(() => {
-        requestUserPermission().then((data: NotificationPermissionResponse) => {
-            if (data === "granted") {
-                getDeviceToken().then((token) => {
-                    if (token) {
-                        saveTokenDevice(token);
-                    }
-                })
+        requestUserPermission()
+    }, [])
+
+    useEffect(() => {
+        getDeviceToken().then((token) => {
+            if (token) {
+                saveTokenDevice(token);
             }
         })
     }, [])
@@ -151,6 +146,7 @@ export default function ProtectedLayout() {
                 <Stack.Screen name="(ai)" options={{ headerShown: false }} />
                 <Stack.Screen name="(blog)" options={{ headerShown: false }} />
                 <Stack.Screen name="(health)" options={{ headerShown: false }} />
+                <Stack.Screen name="(consult)" options={{ headerShown: false }} />
                 <Stack.Screen name="chat-screen" options={{ headerTitle: '', headerShadowVisible: false }} />
                 <Stack.Screen name="video-call-screen" options={{ headerShown: false }} />
             </Stack>

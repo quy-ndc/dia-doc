@@ -3,20 +3,10 @@ import useUserStore from '../../store/userStore'
 import { Redirect } from 'expo-router'
 import { Text } from '../../components/ui/text'
 import { ThemeToggle } from '../../components/ThemeToggle'
-import { UserRole } from '../../assets/enum/user-role'
-
 
 export default function ProtectedLayout() {
 
     const { user } = useUserStore()
-
-    if (user.isAuthenticated && !user.isSetUp) {
-        if (user.role === UserRole.PATIENT) {
-            return <Redirect href="/set-up-screen" />
-        } else {
-            return <Redirect href="/change-password-screen" />
-        }
-    }
 
     if (user.isAuthenticated && user.isSetUp) {
         return <Redirect href="/(protected)/(main)" />

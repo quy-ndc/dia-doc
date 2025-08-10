@@ -16,6 +16,6 @@ export type User = {
 
     id: string
     role: UserRole
-    fullname: string
+    fullName: string
     avatar: string
 }

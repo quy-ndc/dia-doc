@@ -13,7 +13,7 @@ import { EatingHabit } from "../../assets/enum/eating-habit";
 import { MedicalHistories } from "../../assets/enum/medical-histories";
 import { HealthRecordType } from "../../assets/enum/health-record";
 import { HealthCarePlanPeriod, HealthCarePlanSubType } from "../../assets/enum/healthcare-plan";
-import { string } from "yup";
+import { DoctorRole } from "../../assets/enum/doctor-role";
 
 export const GetUserProfile = async () => {
     try {
@@ -184,14 +184,16 @@ export const GetUserHealthCarePlan = async (params: {
 }
 
 export const CreateUserProfile = async (data: {
-    fullName: string,
+    firstName: string,
+    middleName: string,
+    lastName: string,
     dateOfBirth: string,
     gender: GenderNumber,
     heightCm: number,
     weightKg: number,
     diabetes: DiaType,
     diagnosisRecency: DiagnosisRecency,
-    year?: number
+    year?: number,
     type2TreatmentMethod?: Type2TreatmentMethod,
     controlLevel?: ControlLevel,
     insulinInjectionFrequency?: InsulinInjectionFrequency,
@@ -206,13 +208,16 @@ export const CreateUserProfile = async (data: {
     const config = authApiConfig()
     try {
         const response = await axios.post(`${endpointUser.CREATE_USER_PROFILE}`, {
-            fullName: data.fullName,
+            firstName: data.firstName,
+            middleName: data.middleName,
+            lastName: data.lastName,
             dateOfBirth: data.dateOfBirth,
             gender: data.gender,
             heightCm: data.heightCm,
             weightKg: data.weightKg,
             diabetes: data.diabetes,
             diagnosisRecency: data.diagnosisRecency,
+            year: data.year,
             type2TreatmentMethod: data.type2TreatmentMethod,
             controlLevel: data.controlLevel,
             insulinInjectionFrequency: data.insulinInjectionFrequency,
@@ -579,15 +584,156 @@ export const DeleteCarePlanTemplate = async (id: string) => {
 }
 
 export const GetAllServicePackages = async (params: {
-    search?: string,
-    cursor?: string,
-    pageSize?: number,
-    sortBy: string,
-    sortDirection: number
+    Search?: string,
+    Cursor?: string,
+    PageSize?: number,
+    SortBy: string,
+    SortDirection: number
 }) => {
     try {
         const queryString = createQueryString(params)
         const response = await axiosServices.get(`${endpointUser.GET_ALL_SERVICE_PACKAGES}?${queryString}`)
+
+        return {
+            success: true,
+            status: response.status,
+            data: response.data
+        }
+
+    } catch (e) {
+        if (axios.isAxiosError(e) && e.response) {
+            return {
+                success: false,
+                status: e.response.status,
+                message: e.response.data.message || 'An error occurred',
+                data: e.response.data
+            };
+        }
+
+        return {
+            success: false,
+            status: 500,
+            message: 'An error occurred',
+            data: null
+        }
+    }
+}
+
+export const GetAllPurchasedServicePackages = async (params: {
+    Search?: string,
+    Cursor?: string,
+    PageSize?: number,
+    SortBy: string,
+    SortDirection: number
+}) => {
+    try {
+        const queryString = createQueryString(params)
+        const response = await axiosServices.get(`${endpointUser.GET_ALL_PURCHASED_SERVICE_PACKAGES}?${queryString}`)
+
+        return {
+            success: true,
+            status: response.status,
+            data: response.data
+        }
+
+    } catch (e) {
+        if (axios.isAxiosError(e) && e.response) {
+            return {
+                success: false,
+                status: e.response.status,
+                message: e.response.data.message || 'An error occurred',
+                data: e.response.data
+            };
+        }
+
+        return {
+            success: false,
+            status: 500,
+            message: 'An error occurred',
+            data: null
+        }
+    }
+}
+
+export const GetAllDoctor = async (params: {
+    Cursor?: string,
+    PageSize?: number,
+    Search?: string,
+    Gender?: GenderNumber,
+    Position?: DoctorRole,
+    HospitalId?: string
+    SortBy: string,
+    SortDirection: number
+}) => {
+    try {
+        const queryString = createQueryString(params)
+        const response = await axiosServices.get(`${endpointUser.GET_ALL_DOCTOR}?${queryString}`)
+
+        return {
+            success: true,
+            status: response.status,
+            data: response.data
+        }
+
+    } catch (e) {
+        if (axios.isAxiosError(e) && e.response) {
+            return {
+                success: false,
+                status: e.response.status,
+                message: e.response.data.message || 'An error occurred',
+                data: e.response.data
+            };
+        }
+
+        return {
+            success: false,
+            status: 500,
+            message: 'An error occurred',
+            data: null
+        }
+    }
+}
+
+export const GetDoctorSchedule = async (params: {
+    doctorId: string
+    Cursor?: string,
+    PageSize?: number,
+    FromDate?: string,
+    ToDate?: string
+}) => {
+    try {
+        const { doctorId, ...rest } = params
+        const queryString = createQueryString(rest)
+        const response = await axiosServices.get(`${endpointUser.GET_ALL_DOCTOR_SCHEDULE}/${doctorId}/consultation-templates?${queryString}`)
+
+        return {
+            success: true,
+            status: response.status,
+            data: response.data
+        }
+
+    } catch (e) {
+        if (axios.isAxiosError(e) && e.response) {
+            return {
+                success: false,
+                status: e.response.status,
+                message: e.response.data.message || 'An error occurred',
+                data: e.response.data
+            };
+        }
+
+        return {
+            success: false,
+            status: 500,
+            message: 'An error occurred',
+            data: null
+        }
+    }
+}
+
+export const GetUserSessionAmount = async () => {
+    try {
+        const response = await axiosServices.get(`${endpointUser.GET_USER_SESSION_AMOUNT}`)
 
         return {
             success: true,

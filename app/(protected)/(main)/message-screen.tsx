@@ -8,8 +8,6 @@ import { useLocalSearchParams } from 'expo-router'
 import PrivateChatModule from '../../../components/message-screen/private-chat-module'
 import { Shield } from '../../../lib/icons/Shield'
 import { Users } from '../../../lib/icons/Users'
-import { useInfiniteQuery } from '@tanstack/react-query'
-import { useServicePackageQuery } from '../../../service/query/user-query'
 
 export default function MessagesScreen() {
     const { type } = useLocalSearchParams()
@@ -20,32 +18,6 @@ export default function MessagesScreen() {
             setValue(type as string)
         }
     }, [type])
-
-    const {
-        data,
-        isError,
-        hasNextPage,
-        isFetchingNextPage,
-        fetchNextPage,
-        refetch,
-        remove,
-        isLoading,
-    } = useInfiniteQuery({
-        ...useServicePackageQuery({
-            pageSize: 7,
-            sortBy: 'createdAt',
-            sortDirection: 1
-        }),
-        getNextPageParam: (lastPage) => {
-            const posts = lastPage?.data?.data || undefined
-            return posts?.hasNextPage ? posts.nextCursor : undefined
-        },
-        keepPreviousData: false,
-        retry: 2,
-        retryDelay: attempt => Math.min(1000 * 2 ** attempt, 5000)
-    })
-
-    console.log(data)
 
     return (
         <>

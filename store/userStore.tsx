@@ -12,7 +12,9 @@ const defaultUser: User = {
   expiresAt: '',
   id: '',
   role: UserRole.PATIENT,
-  fullname: '',
+  firstName: '',
+  middleName: '',
+  lastName: '',
   avatar: '',
 }
 

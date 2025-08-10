@@ -1,6 +1,5 @@
 import { Stack } from 'expo-router'
-import { View } from 'react-native'
-import { Text } from '../../../components/ui/text'
+import HeaderTitle from '../../../components/common/header-title/header-title'
 
 export default function HealthLayout() {
 
@@ -11,15 +10,7 @@ export default function HealthLayout() {
             <Stack.Screen
                 name="manage-care-plan-screen"
                 options={{
-                    headerTitle: () =>
-                        <View className='flex-col'>
-                            <Text className='text-lg font-bold tracking-wider capitalize'>
-                                Quản lý lịch trình
-                            </Text>
-                            <Text className='text-sm text-[var(--fade-text-color)] tracking-wider'>
-                                Thay đổi lịch trình hằng ngày
-                            </Text>
-                        </View>,
+                    headerTitle: () => <HeaderTitle mainText='Quản lý lịch trình' subText='Thay đổi lịch trình hằng ngày' />,
                     headerShadowVisible: false
                 }}
             />

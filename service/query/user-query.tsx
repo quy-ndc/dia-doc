@@ -1,5 +1,5 @@
 import { useMutation, useQueryClient } from "@tanstack/react-query"
-import { CreateCarePlanTemplate, CreateUserProfile, DeleteCarePlanTemplate, EditUserProfile, GetAllServicePackages, GetCarePlanTemplate, GetDoctorProfile, GetUserHealthCarePlan, GetUserHealthRecord, GetUserProfile, UpdateCarePlanTemplate, UpdateUserBloodPressure, UpdateUserBloodSugar, UpdateUserHbA1c, UpdateUserHeight, UpdateUserWeight } from "../api/user-service"
+import { CreateCarePlanTemplate, CreateUserProfile, DeleteCarePlanTemplate, EditUserProfile, GetAllDoctor, GetAllPurchasedServicePackages, GetAllServicePackages, GetCarePlanTemplate, GetDoctorProfile, GetDoctorSchedule, GetUserHealthCarePlan, GetUserHealthRecord, GetUserProfile, GetUserSessionAmount, UpdateCarePlanTemplate, UpdateUserBloodPressure, UpdateUserBloodSugar, UpdateUserHbA1c, UpdateUserHeight, UpdateUserWeight } from "../api/user-service"
 import { QueryKeys } from "../../assets/enum/query"
 import { GenderNumber } from "../../assets/enum/gender"
 import { DiagnosisRecency } from "../../assets/enum/diagnosis-recency"
@@ -14,15 +14,13 @@ import { MedicalHistories } from "../../assets/enum/medical-histories"
 import Toast from "react-native-toast-message"
 import { HealthRecordType } from "../../assets/enum/health-record"
 import { HealthCarePlanPeriod, HealthCarePlanSubType } from "../../assets/enum/healthcare-plan"
-import { GetAllMedias } from "../api/media-service"
-
+import { DoctorRole } from "../../assets/enum/doctor-role"
 
 export const useUserProfile = () => {
     const queryKey = [QueryKeys.USER]
     const queryFn = async () => {
         return GetUserProfile()
     }
-
     return { queryKey, queryFn }
 }
 
@@ -107,7 +105,9 @@ export const useCreateUserProfileMutation = () => {
     const queryClient = useQueryClient()
     return useMutation({
         mutationFn: (data: {
-            fullName: string,
+            firstName: string,
+            middleName: string,
+            lastName: string,
             dateOfBirth: string,
             gender: GenderNumber,
             heightCm: number,
@@ -482,18 +482,84 @@ export const useDeleteCarePlanTemplateMutation = () => {
 
 
 export const useServicePackageQuery = (params: {
-    search?: string,
-    pageSize?: number,
-    sortBy: string,
-    sortDirection: number
+    Search?: string,
+    PageSize?: number,
+    SortBy: string,
+    SortDirection: number
 }) => {
     const queryKey = [QueryKeys.SERVICE_PACKAGES, params]
 
     const queryFn = async ({ pageParam = undefined }) => {
         return GetAllServicePackages({
             ...params,
-            cursor: pageParam,
+            Cursor: pageParam,
         })
+    }
+
+    return { queryKey, queryFn }
+}
+
+export const usePurchasedServicePackageQuery = (params: {
+    Search?: string,
+    PageSize?: number,
+    SortBy: string,
+    SortDirection: number
+}) => {
+    const queryKey = [QueryKeys.PURCHASED_SERVICE_PACKAGES, params]
+
+    const queryFn = async ({ pageParam = undefined }) => {
+        return GetAllPurchasedServicePackages({
+            ...params,
+            Cursor: pageParam,
+        })
+    }
+
+    return { queryKey, queryFn }
+}
+
+export const useDoctorListQuery = (params: {
+    PageSize?: number,
+    Search?: string,
+    Gender?: GenderNumber,
+    Position?: DoctorRole,
+    HospitalId?: string
+    SortBy: string,
+    SortDirection: number
+}) => {
+    const queryKey = [QueryKeys.DOCTOR_LIST, params]
+
+    const queryFn = async ({ pageParam = undefined }) => {
+        return GetAllDoctor({
+            ...params,
+            Cursor: pageParam,
+        })
+    }
+
+    return { queryKey, queryFn }
+}
+
+export const useDoctorScheduleQuery = (params: {
+    doctorId: string
+    PageSize?: number,
+    FromDate?: string,
+    ToDate?: string
+}) => {
+    const queryKey = [QueryKeys.DOCTOR_SCHEDULE, params]
+
+    const queryFn = async ({ pageParam = undefined }) => {
+        return GetDoctorSchedule({
+            ...params,
+            Cursor: pageParam,
+        })
+    }
+
+    return { queryKey, queryFn }
+}
+
+export const useUserSessionAmountQuery = () => {
+    const queryKey = [QueryKeys.SESSION_AMOUNT]
+    const queryFn = async () => {
+        return GetUserSessionAmount()
     }
 
     return { queryKey, queryFn }

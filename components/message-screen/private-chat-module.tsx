@@ -1,5 +1,5 @@
 import React, { useCallback, useEffect, useState } from 'react'
-import { View, StyleSheet, ScrollView, RefreshControl, Dimensions } from 'react-native'
+import { View, ScrollView, RefreshControl, Dimensions, Pressable } from 'react-native'
 import { useGroupChatQuery } from '../../service/query/chat-query'
 import { useQuery, useQueryClient } from '@tanstack/react-query'
 import { ConversationType } from '../../assets/enum/conversation-type'
@@ -10,12 +10,18 @@ import ChatItem from '../chat-screen/chat-item'
 import GroupChatSkeleton from '../common/skeleton/chat-group-skeleton'
 import ErrorDisplay from '../common/error-display'
 import { usePrivateMessageStore } from '../../store/usePrivateMessage'
-
+import { Text } from '../../components/ui/text'
+import { GlobalColor } from '../../global-color'
+import { router } from 'expo-router'
+import useUserStore from '../../store/userStore'
+import { UserRole } from '../../assets/enum/user-role'
+import { Calendar } from '../../lib/icons/Calendar'
 
 const { width, height } = Dimensions.get('window')
 
 export default function PrivateChatModule() {
     const queryClient = useQueryClient()
+    const { user } = useUserStore()
     const [refreshing, setRefreshing] = useState(false)
     const { setGroups, setLatestMessage } = usePrivateMessageStore()
 
@@ -90,25 +96,45 @@ export default function PrivateChatModule() {
     }
 
     return (
-        <ScrollView
-            className="w-full pb-5"
-            contentContainerStyle={{ alignItems: 'center' }}
-            refreshControl={<RefreshControl refreshing={refreshing} onRefresh={onRefresh} />}
-            decelerationRate={'normal'}
-        >
-            <View
-                className='pt-2 px-2'
-                style={{ width: width, height: height * 0.8 }}
+        <>
+            <ScrollView
+                className="w-full pb-5"
+                contentContainerStyle={{ alignItems: 'center' }}
+                refreshControl={<RefreshControl refreshing={refreshing} onRefresh={onRefresh} />}
+                decelerationRate={'normal'}
             >
-                <FlashList<GroupChat>
-                    data={groups}
-                    keyExtractor={(_, index) => index.toString()}
-                    renderItem={({ item }) => (
-                        <ChatItem item={item} />
-                    )}
-                    estimatedItemSize={100}
-                />
-            </View>
-        </ScrollView>
+                <View
+                    className='pt-2 px-2'
+                    style={{ width: width, height: height * 0.8 }}
+                >
+                    <FlashList<GroupChat>
+                        data={groups}
+                        keyExtractor={(_, index) => index.toString()}
+                        renderItem={({ item }) => (
+                            <ChatItem item={item} />
+                        )}
+                        estimatedItemSize={100}
+                    />
+                </View>
+            </ScrollView>
+            {user.role == UserRole.PATIENT && (
+                <View className='absolute flex-col gap-3 bottom-11 right-0'>
+                    <Pressable
+                        style={{ backgroundColor: GlobalColor.BLUE_NEON_BORDER }}
+                        className='flex-row items-center px-4 py-2 rounded-full active:opacity-60 self-end'
+                        onPress={() => router.push('/service-package-screen')}
+                    >
+                        <Text className='text-base text-white font-semibold tracking-wider'>Mua gói tư vấn</Text>
+                    </Pressable>
+                    <Pressable
+                        style={{ backgroundColor: GlobalColor.BLUE_NEON_BORDER }}
+                        className='flex-row items-center px-4 py-2 rounded-full active:opacity-60 self-end'
+                        onPress={() => router.push('/doctor-list-screen')}
+                    >
+                        <Text className='text-base text-white font-semibold tracking-wider'>Đặt lịch với bác sĩ</Text>
+                    </Pressable>
+                </View>
+            )}
+        </>
     )
 }

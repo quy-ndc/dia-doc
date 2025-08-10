@@ -1,4 +1,4 @@
-import { AUTH_SERVICE_ENDPOINT, USER_SERVICE_ENDPOINT, CHAT_SERVICE_ENDPOINT, NOTIFICATION_SERVICE_ENDPOINT, API_GATEWAY_ENDPOINT, NEW_AUTH_SERVICE_ENDPOINT, AI_SERVICE_ENDPOINT } from '@env'
+import { AUTH_SERVICE_ENDPOINT, USER_SERVICE_ENDPOINT, CHAT_SERVICE_ENDPOINT, NOTIFICATION_SERVICE_ENDPOINT, API_GATEWAY_ENDPOINT, NEW_AUTH_SERVICE_ENDPOINT, AI_SERVICE_ENDPOINT, CONSULTATION_SERVICE_ENDPOINT } from '@env'
 import useUserStore from '../store/userStore';
 
 export const createQueryString = (params: Record<string, any>): string => {
@@ -58,7 +58,7 @@ const endpointUser = {
     EDIT_USER_PROFILE: `${API_GATEWAY_ENDPOINT}/${apiPrefixV1}/users/patients/profile`,
     GET_USER_PROFILE: `${API_GATEWAY_ENDPOINT}/${apiPrefixV1}/users/patients/profile`,
     GET_DOCTOR_PROFILE: `${API_GATEWAY_ENDPOINT}/${apiPrefixV1}/doctors/profile`,
-    
+
     GET_USER_HEALTH_RECORD: `${API_GATEWAY_ENDPOINT}/${apiPrefixV1}/users/patients/records`,
     GET_USER_HEALTH_CARE_PLAN: `${API_GATEWAY_ENDPOINT}/${apiPrefixV1}/users/patients/careplan`,
     UPDATE_USER_WEIGHT: `${API_GATEWAY_ENDPOINT}/${apiPrefixV1}/users/patients/records/weight`,
@@ -72,7 +72,11 @@ const endpointUser = {
     GET_CARE_PLAN_TEMPLATE: `${API_GATEWAY_ENDPOINT}/${apiPrefixV1}/users/patients/template`,
     DELETE_CARE_PLAN_TEMPLATE: `${API_GATEWAY_ENDPOINT}/${apiPrefixV1}/users/patients/template`,
 
-    GET_ALL_SERVICE_PACKAGES: `${API_GATEWAY_ENDPOINT}/${apiPrefixV1}/service-packages`,
+    GET_ALL_SERVICE_PACKAGES: `${API_GATEWAY_ENDPOINT}/${apiPrefixV1}/service_packages`,
+    GET_ALL_PURCHASED_SERVICE_PACKAGES: `${API_GATEWAY_ENDPOINT}/${apiPrefixV1}/service_packages/purchased`,
+    GET_ALL_DOCTOR: `${API_GATEWAY_ENDPOINT}/${apiPrefixV1}/doctors`,
+    GET_ALL_DOCTOR_SCHEDULE: `${CONSULTATION_SERVICE_ENDPOINT}/${apiPrefixV1}/doctors`,
+    GET_USER_SESSION_AMOUNT: `${API_GATEWAY_ENDPOINT}/${apiPrefixV1}/users/patients/consultation-sessions`
 }
 
 const endpointMedia = {

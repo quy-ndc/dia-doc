@@ -1,13 +1,14 @@
 import * as React from 'react'
 import { Pressable, View } from 'react-native'
 import { Text } from '../../components/ui/text'
-import { ServicePackage } from '../../assets/types/chat/consultation'
+import { ServicePackage } from '../../assets/types/consult/consultation'
 import Tag from '../common/tag'
 import { GlobalColor } from '../../global-color'
 import PackageFeatureItem from './package-feature'
 import RoundedIcon from '../common/icons/rouned-icon'
 import { Check } from '../../lib/icons/Check'
 import { ChevronRight } from '../../lib/icons/ChevronRight'
+import { formatPrice } from '../../util/format-price'
 
 type Prop = {
     item: ServicePackage
@@ -16,14 +17,14 @@ type Prop = {
 export default function ServicePackageItem({ item }: Prop) {
 
     return (
-        <Pressable className='flex-col py-3 gap-5 items-center w-full bg-[var(--blog-bg)] rounded-lg active:bg-[var(--click-bg)]'>
+        <Pressable className='flex-col p-3 gap-5 items-center w-full border border-[var(--blog-bg)] rounded-lg active:bg-[var(--click-bg)]'>
             <View className='flex-row gap-2 w-full justify-between'>
                 <View className='flex-col px-2 gap-2 flex-1'>
                     <Text className='text-base font-medium tracking-wider'>
                         {item.name}
                     </Text>
                     <Text className='text-xl font-semibold tracking-wider text-[var(--fade-text-color)]'>
-                        {item.price}.000đ
+                        {formatPrice(item.price)}đ
                     </Text>
                 </View>
                 <View className='flex-shrink-0'>

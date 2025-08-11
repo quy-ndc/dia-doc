@@ -9,9 +9,9 @@ import { getGenderString } from '../../assets/enum/gender'
 import { getAge } from '../../util/getAge'
 import { Doctor } from '../../assets/types/user/doctor'
 import { formatPhone } from '../../util/format-phone-number'
-import IconButton from '../common/icon-button'
-import { PencilLine } from '../../lib/icons/PencilLine'
 import EditProfileModal from './popup-modal/edit-profile-modal'
+import useUserStore from '../../store/userStore'
+import { UserRole } from '../../assets/enum/user-role'
 
 type Prop = {
     profile: Patient | Doctor
@@ -19,6 +19,7 @@ type Prop = {
 
 export default function BasicInfo({ profile }: Prop) {
 
+    const { user } = useUserStore()
     const name = 'fullName' in profile ? profile.fullName : profile.name
 
     return (
@@ -41,7 +42,9 @@ export default function BasicInfo({ profile }: Prop) {
                     </View>
                 </View>
             </View>
-            <EditProfileModal profile={profile} />
+            {user.role == UserRole.PATIENT && (
+                <EditProfileModal profile={profile} />
+            )}
         </View>
     )
 }

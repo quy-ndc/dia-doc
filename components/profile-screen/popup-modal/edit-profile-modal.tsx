@@ -17,6 +17,8 @@ import { Doctor } from '../../../assets/types/user/doctor'
 import DateTimePicker from '@react-native-community/datetimepicker'
 import { Calendar } from '../../../lib/icons/Calendar'
 import { GenderNumber } from '../../../assets/enum/gender'
+import useUserStore from '../../../store/userStore'
+import { User } from '../../../assets/types/zustand/user-z'
 
 
 const schema = yup.object({
@@ -32,6 +34,9 @@ type Props = {
 }
 
 export default function EditProfileModal({ profile }: Props) {
+
+    const { user, setUser } = useUserStore()
+    const [newUser, setNewUser] = useState<User>(user)
     const [visible, setVisible] = useState(false)
     const { mutateAsync, isLoading, data } = useEditUserProfileMutation()
     const [showDatePicker, setShowDatePicker] = useState(false)
@@ -57,9 +62,11 @@ export default function EditProfileModal({ profile }: Props) {
         }
     })
 
-    const dateOfBirth = watch('dateOfBirth')
-
     const onSubmit = async (data: any) => {
+        setNewUser({
+            ...user,
+            fullName: `${data.lastName} ${data.middleName} ${data.firstName}`
+        })
         await mutateAsync({
             lastName: data.lastName,
             middleName: data.middleName,
@@ -71,6 +78,7 @@ export default function EditProfileModal({ profile }: Props) {
 
     useEffect(() => {
         if (!data || data.status !== 200) return
+        setUser(newUser)
         setVisible(false)
     }, [data, isLoading])
 

@@ -29,13 +29,7 @@ export default function DoctorItem({ item }: Prop) {
     const textColor = theme == 'dark' ? GlobalColor.LIGHT_THEME_COL : GlobalColor.DARK_THEME_COL
 
     return (
-        <Pressable
-            className='flex-col gap-4 bg-[var(--blog-bg)] rounded-xl p-4'
-            onPress={() => router.push({
-                pathname: '/doctor-schedule-screen',
-                params: { id: item.id, name: item.name }
-            })}
-        >
+        <Pressable className='flex-col gap-4 bg-[var(--blog-bg)] rounded-xl p-4'>
             <View className='flex-row gap-2'>
                 <Image
                     style={{ width: 50, height: 50, borderRadius: 1000 }}
@@ -87,7 +81,7 @@ export default function DoctorItem({ item }: Prop) {
                 </Text>
             </View>
             <Pressable
-                className='flex-row items-center justify-center gap-2 px-4 py-3 rounded-full border border-[var(--fade-text-color)] active:bg-[var(--click-bg)]'
+                className='flex-row items-center justify-center gap-2 px-4 py-2 rounded-full border border-[var(--fade-text-color)] active:bg-[var(--click-bg)]'
                 onPress={() => router.push({
                     pathname: '/doctor-schedule-screen',
                     params: { id: item.id, name: item.name }

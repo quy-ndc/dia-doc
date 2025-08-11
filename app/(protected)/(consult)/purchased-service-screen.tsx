@@ -3,7 +3,7 @@ import { useCallback, useState } from 'react'
 import { Dimensions, RefreshControl, ScrollView, View } from 'react-native'
 import { useInfiniteQuery } from '@tanstack/react-query'
 import { usePurchasedServicePackageQuery, useServicePackageQuery } from '../../../service/query/user-query'
-import { PurchasedServicePackage, ServicePackage } from '../../../assets/types/chat/consultation'
+import { PurchasedServicePackage, ServicePackage } from '../../../assets/types/consult/consultation'
 import { FlashList } from '@shopify/flash-list'
 import ServicePackageSkeleton from '../../../components/common/skeleton/service-package-skeleton'
 import ErrorDisplay from '../../../components/common/error-display'
@@ -53,12 +53,14 @@ export default function PurchasedServiceScreen() {
                     {isLoading ? (
                         <ServicePackageSkeleton />
                     ) : isError || !items || items.length === 0 || items[0] === undefined ? (
-                        <View style={{ width: width, height: height * 0.9 }}>
+                        <View
+                            style={{ width: width, height: height * 0.9 }}
+                            className='flex-1 justify-center items-center'
+                        >
                             <ErrorDisplay
-                                text={'Không thể hiển thị các gói tư vấn'}
+                                text={'Không có dữ liệu'}
                                 onRefresh={onRefresh}
                                 refreshing={refreshing}
-                                showRefresh
                             />
                         </View>
                     ) : (

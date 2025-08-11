@@ -295,7 +295,7 @@ export const GetLikeMedia = async (params: {
 
 export const UploadImage = async (data: FormData) => {
     try {
-        const response = await axiosClientUpload.post(`${endpointMedia.UPDATE_IMAGE}`, data)
+        const response = await axiosClientUpload.post(`${endpointMedia.UPLOAD_IMAGE}`, data)
 
         return {
             success: true,

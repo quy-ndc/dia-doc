@@ -47,14 +47,8 @@ export default function ConsultSession({ amount, isLoading, isError, refetch, re
                     refreshing={refreshing}
                 />
             ) : (
-                <View
-                    style={{ backgroundColor: GlobalColor.ROSE_NEON_BG }}
-                    className='flex-col items-center gap-2 py-4 px-2 rounded-xl'
-                >
-                    <Text
-                        style={{ color: GlobalColor.ROSE_NEON_BORDER }}
-                        className='text-3xl font-bold'
-                    >
+                <View className='flex-col items-center gap-2 py-4 px-2 rounded-xl'>
+                    <Text className='text-3xl font-bold'>
                         {amount}
                     </Text>
                     <Text className='text-base py-1 font-medium text-[var(--fade-text-color)] tracking-wider'>phiên tư vấn còn lại</Text>

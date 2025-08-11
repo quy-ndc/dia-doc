@@ -52,7 +52,7 @@ export default function DiabetesInfo({ profile }: Prop) {
                 <Text className='text-base font-bold tracking-wider'>
                     Chuẩn đoán&nbsp;
                     {profile.diagnosisInfo.diagnosisRecency == DiagnosisRecency.OVER_1_YEAR ?
-                        `${profile.diagnosisInfo.year} năm trước` :
+                        `${new Date().getFullYear() - (profile.diagnosisInfo.year || 0)} năm trước` :
                         getDiagnosisRecencyString(profile.diagnosisInfo.diagnosisRecency)
                     }
                 </Text>

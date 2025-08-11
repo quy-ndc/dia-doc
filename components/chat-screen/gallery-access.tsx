@@ -58,27 +58,14 @@ export default function GalleryAccess({ onImagePick }: Prop) {
         if (!file) return
 
         const formData = new FormData()
-        formData.append('image ', file as File)
-
-        try {
-            await mutateAsync(formData)
-        } catch (error) {
-            Toast.show({
-                type: 'error',
-                text1: 'Tải ảnh lên thất bại',
-            })
-        }
+        formData.append('files', file as any)
+        await mutateAsync(formData)
     }
 
     useEffect(() => {
-        if (data && !isLoading && isSuccess && !isError) {
-            // onImagePick(data)
-            Toast.show({
-                type: 'success',
-                text1: 'Tải ảnh lên thành công',
-                visibilityTime: 2000
-            })
-        }
+        console.log(data)
+        if (!data || isError || data.status !== 200) return
+
     }, [data])
 
     return (

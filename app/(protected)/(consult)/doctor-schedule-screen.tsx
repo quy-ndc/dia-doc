@@ -1,17 +1,27 @@
 import * as React from 'react'
-import { useCallback, useState } from 'react'
-import { Dimensions, RefreshControl, ScrollView, View } from 'react-native'
+import { useCallback, useEffect, useState } from 'react'
+import { Dimensions, Pressable, RefreshControl, ScrollView, View } from 'react-native'
 import { Text } from '../../../components/ui/text'
 import { Stack, useLocalSearchParams } from 'expo-router'
 import { truncateText } from '../../../util/truncate-text'
 import { useInfiniteQuery } from '@tanstack/react-query'
 import { useDoctorScheduleQuery } from '../../../service/query/user-query'
+import { FlashList } from '@shopify/flash-list'
+import { DoctorSchedule, DoctorScheduleTime } from '../../../assets/types/consult/doctor-schedule'
+import DoctorScheduleItem from '../../../components/doctor-schedule-screen/doctor-schedule-item'
+import DoctorScheduleSkeleton from '../../../components/common/skeleton/doctor-schedule-skeleton'
+import ErrorDisplay from '../../../components/common/error-display'
+import ScheduleTimeStamp from '../../../components/doctor-schedule-screen/schedule-time-stamp'
+import { Check } from '../../../lib/icons/Check'
 
 const { width, height } = Dimensions.get('window')
 
 export default function DoctorScheduleScreen() {
 
     const { id, name } = useLocalSearchParams()
+    const [refreshing, setRefreshing] = useState(false)
+    const [choosenTimeStamp, setChoosenTimeStamp] = useState('')
+    const [choosenTime, setChoosenTime] = useState('')
 
     const {
         data,
@@ -35,14 +45,90 @@ export default function DoctorScheduleScreen() {
         retryDelay: attempt => Math.min(1000 * 2 ** attempt, 5000)
     })
 
-    console.log(id, name)
+    const onRefresh = useCallback(() => {
+        setRefreshing(true)
+        remove()
+        refetch().finally(() => setRefreshing(false))
+    }, [remove, refetch])
+
+    const allItems: DoctorSchedule[] = data ? data?.pages?.flatMap(page => page.data?.data?.items) : []
+    const timeStamp: DoctorScheduleTime[] = allItems.find(item => item.date === choosenTimeStamp)?.consultationTemplates || []
+
+    useEffect(() => {
+        if (isError || allItems.length === 0 || !allItems[0]) return
+        setChoosenTimeStamp(allItems[0].date)
+    }, [data])
 
     return (
         <>
-            <Stack.Screen
-                options={{ headerTitle: truncateText(`Lịch hẹn của ${name}`, 25) }}
-            />
-            <Text>awdaw</Text>
+            <Stack.Screen options={{ headerTitle: truncateText(`Lịch hẹn của ${name}`, 25) }} />
+            <View className='flex-1 relative'>
+                <ScrollView refreshControl={<RefreshControl refreshing={refreshing} onRefresh={onRefresh} />}>
+                    {isLoading ? (
+                        <DoctorScheduleSkeleton />
+                    ) : isError || allItems.length === 0 ? (
+                        <ErrorDisplay
+                            onRefresh={onRefresh}
+                            refreshing={refreshing}
+                            text="Không có lịch hẹn"
+                        />
+                    ) : (
+                        <View className='flex-col gap-4 w-full px-2'>
+                            <FlashList<DoctorSchedule>
+                                data={allItems}
+                                keyExtractor={(_, index) => index.toString()}
+                                renderItem={({ item }) =>
+                                    <View className='mx-2'>
+                                        <DoctorScheduleItem
+                                            item={item}
+                                            choosen={choosenTimeStamp == item.date}
+                                            setChoosenTimeStamp={setChoosenTimeStamp}
+                                            setChoosenTime={setChoosenTime}
+                                        />
+                                    </View>
+                                }
+                                horizontal
+                                showsHorizontalScrollIndicator={false}
+                                estimatedItemSize={100}
+                                scrollEventThrottle={16}
+                                onEndReachedThreshold={0.5}
+                                extraData={choosenTimeStamp}
+                            />
+                            <Text className='text-lg font-bold tracking-wider px-2'>
+                                Các khung giờ hẹn
+                            </Text>
+                            <FlashList<DoctorScheduleTime>
+                                data={timeStamp}
+                                keyExtractor={(_, index) => index.toString()}
+                                renderItem={({ item }) =>
+                                    <View className='m-2'>
+                                        <ScheduleTimeStamp
+                                            item={item}
+                                            choosen={choosenTime == item.id}
+                                            setChoosenTime={setChoosenTime}
+                                        />
+                                    </View>
+                                }
+                                numColumns={2}
+                                showsHorizontalScrollIndicator={false}
+                                estimatedItemSize={100}
+                                scrollEventThrottle={16}
+                                onEndReachedThreshold={0.5}
+                                extraData={choosenTime}
+                            />
+                            <Pressable
+                                className={`flex-row gap-2 px-4 py-3 mt-5 items-center justify-center rounded-full bg-[var(--oppo-theme-col)] active:opacity-80 ${choosenTime == '' ? 'opacity-50' : ''}`}
+                                disabled={choosenTime == ''}
+                            >
+                                <Check className='text-[var(--same-theme-col)]' size={17} />
+                                <Text className='text-[var(--same-theme-col)] text-base font-bold tracking-wider'>
+                                    Đặt lịch hẹn
+                                </Text>
+                            </Pressable>
+                        </View>
+                    )}
+                </ScrollView>
+            </View>
         </>
     )
 }

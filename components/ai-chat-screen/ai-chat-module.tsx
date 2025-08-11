@@ -57,6 +57,8 @@ export default function AiChatModule({ session_id }: Prop) {
         enabled: !!session_id
     })
 
+    console.log(aiChatData)
+
     const {
         mutateAsync: mutateAiMessage,
         data: aiResponseData,
@@ -94,7 +96,7 @@ export default function AiChatModule({ session_id }: Prop) {
             })
 
             if (response?.data && response.status === 200) {
-                const responseData = response.data.value.data.data
+                const responseData = response?.data?.data
                 const aiMessage: AIMessage = {
                     id: responseData.id || `ai_${Date.now()}`,
                     session_id: session_id!,
@@ -114,7 +116,7 @@ export default function AiChatModule({ session_id }: Prop) {
 
     useEffect(() => {
         if (aiChatData?.data && aiChatData.status === 200) {
-            const apiMessages: AIMessage[] = aiChatData.data.value.data.map((message: any) => ({
+            const apiMessages: AIMessage[] = aiChatData.data.data.map((message: any) => ({
                 id: message.id,
                 session_id: message.session_id,
                 user_id: message.user_id,

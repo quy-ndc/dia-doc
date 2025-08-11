@@ -1,7 +1,7 @@
 import * as React from 'react'
 import { Pressable, View } from 'react-native'
 import { Text } from '../../components/ui/text'
-import { PackageFeature } from '../../assets/types/chat/consultation'
+import { PackageFeature } from '../../assets/types/consult/consultation'
 import { Check } from '../../lib/icons/Check'
 import RoundedIcon from '../common/icons/rouned-icon'
 import { GlobalColor } from '../../global-color'

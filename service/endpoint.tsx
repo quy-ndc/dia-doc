@@ -83,7 +83,7 @@ const endpointMedia = {
     GET_ALL_MEDIAS: `${API_GATEWAY_ENDPOINT}/${apiPrefixV1}/posts`,
     GET_MEDIA_BY_ID: `${API_GATEWAY_ENDPOINT}/${apiPrefixV1}/posts`,
     GET_TOP_MEDIAS: `${API_GATEWAY_ENDPOINT}/${apiPrefixV1}/posts/top-view`,
-    UPDATE_IMAGE: `${API_GATEWAY_ENDPOINT}/${apiPrefixV1}/media`,
+    UPLOAD_IMAGE: `${CHAT_SERVICE_ENDPOINT}/${apiPrefixV1}/media/upload`,
     BOOKMARK_MEDIA: `${API_GATEWAY_ENDPOINT}/${apiPrefixV1}/bookmarks`,
     GET_ALL_BOOKMARK_MEDIA: `${API_GATEWAY_ENDPOINT}/${apiPrefixV1}/posts/bookmark`,
     LIKE_MEDIA: `${API_GATEWAY_ENDPOINT}/${apiPrefixV1}/likes`,

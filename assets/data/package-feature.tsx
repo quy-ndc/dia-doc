@@ -1,5 +1,5 @@
 import { PackageFeatureType } from "../enum/package-feature"
-import { PackageFeature } from "../types/chat/consultation"
+import { PackageFeature } from "../types/consult/consultation"
 
 export function getPackageFeatureDisplay(item: PackageFeature): string {
     switch (item.type) {

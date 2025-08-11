@@ -46,6 +46,14 @@ export const useSendMessageMutation = () => {
             messageType: MessageType
         }) => SendMessage(request),
         onSuccess: (data) => {
+            if (data.status !== 200) {
+                Toast.show({
+                    type: 'error',
+                    text1: data?.data?.errors[0].message || 'Gửi tin nhắn thất bại',
+                    text2: 'Vui lòng thử lại sau',
+                    visibilityTime: 2000,
+                })
+            }
             return data
         },
         onError: (error) => {

@@ -36,7 +36,7 @@ export default function EmptyAiChatModule() {
     const [aiMessages, setAiMessages] = useState<ChatItem[]>([])
     const [refreshing, setRefreshing] = useState(false)
     const [newMessage, setNewMessage] = useState('')
-    
+
     const { addSession, addMessages } = useAiMessageStore()
     const queryClient = useQueryClient()
 
@@ -82,9 +82,9 @@ export default function EmptyAiChatModule() {
             })
 
             if (response?.data && response.status === 200) {
-                const responseData = response.data.value.data.data
+                const responseData = response?.data?.data
                 const sessionId = responseData.session_id
-                
+
                 const aiMessage: ChatItem = {
                     id: responseData.id || `ai_${Date.now()}`,
                     session_id: sessionId,
@@ -103,7 +103,7 @@ export default function EmptyAiChatModule() {
 
                 if (!currentSessionId && sessionId) {
                     setCurrentSessionId(sessionId)
-                    
+
                     const newSession = {
                         id: sessionId,
                         user_id: user.id,
@@ -111,9 +111,9 @@ export default function EmptyAiChatModule() {
                         created_at: new Date().toISOString(),
                         updated_at: new Date().toISOString()
                     }
-                    
+
                     addSession(newSession)
-                    
+
                     const userMessageForStore: AIMessage = {
                         id: userMessage.id,
                         session_id: sessionId,
@@ -123,7 +123,7 @@ export default function EmptyAiChatModule() {
                         created_at: userMessage.created_at,
                         updated_at: userMessage.updated_at
                     }
-                    
+
                     const aiMessageForStore: AIMessage = {
                         id: aiMessage.id,
                         session_id: sessionId,
@@ -133,9 +133,9 @@ export default function EmptyAiChatModule() {
                         created_at: aiMessage.created_at,
                         updated_at: aiMessage.updated_at
                     }
-                    
+
                     addMessages(sessionId, [userMessageForStore, aiMessageForStore])
-                    
+
                     queryClient.invalidateQueries({
                         queryKey: useAiSessionQuery({ user_id: user.id }).queryKey
                     })

@@ -614,7 +614,7 @@ export default function SetUpScreen() {
                             render={({ field: { onChange, value } }) => (
                                 <View className="flex-col gap-1">
                                     <SetUpFields
-                                        label="Năm chẩn đoán"
+                                        label="Năm chuẩn đoán"
                                         length={0.9}
                                         required={true}
                                         object={

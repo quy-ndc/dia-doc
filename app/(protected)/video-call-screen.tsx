@@ -1,5 +1,5 @@
 import React, { useEffect, useRef, useState } from 'react'
-import { View, Text, StyleSheet } from 'react-native'
+import { View, Text, StyleSheet, Pressable } from 'react-native'
 import {
     RTCSessionDescription,
     RTCView,
@@ -7,13 +7,14 @@ import {
     mediaDevices,
 } from 'react-native-webrtc'
 import useVideoCallStore from '../../store/videoCallStore'
-import { useLocalSearchParams } from 'expo-router'
+import { router, useLocalSearchParams } from 'expo-router'
 import IconButton from '../../components/common/icon-button'
 import { Mic } from '../../lib/icons/Mic'
 import { MicOff } from '../../lib/icons/MicOff'
 import { SwitchCamera } from '../../lib/icons/SwitchCamera'
 import { PhoneOff } from '../../lib/icons/PhoneOff'
 import { GlobalColor } from '../../global-color'
+import { ChevronLeft } from '../../lib/icons/ChevronLeft'
 
 
 const sessionConstraints = {
@@ -237,26 +238,44 @@ export default function VideoCallScreen() {
                 </View>
             )}
 
-            <View className='flex-row items-center gap-5 justify-center absolute left-0 right-0 bottom-15'>
-                <IconButton
-                    icon={isMuted ? <Mic className='text-white' size={20} /> : <MicOff className='text-white' size={20} />}
-                    buttonSize={3}
-                    possition={'camera'}
-                    onPress={toggleMic}
-                />
-                <IconButton
-                    icon={<SwitchCamera className='text-white' size={20} />}
-                    buttonSize={3}
-                    possition={'camera'}
-                    onPress={switchCamera}
-                />
-                <IconButton
-                    icon={<PhoneOff color={GlobalColor.RED_NEON_BORDER} size={20} />}
-                    buttonSize={3}
-                    possition={'camera'}
-                    onPress={endCall}
-                />
-            </View>
+            {!terminationMessage ? (
+                <View className='flex-row items-center gap-5 justify-center absolute left-0 right-0 bottom-10'>
+                    <IconButton
+                        icon={isMuted ? <Mic className='text-white' size={20} /> : <MicOff className='text-white' size={20} />}
+                        buttonSize={3}
+                        possition={'camera'}
+                        onPress={toggleMic}
+                    />
+                    <IconButton
+                        icon={<SwitchCamera className='text-white' size={20} />}
+                        buttonSize={3}
+                        possition={'camera'}
+                        onPress={switchCamera}
+                    />
+                    <IconButton
+                        icon={<PhoneOff color={GlobalColor.RED_NEON_BORDER} size={20} />}
+                        buttonSize={3}
+                        possition={'camera'}
+                        onPress={endCall}
+                    />
+                </View>
+            ) : (
+                <View className='absolute bottom-10 left-0 right-0 px-3'>
+                    <Pressable
+                        style={{ backgroundColor: GlobalColor.RED_NEON_BG }}
+                        className='flex-row gap-2 items-center justify-center px-4 py-2 rounded-full active:opacity-60'
+                        onPress={() => router.replace('/')}
+                    >
+                        <ChevronLeft color={GlobalColor.RED_NEON_BORDER} size={17} />
+                        <Text
+                            style={{ color: GlobalColor.RED_NEON_BORDER }}
+                            className='text-base font-bold tracking-wider'
+                        >
+                            Quay lại
+                        </Text>
+                    </Pressable>
+                </View>
+            )}
         </View>
     )
 }

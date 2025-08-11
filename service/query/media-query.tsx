@@ -157,6 +157,14 @@ export const useUploadImageMutation = () => {
     return useMutation({
         mutationFn: (data: FormData) => UploadImage(data),
         onSuccess: (data) => {
+            if (data.status !== 200) {
+                Toast.show({
+                    type: 'error',
+                    text1: 'Gửi hình ảnh thất bại',
+                    visibilityTime: 2000
+                })
+                return
+            }
             return data
         },
         onError: (error) => {

@@ -54,7 +54,10 @@ export default function DoctorListScreen() {
                     {isLoading ? (
                         <ServicePackageSkeleton />
                     ) : isError || !items || items.length === 0 || items[0] === undefined ? (
-                        <View style={{ width: width, height: height * 0.9 }}>
+                        <View
+                            className='flex-1 justify-center items-center'
+                            style={{ width: width, height: height * 0.9 }}
+                        >
                             <ErrorDisplay
                                 text={'Không thể hiển thị các gói tư vấn'}
                                 onRefresh={onRefresh}

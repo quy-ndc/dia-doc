@@ -33,7 +33,7 @@ export default function AiChatSessionScreen() {
         refetch().finally(() => setRefreshing(false))
     }, [refetch])
 
-    const apiSessions: AiSession[] = data?.data?.value?.data || []
+    const apiSessions: AiSession[] = data?.data?.data || []
 
     useEffect(() => {
         if (apiSessions.length > 0) {

@@ -22,8 +22,10 @@ import { RefreshCcw } from '../../lib/icons/RefreshCcw'
 import { useMessageStore } from '../../store/useMessage'
 import { FlashList } from '@shopify/flash-list'
 import { useDebounce } from '../../util/hook/useDebounce'
-import { usePresence } from '@ably/chat'
+import { useMessages, usePresence } from '@ably/chat'
 import ErrorDisplay from '../common/error-display'
+import { UserRole, UserRoleNumber } from '../../assets/enum/user-role'
+import GalleryAccess from './gallery-access'
 
 
 type Prop = {
@@ -36,7 +38,7 @@ export default function ChatModule({
     setIsCameraOn,
 }: Prop) {
 
-    const { groups, setMessages, addMessages } = useMessageStore()
+    const { groups, setMessages, addMessages, addMessage } = useMessageStore()
     const { user } = useUserStore()
     const [showScrollButton, setShowScrollButton] = useState(false)
     const listRef = useRef<FlashList<Message>>(null)
@@ -131,24 +133,43 @@ export default function ChatModule({
         listRef.current?.scrollToEnd()
     }
 
-    const { mutateAsync, isLoading } = useSendMessageMutation()
+    const { data: messageData, mutateAsync, isLoading } = useSendMessageMutation()
+    const { send } = useMessages({
+        listener: (event) => {
+            addMessage(groupId, event.message.metadata.messageToSend as Message)
+        },
+    })
     const handleSend = async () => {
-        const response = await mutateAsync({
+        await mutateAsync({
             conversationId: groupId,
             conversationType: 0,
             content: newMessage,
             mediaId: ' ',
             messageType: MessageType.TEXT
         })
-        setNewMessage('')
-        if (!response.success) {
-            Toast.show({
-                type: 'error',
-                text1: 'Có lỗi xảy ra khi gửi tin nhắn',
-                visibilityTime: 200
-            })
-        }
     }
+
+    useEffect(() => {
+        if (!messageData || messageData.status !== 200) return
+        const messageToSend: Message = {
+            id: messageData.data.data.messageId,
+            content: newMessage,
+            type: MessageType.TEXT,
+            fileAttachment: {
+                publicUrl: '',
+                type: 0
+            },
+            createdDate: new Date().toISOString(),
+            participant: {
+                id: user.id,
+                fullName: user.fullName,
+                avatar: user.avatar,
+                role: user.role == UserRole.PATIENT ? UserRoleNumber.PATIENT : UserRoleNumber.DOCTOR
+            }
+        }
+        send({ text: ' ', metadata: { messageToSend } })
+        setNewMessage('')
+    }, [messageData, isLoading])
 
     return (
         <KeyboardAvoidingView
@@ -186,8 +207,8 @@ export default function ChatModule({
                                 }
                             }}
                             estimatedItemSize={200}
-                            refreshControl={<RefreshControl refreshing={refreshing} onRefresh={onRefresh} />}
                             onScroll={handleScroll}
+                            refreshControl={<RefreshControl refreshing={refreshing} onRefresh={onRefresh} />}
                             keyboardShouldPersistTaps="handled"
                             scrollEventThrottle={16}
                             onEndReachedThreshold={0.5}

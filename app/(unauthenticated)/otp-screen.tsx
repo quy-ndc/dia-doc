@@ -88,7 +88,7 @@ export default function OtpScreen() {
                     />
                 </View>
                 <Pressable
-                    style={{ opacity: isLoading ? 0.5 : 1 }}
+                    style={{ opacity: isLoading || isLoadingResend ? 0.5 : 1 }}
                     className="flex-row w-full gap-2 px-5 py-3 justify-center items-center bg-[var(--oppo-theme-col)] border border-[var(--same-theme-col)] rounded-full active:bg-[var(--oppo-click-bg)]"
                     disabled={isLoading || isLoadingResend}
                     onPress={handleSubmit(onVerify)}
@@ -101,7 +101,7 @@ export default function OtpScreen() {
                     )}
                 </Pressable>
                 <Pressable
-                    style={{ opacity: isLoading ? 0.5 : 1 }}
+                    style={{ opacity: isLoading || isLoadingResend ? 0.5 : 1 }}
                     className="flex-row w-full gap-2 px-5 py-3 justify-center items-center border border-[var(--oppo-theme-col)] rounded-full active:bg-[var(--click-bg)]"
                     disabled={isLoading || isLoadingResend}
                     onPress={onResend}

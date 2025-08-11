@@ -1,7 +1,7 @@
 import * as React from 'react'
 import { Pressable, View } from 'react-native'
 import { Text } from '../../components/ui/text'
-import { PurchasedServicePackage } from '../../assets/types/chat/consultation'
+import { PurchasedServicePackage } from '../../assets/types/consult/consultation'
 import Tag from '../common/tag'
 import { GlobalColor } from '../../global-color'
 import { ChevronRight } from '../../lib/icons/ChevronRight'

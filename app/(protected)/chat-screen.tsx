@@ -13,6 +13,7 @@ import { Phone } from '../../lib/icons/Phone'
 import PrivateChatModule from '../../components/chat-screen/private-chat-module'
 import { useRouter } from 'expo-router'
 import useUserStore from '../../store/userStore'
+import GenerateQRButton from '../../components/chat-screen/generate-qr'
 
 export default function ChatScreen() {
     const { id, title, image, type, target } = useLocalSearchParams()
@@ -44,13 +45,13 @@ export default function ChatScreen() {
                             />
                             <Text className='text-lg font-bold tracking-wider'>{truncateText(title as string, 23)}</Text>
                         </View>,
-                    headerRight: () => target ? 
+                    headerRight: () => target ?
                         <IconButton
                             icon={<Phone className='text-foreground' size={17} />}
                             buttonSize={3}
                             possition={'other'}
                             onPress={handleStartCall}
-                        /> : null
+                        /> : <GenerateQRButton id={id as string} />
                 }}
             />
             {/* <Modal

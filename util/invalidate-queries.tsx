@@ -102,4 +102,62 @@ export const invalidateQuery = (queryClient: QueryClient) => {
     queryClient.removeQueries({
         predicate: (query) => query.queryKey[0] === QueryKeys.NOTIFICATIONS,
     })
+
+    // AI service queries
+    queryClient.invalidateQueries({
+        predicate: (query) => query.queryKey[0] === QueryKeys.AI_CHAT,
+    })
+    queryClient.removeQueries({
+        predicate: (query) => query.queryKey[0] === QueryKeys.AI_CHAT,
+    })
+
+    queryClient.invalidateQueries({
+        predicate: (query) => query.queryKey[0] === QueryKeys.AI_SESSION,
+    })
+    queryClient.removeQueries({
+        predicate: (query) => query.queryKey[0] === QueryKeys.AI_SESSION,
+    })
+
+    // Service and consultation queries
+    queryClient.invalidateQueries({
+        predicate: (query) => query.queryKey[0] === QueryKeys.SERVICE_PACKAGES,
+    })
+    queryClient.removeQueries({
+        predicate: (query) => query.queryKey[0] === QueryKeys.SERVICE_PACKAGES,
+    })
+
+    queryClient.invalidateQueries({
+        predicate: (query) => query.queryKey[0] === QueryKeys.PURCHASED_SERVICE_PACKAGES,
+    })
+    queryClient.removeQueries({
+        predicate: (query) => query.queryKey[0] === QueryKeys.PURCHASED_SERVICE_PACKAGES,
+    })
+
+    queryClient.invalidateQueries({
+        predicate: (query) => query.queryKey[0] === QueryKeys.DOCTOR_LIST,
+    })
+    queryClient.removeQueries({
+        predicate: (query) => query.queryKey[0] === QueryKeys.DOCTOR_LIST,
+    })
+
+    queryClient.invalidateQueries({
+        predicate: (query) => query.queryKey[0] === QueryKeys.DOCTOR_SCHEDULE,
+    })
+    queryClient.removeQueries({
+        predicate: (query) => query.queryKey[0] === QueryKeys.DOCTOR_SCHEDULE,
+    })
+
+    queryClient.invalidateQueries({
+        predicate: (query) => query.queryKey[0] === QueryKeys.SESSION_AMOUNT,
+    })
+    queryClient.removeQueries({
+        predicate: (query) => query.queryKey[0] === QueryKeys.SESSION_AMOUNT,
+    })
+
+    queryClient.invalidateQueries({
+        predicate: (query) => query.queryKey[0] === QueryKeys.CONSULTATION_LIST,
+    })
+    queryClient.removeQueries({
+        predicate: (query) => query.queryKey[0] === QueryKeys.CONSULTATION_LIST,
+    })
 }

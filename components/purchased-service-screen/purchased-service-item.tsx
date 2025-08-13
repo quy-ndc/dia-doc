@@ -5,6 +5,8 @@ import { PurchasedServicePackage } from '../../assets/types/consult/consultation
 import Tag from '../common/tag'
 import { GlobalColor } from '../../global-color'
 import { ChevronRight } from '../../lib/icons/ChevronRight'
+import { formatPrice } from '../../util/format-price'
+import PurchaseConfirmationModal from '../service-package-screen/purchase-confirmation'
 
 type Prop = {
     item: PurchasedServicePackage
@@ -20,10 +22,10 @@ export default function PurchaseServiceItem({ item }: Prop) {
                         {item.servicePackage.name}
                     </Text>
                     <Text className='text-lg font-semibold tracking-wider text-[var(--fade-text-color)]'>
-                        Giá gốc: {item.servicePackage.price}.000đ
+                        Giá gốc: {formatPrice(item.servicePackage.price)}đ
                     </Text>
                     <Text className='text-lg font-semibold tracking-wider text-[var(--fade-text-color)]'>
-                        Giá đã mua: {item.priceAtPurchased}.000đ
+                        Giá đã mua: {formatPrice(item.priceAtPurchased)}đ
                     </Text>
                 </View>
                 <View className='flex-shrink-0'>
@@ -34,11 +36,7 @@ export default function PurchaseServiceItem({ item }: Prop) {
                     />
                 </View>
             </View>
-
-            <Pressable className='flex-row items-center justify-center gap-2 rounded-full bg-[var(--oppo-theme-col)] px-4 py-2 w-full active:opacity-60'>
-                <Text className='text-base text-[var(--same-theme-col)] font-semibold tracking-wider'>Mua lại gói này</Text>
-                <ChevronRight className='text-[var(--same-theme-col)]' size={17} />
-            </Pressable>
+            <PurchaseConfirmationModal id={item.servicePackage.id} />
         </Pressable>
     )
 }

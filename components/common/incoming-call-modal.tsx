@@ -59,10 +59,10 @@ export default function IncomingCallModal() {
                     <Text className='text-2xl font-bold tracking-wider text-[var(--oppo-theme-col)] capitalize'>Cuộc gọi đến</Text>
                     <Image
                         style={{ width: 200, height: 200, borderRadius: 1000 }}
-                        source={require('../../assets/images/default-user.jpg')}
+                        source={incomingCall.avatar}
                         contentFit='cover'
                     />
-                    <Text className='text-2xl font-bold tracking-wider text-[var(--oppo-theme-col)]'>{incomingCall?.fromUserId}</Text>
+                    <Text className='text-2xl font-bold tracking-wider text-[var(--oppo-theme-col)]'>{incomingCall?.name}</Text>
                 </View>
                 <View className='flex-row gap-20 items-center'>
                     <Pressable

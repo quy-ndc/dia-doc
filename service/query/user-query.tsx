@@ -1,5 +1,5 @@
 import { useMutation, useQueryClient } from "@tanstack/react-query"
-import { CreateCarePlanTemplate, CreateUserProfile, DeleteCarePlanTemplate, EditUserProfile, GetAllDoctor, GetAllPurchasedServicePackages, GetAllServicePackages, GetCarePlanTemplate, GetDoctorProfile, GetDoctorSchedule, GetUserHealthCarePlan, GetUserHealthRecord, GetUserProfile, GetUserSessionAmount, UpdateCarePlanTemplate, UpdateUserBloodPressure, UpdateUserBloodSugar, UpdateUserHbA1c, UpdateUserHeight, UpdateUserWeight } from "../api/user-service"
+import { CreateBooking, CreateCarePlanTemplate, CreatePayment, CreateUserProfile, DeleteCarePlanTemplate, EditUserProfile, GetAllConsultation, GetAllDoctor, GetAllPurchasedServicePackages, GetAllServicePackages, GetCarePlanTemplate, GetDoctorProfile, GetDoctorSchedule, GetUserHealthCarePlan, GetUserHealthRecord, GetUserProfile, GetUserSessionAmount, UpdateCarePlanTemplate, UpdateUserBloodPressure, UpdateUserBloodSugar, UpdateUserHbA1c, UpdateUserHeight, UpdateUserWeight } from "../api/user-service"
 import { QueryKeys } from "../../assets/enum/query"
 import { GenderNumber } from "../../assets/enum/gender"
 import { DiagnosisRecency } from "../../assets/enum/diagnosis-recency"
@@ -517,6 +517,32 @@ export const usePurchasedServicePackageQuery = (params: {
     return { queryKey, queryFn }
 }
 
+export const useCreatePaymentMutation = () => {
+    return useMutation({
+        mutationFn: (servicePackageId: string) => CreatePayment(servicePackageId),
+        onSuccess: (data) => {
+            if (data.status !== 200) {
+                Toast.show({
+                    type: 'error',
+                    text1: data?.data?.errors[0].message || 'Tại giao dịch thất bại',
+                    text2: 'Vui lòng thử lại sau',
+                    visibilityTime: 2000,
+                })
+            }
+            return data
+        },
+        onError: (error) => {
+            Toast.show({
+                type: 'error',
+                text1: 'Tại giao dịch thất bại',
+                text2: 'Vui lòng thử lại sau',
+                visibilityTime: 2000,
+            })
+            return error
+        }
+    })
+}
+
 export const useDoctorListQuery = (params: {
     PageSize?: number,
     Search?: string,
@@ -560,6 +586,60 @@ export const useUserSessionAmountQuery = () => {
     const queryKey = [QueryKeys.SESSION_AMOUNT]
     const queryFn = async () => {
         return GetUserSessionAmount()
+    }
+
+    return { queryKey, queryFn }
+}
+
+export const useCreateBookingMutation = () => {
+    const queryClient = useQueryClient()
+    return useMutation({
+        mutationFn: (data: {
+            doctorId: string,
+            templateId: string
+        }) => CreateBooking(data),
+        onSuccess: (data) => {
+            if (data.status !== 200) {
+                Toast.show({
+                    type: 'error',
+                    text1: data?.data?.errors[0].message || 'Đặt lịch thất bại',
+                    text2: 'Vui lòng thử lại sau',
+                    visibilityTime: 2000,
+                })
+            } else {
+                queryClient.invalidateQueries({ queryKey: [QueryKeys.CONSULTATION_LIST] })
+                Toast.show({
+                    type: 'success',
+                    text1: 'Đặt lịch thành công',
+                    visibilityTime: 2000,
+                })
+            }
+            return data
+        },
+        onError: (error) => {
+            Toast.show({
+                type: 'error',
+                text1: 'Đặt lịch thất bại',
+                text2: 'Vui lòng thử lại sau',
+                visibilityTime: 2000,
+            })
+            return error
+        }
+    })
+}
+
+export const useConsultationListQuery = (params: {
+    Cursor?: string,
+    PageSize?: number,
+    Status?: number
+}) => {
+    const queryKey = [QueryKeys.CONSULTATION_LIST, params]
+
+    const queryFn = async ({ pageParam = undefined }) => {
+        return GetAllConsultation({
+            ...params,
+            Cursor: pageParam,
+        })
     }
 
     return { queryKey, queryFn }

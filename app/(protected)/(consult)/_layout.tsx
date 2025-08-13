@@ -38,6 +38,13 @@ export default function ConsultLayout() {
                 name="doctor-schedule-screen"
                 options={{ headerShadowVisible: false, }}
             />
+            <Stack.Screen
+                name="consultation-history-screen"
+                options={{
+                    headerShadowVisible: false,
+                    headerTitle: 'Lịch tư vấn đã đặt'
+                }}
+            />
         </Stack>
     )
 }

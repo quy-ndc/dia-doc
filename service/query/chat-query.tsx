@@ -1,5 +1,5 @@
-import { useMutation } from "@tanstack/react-query"
-import { GetAllChatGroups, GetAllChatMessages, SendMessage } from "../api/chat-service"
+import { useMutation, useQueryClient } from "@tanstack/react-query"
+import { GetAllChatGroups, GetAllChatMessages, JoinAGroup, SendMessage } from "../api/chat-service"
 import { MessageType } from "../../assets/enum/message-type"
 import Toast from "react-native-toast-message"
 import { QueryKeys } from "../../assets/enum/query"
@@ -60,6 +60,42 @@ export const useSendMessageMutation = () => {
             Toast.show({
                 type: 'error',
                 text1: 'Gửi tin nhắn thất bại',
+                visibilityTime: 2000
+            })
+            return error;
+        }
+    })
+}
+
+export const useJoinAGroupMutation = () => {
+    const queryClient = useQueryClient()
+    return useMutation({
+        mutationFn: (request: {
+            conversationId: string,
+            invitedBy: string
+        }) => JoinAGroup(request),
+        onSuccess: (data) => {
+            if (data.status !== 200) {
+                Toast.show({
+                    type: 'error',
+                    text1: data?.data?.errors[0].message || 'Tham gia nhóm thất bại',
+                    text2: 'Vui lòng thử lại sau',
+                    visibilityTime: 2000,
+                })
+            } else {
+                queryClient.invalidateQueries({ queryKey: [QueryKeys.GROUP_CHATS] })
+                Toast.show({
+                    type: 'success',
+                    text1: 'Tham gia nhóm thành công',
+                    visibilityTime: 2000,
+                })
+            }
+            return data
+        },
+        onError: (error) => {
+            Toast.show({
+                type: 'error',
+                text1: 'Tham gia nhóm thất bại',
                 visibilityTime: 2000
             })
             return error;

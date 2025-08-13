@@ -38,7 +38,7 @@ export default function ChatModule({
     setIsCameraOn,
 }: Prop) {
 
-    const { groups, setMessages, addMessages, addMessage } = useMessageStore()
+    const { groups, setMessages, addMessages, addMessage, setLatestMessage } = useMessageStore()
     const { user } = useUserStore()
     const [showScrollButton, setShowScrollButton] = useState(false)
     const listRef = useRef<FlashList<Message>>(null)
@@ -136,10 +136,12 @@ export default function ChatModule({
     const { data: messageData, mutateAsync, isLoading } = useSendMessageMutation()
     const { send } = useMessages({
         listener: (event) => {
+            setLatestMessage(groupId, event.message.metadata.messageToSend as Message)
             addMessage(groupId, event.message.metadata.messageToSend as Message)
         },
     })
     const handleSend = async () => {
+        scrollToTop()
         await mutateAsync({
             conversationId: groupId,
             conversationType: 0,
@@ -167,8 +169,8 @@ export default function ChatModule({
                 role: user.role == UserRole.PATIENT ? UserRoleNumber.PATIENT : UserRoleNumber.DOCTOR
             }
         }
-        send({ text: ' ', metadata: { messageToSend } })
-        setNewMessage('')
+        setLatestMessage(groupId, messageToSend)
+        send({ text: ' ', metadata: { messageToSend } }).then(() => setNewMessage(''))
     }, [messageData, isLoading])
 
     return (
@@ -206,6 +208,7 @@ export default function ChatModule({
                                     return <ImageMessage message={item} />
                                 }
                             }}
+                            showsVerticalScrollIndicator={false}
                             estimatedItemSize={200}
                             onScroll={handleScroll}
                             refreshControl={<RefreshControl refreshing={refreshing} onRefresh={onRefresh} />}

@@ -7,6 +7,8 @@ import { RTCIceCandidate, RTCSessionDescription, RTCPeerConnection, MediaStream 
 interface CallState {
     incomingCall: {
         fromUserId: string
+        name: string
+        avatar: string
         offer: RTCSessionDescriptionInit
     } | null
     isInCall: boolean
@@ -32,7 +34,7 @@ interface VideoCallStore extends CallState {
     cleanupCall: () => void
     createPeerConnection: () => RTCPeerConnection
     addLocalStreamToPeer: (stream: MediaStream) => void
-    setIncomingCall: (fromUserId: string, offer: RTCSessionDescriptionInit) => void
+    setIncomingCall: (fromUserId: string, name: string, avatar: string, offer: RTCSessionDescriptionInit) => void
     clearIncomingCall: () => void
     acceptCall: (targetUserId: string, answer: RTCSessionDescriptionInit) => Promise<void>
     declineCall: (targetUserId: string) => Promise<void>
@@ -72,9 +74,9 @@ const useVideoCallStore = create<VideoCallStore>((set, get) => ({
         try {
             const connection = await connectToSignalR()
 
-            connection.on(ConsultationVideoCall.CALL_USER_RECEIVE, (fromUserId: string, offer: any) => {
+            connection.on(ConsultationVideoCall.CALL_USER_RECEIVE, (fromUserId: string, name, avatar, offer: any) => {
                 if (!get().isInCall) {
-                    set({ incomingCall: { fromUserId, offer } })
+                    set({ incomingCall: { fromUserId, name, avatar, offer } })
                 }
             })
 
@@ -206,8 +208,8 @@ const useVideoCallStore = create<VideoCallStore>((set, get) => ({
         }
     },
 
-    setIncomingCall: (fromUserId, offer) => {
-        set({ incomingCall: { fromUserId, offer } })
+    setIncomingCall: (fromUserId, name, avatar, offer) => {
+        set({ incomingCall: { fromUserId, name, avatar, offer } })
     },
 
     clearIncomingCall: () => {

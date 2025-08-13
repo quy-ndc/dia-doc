@@ -70,6 +70,7 @@
     "react-native-gesture-handler": "~2.20.2",
     "react-native-image-zoom-viewer": "^3.0.1",
     "react-native-markdown-display": "^7.0.2",
+    "react-native-qrcode-svg": "^6.3.15",
     "react-native-reanimated": "~3.16.1",
     "react-native-reanimated-carousel": "^4.0.2",
     "react-native-render-html": "^6.3.4",

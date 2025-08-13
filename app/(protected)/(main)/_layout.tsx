@@ -4,11 +4,10 @@ import { MessageCircleMore } from '../../../lib/icons/MessageCircleMore'
 import HeaderRight from '../../../components/header/header-right'
 import { Home } from '../../../lib/icons/Home'
 import { Newspaper } from '../../../lib/icons/Newspaper'
-import { Dimensions, Platform, useColorScheme } from 'react-native'
+import { Dimensions, Platform } from 'react-native'
 import { GlobalColor } from '../../../global-color'
 import HomeHeaderBg from '../../../components/home/header/header-bg'
 import HomeHeaderText from '../../../components/home/header/header-text'
-import { Bot } from '../../../lib/icons/Bot'
 
 const { height } = Dimensions.get('window')
 

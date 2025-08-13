@@ -53,6 +53,7 @@ export default function ProtectedLayout() {
 
         const unsubscribeOnMessage = getApp().messaging().onMessage(async remoteMessage => {
             Vibration.vibrate()
+            console.log(remoteMessage)
 
             await notifee.displayNotification({
                 title: remoteMessage.notification?.title,
@@ -66,9 +67,23 @@ export default function ProtectedLayout() {
                 },
             })
 
-            // Alert.alert('New Notification', JSON.stringify(remoteMessage))
-            console.log(JSON.stringify(remoteMessage))
-            console.log(remoteMessage)
+            // const message: Message = {
+            //     id: remoteMessage.data.
+            //     content: string
+            //     type: 
+            //     fileAttachment: {
+            //         publicUrl: string
+            //         type: number
+            //     }
+            //     createdDate: string,
+            //     participant: {
+            //         id: string
+            //         fullName: string
+            //         avatar: string
+            //         role: UserRoleNumber
+            //     }
+            // }
+            // // Alert.alert('New Notification', JSON.stringify(remoteMessage))
         })
 
         return unsubscribeOnMessage
@@ -147,6 +162,7 @@ export default function ProtectedLayout() {
                 <Stack.Screen name="(blog)" options={{ headerShown: false }} />
                 <Stack.Screen name="(health)" options={{ headerShown: false }} />
                 <Stack.Screen name="(consult)" options={{ headerShown: false }} />
+                <Stack.Screen name="(payment)" options={{ headerShown: false }} />
                 <Stack.Screen name="chat-screen" options={{ headerTitle: '', headerShadowVisible: false }} />
                 <Stack.Screen name="video-call-screen" options={{ headerShown: false }} />
             </Stack>

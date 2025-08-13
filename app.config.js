@@ -7,6 +7,7 @@ export default {
     orientation: "portrait",
     icon: "./assets/images/icon.png",
     scheme: "myapp",
+    deeplinks: ["myapp://", "com.quyndc.diadoc://"],
     userInterfaceStyle: "automatic",
     newArchEnabled: true,
     splash: {

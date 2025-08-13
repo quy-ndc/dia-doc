@@ -1,5 +1,6 @@
 import * as React from 'react'
 import useUserStore from '../../store/userStore'
+import useConfigStore from '../../store/appConfigStore'
 import { useRouter } from 'expo-router'
 import { Dimensions, Pressable } from 'react-native'
 import { GlobalColor } from '../../global-color'
@@ -13,11 +14,13 @@ const { width } = Dimensions.get('window')
 export default function LogoutButton() {
 
     const { logout } = useUserStore()
+    const { setTokenDevice } = useConfigStore()
     const router = useRouter()
     const queryClient = useQueryClient()
 
     const onLogout = () => {
         logout()
+        setTokenDevice(null)
         invalidateQuery(queryClient)
         router.replace('/landing-screen')
     }

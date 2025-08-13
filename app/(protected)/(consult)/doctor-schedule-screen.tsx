@@ -1,11 +1,11 @@
 import * as React from 'react'
 import { useCallback, useEffect, useState } from 'react'
-import { Dimensions, Pressable, RefreshControl, ScrollView, View } from 'react-native'
+import { Pressable, RefreshControl, ScrollView, View } from 'react-native'
 import { Text } from '../../../components/ui/text'
-import { Stack, useLocalSearchParams } from 'expo-router'
+import { router, Stack, useLocalSearchParams } from 'expo-router'
 import { truncateText } from '../../../util/truncate-text'
 import { useInfiniteQuery } from '@tanstack/react-query'
-import { useDoctorScheduleQuery } from '../../../service/query/user-query'
+import { useCreateBookingMutation, useDoctorScheduleQuery } from '../../../service/query/user-query'
 import { FlashList } from '@shopify/flash-list'
 import { DoctorSchedule, DoctorScheduleTime } from '../../../assets/types/consult/doctor-schedule'
 import DoctorScheduleItem from '../../../components/doctor-schedule-screen/doctor-schedule-item'
@@ -13,8 +13,11 @@ import DoctorScheduleSkeleton from '../../../components/common/skeleton/doctor-s
 import ErrorDisplay from '../../../components/common/error-display'
 import ScheduleTimeStamp from '../../../components/doctor-schedule-screen/schedule-time-stamp'
 import { Check } from '../../../lib/icons/Check'
+import SpinningIcon from '../../../components/common/icons/spinning-icon'
+import { Loader } from '../../../lib/icons/Loader'
+import { Dimensions } from 'react-native'
 
-const { width, height } = Dimensions.get('window')
+const { height } = Dimensions.get('window')
 
 export default function DoctorScheduleScreen() {
 
@@ -45,6 +48,15 @@ export default function DoctorScheduleScreen() {
         retryDelay: attempt => Math.min(1000 * 2 ** attempt, 5000)
     })
 
+    const { mutateAsync, data: bookingData, isLoading: bookingLoading } = useCreateBookingMutation()
+
+    const handleBooking = async () => {
+        await mutateAsync({
+            doctorId: id as string,
+            templateId: choosenTime
+        })
+    }
+
     const onRefresh = useCallback(() => {
         setRefreshing(true)
         remove()
@@ -52,12 +64,17 @@ export default function DoctorScheduleScreen() {
     }, [remove, refetch])
 
     const allItems: DoctorSchedule[] = data ? data?.pages?.flatMap(page => page.data?.data?.items) : []
-    const timeStamp: DoctorScheduleTime[] = allItems.find(item => item.date === choosenTimeStamp)?.consultationTemplates || []
+    const timeStamp: DoctorScheduleTime[] = allItems.length === 0 || allItems[0] === undefined ? [] : allItems.find(item => item.date === choosenTimeStamp)?.consultationTemplates || []
 
     useEffect(() => {
         if (isError || allItems.length === 0 || !allItems[0]) return
         setChoosenTimeStamp(allItems[0].date)
     }, [data])
+
+    useEffect(() => {
+        if (!bookingData || bookingData.status !== 200) return
+        router.push('/')
+    }, [bookingData, bookingLoading])
 
     return (
         <>
@@ -66,12 +83,17 @@ export default function DoctorScheduleScreen() {
                 <ScrollView refreshControl={<RefreshControl refreshing={refreshing} onRefresh={onRefresh} />}>
                     {isLoading ? (
                         <DoctorScheduleSkeleton />
-                    ) : isError || allItems.length === 0 ? (
-                        <ErrorDisplay
-                            onRefresh={onRefresh}
-                            refreshing={refreshing}
-                            text="Không có lịch hẹn"
-                        />
+                    ) : isError || allItems.length === 0 || allItems[0] == undefined ? (
+                        <View
+                            style={{ height: height * 0.8 }}
+                            className='flex items-center justify-center'
+                        >
+                            <ErrorDisplay
+                                onRefresh={onRefresh}
+                                refreshing={refreshing}
+                                text="Không có lịch hẹn"
+                            />
+                        </View>
                     ) : (
                         <View className='flex-col gap-4 w-full px-2'>
                             <FlashList<DoctorSchedule>
@@ -114,13 +136,23 @@ export default function DoctorScheduleScreen() {
                                 estimatedItemSize={100}
                                 scrollEventThrottle={16}
                                 onEndReachedThreshold={0.5}
+                                onEndReached={() => {
+                                    if (hasNextPage && !isFetchingNextPage) {
+                                        fetchNextPage()
+                                    }
+                                }}
                                 extraData={choosenTime}
                             />
                             <Pressable
-                                className={`flex-row gap-2 px-4 py-3 mt-5 items-center justify-center rounded-full bg-[var(--oppo-theme-col)] active:opacity-80 ${choosenTime == '' ? 'opacity-50' : ''}`}
-                                disabled={choosenTime == ''}
+                                className={`flex-row gap-2 px-4 py-3 mt-5 items-center justify-center rounded-full bg-[var(--oppo-theme-col)] active:opacity-80 ${choosenTime == '' || bookingLoading ? 'opacity-50' : ''}`}
+                                disabled={choosenTime == '' || bookingLoading}
+                                onPress={handleBooking}
                             >
-                                <Check className='text-[var(--same-theme-col)]' size={17} />
+                                {bookingLoading ? (
+                                    <SpinningIcon icon={<Loader className='text-[var(--same-theme-col)]' size={17} />} />
+                                ) : (
+                                    <Check className='text-[var(--same-theme-col)]' size={17} />
+                                )}
                                 <Text className='text-[var(--same-theme-col)] text-base font-bold tracking-wider'>
                                     Đặt lịch hẹn
                                 </Text>

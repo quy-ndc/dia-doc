@@ -9,3 +9,13 @@ export type DoctorScheduleTime = {
     endTime: string,
     status: number
 }
+
+export type ConsultationHistory = {
+    id: string,
+    date: string,
+    startTime: string,
+    endTime: string,
+    status: number,
+    userFullName: string,
+    userAvatar: string
+}

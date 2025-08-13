@@ -74,9 +74,13 @@ const endpointUser = {
 
     GET_ALL_SERVICE_PACKAGES: `${API_GATEWAY_ENDPOINT}/${apiPrefixV1}/service_packages`,
     GET_ALL_PURCHASED_SERVICE_PACKAGES: `${API_GATEWAY_ENDPOINT}/${apiPrefixV1}/service_packages/purchased`,
+    CREATE_PAYMENT: `${API_GATEWAY_ENDPOINT}/${apiPrefixV1}/payments`,
     GET_ALL_DOCTOR: `${API_GATEWAY_ENDPOINT}/${apiPrefixV1}/doctors`,
     GET_ALL_DOCTOR_SCHEDULE: `${CONSULTATION_SERVICE_ENDPOINT}/${apiPrefixV1}/doctors`,
-    GET_USER_SESSION_AMOUNT: `${API_GATEWAY_ENDPOINT}/${apiPrefixV1}/users/patients/consultation-sessions`
+    GET_USER_SESSION_AMOUNT: `${API_GATEWAY_ENDPOINT}/${apiPrefixV1}/users/patients/consultation-sessions`,
+
+    CREATE_BOOKING: `${CONSULTATION_SERVICE_ENDPOINT}/${apiPrefixV1}/consultations`,
+    GET_ALL_CONSULTAIONS: `${CONSULTATION_SERVICE_ENDPOINT}/${apiPrefixV1}/consultations`
 }
 
 const endpointMedia = {
@@ -99,6 +103,7 @@ const endpointChat = {
     GET_ALL_MESSAGES: `${CHAT_SERVICE_ENDPOINT}/${apiPrefixV1}/conversations`,
     SEND_MESSAGE: `${CHAT_SERVICE_ENDPOINT}/${apiPrefixV1}/conversations`,
     UPLOAD_IMAGE: `${CHAT_SERVICE_ENDPOINT}/${apiPrefixV1}/media/upload`,
+    JOIN_A_GROUP: `${CHAT_SERVICE_ENDPOINT}/${apiPrefixV1}/hospital-conversations`,
 }
 
 const endpointNoti = {

@@ -655,6 +655,37 @@ export const GetAllPurchasedServicePackages = async (params: {
     }
 }
 
+export const CreatePayment = async (servicePackageId: string) => {
+    try {
+        const response = await axiosServices.post(`${endpointUser.CREATE_PAYMENT}`, {
+            servicePackageId: servicePackageId
+        })
+
+        return {
+            success: true,
+            status: response.status,
+            data: response.data
+        }
+
+    } catch (e) {
+        if (axios.isAxiosError(e) && e.response) {
+            return {
+                success: false,
+                status: e.response.status,
+                message: e.response.data.message || 'An error occurred',
+                data: e.response.data
+            };
+        }
+
+        return {
+            success: false,
+            status: 500,
+            message: 'An error occurred',
+            data: null
+        }
+    }
+}
+
 export const GetAllDoctor = async (params: {
     Cursor?: string,
     PageSize?: number,
@@ -734,6 +765,75 @@ export const GetDoctorSchedule = async (params: {
 export const GetUserSessionAmount = async () => {
     try {
         const response = await axiosServices.get(`${endpointUser.GET_USER_SESSION_AMOUNT}`)
+
+        return {
+            success: true,
+            status: response.status,
+            data: response.data
+        }
+
+    } catch (e) {
+        if (axios.isAxiosError(e) && e.response) {
+            return {
+                success: false,
+                status: e.response.status,
+                message: e.response.data.message || 'An error occurred',
+                data: e.response.data
+            };
+        }
+
+        return {
+            success: false,
+            status: 500,
+            message: 'An error occurred',
+            data: null
+        }
+    }
+}
+
+export const CreateBooking = async (data: {
+    doctorId: string,
+    templateId: string
+}) => {
+    try {
+        const response = await axiosServices.post(`${endpointUser.CREATE_BOOKING}`, {
+            doctorId: data.doctorId,
+            templateId: data.templateId
+        })
+
+        return {
+            success: true,
+            status: response.status,
+            data: response.data
+        }
+
+    } catch (e) {
+        if (axios.isAxiosError(e) && e.response) {
+            return {
+                success: false,
+                status: e.response.status,
+                message: e.response.data.message || 'An error occurred',
+                data: e.response.data
+            };
+        }
+
+        return {
+            success: false,
+            status: 500,
+            message: 'An error occurred',
+            data: null
+        }
+    }
+}
+
+export const GetAllConsultation = async (params: {
+    Cursor?: string,
+    PageSize?: number,
+    Status?: number
+}) => {
+    try {
+        const queryString = createQueryString(params)
+        const response = await axiosServices.get(`${endpointUser.GET_ALL_CONSULTAIONS}?${queryString}`)
 
         return {
             success: true,

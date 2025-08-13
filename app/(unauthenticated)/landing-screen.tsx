@@ -18,9 +18,7 @@ const { width } = Dimensions.get('window')
 export default function AuthenScreen() {
 
   const router = useRouter()
-  const { user } = useUserStore()
-  console.log(user)
-
+  
   return (
     <View
       style={{ paddingTop: 90, paddingBottom: 45 }}

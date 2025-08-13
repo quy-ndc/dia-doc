@@ -8,7 +8,7 @@ import { useTopMediaQuery } from '../../../service/query/media-query'
 import { BlogPost } from '../../../assets/types/media/blog-post'
 import DailyTip from '../../../components/home/daily-tip.tsx/daily-tip'
 import HealthTracker from '../../../components/home/health-track.tsx/health-track'
-import { useUserHealthCarePlan, useUserHealthRecordProfile, useUserSessionAmountQuery } from '../../../service/query/user-query'
+import { useConsultationListQuery, useUserHealthCarePlan, useUserHealthRecordProfile, useUserSessionAmountQuery } from '../../../service/query/user-query'
 import { HealthTrackItem } from '../../../assets/types/user/health-track'
 import HealthcarePlan from '../../../components/home/healthcare-plan/healthcare-plan'
 import { HealthCarePlan } from '../../../assets/types/user/healthcare-plan'
@@ -16,6 +16,8 @@ import useUserStore from '../../../store/userStore'
 import { UserRole } from '../../../assets/enum/user-role'
 import AiAccess from '../../../components/home/ai-access/ai-access'
 import ConsultSession from '../../../components/home/consult-session/consult-session'
+import ConsultationSchedule from '../../../components/home/consultation-schedule/consultation-schedule'
+import { ConsultationHistory } from '../../../assets/types/consult/doctor-schedule'
 
 export default function HomeScreen() {
     const { user } = useUserStore()
@@ -47,12 +49,6 @@ export default function HomeScreen() {
         enabled: user.role === UserRole.PATIENT
     })
 
-    // const today = new Date()
-    // const fromDate = new Date(today.getTime() - 24 * 60 * 60 * 1000).toISOString()
-    // const toDate = new Date(today.getTime() + 24 * 60 * 60 * 1000).toISOString()
-    // const fromDate = new Date('2025-07-28T00:00:00.000Z').toISOString()
-    // const toDate = new Date('2025-07-30T00:00:00.000Z').toISOString()
-
     const {
         data: healthCarePlanData,
         isLoading: healthCarePlanLoading,
@@ -79,18 +75,31 @@ export default function HomeScreen() {
         enabled: user.role === UserRole.PATIENT
     })
 
+    const {
+        data: consultatonList,
+        isLoading: consultationListLoading,
+        isError: consultationListError,
+        refetch: consultationListRefetch,
+        remove: consultationListRemove
+    } = useQuery({
+        ...useConsultationListQuery({
+            PageSize: 5
+        }),
+        retry: 2,
+        retryDelay: attempt => Math.min(1000 * 2 ** attempt, 5000),
+    })
+
     const onRefresh = useCallback(() => {
         setRefreshing(true)
         remove()
 
         const refreshPromises = [refetch()]
 
-        if (user.role === UserRole.PATIENT) {
-            healthRecordRemove()
-            healthCarePlanRemove()
-            consultSessionRemove()
-            refreshPromises.push(healthRecordRefetch(), healthCarePlanRefetch(), consultSessionRefetch())
-        }
+        healthRecordRemove()
+        healthCarePlanRemove()
+        consultSessionRemove()
+        consultationListRemove()
+        refreshPromises.push(healthRecordRefetch(), healthCarePlanRefetch(), consultSessionRefetch(), consultationListRefetch())
 
         Promise.all(refreshPromises).finally(() => setRefreshing(false))
     }, [user.role, refetch, healthRecordRefetch, healthCarePlanRefetch, consultSessionRefetch, remove, healthRecordRemove, healthCarePlanRemove, consultSessionRemove])
@@ -99,6 +108,7 @@ export default function HomeScreen() {
     const healthRecordItems: HealthTrackItem[] = healthRecordData?.data?.data || []
     const healthCarePlanItems: HealthCarePlan[] = healthCarePlanData?.data?.data || []
     const sessionAmount = consultSessionData?.data?.data || 0
+    const consultationHistoryItems: ConsultationHistory[] = consultatonList?.data?.data?.items || []
 
     return (
         <>
@@ -140,6 +150,14 @@ export default function HomeScreen() {
                                 />
                             </>
                         )}
+                        <ConsultationSchedule
+                            items={consultationHistoryItems}
+                            isError={consultationListError}
+                            isLoading={consultationListLoading}
+                            refetch={consultationListRefetch}
+                            refreshing={refreshing}
+                            remove={consultationListRemove}
+                        />
                         <HomeBlogSection
                             isLoading={isLoading}
                             isError={isError}

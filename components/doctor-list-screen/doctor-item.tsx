@@ -84,7 +84,10 @@ export default function DoctorItem({ item }: Prop) {
                 className='flex-row items-center justify-center gap-2 px-4 py-2 rounded-full border border-[var(--fade-text-color)] active:bg-[var(--click-bg)]'
                 onPress={() => router.push({
                     pathname: '/doctor-schedule-screen',
-                    params: { id: item.id, name: item.name }
+                    params: {
+                        id: item.id,
+                        name: item.name
+                    }
                 })}
             >
                 <Stethoscope className='text-foreground' size={17} />

@@ -2,7 +2,7 @@ import { Redirect, Stack } from 'expo-router'
 import useUserStore from '../../store/userStore'
 import { useChannel } from 'ably/react'
 import { GLOBAL_CHAT_EVENT_CHANNEL, GLOBAL_CHAT_EVENT_NAME } from '@env'
-import { GlobalMessageEvent, Message } from '../../assets/types/chat/message'
+import { GlobalMessageEvent, Message, NotificationMessage } from '../../assets/types/chat/message'
 import { useMessageStore } from '../../store/useMessage'
 import { MessageType } from '../../assets/enum/message-type'
 import { UserRole, UserRoleNumber } from '../../assets/enum/user-role'
@@ -53,7 +53,6 @@ export default function ProtectedLayout() {
 
         const unsubscribeOnMessage = getApp().messaging().onMessage(async remoteMessage => {
             Vibration.vibrate()
-            console.log(remoteMessage)
 
             await notifee.displayNotification({
                 title: remoteMessage.notification?.title,
@@ -66,24 +65,26 @@ export default function ProtectedLayout() {
                     },
                 },
             })
-
-            // const message: Message = {
-            //     id: remoteMessage.data.
-            //     content: string
-            //     type: 
-            //     fileAttachment: {
-            //         publicUrl: string
-            //         type: number
-            //     }
-            //     createdDate: string,
-            //     participant: {
-            //         id: string
-            //         fullName: string
-            //         avatar: string
-            //         role: UserRoleNumber
-            //     }
-            // }
-            // // Alert.alert('New Notification', JSON.stringify(remoteMessage))
+            const incomingMessage: NotificationMessage = remoteMessage.data as NotificationMessage
+            const message: Message = {
+                id: incomingMessage.messageId,
+                content: incomingMessage.messageContent,
+                type: incomingMessage.messageType as unknown as MessageType,
+                fileAttachment: {
+                    publicUrl: incomingMessage.fileType,
+                    type: 0
+                },
+                createdDate: new Date().toISOString(),
+                participant: {
+                    id: incomingMessage.senderId,
+                    fullName: incomingMessage.senderName,
+                    avatar: incomingMessage.senderAvatar,
+                    role: UserRoleNumber.PATIENT
+                }
+            }
+            console.log(message)
+            addMessage(incomingMessage.conversationId, message)
+            setLatestMessage(incomingMessage.conversationId, message)
         })
 
         return unsubscribeOnMessage

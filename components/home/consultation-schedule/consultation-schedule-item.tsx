@@ -61,8 +61,7 @@ export default function ConsultationScheduleItem({ item }: Prop) {
                 <View className="flex-row gap-2 items-center">
                     <Image
                         style={{ width: 30, height: 30, borderRadius: 1000 }}
-                        source={require('../../../assets/images/default-user.jpg')}
-                        // source={item.userAvatar}
+                        source={item.userAvatar}
                         contentFit="contain"
                     />
                     <Text className="text-base font-semibold tracking-wider">{item.userFullName}</Text>

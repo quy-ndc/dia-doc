@@ -725,6 +725,35 @@ export const GetAllDoctor = async (params: {
     }
 }
 
+export const GetDoctorById = async (doctorId: string) => {
+    try {
+        const response = await axiosServices.get(`${endpointUser.GET_DOCTOR_BY_ID}/${doctorId}`)
+
+        return {
+            success: true,
+            status: response.status,
+            data: response.data
+        }
+
+    } catch (e) {
+        if (axios.isAxiosError(e) && e.response) {
+            return {
+                success: false,
+                status: e.response.status,
+                message: e.response.data.message || 'An error occurred',
+                data: e.response.data
+            };
+        }
+
+        return {
+            success: false,
+            status: 500,
+            message: 'An error occurred',
+            data: null
+        }
+    }
+}
+
 export const GetDoctorSchedule = async (params: {
     doctorId: string
     Cursor?: string,

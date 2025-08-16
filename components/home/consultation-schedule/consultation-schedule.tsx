@@ -51,11 +51,11 @@ export default function ConsultationSchedule({ isLoading, isError, items, refetc
             {isLoading ? (
                 <ConsultationScheduleSkeleton />
             ) : isError || items.length === 0 ? (
-                <View className="py-5">
+                <View className="py-6">
                     <ErrorDisplay
                         onRefresh={onRefresh}
                         refreshing={refreshing}
-                        text="Không có bài viết để hiển thị"
+                        text="Không có lịch tư vấn nào"
                     />
                 </View>
             ) : (

@@ -74,7 +74,7 @@ const useVideoCallStore = create<VideoCallStore>((set, get) => ({
         try {
             const connection = await connectToSignalR()
 
-            connection.on(ConsultationVideoCall.CALL_USER_RECEIVE, (fromUserId: string, name, avatar, offer: any) => {
+            connection.on(ConsultationVideoCall.CALL_USER_RECEIVE, (fromUserId: string, name: string, avatar: string, offer: any) => {
                 if (!get().isInCall) {
                     set({ incomingCall: { fromUserId, name, avatar, offer } })
                 }

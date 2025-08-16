@@ -137,7 +137,7 @@ export default function PrivateChatModule({
     const handleSend = async () => {
         await mutateAsync({
             conversationId: groupId,
-            conversationType: 0,
+            conversationType: 1,
             content: newMessage,
             mediaId: ' ',
             messageType: MessageType.TEXT
@@ -145,7 +145,7 @@ export default function PrivateChatModule({
     }
 
     useEffect(() => {
-        if (messageData?.data.code == 'conversation_er_07') {
+        if (messageData?.data?.code == 'conversation_er_07') {
             setNewMessage('')
             setDisableSend(true)
         }

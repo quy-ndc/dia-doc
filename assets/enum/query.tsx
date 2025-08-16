@@ -25,6 +25,7 @@ export enum QueryKeys {
     SERVICE_PACKAGES = 'servicePackages',
     PURCHASED_SERVICE_PACKAGES = 'purchasedServicePackages',
     DOCTOR_LIST = 'doctorList',
+    DOCTOR_BY_ID = 'doctorById',
     DOCTOR_SCHEDULE = 'doctorSchedule',
     SESSION_AMOUNT = 'sessionAmount',
     CONSULTATION_LIST = 'consultationList'

@@ -6,7 +6,6 @@ import { useDoctorListQuery } from '../../../service/query/user-query'
 import ServicePackageSkeleton from '../../../components/common/skeleton/service-package-skeleton'
 import ErrorDisplay from '../../../components/common/error-display'
 import { Doctor } from '../../../assets/types/user/doctor'
-import { Text } from '../../../components/ui/text'
 import { FlashList } from '@shopify/flash-list'
 import DoctorItem from '../../../components/doctor-list-screen/doctor-item'
 

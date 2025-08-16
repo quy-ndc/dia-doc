@@ -1,5 +1,5 @@
 import { useMutation, useQueryClient } from "@tanstack/react-query"
-import { CreateBooking, CreateCarePlanTemplate, CreatePayment, CreateUserProfile, DeleteCarePlanTemplate, EditUserProfile, GetAllConsultation, GetAllDoctor, GetAllPurchasedServicePackages, GetAllServicePackages, GetCarePlanTemplate, GetDoctorProfile, GetDoctorSchedule, GetUserHealthCarePlan, GetUserHealthRecord, GetUserProfile, GetUserSessionAmount, UpdateCarePlanTemplate, UpdateUserBloodPressure, UpdateUserBloodSugar, UpdateUserHbA1c, UpdateUserHeight, UpdateUserWeight } from "../api/user-service"
+import { CreateBooking, CreateCarePlanTemplate, CreatePayment, CreateUserProfile, DeleteCarePlanTemplate, EditUserProfile, GetAllConsultation, GetAllDoctor, GetAllPurchasedServicePackages, GetAllServicePackages, GetCarePlanTemplate, GetDoctorById, GetDoctorProfile, GetDoctorSchedule, GetUserHealthCarePlan, GetUserHealthRecord, GetUserProfile, GetUserSessionAmount, UpdateCarePlanTemplate, UpdateUserBloodPressure, UpdateUserBloodSugar, UpdateUserHbA1c, UpdateUserHeight, UpdateUserWeight } from "../api/user-service"
 import { QueryKeys } from "../../assets/enum/query"
 import { GenderNumber } from "../../assets/enum/gender"
 import { DiagnosisRecency } from "../../assets/enum/diagnosis-recency"
@@ -564,6 +564,16 @@ export const useDoctorListQuery = (params: {
     return { queryKey, queryFn }
 }
 
+export const useDoctorByIdQuery = (doctorId: string) => {
+    const queryKey = [QueryKeys.DOCTOR_BY_ID, doctorId]
+
+    const queryFn = async () => {
+        return GetDoctorById(doctorId)
+    }
+
+    return { queryKey, queryFn }
+}
+
 export const useDoctorScheduleQuery = (params: {
     doctorId: string
     PageSize?: number,
@@ -602,7 +612,7 @@ export const useCreateBookingMutation = () => {
             if (data.status !== 200) {
                 Toast.show({
                     type: 'error',
-                    text1: data?.data?.errors[0].message || 'Đặt lịch thất bại',
+                    text1: data?.data?.errors[0].description || 'Đặt lịch thất bại',
                     text2: 'Vui lòng thử lại sau',
                     visibilityTime: 2000,
                 })

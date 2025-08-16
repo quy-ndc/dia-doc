@@ -212,19 +212,19 @@ export default function VideoCallScreen() {
 
     return (
         <View className='flex-1 bg-black'>
-            {hasLocalVideo && localStream && (
+            {hasLocalVideo && remoteStream && (
                 <RTCView
-                    streamURL={localStream.toURL()}
+                    streamURL={remoteStream.toURL()}
                     style={{ position: 'absolute', left: 0, right: 0, top: 0, bottom: 0 }}
                     objectFit="cover"
                     mirror={true}
                 />
             )}
 
-            {hasRemoteVideo && remoteStream && (
+            {hasRemoteVideo && localStream && (
                 <View style={styles.remoteContainer}>
                     <RTCView
-                        streamURL={remoteStream.toURL()}
+                        streamURL={localStream.toURL()}
                         style={{ height: '100%', width: '100%' }}
                         objectFit="cover"
                         mirror={false}

@@ -44,3 +44,20 @@ export type GlobalMessageEvent = {
         SenderId: string
     }
 }
+
+export type NotificationMessage = {
+    avatar: string,
+    body: string,
+    conversationId: string,
+    conversationName: string,
+    createdDate: string,
+    fileType: string,
+    icon: string,
+    messageContent: string,
+    messageId: string,
+    messageType: string,
+    senderAvatar: string,
+    senderId: string,
+    senderName: string,
+    title: string
+}

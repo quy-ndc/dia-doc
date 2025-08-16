@@ -77,6 +77,7 @@ const endpointUser = {
     GET_ALL_PURCHASED_SERVICE_PACKAGES: `${API_GATEWAY_ENDPOINT}/${apiPrefixV1}/service_packages/purchased`,
     CREATE_PAYMENT: `${API_GATEWAY_ENDPOINT}/${apiPrefixV1}/payments`,
     GET_ALL_DOCTOR: `${API_GATEWAY_ENDPOINT}/${apiPrefixV1}/doctors`,
+    GET_DOCTOR_BY_ID: `${API_GATEWAY_ENDPOINT}/${apiPrefixV1}/doctors`,
     GET_ALL_DOCTOR_SCHEDULE: `${CONSULTATION_SERVICE_ENDPOINT}/${apiPrefixV1}/doctors`,
     GET_USER_SESSION_AMOUNT: `${API_GATEWAY_ENDPOINT}/${apiPrefixV1}/users/patients/consultation-sessions`,
 

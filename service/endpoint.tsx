@@ -105,6 +105,7 @@ const endpointChat = {
     SEND_MESSAGE: `${CHAT_SERVICE_ENDPOINT}/${apiPrefixV1}/conversations`,
     UPLOAD_IMAGE: `${CHAT_SERVICE_ENDPOINT}/${apiPrefixV1}/media/upload`,
     JOIN_A_GROUP: `${CHAT_SERVICE_ENDPOINT}/${apiPrefixV1}/hospital-conversations`,
+    LEAVE_A_GROUP: `${CHAT_SERVICE_ENDPOINT}/${apiPrefixV1}/conversations`,
 }
 
 const endpointNoti = {

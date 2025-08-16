@@ -1,9 +1,9 @@
 import * as React from 'react'
 import { Modal, View, StyleSheet, Pressable } from 'react-native'
-import IconButton from '../common/icon-button'
 import useUserStore from '../../store/userStore'
 import { QrCode } from '../../lib/icons/QrCode'
 import QRCode from 'react-native-qrcode-svg'
+import { Text } from '../../components/ui/text'
 
 type Prop = {
     id: string
@@ -22,12 +22,13 @@ export default function GenerateQRButton({ id }: Prop) {
 
     return (
         <>
-            <IconButton
-                icon={<QrCode className='text-foreground' size={17} />}
-                buttonSize={3}
-                possition={'other'}
+            <Pressable
+                className='flex-row px-4 py-2 items-center gap-2 rounded-xl active:bg-[var(--click-bg)]'
                 onPress={handleGenerate}
-            />
+            >
+                <QrCode className='text-foreground' size={17} />
+                <Text className='text-base font-bold tracking-wide'>Tạo mã gia nhập</Text>
+            </Pressable>
 
             <Modal
                 visible={showQR}

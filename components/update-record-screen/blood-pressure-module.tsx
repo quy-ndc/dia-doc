@@ -11,6 +11,7 @@ import NoteField from './common/note-field'
 import RecordConfirmButton from './common/record-confirm-button'
 import { useGenerateAiNoteMutation } from '../../service/query/ai-query'
 import LoadingBanner from './common/loading-banner'
+import { getBloodPressureStatus } from '../../assets/data/health-record-status'
 
 
 const { width } = Dimensions.get('window')
@@ -55,6 +56,7 @@ export default function BloodPressureUpdateModule({ lastMesurement, initialTime 
 
     const systolicChange = calculateChange(lastSystolic, systolic)
     const diastolicChange = calculateChange(lastDiastolic, diastolic)
+    const bloodPressureStatus = getBloodPressureStatus(`${systolic}/${diastolic}`)
 
     useEffect(() => {
         if (isError || !data || data.status !== 200) return
@@ -94,9 +96,37 @@ export default function BloodPressureUpdateModule({ lastMesurement, initialTime 
                                 placeholder={lastSystolic || '0'}
                                 className='w-full'
                             />
-                            <Text className='absolute right-3 -translate-y-1/2 top-[70%] text-base font-bold text-[var(--fade-text-color)] tracking-wider'>
+                            {systolic && (lastMesurement || bloodPressureStatus) && (
+                                <View className='flex-col items-center gap-3 mt-2'>
+                                    {lastMesurement && (
+                                        <View className='flex-row items-center gap-2'>
+                                            {systolicChange.icon}
+                                            <Text
+                                                style={{ color: systolicChange.color }}
+                                                className='text-base font-bold tracking-wider'
+                                            >
+                                                {systolicChange.label} {systolicChange.percentage}%
+                                            </Text>
+                                        </View>
+                                    )}
+                                    {bloodPressureStatus && (
+                                        <View className='flex-row items-center gap-2'>
+                                            {bloodPressureStatus.systolic.icon}
+                                            <Text
+                                                style={{ color: bloodPressureStatus.systolic.color }}
+                                                className='text-base font-bold tracking-wider'
+                                            >
+                                                Tâm thu {bloodPressureStatus.systolic.text}
+                                            </Text>
+                                        </View>
+                                    )}
+                                </View>
+                            )}
+                            <Text
+                                className='absolute right-3 top-11 text-base font-bold text-[var(--fade-text-color)] tracking-wider'>
                                 mmHg
                             </Text>
+
                         </View>
                         <View className='flex-1 flex-col items-center relative'>
                             <Text className='text-base font-semibold text-[var(--fade-text-color)] tracking-wider mb-2'>Tâm trương</Text>
@@ -108,37 +138,37 @@ export default function BloodPressureUpdateModule({ lastMesurement, initialTime 
                                 placeholder={lastDiastolic || '0'}
                                 className='w-full'
                             />
-                            <Text className='absolute right-3 -translate-y-1/2 top-[70%] text-base font-bold text-[var(--fade-text-color)] tracking-wider'>
+                            {diastolic && (lastMesurement || bloodPressureStatus) && (
+                                <View className='flex-col items-center gap-3 mt-2'>
+                                    {lastMesurement && (
+                                        <View className='flex-row items-center gap-2'>
+                                            {diastolicChange.icon}
+                                            <Text
+                                                style={{ color: diastolicChange.color }}
+                                                className='text-base font-bold tracking-wider'
+                                            >
+                                                {diastolicChange.label} {diastolicChange.percentage}%
+                                            </Text>
+                                        </View>
+                                    )}
+                                    {bloodPressureStatus && (
+                                        <View className='flex-row items-center gap-2'>
+                                            {bloodPressureStatus.diastolic.icon}
+                                            <Text
+                                                style={{ color: bloodPressureStatus.diastolic.color }}
+                                                className='text-base font-bold tracking-wider'
+                                            >
+                                                Tâm trương {bloodPressureStatus.diastolic.text}
+                                            </Text>
+                                        </View>
+                                    )}
+                                </View>
+                            )}
+                            <Text className='absolute right-3 top-11 text-base font-bold text-[var(--fade-text-color)] tracking-wider'>
                                 mmHg
                             </Text>
                         </View>
                     </View>
-                    {(systolic || diastolic) && lastMesurement && (
-                        <View className='flex-col items-center gap-2 mt-2'>
-                            {systolic && (
-                                <View className='flex-row items-center gap-2'>
-                                    {systolicChange.icon}
-                                    <Text
-                                        style={{ color: systolicChange.color }}
-                                        className='text-base font-bold tracking-wider'
-                                    >
-                                        Tâm thu {systolicChange.label} {systolicChange.percentage}%
-                                    </Text>
-                                </View>
-                            )}
-                            {diastolic && (
-                                <View className='flex-row items-center gap-2'>
-                                    {diastolicChange.icon}
-                                    <Text
-                                        style={{ color: diastolicChange.color }}
-                                        className='text-base font-bold tracking-wider'
-                                    >
-                                        Tâm trương {diastolicChange.label} {diastolicChange.percentage}%
-                                    </Text>
-                                </View>
-                            )}
-                        </View>
-                    )}
                 </View>
                 <RecordTimePicker
                     setSelectedTime={setSelectedTime}

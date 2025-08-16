@@ -1,5 +1,5 @@
 import { useMutation, useQueryClient } from "@tanstack/react-query"
-import { GetAllChatGroups, GetAllChatMessages, JoinAGroup, SendMessage } from "../api/chat-service"
+import { GetAllChatGroups, GetAllChatMessages, JoinAGroup, LeaveAGroup, SendMessage } from "../api/chat-service"
 import { MessageType } from "../../assets/enum/message-type"
 import Toast from "react-native-toast-message"
 import { QueryKeys } from "../../assets/enum/query"
@@ -49,7 +49,7 @@ export const useSendMessageMutation = () => {
             if (data.status !== 200) {
                 Toast.show({
                     type: 'error',
-                    text1: data?.data?.errors[0].message || 'Gửi tin nhắn thất bại',
+                    text1: data?.data?.errors[0].description || 'Gửi tin nhắn thất bại',
                     text2: 'Vui lòng thử lại sau',
                     visibilityTime: 2000,
                 })
@@ -78,7 +78,7 @@ export const useJoinAGroupMutation = () => {
             if (data.status !== 200) {
                 Toast.show({
                     type: 'error',
-                    text1: data?.data?.errors[0].message || 'Tham gia nhóm thất bại',
+                    text1: data?.data?.errors[0].description || 'Tham gia nhóm thất bại',
                     text2: 'Vui lòng thử lại sau',
                     visibilityTime: 2000,
                 })
@@ -102,3 +102,36 @@ export const useJoinAGroupMutation = () => {
         }
     })
 }
+
+export const useLeaveAGroupMutation = () => {
+    const queryClient = useQueryClient()
+    return useMutation({
+        mutationFn: (conversationId: string) => LeaveAGroup(conversationId),
+        onSuccess: (data) => {
+            if (data.status !== 200) {
+                Toast.show({
+                    type: 'error',
+                    text1: data?.data?.errors[0].description || 'Rời khỏi nhóm thất bại',
+                    text2: 'Vui lòng thử lại sau',
+                    visibilityTime: 2000,
+                })
+            } else {
+                queryClient.invalidateQueries({ queryKey: [QueryKeys.GROUP_CHATS] })
+                Toast.show({
+                    type: 'success',
+                    text1: 'Rời khỏi nhóm thành công',
+                    visibilityTime: 2000,
+                })
+            }
+            return data
+        },
+        onError: (error) => {
+            Toast.show({
+                type: 'error',
+                text1: 'Rời khỏi nhóm thất bại',
+                visibilityTime: 2000
+            })
+            return error;
+        }
+    })
+} 

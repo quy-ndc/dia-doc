@@ -16,6 +16,7 @@ import NoteField from '../common/note-field'
 import RecordConfirmButton from '../common/record-confirm-button'
 import { useGenerateAiNoteMutation } from '../../../service/query/ai-query'
 import LoadingBanner from '../common/loading-banner'
+import { getBloodSugarStatus } from '../../../assets/data/health-record-status'
 
 
 const { width } = Dimensions.get('window')
@@ -28,10 +29,12 @@ type Props = {
 export default function BloodSugarUpdateModule({ lastMesurement, initialTime }: Props) {
 
     const [value, setValue] = useState('')
-    const change = calculateChange(lastMesurement as string, value)
     const [selectedTime, setSelectedTime] = useState('')
     const [selectPeriod, setSelectPeriod] = useState<MeasureTime | undefined>(undefined)
     const [note, setNote] = useState('')
+    const change = calculateChange(lastMesurement as string, value)
+    const bloodSugarStatus = getBloodSugarStatus(Number(value), selectPeriod)
+
     const { mutateAsync, isLoading, data, isError } = useUpdateUserBloodSugarMutation()
     const {
         mutateAsync: generateAiNote,
@@ -93,15 +96,30 @@ export default function BloodSugarUpdateModule({ lastMesurement, initialTime }: 
                             mmol/L
                         </Text>
                     </View>
-                    {value && lastMesurement && (
-                        <View className='flex-row items-center gap-2 mt-2'>
-                            {change.icon}
-                            <Text
-                                style={{ color: change.color }}
+                    {value && (lastMesurement || bloodSugarStatus) && (
+                        <View className='flex-col items-center gap-3'>
+                            {lastMesurement && (
+                                <View className='flex-row items-center gap-2'>
+                                    {change.icon}
+                                    <Text
+                                        style={{ color: change.color }}
                                 className={`text-base font-bold tracking-wider`}
-                            >
-                                {change.label} {change.percentage}%
-                            </Text>
+                                    >
+                                        {change.label} {change.percentage}%
+                                    </Text>
+                                </View>
+                            )}
+                            {bloodSugarStatus && (
+                                <View className='flex-row items-center gap-2'>
+                                    {bloodSugarStatus.icon}
+                                    <Text
+                                        style={{ color: bloodSugarStatus.color }}
+                                        className={`text-base font-bold tracking-wider`}
+                                    >
+                                        Đường huyết {bloodSugarStatus.text}
+                                    </Text>
+                                </View>
+                            )}
                         </View>
                     )}
                 </View>

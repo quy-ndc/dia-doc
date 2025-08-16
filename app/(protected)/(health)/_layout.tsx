@@ -15,6 +15,7 @@ export default function HealthLayout() {
                 }}
             />
             <Stack.Screen name="add-edit-care-plan-screen" options={{ headerTitle: '', headerShadowVisible: false }} />
+            <Stack.Screen name="health-record-guide-screen" options={{ headerTitle: '', headerShadowVisible: false }} />            
         </Stack>
     )
 }

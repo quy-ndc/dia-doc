@@ -19,6 +19,7 @@ import StandardHistoryItem from '../../../components/health-record-history-scree
 import BloodSugarItem from '../../../components/health-record-history-screen/blood-sugar-item'
 import { GlobalColor } from '../../../global-color'
 import BloodPressureItem from '../../../components/health-record-history-screen/blood-pressure-item'
+import { CircleAlert } from '../../../lib/icons/CircleAlert'
 
 const { height } = Dimensions.get('window')
 
@@ -111,18 +112,18 @@ export default function HealthRecordHistoryScreen() {
                                 </Text>
                             </View>
                         </View>,
-                    headerRight: () =>
+                    headerRight: () => recordType == HealthRecordType.BLOOD_SUGAR || recordType == HealthRecordType.BLOOD_PRESSURE ?
                         <IconButton
-                            icon={<PencilLine className='text-foreground' size={18} />}
+                            icon={<CircleAlert color={GlobalColor.BLUE_NEON_BORDER} size={18} />}
                             buttonSize={3}
                             possition={'other'}
                             onPress={() => {
                                 router.push({
-                                    pathname: "/update-record-screen",
-                                    params: { type: recordType, lastMesurement: getValue() }
+                                    pathname: "/health-record-guide-screen",
+                                    params: { type: recordType }
                                 })
                             }}
-                        />
+                        /> : null
                 }}
             />
             <View className='flex-1 w-full pb-5 relative'>
@@ -131,8 +132,7 @@ export default function HealthRecordHistoryScreen() {
                         style={{ minHeight: height * 0.8 }}
                         className='flex-col gap-2'
                     >
-                        <View className='flex-col gap-4 px-2 py-4'>
-                            <View className='flex-row gap-5 items-center justify-center w-full'>
+                            <View className='flex-row p-4 gap-5 items-center justify-center w-full'>
                                 <View className='flex-col gap-2 items-center'>
                                     <Text
                                         style={{ color: recordDisplay.iconColor }}
@@ -151,7 +151,6 @@ export default function HealthRecordHistoryScreen() {
                                     </Text>
                                 </View>
                             </View>
-                        </View>
                         {isLoading ? (
                             <ProfileHealthTrackingSkeleton />
                         ) : isError || healthRecordItems.length == 0 || healthRecordItems[0].healthRecord == undefined ? (

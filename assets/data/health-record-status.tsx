@@ -33,6 +33,7 @@ export enum BLOOD_PRESSURE_LEVELS {
 export interface HealthStatusResult {
     color: string
     icon: React.ReactNode
+    text: string
 }
 
 export interface BloodPressureStatusResult {
@@ -66,17 +67,20 @@ export const getBloodSugarStatus = (
     if (value < lowThreshold) {
         return {
             color: GlobalColor.PURPLE_NEON_BORDER,
-            icon: <CircleAlert color={GlobalColor.PURPLE_NEON_BORDER} size={17} />
+            icon: <CircleAlert color={GlobalColor.PURPLE_NEON_BORDER} size={17} />,
+            text: 'thấp'
         }
     } else if (value >= highThreshold) {
         return {
             color: GlobalColor.RED_NEON_BORDER,
-            icon: <TrendingUp color={GlobalColor.RED_NEON_BORDER} size={17} />
+            icon: <TrendingUp color={GlobalColor.RED_NEON_BORDER} size={17} />,
+            text: 'cao'
         }
     } else {
         return {
             color: GlobalColor.GREEN_NEON_BORDER,
-            icon: <Check color={GlobalColor.GREEN_NEON_BORDER} size={17} />
+            icon: <Check color={GlobalColor.GREEN_NEON_BORDER} size={17} />,
+            text: 'ổn'
         }
     }
 }
@@ -88,17 +92,20 @@ export const getBloodPressureStatus = (value: string): BloodPressureStatusResult
         if (systolic < BLOOD_PRESSURE_LEVELS.LOW_SYS) {
             return {
                 color: GlobalColor.PURPLE_NEON_BORDER,
-                icon: <CircleAlert color={GlobalColor.PURPLE_NEON_BORDER} size={17} />
+                icon: <CircleAlert color={GlobalColor.PURPLE_NEON_BORDER} size={17} />,
+                text: 'thấp'
             }
         } else if (systolic >= BLOOD_PRESSURE_LEVELS.HIGH_SYS) {
             return {
                 color: GlobalColor.RED_NEON_BORDER,
-                icon: <TrendingUp color={GlobalColor.RED_NEON_BORDER} size={17} />
+                icon: <TrendingUp color={GlobalColor.RED_NEON_BORDER} size={17} />,
+                text: 'cao'
             }
         } else {
             return {
                 color: GlobalColor.GREEN_NEON_BORDER,
-                icon: <Check color={GlobalColor.GREEN_NEON_BORDER} size={17} />
+                icon: <Check color={GlobalColor.GREEN_NEON_BORDER} size={17} />,
+                text: 'ổn'
             }
         }
     }
@@ -107,17 +114,20 @@ export const getBloodPressureStatus = (value: string): BloodPressureStatusResult
         if (diastolic < BLOOD_PRESSURE_LEVELS.LOW_DIA) {
             return {
                 color: GlobalColor.PURPLE_NEON_BORDER,
-                icon: <CircleAlert color={GlobalColor.PURPLE_NEON_BORDER} size={17} />
+                icon: <CircleAlert color={GlobalColor.PURPLE_NEON_BORDER} size={17} />,
+                text: 'thấp'
             }
         } else if (diastolic >= BLOOD_PRESSURE_LEVELS.HIGH_DIA) {
             return {
                 color: GlobalColor.RED_NEON_BORDER,
-                icon: <TrendingUp color={GlobalColor.RED_NEON_BORDER} size={17} />
+                icon: <TrendingUp color={GlobalColor.RED_NEON_BORDER} size={17} />,
+                text: 'cao'
             }
         } else {
             return {
                 color: GlobalColor.GREEN_NEON_BORDER,
-                icon: <Check color={GlobalColor.GREEN_NEON_BORDER} size={17} />
+                icon: <Check color={GlobalColor.GREEN_NEON_BORDER} size={17} />,
+                text: 'ổn'
             }
         }
     }

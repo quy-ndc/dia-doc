@@ -165,6 +165,7 @@ export default function ProtectedLayout() {
                 <Stack.Screen name="(payment)" options={{ headerShown: false }} />
                 <Stack.Screen name="chat-screen" options={{ headerTitle: '', headerShadowVisible: false }} />
                 <Stack.Screen name="video-call-screen" options={{ headerShown: false }} />
+                <Stack.Screen name="join-group-screen" options={{ headerShown: false }} />
             </Stack>
             <IncomingCallModal />
         </>

@@ -146,3 +146,33 @@ export const JoinAGroup = async (request: {
         }
     }
 }
+
+
+export const LeaveAGroup = async (conversationId: string) => {
+
+    try {
+        const response = await axiosServices.delete(`${endpointChat.LEAVE_A_GROUP}/${conversationId}/participants/me`)
+
+        return {
+            success: true,
+            status: response.status,
+            data: response.data,
+        }
+    } catch (error) {
+        if (axios.isAxiosError(error) && error.response) {
+            return {
+                success: false,
+                status: error.response.status,
+                message: error.response.data.message || 'An error occurred',
+                data: error.response.data
+            };
+        } else {
+            return {
+                success: false,
+                status: 500,
+                message: 'An unexpected error occurred',
+                data: null
+            };
+        }
+    }
+}

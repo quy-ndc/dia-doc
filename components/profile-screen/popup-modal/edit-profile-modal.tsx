@@ -234,7 +234,7 @@ export default function EditProfileModal({ profile }: Props) {
                                 disabled={isLoading}
                                 onPress={handleSubmit(onSubmit)}
                             >
-                                <Text className="text-base text-[var(--same-theme-col)] font-semibold tracking-wider capitalize">Đồng ý</Text>
+                                <Text className="text-base text-[var(--same-theme-col)] font-semibold tracking-wider capitalize">Cập nhật</Text>
                                 {isLoading ? (
                                     <SpinningIcon icon={<Loader className='text-[var(--same-theme-col)]' size={18} />} />
                                 ) : (

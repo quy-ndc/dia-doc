@@ -3,7 +3,6 @@ import { View } from 'react-native';
 import { useRouter } from 'expo-router';
 import { ThemeToggle } from '../ThemeToggle';
 import { Image } from 'expo-image'
-import Notification from './notification/noti-access'
 import IconButton from '../common/icon-button';
 import useUserStore from '../../store/userStore';
 
@@ -15,7 +14,7 @@ export default function HeaderRight() {
     return (
         <View className='flex-row pr-2 items-center'>
             <ThemeToggle />
-            <Notification position='header' />
+            {/* <Notification position='header' /> */}
             <IconButton
                 icon={
                     <Image

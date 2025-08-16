@@ -45,7 +45,7 @@ export default function AiChatItem({ item }: Prop) {
                 <Pressable
                     className='flex-col w-full p-3 gap-2 bg-[var(--blog-bg)] active:bg-[var(--click-bg)] rounded-md relative'
                     onLongPress={() => setVisible(true)}
-                    onPress={() => router.replace({
+                    onPress={() => router.push({
                         pathname: 'ai-chat-screen',
                         params: {
                             title: item.title,

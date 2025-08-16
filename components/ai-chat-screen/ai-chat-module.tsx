@@ -57,8 +57,6 @@ export default function AiChatModule({ session_id }: Prop) {
         enabled: !!session_id
     })
 
-    console.log(aiChatData)
-
     const {
         mutateAsync: mutateAiMessage,
         data: aiResponseData,

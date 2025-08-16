@@ -45,10 +45,7 @@ export default function ProfileHealthRecord() {
                             size={2}
                             icon={<Calendar color={GlobalColor.PINK_NEON_BORDER} size={17} />}
                         />
-                        <Text
-                            style={{ color: GlobalColor.PINK_NEON_BORDER }}
-                            className='text-base font-semibold tracking-wider capitalize'
-                        >
+                        <Text className='text-base font-semibold tracking-wider capitalize'>
                             Quản lý lịch đo
                         </Text>
                     </View>

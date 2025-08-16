@@ -43,8 +43,8 @@ export default function BlogItem({ blogPost, showLikeDate, showBookmarkDate }: P
                 contentFit="cover"
             >
                 <View className="flex-row gap-2 items-center p-3">
-                    {blogPost.categories.map((tag) => (
-                        <BlogTag key={tag.id} tag={tag} />
+                    {blogPost.categories.map((tag, index) => (
+                        <BlogTag key={index} tag={tag} />
                     ))}
                 </View>
             </ImageBackground>

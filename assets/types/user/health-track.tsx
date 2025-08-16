@@ -1,3 +1,4 @@
+import { MeasureTime } from "../../data/measure-time"
 import { HealthRecordType } from "../../enum/health-record"
 
 export type HealthTrackItem = {
@@ -31,6 +32,8 @@ export type BloodSugarRecord = {
     value: string
     unit: string
     type: string
+    level: string
+    measureTime: MeasureTime
 }
 
 export type HB1ACRecord = {

@@ -16,7 +16,7 @@ const { width, height } = Dimensions.get('window')
 
 export default function GroupChatModule() {
 
-    const queryClient = useQueryClient();
+    const queryClient = useQueryClient()
     const [refreshing, setRefreshing] = useState(false)
     const { setGroups, setLatestMessage } = useMessageStore()
 

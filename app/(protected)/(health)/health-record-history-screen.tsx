@@ -10,12 +10,15 @@ import { HealthRecordType } from '../../../assets/enum/health-record'
 import { getHealthRecordDisplay } from '../../../assets/data/health-record-type'
 import { FlashList } from '@shopify/flash-list'
 import { useCallback, useState } from 'react'
-import HealthRecordHistoryItem from '../../../components/health-record-history-screen/health-history-item'
 import ProfileHealthTrackingSkeleton from '../../../components/common/skeleton/profile-health-tracking-skeleton'
 import ErrorDisplay from '../../../components/common/error-display'
 import IconButton from '../../../components/common/icon-button'
 import { PencilLine } from '../../../lib/icons/PencilLine'
 import { Plus } from '../../../lib/icons/Plus'
+import StandardHistoryItem from '../../../components/health-record-history-screen/standard-item'
+import BloodSugarItem from '../../../components/health-record-history-screen/blood-sugar-item'
+import { GlobalColor } from '../../../global-color'
+import BloodPressureItem from '../../../components/health-record-history-screen/blood-pressure-item'
 
 const { height } = Dimensions.get('window')
 
@@ -36,7 +39,8 @@ export default function HealthRecordHistoryScreen() {
 
     const recordType = type as unknown as HealthRecordType
     const recordDisplay = getHealthRecordDisplay(recordType)
-    const healthRecordItems: HealthTrackItem[] = data?.data?.data || []
+    const healthRecordItems: HealthTrackItem[] = data?.data?.data?.healthRecords || []
+    const minMax = data?.data?.data?.minMax
 
     const onRefresh = useCallback(() => {
         setRefreshing(true)
@@ -150,27 +154,73 @@ export default function HealthRecordHistoryScreen() {
                         </View>
                         {isLoading ? (
                             <ProfileHealthTrackingSkeleton />
-                        ) : isError || healthRecordItems.length == 0 ? (
-                            <ErrorDisplay
-                                text={'Không có lịch sử để hiển thị'}
-                                onRefresh={onRefresh}
-                                refreshing={refreshing}
-                            />
+                        ) : isError || healthRecordItems.length == 0 || healthRecordItems[0].healthRecord == undefined ? (
+                            <View className='flex-1 items-center justify-center'>
+                                <ErrorDisplay
+                                    text={'Không có lịch sử đo'}
+                                    onRefresh={onRefresh}
+                                    refreshing={refreshing}
+                                />
+                            </View>
                         ) : (
                             <FlashList<HealthTrackItem>
                                 data={healthRecordItems}
+                                horizontal
+                                showsHorizontalScrollIndicator={false}
                                 renderItem={({ item, index }) => (
-                                    <View className='m-2'>
-                                        <HealthRecordHistoryItem
-                                            key={index}
-                                            item={item}
-                                        />
+                                    <View>
+                                        {item.recordType == HealthRecordType.HEIGHT || item.recordType == HealthRecordType.WEIGHT || item.recordType == HealthRecordType.HBA1C ? (
+                                            <StandardHistoryItem
+                                                key={index}
+                                                item={item}
+                                                maxValue={minMax.highest}
+                                                minValue={minMax.lowest}
+                                            />
+                                        ) : item.recordType == HealthRecordType.BLOOD_SUGAR ? (
+                                            <BloodSugarItem
+                                                key={index}
+                                                item={item}
+                                                maxValue={minMax.highest}
+                                                minValue={minMax.lowest}
+                                            />
+                                        ) : (
+                                            <BloodPressureItem
+                                                key={index}
+                                                item={item}
+                                                maxValue={minMax.highest}
+                                                minValue={minMax.lowest}
+                                            />
+                                        )}
                                     </View>
                                 )}
-                                estimatedItemSize={10}
+                                estimatedItemSize={100}
                             />
                         )}
-
+                        {(recordType == HealthRecordType.BLOOD_SUGAR || recordType == HealthRecordType.BLOOD_PRESSURE) && (
+                            <View className='flex-row items-center justify-center w-full gap-5 pt-5'>
+                                <View className='flex-row gap-2 items-center'>
+                                    <View
+                                        className='p-2 rounded-full'
+                                        style={{ backgroundColor: GlobalColor.RED_NEON_BORDER }}
+                                    />
+                                    <Text className='text-base font-bold text-[var(--fade-text-color)]'>Cao</Text>
+                                </View>
+                                <View className='flex-row gap-2 items-center'>
+                                    <View
+                                        className='p-2 rounded-full'
+                                        style={{ backgroundColor: GlobalColor.GREEN_NEON_BORDER }}
+                                    />
+                                    <Text className='text-base font-bold text-[var(--fade-text-color)]'>Bình thường</Text>
+                                </View>
+                                <View className='flex-row gap-2 items-center'>
+                                    <View
+                                        className='p-2 rounded-full'
+                                        style={{ backgroundColor: GlobalColor.PURPLE_NEON_BORDER }}
+                                    />
+                                    <Text className='text-base font-bold text-[var(--fade-text-color)]'>Thấp</Text>
+                                </View>
+                            </View>
+                        )}
                     </View>
                 </ScrollView>
                 <Pressable

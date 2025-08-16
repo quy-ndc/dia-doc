@@ -105,7 +105,7 @@ export default function HomeScreen() {
     }, [user.role, refetch, healthRecordRefetch, healthCarePlanRefetch, consultSessionRefetch, remove, healthRecordRemove, healthCarePlanRemove, consultSessionRemove])
 
     const items: BlogPost[] = data?.data?.data || []
-    const healthRecordItems: HealthTrackItem[] = healthRecordData?.data?.data || []
+    const healthRecordItems: HealthTrackItem[] = healthRecordData?.data?.data.healthRecords || []
     const healthCarePlanItems: HealthCarePlan[] = healthCarePlanData?.data?.data || []
     const sessionAmount = consultSessionData?.data?.data || 0
     const consultationHistoryItems: ConsultationHistory[] = consultatonList?.data?.data?.items || []

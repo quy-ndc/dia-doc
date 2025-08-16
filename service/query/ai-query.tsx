@@ -1,6 +1,6 @@
 import { useMutation, useQueryClient } from "@tanstack/react-query"
 import { QueryKeys } from "../../assets/enum/query"
-import { DeleteSession, GenrateAINote, GetAllAIMessage, GetAllSession, SendMessageToAI } from "../api/ai-service"
+import { DeleteSession, GenrateAINote, GetAllAIMessage, GetAllSession, SendMessageToAI, UpdateSession } from "../api/ai-service"
 import Toast from "react-native-toast-message"
 
 export const useAiSessionQuery = (params: { user_id: string }) => {
@@ -44,7 +44,43 @@ export const useDeleteAiSessionMutation = () => {
             session_id: string
         }) => DeleteSession(params),
         onSuccess: (data) => {
-            queryClient.invalidateQueries({ queryKey: [QueryKeys.AI_SESSION] })
+            if (data.status !== 200) {
+                Toast.show({
+                    type: 'error',
+                    text1: data.data.detail || 'Xóa thất bại',
+                    text2: 'Vui lòng thử lại sau',
+                    visibilityTime: 2000,
+                })
+            } else {
+                queryClient.invalidateQueries({ queryKey: [QueryKeys.AI_SESSION] })
+            }
+            return data
+        },
+        onError: (error) => {
+            return error
+        }
+    })
+}
+
+export const useUpdateAiSessionMutation = () => {
+    const queryClient = useQueryClient()
+    return useMutation({
+        mutationFn: (params: {
+            session_id: string,
+            title: string,
+            external_knowledge: boolean
+        }) => UpdateSession(params),
+        onSuccess: (data) => {
+            if (data.status !== 200) {
+                Toast.show({
+                    type: 'error',
+                    text1: data.data.detail || 'Cập nhật thất bại',
+                    text2: 'Vui lòng thử lại sau',
+                    visibilityTime: 2000,
+                })
+            } else {
+                queryClient.invalidateQueries({ queryKey: [QueryKeys.AI_CHAT] })
+            }
             return data
         },
         onError: (error) => {

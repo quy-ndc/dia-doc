@@ -26,18 +26,10 @@ export default function DoctorScheduleScreen() {
     const [choosenTimeStamp, setChoosenTimeStamp] = useState('')
     const [choosenTime, setChoosenTime] = useState('')
 
-    const {
-        data,
-        isError,
-        hasNextPage,
-        isFetchingNextPage,
-        fetchNextPage,
-        refetch,
-        remove,
-        isLoading,
-    } = useInfiniteQuery({
+    const { data, isError, hasNextPage, isFetchingNextPage, fetchNextPage, refetch, remove, isLoading } = useInfiniteQuery({
         ...useDoctorScheduleQuery({
             doctorId: id as string,
+            PageSize: 30
         }),
         getNextPageParam: (lastPage) => {
             const posts = lastPage?.data?.data || undefined
@@ -57,7 +49,7 @@ export default function DoctorScheduleScreen() {
         })
     }
 
-    const onRefresh = useCallback(() => {
+     const onRefresh = useCallback(() => {
         setRefreshing(true)
         remove()
         refetch().finally(() => setRefreshing(false))

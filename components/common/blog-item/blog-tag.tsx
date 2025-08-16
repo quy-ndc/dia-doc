@@ -1,5 +1,4 @@
 import { View } from "react-native";
-import { Text } from '../../../components/ui/text'
 import { getBlogTagColor } from "../../../util/get-blog-tag-color";
 import { BlogCategory } from "../../../assets/types/media/blog-post";
 import Tag from "../tag";
@@ -9,6 +8,8 @@ type Prop = {
 }
 
 export default function BlogTag({ tag }: Prop) {
+
+    if (tag.name == undefined) return null
 
     const tagBorder = getBlogTagColor(tag.name).borderColor
 

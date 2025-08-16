@@ -52,11 +52,11 @@ export default function QuickAccess() {
                             />
                         }
                         title='Tin nhắn'
-                        // onPress={() => router.push({
-                        //     pathname: '/message-screen',
-                        //     params: { type: 'group' }
-                        // })}
-                        onPress={handlePressGroup}
+                        onPress={() => router.push({
+                            pathname: '/message-screen',
+                            params: { type: 'group' }
+                        })}
+                    // onPress={handlePressGroup}
                     // onPress={handlePress}
                     />
                     <QuickButton

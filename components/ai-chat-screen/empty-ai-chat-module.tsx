@@ -108,6 +108,7 @@ export default function EmptyAiChatModule() {
                         id: sessionId,
                         user_id: user.id,
                         title: 'Cuộc trò chuyện mới',
+                        external_knowledge: false,
                         created_at: new Date().toISOString(),
                         updated_at: new Date().toISOString()
                     }

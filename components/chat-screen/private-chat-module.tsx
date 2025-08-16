@@ -44,6 +44,7 @@ export default function PrivateChatModule({
     const [refreshing, setRefreshing] = useState(false)
     const [scrollOffsetY, setScrollOffsetY] = useState(0)
     const debouncedOffsetY = useDebounce(scrollOffsetY, 500)
+    const [disableSend, setDisableSend] = useState(false)
 
     const {
         data,
@@ -144,6 +145,10 @@ export default function PrivateChatModule({
     }
 
     useEffect(() => {
+        if (messageData?.data.code == 'conversation_er_07') {
+            setNewMessage('')
+            setDisableSend(true)
+        }
         if (!messageData || messageData.status !== 200) return
         const messageToSend: Message = {
             id: messageData.data.data.messageId,
@@ -221,6 +226,8 @@ export default function PrivateChatModule({
                         <ChevronRight className='text-foreground' size={20} />
                     </Pressable>
                     <Input
+                        style={{ opacity: disableSend ? 0.7 : 1 }}
+                        aria-disabled={disableSend}
                         className='flex-1 rounded-full bg-[var(--input-bg)]'
                         value={newMessage}
                         onChangeText={onTextChange}

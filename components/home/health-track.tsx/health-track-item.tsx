@@ -31,6 +31,20 @@ export default function HealthTrackerItem({ item }: Prop) {
         return (item.healthRecord as any).value ?? 'N/A'
     }
 
+    const getTimeText = () => {
+        if (item.mesurementAt) {
+            const date = new Date(item.mesurementAt)
+            const now = new Date()
+            if (date > now) {
+                return 'Đã đo'
+            } else {
+                return `Đo ${formatDateBlog(item.mesurementAt)}`
+            }
+        } else {
+            return 'Chưa có dữ liệu'
+        }
+    }
+
     const handlePress = () => {
         router.push({
             pathname: "/update-record-screen",
@@ -62,7 +76,7 @@ export default function HealthTrackerItem({ item }: Prop) {
                 </Text>
                 <View className='flex-row items-center w-full justify-between'>
                     <Text className='text-sm text-[var(--fade-text-color)] tracking-wider'>
-                        {item.mesurementAt ? `Đo ${formatDateBlog(item.mesurementAt)}` : 'Chưa có dữ liệu'}
+                        {getTimeText()}
                     </Text>
                     <ChevronRight className='text-foreground' size={15} />
                 </View>

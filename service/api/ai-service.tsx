@@ -65,6 +65,44 @@ export const DeleteSession = async (params: { session_id: string }) => {
     }
 }
 
+export const UpdateSession = async (params: {
+    session_id: string,
+    title: string,
+    external_knowledge: boolean
+}) => {
+
+    try {
+        const response = await axiosServices.put(`${endpointAI.UPDATE_AI_SESSION}`, {
+            session_id: params.session_id,
+            title: params.title,
+            external_knowledge: params.external_knowledge
+        })
+
+        return {
+            success: true,
+            status: response.status,
+            data: response.data
+        }
+
+    } catch (e) {
+        if (axios.isAxiosError(e) && e.response) {
+            return {
+                success: false,
+                status: e.response.status,
+                message: e.response.data.message || 'An error occurred',
+                data: e.response.data
+            }
+        }
+
+        return {
+            success: false,
+            status: 500,
+            message: 'An error occurred',
+            data: null
+        }
+    }
+}
+
 export const GetAllAIMessage = async (params: { session_id: string }) => {
 
     const queryString = createQueryString(params)

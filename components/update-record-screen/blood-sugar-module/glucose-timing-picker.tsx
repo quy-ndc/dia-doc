@@ -49,13 +49,6 @@ export default function GlucoseTimingPicker({ setSelectPeriod }: Props) {
             icon: <Bone color={selectedItem === 2 ? GlobalColor.GREEN_NEON_BORDER : themeColor} size={18} />,
             color: GlobalColor.GREEN_NEON_BORDER,
             onPress: () => handleSelectPeriod(MeasureTime.AFTER_MEAL, 2)
-        },
-        {
-            label: 'Trước ngủ',
-            description: '15-30p trước khi ngủ',
-            icon: <Bed color={selectedItem === 3 ? GlobalColor.PURPLE_NEON_BORDER : themeColor} size={18} />,
-            color: GlobalColor.PURPLE_NEON_BORDER,
-            onPress: () => handleSelectPeriod(MeasureTime.BEFORE_BED, 3)
         }
     ]
 

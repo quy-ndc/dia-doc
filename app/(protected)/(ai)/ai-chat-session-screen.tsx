@@ -2,7 +2,7 @@ import * as React from 'react'
 import AiChatItem from '../../../components/ai-chat-screen/ai-chat-item'
 import { Dimensions, RefreshControl, ScrollView, View } from 'react-native'
 import { useAiSessionQuery } from '../../../service/query/ai-query'
-import { useQuery } from '@tanstack/react-query'
+import { useQuery, useQueryClient } from '@tanstack/react-query'
 import useUserStore from '../../../store/userStore'
 import { AiSession } from '../../../assets/types/chat/ai-session'
 import { FlashList } from '@shopify/flash-list'
@@ -10,6 +10,7 @@ import { useCallback, useState, useEffect } from 'react'
 import { useAiMessageStore } from '../../../store/useAiMessage'
 import AiSessionSkeleton from '../../../components/common/skeleton/ai-session-skeleton'
 import ErrorDisplay from '../../../components/common/error-display'
+import { QueryKeys } from '../../../assets/enum/query'
 
 const { height } = Dimensions.get('window')
 
@@ -18,13 +19,17 @@ export default function AiChatSessionScreen() {
     const { user } = useUserStore()
     const [refreshing, setRefreshing] = useState(false)
     const { setSessions, sessionsList } = useAiMessageStore()
+    const queryClient = useQueryClient();
 
     const { data, isLoading, isError, refetch, remove } = useQuery({
         ...useAiSessionQuery({
             user_id: user.id
         }),
         retry: 2,
-        retryDelay: attempt => Math.min(1000 * 2 ** attempt, 5000)
+        retryDelay: attempt => Math.min(1000 * 2 ** attempt, 5000),
+        onSuccess: () => {
+            queryClient.invalidateQueries({ queryKey: [QueryKeys.AI_SESSION] })
+        }
     })
 
     const onRefresh = useCallback(() => {
@@ -57,7 +62,7 @@ export default function AiChatSessionScreen() {
                             refreshing={refreshing}
                         />
                     </View>
-                </ScrollView> 
+                </ScrollView>
             ) : (
                 <FlashList<AiSession>
                     refreshControl={<RefreshControl refreshing={refreshing} onRefresh={onRefresh} />}

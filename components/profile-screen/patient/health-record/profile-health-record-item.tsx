@@ -26,7 +26,7 @@ export default function ProfileHealthRecordItem({ type }: Prop) {
 
     return (
         <Pressable
-            style={{ width: width * 0.93}}
+            style={{ width: width * 0.93 }}
             className={`flex-row items-center justify-between px-1 py-3 gap-2 rounded-xl active:bg-[var(--click-bg)] w-full`}
             onPress={handlePress}
         >
@@ -36,10 +36,7 @@ export default function ProfileHealthRecordItem({ type }: Prop) {
                     size={2}
                     icon={recordDisplay.coloredIcon}
                 />
-                <Text
-                    style={{ color: recordDisplay.iconColor }}
-                    className='text-base font-semibold tracking-wider capitalize'
-                >
+                <Text className='text-base font-semibold tracking-wider capitalize'>
                     Lịch sử đo {recordDisplay.name}
                 </Text>
             </View>

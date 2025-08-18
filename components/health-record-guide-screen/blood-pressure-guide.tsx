@@ -1,19 +1,40 @@
 import * as React from 'react'
 import { useLocalSearchParams } from 'expo-router'
-import { Text } from '../../components/ui/text'
-import { View } from 'react-native'
+import { Text } from '../ui/text'
+import { RefreshControl, ScrollView, View } from 'react-native'
 import { HealthRecordType } from '../../assets/enum/health-record'
 import { GlobalColor } from '../../global-color'
-
+import { useCallback, useState } from 'react'
+import { useMediaQuery } from '../../service/query/media-query'
+import { useQuery } from '@tanstack/react-query'
+import { BlogPost } from '../../assets/types/media/blog-post'
+import BlogItem from '../common/blog-item/blog-item'
+import BlogSkeleton from '../common/skeleton/blog-skeleton'
+import ErrorDisplay from '../common/error-display'
 
 export default function BloodPressureGuide() {
 
     const { type } = useLocalSearchParams()
 
-    const recordType = type as unknown as HealthRecordType
+    const [refreshing, setRefreshing] = useState(false)
+
+    const { data, isLoading, isError, remove, refetch } = useQuery(useMediaQuery({
+        PageSize: 10,
+        TutorialType: Number(type) as HealthRecordType
+    }))
+
+    console.log(type)
+
+    const onRefresh = useCallback(() => {
+        setRefreshing(true)
+        remove()
+        refetch().finally(() => setRefreshing(false))
+    }, [refetch])
+
+    const blogGuide: BlogPost = data?.data?.data?.items[0]
 
     return (
-        <>
+        <ScrollView refreshControl={<RefreshControl refreshing={refreshing} onRefresh={onRefresh} />}>
             <View className='flex-col p-2 gap-2 items-center'>
                 <Text className='text-xl font-bold tracking-wider px-3'>Ngưỡng huyết áp hiện tại của bạn</Text>
                 <View className='flex-row items-center'>
@@ -141,7 +162,24 @@ export default function BloodPressureGuide() {
                         </Text>
                     </View>
                 </View>
+                <View className='w-full'>
+                    {isLoading ? (
+                        <BlogSkeleton />
+                    ) : isError || !blogGuide ? (
+                        <ErrorDisplay
+                            onRefresh={onRefresh}
+                            refreshing={refreshing}
+                            text='Không thể hiển thị bài viết hướng dẫn'
+                        />
+                    ) : (
+                        <BlogItem
+                            blogPost={blogGuide}
+                            showBookmarkDate={false}
+                            showLikeDate={false}
+                        />
+                    )}
+                </View>
             </View>
-        </>
+        </ScrollView>
     )
 }

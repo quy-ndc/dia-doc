@@ -61,7 +61,6 @@ const endpointUser = {
     GET_DOCTOR_PROFILE: `${API_GATEWAY_ENDPOINT}/${apiPrefixV1}/doctors/profile`,
 
     GET_USER_HEALTH_RECORD: `${API_GATEWAY_ENDPOINT}/${apiPrefixV1}/users/patients/records`,
-    GET_USER_HEALTH_CARE_PLAN: `${API_GATEWAY_ENDPOINT}/${apiPrefixV1}/users/patients/careplan`,
     UPDATE_USER_WEIGHT: `${API_GATEWAY_ENDPOINT}/${apiPrefixV1}/users/patients/records/weight`,
     UPDATE_USER_HEIGHT: `${API_GATEWAY_ENDPOINT}/${apiPrefixV1}/users/patients/records/height`,
     UPDATE_USER_BLOOD_PRESSURE: `${API_GATEWAY_ENDPOINT}/${apiPrefixV1}/users/patients/records/blood-pressure`,
@@ -72,6 +71,11 @@ const endpointUser = {
     UPDATE_CARE_PLAN_TEMPLATE: `${API_GATEWAY_ENDPOINT}/${apiPrefixV1}/users/patients/template`,
     GET_CARE_PLAN_TEMPLATE: `${API_GATEWAY_ENDPOINT}/${apiPrefixV1}/users/patients/template`,
     DELETE_CARE_PLAN_TEMPLATE: `${API_GATEWAY_ENDPOINT}/${apiPrefixV1}/users/patients/template`,
+
+    GET_USER_HEALTH_CARE_PLAN: `${API_GATEWAY_ENDPOINT}/${apiPrefixV1}/users/patients/careplan`,
+    CREATE_USER_HEALTH_CARE_PLAN: `${API_GATEWAY_ENDPOINT}/${apiPrefixV1}/users/patients/careplan`,
+    UPDATE_USER_HEALTH_CARE_PLAN: `${API_GATEWAY_ENDPOINT}/${apiPrefixV1}/users/patients/careplan`,
+    DELETE_USER_HEALTH_CARE_PLAN: `${API_GATEWAY_ENDPOINT}/${apiPrefixV1}/users/patients/careplan`,
 
     GET_ALL_SERVICE_PACKAGES: `${API_GATEWAY_ENDPOINT}/${apiPrefixV1}/service_packages`,
     GET_ALL_PURCHASED_SERVICE_PACKAGES: `${API_GATEWAY_ENDPOINT}/${apiPrefixV1}/service_packages/purchased`,

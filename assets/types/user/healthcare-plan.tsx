@@ -2,6 +2,7 @@ import { HealthCarePlanPeriod, HealthCarePlanSubType } from "../../enum/healthca
 import { HealthRecordType } from "../../enum/health-record"
 
 export type HealthCarePlan = {
+    id: string
     recordType: HealthRecordType
     period: HealthCarePlanPeriod
     subtype: HealthCarePlanSubType

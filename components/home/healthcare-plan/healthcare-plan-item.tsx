@@ -10,26 +10,42 @@ import { X } from '../../../lib/icons/X'
 import { getHealthCarePlanPeriodString, getHealthCarePlanSubTypeString } from '../../../assets/data/healthcare-plan'
 import { Clock } from '../../../lib/icons/Clock'
 import { router } from 'expo-router'
+import { ChevronRight } from '../../../lib/icons/ChevronRight'
 
 type Prop = {
     item: HealthCarePlan
+    display: 'view' | 'manage'
 }
 
-export default function HealthcarePlanItem({ item }: Prop) {
+export default function HealthcarePlanItem({ item, display }: Prop) {
 
     const recordDisplay = getHealthRecordDisplay(item.recordType)
     const period = getHealthCarePlanPeriodString(item.period)
     const subtype = getHealthCarePlanSubTypeString(item.subtype)
 
+    const handlePress = () => {
+        if (display === 'manage') {
+            router.push({
+                pathname: 'add-edit-today-care-plan-screen',
+                params: {
+                    id: item.id,
+                    type: item.recordType,
+                    time: item.scheduledAt,
+                    sub: item.subtype
+                }
+            })
+        } else {
+            router.push({
+                pathname: 'update-record-screen',
+                params: { type: item.recordType, time: item.scheduledAt }
+            })
+        }
+    }
+
     return (
         <Pressable
             className='flex-row justify-between items-center px-3 py-4 mt-3 rounded-xl bg-[var(--blog-bg)] active:bg-[var(--click-bg)]'
-            onPress={() => {
-                router.push({
-                    pathname: 'update-record-screen',
-                    params: { type: item.recordType, time: item.scheduledAt }
-                })
-            }}
+            onPress={handlePress}
         >
             <View className='flex-col gap-3'>
                 <View className='flex-row items-center gap-3'>
@@ -60,21 +76,26 @@ export default function HealthcarePlanItem({ item }: Prop) {
                     )}
                 </View>
             </View>
-            {item.isCompleted ? (
-                <View
-                    style={{ borderColor: GlobalColor.GREEN_NEON_BORDER, borderWidth: 1 }}
-                    className='p-1.5 border rounded-full'
-                >
-                    <Check color={GlobalColor.GREEN_NEON_BORDER} size={15} />
-                </View>
+            {display === 'manage' ? (
+                <ChevronRight className='text-foreground' size={17} />
             ) : (
-                <View
-                    style={{ borderColor: GlobalColor.RED_NEON_BORDER, borderWidth: 1 }}
-                    className='p-1.5 border rounded-full'
-                >
-                    <X color={GlobalColor.RED_NEON_BORDER} size={12} />
-                </View>
+                item.isCompleted ? (
+                    <View
+                        style={{ borderColor: GlobalColor.GREEN_NEON_BORDER, borderWidth: 1 }}
+                        className='p-1.5 border rounded-full'
+                    >
+                        <Check color={GlobalColor.GREEN_NEON_BORDER} size={15} />
+                    </View>
+                ) : (
+                    <View
+                        style={{ borderColor: GlobalColor.RED_NEON_BORDER, borderWidth: 1 }}
+                        className='p-1.5 border rounded-full'
+                    >
+                        <X color={GlobalColor.RED_NEON_BORDER} size={12} />
+                    </View>
+                )
             )}
+
         </Pressable>
     )
 }

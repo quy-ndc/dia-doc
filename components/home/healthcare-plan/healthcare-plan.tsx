@@ -13,6 +13,7 @@ import HealthcarePlanDetailItem from './healthcare-plan-detail-item'
 import { PencilLine } from '../../../lib/icons/PencilLine'
 import { ArrowRightLeft } from '../../../lib/icons/ArrowRightLeft'
 import { router } from 'expo-router'
+import { Clock } from '../../../lib/icons/Clock'
 
 
 const { width } = Dimensions.get('window')
@@ -61,12 +62,6 @@ export default function HealthcarePlan({ items, isLoading, isError, refetch, rem
                     >
                         <ArrowRightLeft className='text-foreground' size={17} />
                     </Pressable>
-                    <Pressable
-                        className={`p-2 rounded-full active:bg-[var(--click-bg)]`}
-                        onPress={() => { router.push('manage-care-plan-screen') }}
-                    >
-                        <PencilLine color={GlobalColor.BLUE_NEON_BORDER} size={17} />
-                    </Pressable>
                 </View>
             </View>
 
@@ -86,11 +81,28 @@ export default function HealthcarePlan({ items, isLoading, isError, refetch, rem
                         item={nextItem || undefined}
                         hidden={value === 'list'}
                     />
+                    <View className='flex-col gap-3 py-3 w-full items-center'>
+                        <Pressable
+                            className='flex-row gap-2 items-center justify-center px-4 py-3 rounded-lg border border-[var(--oppo-theme-col)] w-full active:bg-[var(--click-bg)]'
+                            onPress={() => router.push('manage-today-care-plan-screen')}
+                        >
+                            <Clock className='text-[var(--oppo-theme-col)]' size={17} />
+                            <Text className='text-sm font-medium tracking-widest'>Sửa lịch ngày hôm nay</Text>
+                        </Pressable>
+
+                        <Pressable
+                            className='flex-row gap-2 items-center justify-center px-4 py-3 rounded-lg bg-[var(--oppo-theme-col)] w-full active:opacity-80'
+                            onPress={() => router.push('manage-care-plan-screen')}
+                        >
+                            <Calendar className='text-[var(--same-theme-col)]' size={17} />
+                            <Text className='text-sm font-medium tracking-widest text-[var(--same-theme-col)]'>Sửa lịch cho mọi ngày</Text>
+                        </Pressable>
+                    </View>
                     <View className={`w-full px-1 ${value === 'detail' ? 'hidden' : ''}`}>
                         <FlashList<HealthCarePlan>
                             data={items}
                             renderItem={({ item }) => (
-                                <HealthcarePlanItem item={item} />
+                                <HealthcarePlanItem item={item} display='view' />
                             )}
                             estimatedItemSize={100}
                         />

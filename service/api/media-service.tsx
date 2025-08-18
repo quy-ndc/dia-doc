@@ -1,12 +1,14 @@
 import axios from "axios"
 import { createQueryString, endpointCategory, endpointMedia } from "../endpoint"
 import axiosServices, { axiosClientUpload } from "../axios"
+import { HealthRecordType } from "../../assets/enum/health-record"
 
 export const GetAllMedias = async (params: {
     Cursor?: string
     SearchContent?: string
     PageSize: number
     CategoryIds?: string[]
+    TutorialType?: HealthRecordType
     UserCreatedId?: string
     SortType?: string
     IsSortAsc?: boolean

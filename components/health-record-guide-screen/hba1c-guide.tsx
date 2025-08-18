@@ -2,17 +2,17 @@ import * as React from 'react'
 import { useLocalSearchParams } from 'expo-router'
 import { Text } from '../../components/ui/text'
 import { RefreshControl, ScrollView, View } from 'react-native'
-import { HealthRecordType } from '../../assets/enum/health-record'
 import { GlobalColor } from '../../global-color'
-import { useCallback, useState } from 'react'
 import { useQuery } from '@tanstack/react-query'
 import { useMediaQuery } from '../../service/query/media-query'
+import { HealthRecordType } from '../../assets/enum/health-record'
 import { BlogPost } from '../../assets/types/media/blog-post'
 import BlogItem from '../common/blog-item/blog-item'
+import { useCallback, useState } from 'react'
 import BlogSkeleton from '../common/skeleton/blog-skeleton'
 import ErrorDisplay from '../common/error-display'
 
-export default function BloodSugarGuide() {
+export default function Hba1cGuide() {
 
     const { type } = useLocalSearchParams()
 
@@ -22,8 +22,6 @@ export default function BloodSugarGuide() {
         PageSize: 10,
         TutorialType: Number(type) as HealthRecordType
     }))
-
-    console.log(type)
 
     const onRefresh = useCallback(() => {
         setRefreshing(true)
@@ -35,8 +33,8 @@ export default function BloodSugarGuide() {
 
     return (
         <ScrollView refreshControl={<RefreshControl refreshing={refreshing} onRefresh={onRefresh} />}>
-            <View className='flex-col p-2 gap-2 items-center'>
-                <Text className='text-xl font-bold tracking-wider px-3'>Ngưỡng đường huyết hiện tại của bạn</Text>
+            <View className='flex-col p-2 gap-2 items-center w-full'>
+                <Text className='text-xl font-bold tracking-wider px-3'>Ngưỡng HBA1C hiện tại của bạn</Text>
                 <View className='flex-row items-center'>
                     <View className='flex-col'>
                         <Text className='text-base p-3 font-bold tracking-wider bg-[var(--blog-bg)]'>
@@ -66,116 +64,34 @@ export default function BloodSugarGuide() {
                         >
                             Thấp
                         </Text>
-                        <Text
-                            style={{ backgroundColor: GlobalColor.PURPLE_NEON_BORDER }}
-                            className='text-base p-3 text-white font-bold tracking-wider'
-                        >
-                            Rất thấp
-                        </Text>
                     </View>
                     <View className='flex-col'>
                         <Text className='text-base p-3 font-bold tracking-wider bg-[var(--blog-bg)]'>
-                            Trước ăn
+                            Mức độ
                         </Text>
                         <Text
                             style={{ backgroundColor: GlobalColor.RED_NEON_BG }}
                             className='text-base p-3 font-bold tracking-wider'
                         >
-                            {`>130`}
+                            {`>6.5`}
                         </Text>
                         <Text
                             style={{ backgroundColor: GlobalColor.ORANGE_NEON_BG }}
                             className='text-base p-3 font-bold tracking-wider'
                         >
-                            {`>130`}
+                            {`5.7-6.4`}
                         </Text>
                         <Text
                             style={{ backgroundColor: GlobalColor.GREEN_NEON_BG }}
                             className='text-base p-3 font-bold tracking-wider'
                         >
-                            {`70-130`}
+                            {`4.0-5.6`}
                         </Text>
                         <Text
                             style={{ backgroundColor: GlobalColor.YELLOW_NEON_BG }}
                             className='text-base p-3 font-bold tracking-wider'
                         >
-                            {`<54-69`}
-                        </Text>
-                        <Text
-                            style={{ backgroundColor: GlobalColor.PURPLE_NEON_BG }}
-                            className='text-base p-3 font-bold tracking-wider'
-                        >
-                            {`<54-69`}
-                        </Text>
-                    </View>
-                    <View className='flex-col'>
-                        <Text className='text-base p-3 font-bold tracking-wider bg-[var(--blog-bg)]'>
-                            Sau ăn
-                        </Text>
-                        <Text
-                            style={{ backgroundColor: GlobalColor.RED_NEON_BG }}
-                            className='text-base p-3 font-bold tracking-wider'
-                        >
-                            {`>180`}
-                        </Text>
-                        <Text
-                            style={{ backgroundColor: GlobalColor.ORANGE_NEON_BG }}
-                            className='text-base p-3 font-bold tracking-wider'
-                        >
-                            {`>180`}
-                        </Text>
-                        <Text
-                            style={{ backgroundColor: GlobalColor.GREEN_NEON_BG }}
-                            className='text-base p-3 font-bold tracking-wider'
-                        >
-                            {`70-179`}
-                        </Text>
-                        <Text
-                            style={{ backgroundColor: GlobalColor.YELLOW_NEON_BG }}
-                            className='text-base p-3 font-bold tracking-wider'
-                        >
-                            {`<54-69`}
-                        </Text>
-                        <Text
-                            style={{ backgroundColor: GlobalColor.PURPLE_NEON_BG }}
-                            className='text-base p-3 font-bold tracking-wider'
-                        >
-                            {`<54-69`}
-                        </Text>
-                    </View>
-                    <View className='flex-col'>
-                        <Text className='text-base p-3 font-bold tracking-wider bg-[var(--blog-bg)]'>
-                            Chưa ăn
-                        </Text>
-                        <Text
-                            style={{ backgroundColor: GlobalColor.RED_NEON_BG }}
-                            className='text-base p-3 font-bold tracking-wider'
-                        >
-                            {`>130`}
-                        </Text>
-                        <Text
-                            style={{ backgroundColor: GlobalColor.ORANGE_NEON_BG }}
-                            className='text-base p-3 font-bold tracking-wider'
-                        >
-                            {`>130`}
-                        </Text>
-                        <Text
-                            style={{ backgroundColor: GlobalColor.GREEN_NEON_BG }}
-                            className='text-base p-3 font-bold tracking-wider'
-                        >
-                            {`70-130`}
-                        </Text>
-                        <Text
-                            style={{ backgroundColor: GlobalColor.YELLOW_NEON_BG }}
-                            className='text-base p-3 font-bold tracking-wider'
-                        >
-                            {`<54-69`}
-                        </Text>
-                        <Text
-                            style={{ backgroundColor: GlobalColor.PURPLE_NEON_BG }}
-                            className='text-base p-3 font-bold tracking-wider'
-                        >
-                            {`<54-69`}
+                            {`<4.0`}
                         </Text>
                     </View>
                 </View>

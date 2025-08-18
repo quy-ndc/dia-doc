@@ -1,5 +1,5 @@
 import * as React from 'react';
-import { View } from 'react-native';
+import { Dimensions, useColorScheme, View } from 'react-native';
 import { Text } from '../../ui/text';
 import SectionTitle from '../../home/common/section-title';
 import { GlobalColor } from '../../../global-color';
@@ -15,12 +15,18 @@ import Tag from '../../common/tag';
 import { Doctor } from '../../../assets/types/user/doctor';
 import RoundedIcon from '../../common/icons/rouned-icon';
 import { getDoctorRoleString } from '../../../assets/enum/doctor-role';
+import RenderHTML from 'react-native-render-html';
 
 type Prop = {
     profile: Doctor
 }
 
+const { width } = Dimensions.get('window')
+
 export default function ExperienceInfo({ profile }: Prop) {
+
+    const theme = useColorScheme()
+    const textColor = theme == 'dark' ? GlobalColor.LIGHT_THEME_COL : GlobalColor.DARK_THEME_COL
 
     return (
         <View
@@ -47,9 +53,24 @@ export default function ExperienceInfo({ profile }: Prop) {
                     borderColor={GlobalColor.GREEN_NEON_BORDER}
                 />
             </View>
-            <Text className='text-base text-[var(--fade-text-color)] tracking-wider'>
-                {profile.introduction}
-            </Text>
+            <RenderHTML
+                contentWidth={width}
+                source={{ html: profile.introduction }}
+                baseStyle={{
+                    color: textColor,
+                    letterSpacing: 0.3
+                }}
+                tagsStyles={{
+                    img: { width: width * 0.95, aspectRatio: 16 / 9, resizeMode: 'cover', borderRadius: 10, alignSelf: 'center' },
+                    h1: { fontSize: 22, fontWeight: 'bold', marginVertical: 8 },
+                    h2: { fontSize: 18, fontWeight: 'semibold', marginVertical: 6 },
+                    p: { fontSize: 15, marginVertical: 4, lineHeight: 22 },
+                    ul: { marginVertical: 4 },
+                    ol: { marginVertical: 4 },
+                    li: { marginLeft: 10, marginBottom: 4 },
+                    em: { fontStyle: 'italic', fontWeight: 'semibold' },
+                }}
+            />
         </View>
     );
 }

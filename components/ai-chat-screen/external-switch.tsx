@@ -10,21 +10,15 @@ import { useAiMessageStore } from '../../store/useAiMessage'
 type Prop = {
     id: string
     title: string
+    useExternal: boolean
+    setUseExternal: (value: boolean) => void
 }
 
-export default function ExternalSwitch({ id, title }: Prop) {
+export default function ExternalSwitch({ id, title, useExternal, setUseExternal }: Prop) {
     const [modalVisible, setModalVisible] = useState(false)
-    const [externalKnowledge, setExternalKnowledge] = useState(false)
-
-    const { mutateAsync, data, isLoading } = useUpdateAiSessionMutation()
 
     const onUpdate = async (enabled: boolean) => {
-        await mutateAsync({
-            session_id: id,
-            title: title,
-            external_knowledge: enabled
-        })
-        setExternalKnowledge(enabled)
+        setUseExternal(enabled)
     }
 
     return (
@@ -54,10 +48,8 @@ export default function ExternalSwitch({ id, title }: Prop) {
                         <View className="flex-row items-center justify-between mb-4">
                             <Text className="text-base font-medium tracking-wider">Kiến thức bên ngoài</Text>
                             <Switch
-                                style={{ opacity: isLoading ? 0.7 : 1 }}
-                                checked={externalKnowledge}
+                                checked={useExternal}
                                 onCheckedChange={onUpdate}
-                                disabled={isLoading}
                             />
                         </View>
                         <Pressable

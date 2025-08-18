@@ -6,10 +6,13 @@ import EmptyAiChatModule from '../../../components/ai-chat-screen/empty-ai-chat-
 import IconButton from '../../../components/common/icon-button'
 import { History } from '../../../lib/icons/History'
 import ExternalSwitch from '../../../components/ai-chat-screen/external-switch'
+import { useState } from 'react'
 
 export default function AiChatScreen() {
 
-    const { id, title } = useLocalSearchParams()
+    const { id, title, external } = useLocalSearchParams()
+
+    const [useExternal, setUseExternal] = useState(external == 'true')
 
     return (
         <>
@@ -25,13 +28,22 @@ export default function AiChatScreen() {
                             onPress={() => {
                                 router.push("/ai-chat-session-screen")
                             }}
-                        /> : <ExternalSwitch id={id as string} title={title as string} />
+                        /> :
+                        <ExternalSwitch
+                            id={id as string}
+                            title={title as string}
+                            useExternal={useExternal}
+                            setUseExternal={setUseExternal}
+                        />
                 }}
             />
             {id == undefined ? (
-                <EmptyAiChatModule />
+                <EmptyAiChatModule useExternal={useExternal} />
             ) : (
-                <AiChatModule session_id={id as string} />
+                <AiChatModule
+                    session_id={id as string}
+                    useExternal={useExternal}
+                />
             )}
         </>
     )

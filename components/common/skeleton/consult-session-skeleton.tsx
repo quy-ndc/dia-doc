@@ -6,7 +6,7 @@ export default function ConsultSessionSkeleton() {
 
     return (
         <View className='flex-1 w-full p-2 flex-col gap-4 items-center'>
-            <Skeleton className='h-[150] w-full' />
+            <Skeleton className='h-[200] w-full' />
         </View>
     );
 }

@@ -12,8 +12,7 @@ import CarePlanTemplateItem from '../../../components/manage-care-plan-screen/ca
 import { useCallback, useState } from 'react'
 import HealthcarePlanSkeleton from '../../../components/common/skeleton/healthcare-plan-skeleton'
 import ErrorDisplay from '../../../components/common/error-display'
-import { router, Stack } from 'expo-router'
-import IconButton from '../../../components/common/icon-button'
+import { router } from 'expo-router'
 
 export default function ManageCarePlanScreen() {
 
@@ -37,65 +36,52 @@ export default function ManageCarePlanScreen() {
     const templateItems: CarePlanTemplate[] = data?.data?.data?.items || []
 
     return (
-        <>
-            <Stack.Screen
-                options={{
-                    headerRight: () =>
-                        <IconButton
-                            icon={<Plus className='text-foreground' size={18} />}
-                            buttonSize={3}
-                            possition={'other'}
-                            onPress={() => router.push('add-edit-care-plan-screen')}
-                        />
-                }}
-            />
-            <View className='flex-1 relative p-3'>
-                <ScrollView refreshControl={<RefreshControl refreshing={refreshing} onRefresh={onRefresh} />}>
-                    <View className='w-full flex-col gap-3'>
-                        <View
-                            style={{ backgroundColor: GlobalColor.BLUE_NEON_BG }}
-                            className='flex-col gap-1 p-4 rounded-xl'
-                        >
-                            <View className='flex-row gap-2 items-center'>
-                                <Info color={GlobalColor.BLUE_NEON_BORDER} size={17} />
-                                <Text
-                                    style={{ color: GlobalColor.BLUE_NEON_BORDER }}
-                                    className='text-lg font-bold tracking-widest'
-                                >
-                                    Lưu ý
-                                </Text>
-                            </View>
-                            <Text className='text-base tracking-wider'>
-                                Sau khi cập nhật, lịch đo mới sẽ được hiển thị vào ngày tiếp theo, lịch đo sẽ được áp dụng hằng ngày
+        <View className='flex-1 relative p-3'>
+            <ScrollView refreshControl={<RefreshControl refreshing={refreshing} onRefresh={onRefresh} />}>
+                <View className='w-full flex-col gap-3'>
+                    <View
+                        style={{ backgroundColor: GlobalColor.BLUE_NEON_BG }}
+                        className='flex-col gap-1 p-4 rounded-xl'
+                    >
+                        <View className='flex-row gap-2 items-center'>
+                            <Info color={GlobalColor.BLUE_NEON_BORDER} size={17} />
+                            <Text
+                                style={{ color: GlobalColor.BLUE_NEON_BORDER }}
+                                className='text-lg font-bold tracking-widest'
+                            >
+                                Lưu ý
                             </Text>
                         </View>
-                        {isLoading ? (
-                            <HealthcarePlanSkeleton />
-                        ) : isError || templateItems.length == 0 ? (
-                            <ErrorDisplay
-                                text={'Không thể lấy lịch đo'}
-                                onRefresh={onRefresh}
-                                refreshing={refreshing}
-                            />
-                        ) : (
-                            <FlashList<CarePlanTemplate>
-                                data={templateItems}
-                                renderItem={({ item, index }) => (
-                                    <CarePlanTemplateItem key={index} item={item} />
-                                )}
-                                estimatedItemSize={30}
-                            />
-                        )}
+                        <Text className='text-base tracking-wider'>
+                            Sau khi cập nhật, lịch đo mới sẽ được hiển thị vào ngày tiếp theo, lịch đo sẽ được áp dụng hằng ngày
+                        </Text>
                     </View>
-                </ScrollView>
-                <Pressable
-                    style={{ backgroundColor: GlobalColor.BLUE_NEON_BORDER }}
-                    className='flex absolute bottom-5 right-7 p-4 items-center justify-center rounded-full active:opacity-80'
-                    onPress={() => router.push('add-edit-care-plan-screen')}
-                >
-                    <Plus className='text-white' size={17} />
-                </Pressable>
-            </View>
-        </>
+                    {isLoading ? (
+                        <HealthcarePlanSkeleton />
+                    ) : isError || templateItems.length == 0 ? (
+                        <ErrorDisplay
+                            text={'Không thể lấy lịch đo'}
+                            onRefresh={onRefresh}
+                            refreshing={refreshing}
+                        />
+                    ) : (
+                        <FlashList<CarePlanTemplate>
+                            data={templateItems}
+                            renderItem={({ item, index }) => (
+                                <CarePlanTemplateItem key={index} item={item} />
+                            )}
+                            estimatedItemSize={30}
+                        />
+                    )}
+                </View>
+            </ScrollView>
+            <Pressable
+                style={{ backgroundColor: GlobalColor.BLUE_NEON_BORDER }}
+                className='flex absolute bottom-5 right-7 p-4 items-center justify-center rounded-full active:opacity-80'
+                onPress={() => router.push('add-edit-care-plan-screen')}
+            >
+                <Plus className='text-white' size={17} />
+            </Pressable>
+        </View>
     )
 }

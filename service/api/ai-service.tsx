@@ -137,14 +137,16 @@ export const GetAllAIMessage = async (params: { session_id: string }) => {
 export const SendMessageToAI = async (params: {
     content: string,
     user_id: string,
-    session_id?: string
+    session_id?: string,
+    external_knowledge: boolean
 }) => {
 
     try {
         const response = await axiosServices.post(`${endpointAI.SEND_MESSAGE_TO_AI}`, {
             content: params.content,
             user_id: params.user_id,
-            session_id: params.session_id
+            session_id: params.session_id,
+            external_knowledge: params.external_knowledge
         })
 
         return {

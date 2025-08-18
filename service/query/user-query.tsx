@@ -1,5 +1,5 @@
 import { useMutation, useQueryClient } from "@tanstack/react-query"
-import { CreateBooking, CreateCarePlanTemplate, CreatePayment, CreateUserProfile, DeleteCarePlanTemplate, EditUserProfile, GetAllConsultation, GetAllDoctor, GetAllPurchasedServicePackages, GetAllServicePackages, GetCarePlanTemplate, GetDoctorById, GetDoctorProfile, GetDoctorSchedule, GetUserHealthCarePlan, GetUserHealthRecord, GetUserProfile, GetUserSessionAmount, UpdateCarePlanTemplate, UpdateUserBloodPressure, UpdateUserBloodSugar, UpdateUserHbA1c, UpdateUserHeight, UpdateUserWeight } from "../api/user-service"
+import { CreateBooking, CreateCarePlanTemplate, CreatePayment, CreateUserHealthCarePlan, CreateUserProfile, DeleteCarePlanTemplate, DeleteUserHealthCarePlan, EditUserProfile, GetAllConsultation, GetAllDoctor, GetAllPurchasedServicePackages, GetAllServicePackages, GetCarePlanTemplate, GetDoctorById, GetDoctorProfile, GetDoctorSchedule, GetUserHealthCarePlan, GetUserHealthRecord, GetUserProfile, GetUserSessionAmount, UpdateCarePlanTemplate, UpdateUserBloodPressure, UpdateUserBloodSugar, UpdateUserHbA1c, UpdateUserHealthCarePlan, UpdateUserHeight, UpdateUserWeight } from "../api/user-service"
 import { QueryKeys } from "../../assets/enum/query"
 import { GenderNumber } from "../../assets/enum/gender"
 import { DiagnosisRecency } from "../../assets/enum/diagnosis-recency"
@@ -23,7 +23,6 @@ export const useUserProfile = () => {
     }
     return { queryKey, queryFn }
 }
-
 
 export const useEditUserProfileMutation = () => {
     const queryClient = useQueryClient()
@@ -97,8 +96,119 @@ export const useUserHealthCarePlan = (params: {
     const queryFn = async () => {
         return GetUserHealthCarePlan(params)
     }
-
     return { queryKey, queryFn }
+}
+
+export const useCreateCarePlanMutation = () => {
+    const queryClient = useQueryClient()
+    return useMutation({
+        mutationFn: (params: {
+            recordType: HealthRecordType,
+            scheduledAt: string,
+            subType: HealthCarePlanSubType
+        }) => CreateUserHealthCarePlan(params),
+        onSuccess: (data) => {
+            if (data.status !== 200) {
+                Toast.show({
+                    type: 'error',
+                    text1: data.data.errors[0][0].message || 'Tạo lịch đo thất bại',
+                    text2: 'Vui lòng thử lại sau',
+                    visibilityTime: 2000,
+                })
+            } else {
+                queryClient.invalidateQueries({ queryKey: [QueryKeys.HEALTH_CARE_PLAN] })
+                Toast.show({
+                    type: 'success',
+                    text1: 'Tạo lịch đo thành công',
+                    visibilityTime: 2000,
+                })
+            }
+            return data
+        },
+        onError: (error) => {
+            Toast.show({
+                type: 'error',
+                text1: 'Tạo lịch đo thất bại',
+                text2: 'Vui lòng thử lại sau',
+                visibilityTime: 2000,
+            })
+            return error
+        }
+    })
+}
+
+export const useUpdateCarePlanMutation = () => {
+    const queryClient = useQueryClient()
+    return useMutation({
+        mutationFn: (params: {
+            instanceId: string,
+            recordType: HealthRecordType,
+            scheduledAt: string,
+            subType: HealthCarePlanSubType
+        }) => UpdateUserHealthCarePlan(params),
+        onSuccess: (data) => {
+            if (data.status !== 200) {
+                Toast.show({
+                    type: 'error',
+                    text1: data.data.errors[0][0].message || 'Cập nhật lịch đo thất bại',
+                    text2: 'Vui lòng thử lại sau',
+                    visibilityTime: 2000,
+                })
+            } else {
+                queryClient.invalidateQueries({ queryKey: [QueryKeys.HEALTH_CARE_PLAN] })
+                Toast.show({
+                    type: 'success',
+                    text1: 'Cập nhật lịch đo thành công',
+                    visibilityTime: 2000,
+                })
+            }
+            return data
+        },
+        onError: (error) => {
+            Toast.show({
+                type: 'error',
+                text1: 'Cập nhật lịch đo thất bại',
+                text2: 'Vui lòng thử lại sau',
+                visibilityTime: 2000,
+            })
+            return error
+        }
+    })
+}
+
+
+export const useDeleteCarePlanMutation = () => {
+    const queryClient = useQueryClient()
+    return useMutation({
+        mutationFn: (instanceId: string) => DeleteUserHealthCarePlan(instanceId),
+        onSuccess: (data) => {
+            if (data.status !== 200) {
+                Toast.show({
+                    type: 'error',
+                    text1: data.data.errors[0][0].message || 'Xóa lịch đo thất bại',
+                    text2: 'Vui lòng thử lại sau',
+                    visibilityTime: 2000,
+                })
+            } else {
+                queryClient.invalidateQueries({ queryKey: [QueryKeys.HEALTH_CARE_PLAN] })
+                Toast.show({
+                    type: 'success',
+                    text1: 'Xóa lịch đo thành công',
+                    visibilityTime: 2000,
+                })
+            }
+            return data
+        },
+        onError: (error) => {
+            Toast.show({
+                type: 'error',
+                text1: 'Xóa lịch đo thất bại',
+                text2: 'Vui lòng thử lại sau',
+                visibilityTime: 2000,
+            })
+            return error
+        }
+    })
 }
 
 export const useCreateUserProfileMutation = () => {
@@ -576,17 +686,14 @@ export const useDoctorByIdQuery = (doctorId: string) => {
 
 export const useDoctorScheduleQuery = (params: {
     doctorId: string
-    PageSize?: number,
     FromDate?: string,
-    ToDate?: string
+    ToDate?: string,
+    Month?: string
 }) => {
     const queryKey = [QueryKeys.DOCTOR_SCHEDULE, params]
 
-    const queryFn = async ({ pageParam = undefined }) => {
-        return GetDoctorSchedule({
-            ...params,
-            Cursor: pageParam,
-        })
+    const queryFn = async () => {
+        return GetDoctorSchedule(params)
     }
 
     return { queryKey, queryFn }

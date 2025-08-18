@@ -50,7 +50,6 @@ export default function LoginScreen() {
     }
 
     useEffect(() => {
-        console.log(data?.data)
         if (!data?.data || isError || data.status !== 200) return
         const result = data?.data?.data
         const userData: User = {

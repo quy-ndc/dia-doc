@@ -183,6 +183,110 @@ export const GetUserHealthCarePlan = async (params: {
     }
 }
 
+export const CreateUserHealthCarePlan = async (params: {
+    recordType: HealthRecordType,
+    scheduledAt: string,
+    subType: HealthCarePlanSubType
+}) => {
+    try {
+        const response = await axiosServices.post(`${endpointUser.CREATE_USER_HEALTH_CARE_PLAN}`, {
+            recordType: params.recordType,
+            scheduledAt: params.scheduledAt,
+            subType: params.subType
+        })
+
+        return {
+            success: true,
+            status: response.status,
+            data: response.data
+        }
+
+    } catch (e) {
+        if (axios.isAxiosError(e) && e.response) {
+            return {
+                success: false,
+                status: e.response.status,
+                message: e.response.data.message || 'An error occurred',
+                data: e.response.data
+            };
+        }
+
+        return {
+            success: false,
+            status: 500,
+            message: 'An error occurred',
+            data: null
+        }
+    }
+}
+
+export const UpdateUserHealthCarePlan = async (params: {
+    instanceId: string,
+    recordType: HealthRecordType,
+    scheduledAt: string,
+    subType: HealthCarePlanSubType
+}) => {
+    try {
+        const response = await axiosServices.put(`${endpointUser.UPDATE_USER_HEALTH_CARE_PLAN}/${params.instanceId}`, {
+            recordType: params.recordType,
+            scheduledAt: params.scheduledAt,
+            subType: params.subType
+        })
+
+        return {
+            success: true,
+            status: response.status,
+            data: response.data
+        }
+
+    } catch (e) {
+        if (axios.isAxiosError(e) && e.response) {
+            return {
+                success: false,
+                status: e.response.status,
+                message: e.response.data.message || 'An error occurred',
+                data: e.response.data
+            };
+        }
+
+        return {
+            success: false,
+            status: 500,
+            message: 'An error occurred',
+            data: null
+        }
+    }
+}
+
+export const DeleteUserHealthCarePlan = async (instanceId: string) => {
+    try {
+        const response = await axiosServices.delete(`${endpointUser.DELETE_USER_HEALTH_CARE_PLAN}/${instanceId}`)
+
+        return {
+            success: true,
+            status: response.status,
+            data: response.data
+        }
+
+    } catch (e) {
+        if (axios.isAxiosError(e) && e.response) {
+            return {
+                success: false,
+                status: e.response.status,
+                message: e.response.data.message || 'An error occurred',
+                data: e.response.data
+            };
+        }
+
+        return {
+            success: false,
+            status: 500,
+            message: 'An error occurred',
+            data: null
+        }
+    }
+}
+
 export const CreateUserProfile = async (data: {
     firstName: string,
     middleName: string,
@@ -756,10 +860,9 @@ export const GetDoctorById = async (doctorId: string) => {
 
 export const GetDoctorSchedule = async (params: {
     doctorId: string
-    Cursor?: string,
-    PageSize?: number,
     FromDate?: string,
     ToDate?: string
+    Month?: string
 }) => {
     try {
         const { doctorId, ...rest } = params

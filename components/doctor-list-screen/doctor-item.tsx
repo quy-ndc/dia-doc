@@ -86,7 +86,11 @@ export default function DoctorItem({ item }: Prop) {
                     pathname: '/doctor-schedule-screen',
                     params: {
                         id: item.id,
-                        name: item.name
+                        name: item.name,
+                        avatar: item.avatar,
+                        phone: item.phoneNumber,
+                        possition: item.position,
+                        exp: item.numberOfExperiences
                     }
                 })}
             >

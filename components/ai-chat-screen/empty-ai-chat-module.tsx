@@ -21,6 +21,10 @@ import { useQueryClient } from '@tanstack/react-query'
 
 const { height } = Dimensions.get('window')
 
+type Prop = {
+    useExternal: boolean
+}
+
 type ChatItem =
     | (AIMessage & { type?: 'user' | 'ai' })
     | { type: 'loading' }
@@ -28,7 +32,7 @@ type ChatItem =
     | { type: 'success'; content: string }
 
 
-export default function EmptyAiChatModule() {
+export default function EmptyAiChatModule({ useExternal }: Prop) {
 
     const flashListRef = useRef<FlashList<ChatItem>>(null)
     const { user } = useUserStore()
@@ -78,7 +82,8 @@ export default function EmptyAiChatModule() {
             const response = await mutateAiMessage({
                 content: messageContent,
                 user_id: user.id,
-                session_id: currentSessionId || ''
+                session_id: currentSessionId || '',
+                external_knowledge: useExternal
             })
 
             if (response?.data && response.status === 200) {

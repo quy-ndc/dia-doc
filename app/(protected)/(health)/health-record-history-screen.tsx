@@ -111,7 +111,7 @@ export default function HealthRecordHistoryScreen() {
                                 </Text>
                             </View>
                         </View>,
-                    headerRight: () => recordType == HealthRecordType.BLOOD_SUGAR || recordType == HealthRecordType.BLOOD_PRESSURE ?
+                    headerRight: () => recordType == HealthRecordType.BLOOD_SUGAR || recordType == HealthRecordType.BLOOD_PRESSURE || recordType == HealthRecordType.HBA1C ?
                         <IconButton
                             icon={<CircleAlert color={GlobalColor.BLUE_NEON_BORDER} size={18} />}
                             buttonSize={3}

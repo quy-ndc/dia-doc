@@ -1,11 +1,12 @@
 import * as React from 'react'
 import { Stack, useLocalSearchParams } from 'expo-router'
-import { Dimensions, View } from 'react-native'
+import { View } from 'react-native'
 import { Text } from '../../../components/ui/text'
 import { HealthRecordType } from '../../../assets/enum/health-record'
 import { getHealthRecordDisplay } from '../../../assets/data/health-record-type'
 import BloodSugarGuide from '../../../components/health-record-guide-screen/blood-sugar-guide'
-import BloodPressureGuide from '../../../components/health-record-guide-screen/blodd-pressure-guide'
+import BloodPressureGuide from '../../../components/health-record-guide-screen/blood-pressure-guide'
+import Hba1cGuide from '../../../components/health-record-guide-screen/hba1c-guide'
 
 export default function HealthRecordHistoryScreen() {
 
@@ -39,8 +40,10 @@ export default function HealthRecordHistoryScreen() {
             />
             {recordType == HealthRecordType.BLOOD_SUGAR ? (
                 <BloodSugarGuide />
-            ) : (
+            ) : recordType == HealthRecordType.BLOOD_PRESSURE ? (
                 <BloodPressureGuide />
+            ) : (
+                <Hba1cGuide />
             )}
         </>
     )

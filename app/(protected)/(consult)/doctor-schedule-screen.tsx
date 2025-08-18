@@ -25,33 +25,41 @@ import { Doctor } from '../../../assets/types/user/doctor'
 import RenderHTML from 'react-native-render-html'
 import { GlobalColor } from '../../../global-color'
 import ProfileSkeleton from '../../../components/common/skeleton/profile-skeleton'
+import MonthPicker from '../../../components/doctor-schedule-screen/month-picker'
 
 const { height, width } = Dimensions.get('window')
 
+const getCurrentMonthISO = () => {
+    const date = new Date()
+    return `${date.getFullYear()}-${String(date.getMonth() + 1).padStart(2, '0')}`
+}
+
 export default function DoctorScheduleScreen() {
 
-    const { id, name } = useLocalSearchParams()
+    const { id, name, avatar, phone, possition, exp } = useLocalSearchParams()
     const theme = useColorScheme()
     const [refreshing, setRefreshing] = useState(false)
+
     const [choosenTimeStamp, setChoosenTimeStamp] = useState('')
     const [choosenTime, setChoosenTime] = useState('')
+    const [choosenMonth, setChoosenMonth] = useState(getCurrentMonthISO())
     const textColor = theme == 'dark' ? GlobalColor.LIGHT_THEME_COL : GlobalColor.DARK_THEME_COL
 
-    const { data, isError, hasNextPage, isFetchingNextPage, fetchNextPage, refetch, remove, isLoading } = useInfiniteQuery({
+    const { data, isError, refetch, remove, isLoading } = useQuery({
         ...useDoctorScheduleQuery({
             doctorId: id as string,
-            PageSize: 30
+            Month: choosenMonth
         }),
-        getNextPageParam: (lastPage) => {
-            const posts = lastPage?.data?.data || undefined
-            return posts?.hasNextPage ? posts.nextCursor : undefined
-        },
         keepPreviousData: false,
         retry: 2,
         retryDelay: attempt => Math.min(1000 * 2 ** attempt, 5000)
     })
 
-    const { mutateAsync, data: bookingData, isLoading: bookingLoading } = useCreateBookingMutation()
+    const {
+        mutateAsync,
+        data: bookingData,
+        isLoading: bookingLoading
+    } = useCreateBookingMutation()
 
     const {
         data: doctorData,
@@ -81,11 +89,11 @@ export default function DoctorScheduleScreen() {
         ]).finally(() => setRefreshing(false))
     }, [remove, refetch, refetchDoctor])
 
-    const allItems: DoctorSchedule[] = data ? data?.pages?.flatMap(page => page.data?.data?.items) : []
+    const allItems: DoctorSchedule[] = data?.data?.data?.items || []
     const timeStamp: DoctorScheduleTime[] = allItems.length === 0 || allItems[0] === undefined ? [] : allItems.find(item => item.date === choosenTimeStamp)?.consultationTemplates || []
     const doctor: Doctor = doctorData?.data?.data || undefined
 
-    const expDisplay = getYearOfExpDisplay(doctor.numberOfExperiences)
+    const expDisplay = getYearOfExpDisplay(Number(exp))
 
     useEffect(() => {
         if (isError || allItems.length === 0 || !allItems[0]) return
@@ -102,59 +110,65 @@ export default function DoctorScheduleScreen() {
             <Stack.Screen options={{ headerTitle: truncateText(`Lịch hẹn của ${name}`, 25) }} />
             <View className='flex-1 relative'>
                 <ScrollView refreshControl={<RefreshControl refreshing={refreshing} onRefresh={onRefresh} />}>
-                    <View className='flex-col gap-4 w-full px-4'>
+                    <View className='flex-col gap-4 w-full'>
                         {doctorLoading ? (
                             <ProfileSkeleton />
-                        ) : doctor == undefined ? (
-                            <ErrorDisplay
-                                onRefresh={onRefresh}
-                                refreshing={refreshing}
-                                text="Không thể lấy thông tin bác sĩ"
-                            />
                         ) : (
                             <>
-                                <View className='flex-row gap-2'>
+                                <View className='flex-row gap-2 px-2'>
                                     <Image
-                                        source={doctor.avatar as string}
+                                        source={avatar as string}
                                         style={{ width: 80, height: 80, borderRadius: 100 }}
                                     />
                                     <View className='flex-col gap-1'>
                                         <Text className='text-lg font-bold tracking-wider'>{name}</Text>
-                                        <Text className='text-base text-[var(--fade-text-color)] tracking-wider'>{getDoctorRoleString(Number(doctor.position))}</Text>
+                                        <Text className='text-base text-[var(--fade-text-color)] tracking-wider'>{getDoctorRoleString(Number(possition))}</Text>
                                         <Text
                                             style={{ color: expDisplay.borderColor }}
                                             className='text-base tracking-wider'
                                         >
-                                            {doctor.numberOfExperiences} năm kinh nghiệm
+                                            {exp} năm kinh nghiệm
                                         </Text>
                                     </View>
                                 </View>
-                                <View className='flex-col gap-2 w-full'>
-                                    <View className='flex-row gap-2 items-center'>
-                                        <User className='text-foreground' size={17} />
-                                        <Text className='text-base font-bold tracking-wider'>Giới thiệu</Text>
+                                {doctor !== undefined && (
+                                    <View className='flex-col gap-2 w-full px-2'>
+                                        <View className='flex-row gap-2 items-center'>
+                                            <User className='text-foreground' size={17} />
+                                            <Text className='text-base font-bold tracking-wider'>Giới thiệu</Text>
+                                        </View>
+                                        <RenderHTML
+                                            contentWidth={width}
+                                            source={{ html: doctor?.introduction }}
+                                            baseStyle={{
+                                                color: textColor,
+                                                letterSpacing: 0.3
+                                            }}
+                                            tagsStyles={{
+                                                img: { width: width * 0.95, aspectRatio: 16 / 9, resizeMode: 'cover', borderRadius: 10, alignSelf: 'center' },
+                                                h1: { fontSize: 22, fontWeight: 'bold', marginVertical: 8 },
+                                                h2: { fontSize: 18, fontWeight: 'semibold', marginVertical: 6 },
+                                                p: { fontSize: 15, marginVertical: 4, lineHeight: 22 },
+                                                ul: { marginVertical: 4 },
+                                                ol: { marginVertical: 4 },
+                                                li: { marginLeft: 10, marginBottom: 4 },
+                                                em: { fontStyle: 'italic', fontWeight: 'semibold' },
+                                            }}
+                                        />
                                     </View>
-                                    <RenderHTML
-                                        contentWidth={width}
-                                        source={{ html: doctor.introduction }}
-                                        baseStyle={{
-                                            color: textColor,
-                                            letterSpacing: 0.3
-                                        }}
-                                        tagsStyles={{
-                                            img: { width: width * 0.95, aspectRatio: 16 / 9, resizeMode: 'cover', borderRadius: 10, alignSelf: 'center' },
-                                            h1: { fontSize: 22, fontWeight: 'bold', marginVertical: 8 },
-                                            h2: { fontSize: 18, fontWeight: 'semibold', marginVertical: 6 },
-                                            p: { fontSize: 15, marginVertical: 4, lineHeight: 22 },
-                                            ul: { marginVertical: 4 },
-                                            ol: { marginVertical: 4 },
-                                            li: { marginLeft: 10, marginBottom: 4 },
-                                            em: { fontStyle: 'italic', fontWeight: 'semibold' },
-                                        }}
-                                    />
-                                </View>
+                                )}
                             </>
                         )}
+
+                        <View className='w-full items-center justify-center'>
+                            <MonthPicker
+                                choosenMonth={choosenMonth.split('-')[1].replace(/^0/, '')}
+                                setChoosenMonth={(month) => {
+                                    const year = new Date().getFullYear()
+                                    setChoosenMonth(`${year}-${month.padStart(2, '0')}`)
+                                }}
+                            />
+                        </View>
 
                         {isLoading ? (
                             <DoctorScheduleSkeleton />
@@ -211,11 +225,6 @@ export default function DoctorScheduleScreen() {
                                     estimatedItemSize={100}
                                     scrollEventThrottle={16}
                                     onEndReachedThreshold={0.5}
-                                    onEndReached={() => {
-                                        if (hasNextPage && !isFetchingNextPage) {
-                                            fetchNextPage()
-                                        }
-                                    }}
                                     extraData={choosenTime}
                                 />
                                 <Pressable

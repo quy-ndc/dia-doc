@@ -49,7 +49,8 @@ export default function AiChatItem({ item }: Prop) {
                         pathname: 'ai-chat-screen',
                         params: {
                             title: item.title,
-                            id: item.id
+                            id: item.id,
+                            external: item.external_knowledge ? 'true' : 'false'
                         }
                     })}
                 >

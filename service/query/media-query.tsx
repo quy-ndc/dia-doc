@@ -3,11 +3,13 @@ import { GetAllCategories, GetAllMedias, GetBookmarkMedia, GetLikeMedia, GetMedi
 import Toast from "react-native-toast-message"
 import { QueryKeys } from "../../assets/enum/query"
 import { invalidateBlogQuery } from "../../util/invalidate-blog-queries"
+import { HealthRecordType } from "../../assets/enum/health-record"
 
 export const useMediaQuery = (params: {
     PageSize: number
     SearchContent?: string
     CategoryIds?: string[]
+    TutorialType?: HealthRecordType
     UserCreatedId?: string
     SortType?: string
     IsSortAsc?: boolean

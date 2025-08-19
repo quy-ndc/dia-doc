@@ -1,5 +1,5 @@
 import { useMutation, useQueryClient } from "@tanstack/react-query"
-import { CreateBooking, CreateCarePlanTemplate, CreatePayment, CreateUserHealthCarePlan, CreateUserProfile, DeleteCarePlanTemplate, DeleteUserHealthCarePlan, EditUserProfile, GetAllConsultation, GetAllDoctor, GetAllPurchasedServicePackages, GetAllServicePackages, GetCarePlanTemplate, GetDoctorById, GetDoctorProfile, GetDoctorSchedule, GetUserHealthCarePlan, GetUserHealthRecord, GetUserProfile, GetUserSessionAmount, UpdateCarePlanTemplate, UpdateUserBloodPressure, UpdateUserBloodSugar, UpdateUserHbA1c, UpdateUserHealthCarePlan, UpdateUserHeight, UpdateUserWeight } from "../api/user-service"
+import { CreateBooking, CreateCarePlanTemplate, CreatePayment, CreateUserHealthCarePlan, CreateUserProfile, DeleteCarePlanTemplate, DeleteUserHealthCarePlan, DoctorGetPatientProfile, DoctorGetPatientRecords, EditUserProfile, GetAllConsultation, GetAllDoctor, GetAllPurchasedServicePackages, GetAllServicePackages, GetCarePlanTemplate, GetDoctorById, GetDoctorProfile, GetDoctorSchedule, GetUserHealthCarePlan, GetUserHealthRecord, GetUserProfile, GetUserSessionAmount, UpdateCarePlanTemplate, UpdateUserBloodPressure, UpdateUserBloodSugar, UpdateUserHbA1c, UpdateUserHealthCarePlan, UpdateUserHeight, UpdateUserWeight } from "../api/user-service"
 import { QueryKeys } from "../../assets/enum/query"
 import { GenderNumber } from "../../assets/enum/gender"
 import { DiagnosisRecency } from "../../assets/enum/diagnosis-recency"
@@ -757,6 +757,29 @@ export const useConsultationListQuery = (params: {
             ...params,
             Cursor: pageParam,
         })
+    }
+
+    return { queryKey, queryFn }
+}
+
+export const usePatientProfileByDoctor = (patientId: string) => {
+    const queryKey = [QueryKeys.PATIENT_PROFILE_BY_DOCTOR, patientId]
+
+    const queryFn = async () => {
+        return DoctorGetPatientProfile(patientId)
+    }
+
+    return { queryKey, queryFn }
+}
+
+export const usePatientRecordsByDoctor = (params: {
+    patientId: string,
+    recordType: string,
+}) => {
+    const queryKey = [QueryKeys.PATIENT_RECORDS_BY_DOCTOR, params]
+
+    const queryFn = async () => {
+        return DoctorGetPatientRecords(params)
     }
 
     return { queryKey, queryFn }

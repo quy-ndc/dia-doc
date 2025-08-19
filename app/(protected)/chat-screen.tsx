@@ -14,6 +14,9 @@ import PrivateChatModule from '../../components/chat-screen/private-chat-module'
 import { useRouter } from 'expo-router'
 import useUserStore from '../../store/userStore'
 import UtilButton from '../../components/chat-screen/util-button'
+import PatientProfileModal from '../../components/chat-screen/patient-profile-modal'
+import { UserRole } from '../../assets/enum/user-role'
+import DoctorProfileModal from '../../components/chat-screen/doctor-profile-modal'
 
 export default function ChatScreen() {
     const { id, title, image, type, target } = useLocalSearchParams()
@@ -55,7 +58,15 @@ export default function ChatScreen() {
                                     onPress={handleStartCall}
                                 />
                             )}
-                            <UtilButton id={id as string} />
+                            {type as string == ConversationType.PRIVATE_CHAT.toString() ? (
+                                user.role === UserRole.PATIENT ? (
+                                    <DoctorProfileModal id={target as string} />
+                                ) : (
+                                    <PatientProfileModal id={target as string} />
+                                )
+                            ) : (
+                                <UtilButton id={id as string} />
+                            )}
                         </View>
                 }}
             />

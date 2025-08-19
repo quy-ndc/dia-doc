@@ -28,5 +28,7 @@ export enum QueryKeys {
     DOCTOR_BY_ID = 'doctorById',
     DOCTOR_SCHEDULE = 'doctorSchedule',
     SESSION_AMOUNT = 'sessionAmount',
-    CONSULTATION_LIST = 'consultationList'
+    CONSULTATION_LIST = 'consultationList',
+    PATIENT_PROFILE_BY_DOCTOR = 'patientByDoctor',
+    PATIENT_RECORDS_BY_DOCTOR = 'patientRecordsByDoctor'
 }

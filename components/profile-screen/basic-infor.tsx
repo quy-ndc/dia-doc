@@ -21,9 +21,10 @@ export default function BasicInfo({ profile }: Prop) {
 
     const { user } = useUserStore()
     const name = 'fullName' in profile ? profile.fullName : profile.name
+    const isPatientProfile = 'fullName' in profile
 
     return (
-        <View className='flex-row p-3 justify-between items-center'>
+        <View className='flex-row justify-between items-center'>
             <View className='flex-row gap-4'>
                 <Image
                     style={{ width: 70, height: 70, borderRadius: 1000 }}
@@ -42,8 +43,8 @@ export default function BasicInfo({ profile }: Prop) {
                     </View>
                 </View>
             </View>
-            {user.role == UserRole.PATIENT && (
-                <EditProfileModal profile={profile} />
+            {user.role === UserRole.PATIENT && isPatientProfile && (
+                <EditProfileModal profile={profile as Patient} />
             )}
         </View>
     )

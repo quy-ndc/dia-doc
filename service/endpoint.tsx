@@ -29,19 +29,22 @@ export const authApiConfig = () => {
 }
 
 const apiPrefixV1 = 'api/v1'
+const authService = 'auth-service'
+const userService = 'user-service'
+const mediaService = 'media-service'
 
 const endpointAuth = {
-    LOGIN_PHONE: `${API_GATEWAY_ENDPOINT}/${apiPrefixV1}/auth/patient/login-phone`,
-    REGISTER_PHONE: `${API_GATEWAY_ENDPOINT}/${apiPrefixV1}/auth/patient/register-phone`,
-    VERIFY_PHONE: `${API_GATEWAY_ENDPOINT}/${apiPrefixV1}/auth/patient/verify-otp-register`,
-    RESEND_PHONE: `${API_GATEWAY_ENDPOINT}/${apiPrefixV1}/auth/patient/resend-otp-register`,
-    REFRESH_TOKEN: `${API_GATEWAY_ENDPOINT}/${apiPrefixV1}/auth/refresh-token`,
-    LOGOUT_USER: `${API_GATEWAY_ENDPOINT}/${apiPrefixV1}/auth/logout`,
-    SAVE_FCM_TOKEN: `${API_GATEWAY_ENDPOINT}/${apiPrefixV1}/auth/fcm-token`,
-    CHANGE_PASSWORD: `${API_GATEWAY_ENDPOINT}/${apiPrefixV1}/auth/change-password`,
-    FORGOT_PASSWORD: `${API_GATEWAY_ENDPOINT}/${apiPrefixV1}/auth/forgot-password`,
-    RESET_PASSWORD: `${API_GATEWAY_ENDPOINT}/${apiPrefixV1}/auth/reset-password`,
-    RESEND_OTP_CHANGE_PASSWORD: `${API_GATEWAY_ENDPOINT}/${apiPrefixV1}/auth/send-otp-change-password`
+    LOGIN_PHONE: `${API_GATEWAY_ENDPOINT}/${authService}/${apiPrefixV1}/auth/login-phone`,
+    REGISTER_PHONE: `${API_GATEWAY_ENDPOINT}/${authService}/${apiPrefixV1}/auth/register-phone`,
+    VERIFY_PHONE: `${API_GATEWAY_ENDPOINT}/${authService}/${apiPrefixV1}/auth/verify-otp-register`,
+    RESEND_PHONE: `${API_GATEWAY_ENDPOINT}/${authService}/${apiPrefixV1}/auth/resend-otp-register`,
+    REFRESH_TOKEN: `${API_GATEWAY_ENDPOINT}/${authService}/${apiPrefixV1}/auth/refresh-token`,
+    LOGOUT_USER: `${API_GATEWAY_ENDPOINT}/${authService}/${apiPrefixV1}/auth/logout`,
+    SAVE_FCM_TOKEN: `${API_GATEWAY_ENDPOINT}/${authService}/${apiPrefixV1}/auth/fcm-token`,
+    CHANGE_PASSWORD: `${API_GATEWAY_ENDPOINT}/${authService}/${apiPrefixV1}/auth/change-password`,
+    FORGOT_PASSWORD: `${API_GATEWAY_ENDPOINT}/${authService}/${apiPrefixV1}/auth/forgot-password`,
+    RESET_PASSWORD: `${API_GATEWAY_ENDPOINT}/${authService}/${apiPrefixV1}/auth/reset-password`,
+    RESEND_OTP_CHANGE_PASSWORD: `${API_GATEWAY_ENDPOINT}/${authService}/${apiPrefixV1}/auth/send-otp-change-password`
 }
 
 const endpointAI = {
@@ -55,53 +58,55 @@ const endpointAI = {
 }
 
 const endpointUser = {
-    CREATE_USER_PROFILE: `${API_GATEWAY_ENDPOINT}/${apiPrefixV1}/users/patients`,
-    EDIT_USER_PROFILE: `${API_GATEWAY_ENDPOINT}/${apiPrefixV1}/users/patients/profile`,
-    GET_USER_PROFILE: `${API_GATEWAY_ENDPOINT}/${apiPrefixV1}/users/patients/profile`,
-    GET_DOCTOR_PROFILE: `${API_GATEWAY_ENDPOINT}/${apiPrefixV1}/doctors/profile`,
+    CREATE_USER_PROFILE: `${API_GATEWAY_ENDPOINT}/${userService}/${apiPrefixV1}/users/patients`,
+    EDIT_USER_PROFILE: `${API_GATEWAY_ENDPOINT}/${userService}/${apiPrefixV1}/users/patients/profile`,
+    GET_USER_PROFILE: `${API_GATEWAY_ENDPOINT}/${userService}/${apiPrefixV1}/users/patients/profile`,
+    GET_DOCTOR_PROFILE: `${API_GATEWAY_ENDPOINT}/${userService}/${apiPrefixV1}/doctors/profile`,
+    DOCTOR_GET_PATIENT_PROFILE: `${API_GATEWAY_ENDPOINT}/${userService}/${apiPrefixV1}/users/patients/profile`,
+    DOCTOR_GET_PATIENT_RECORDS: `${API_GATEWAY_ENDPOINT}/${userService}/${apiPrefixV1}/users/patients/records`,
 
-    GET_USER_HEALTH_RECORD: `${API_GATEWAY_ENDPOINT}/${apiPrefixV1}/users/patients/records`,
-    UPDATE_USER_WEIGHT: `${API_GATEWAY_ENDPOINT}/${apiPrefixV1}/users/patients/records/weight`,
-    UPDATE_USER_HEIGHT: `${API_GATEWAY_ENDPOINT}/${apiPrefixV1}/users/patients/records/height`,
-    UPDATE_USER_BLOOD_PRESSURE: `${API_GATEWAY_ENDPOINT}/${apiPrefixV1}/users/patients/records/blood-pressure`,
-    UPDATE_USER_BLOOD_SUGAR: `${API_GATEWAY_ENDPOINT}/${apiPrefixV1}/users/patients/records/blood-glucose`,
-    UPDATE_USER_HBA1C: `${API_GATEWAY_ENDPOINT}/${apiPrefixV1}/users/patients/records/hba1c`,
+    GET_USER_HEALTH_RECORD: `${API_GATEWAY_ENDPOINT}/${userService}/${apiPrefixV1}/users/patients/records`,
+    UPDATE_USER_WEIGHT: `${API_GATEWAY_ENDPOINT}/${userService}/${apiPrefixV1}/users/patients/records/weight`,
+    UPDATE_USER_HEIGHT: `${API_GATEWAY_ENDPOINT}/${userService}/${apiPrefixV1}/users/patients/records/height`,
+    UPDATE_USER_BLOOD_PRESSURE: `${API_GATEWAY_ENDPOINT}/${userService}/${apiPrefixV1}/users/patients/records/blood-pressure`,
+    UPDATE_USER_BLOOD_SUGAR: `${API_GATEWAY_ENDPOINT}/${userService}/${apiPrefixV1}/users/patients/records/blood-glucose`,
+    UPDATE_USER_HBA1C: `${API_GATEWAY_ENDPOINT}/${userService}/${apiPrefixV1}/users/patients/records/hba1c`,
 
-    CREATE_CARE_PLAN_TEMPLATE: `${API_GATEWAY_ENDPOINT}/${apiPrefixV1}/users/patients/template`,
-    UPDATE_CARE_PLAN_TEMPLATE: `${API_GATEWAY_ENDPOINT}/${apiPrefixV1}/users/patients/template`,
-    GET_CARE_PLAN_TEMPLATE: `${API_GATEWAY_ENDPOINT}/${apiPrefixV1}/users/patients/template`,
-    DELETE_CARE_PLAN_TEMPLATE: `${API_GATEWAY_ENDPOINT}/${apiPrefixV1}/users/patients/template`,
+    CREATE_CARE_PLAN_TEMPLATE: `${API_GATEWAY_ENDPOINT}/${userService}/${apiPrefixV1}/users/patients/template`,
+    UPDATE_CARE_PLAN_TEMPLATE: `${API_GATEWAY_ENDPOINT}/${userService}/${apiPrefixV1}/users/patients/template`,
+    GET_CARE_PLAN_TEMPLATE: `${API_GATEWAY_ENDPOINT}/${userService}/${apiPrefixV1}/users/patients/template`,
+    DELETE_CARE_PLAN_TEMPLATE: `${API_GATEWAY_ENDPOINT}/${userService}/${apiPrefixV1}/users/patients/template`,
 
-    GET_USER_HEALTH_CARE_PLAN: `${API_GATEWAY_ENDPOINT}/${apiPrefixV1}/users/patients/careplan`,
-    CREATE_USER_HEALTH_CARE_PLAN: `${API_GATEWAY_ENDPOINT}/${apiPrefixV1}/users/patients/careplan`,
-    UPDATE_USER_HEALTH_CARE_PLAN: `${API_GATEWAY_ENDPOINT}/${apiPrefixV1}/users/patients/careplan`,
-    DELETE_USER_HEALTH_CARE_PLAN: `${API_GATEWAY_ENDPOINT}/${apiPrefixV1}/users/patients/careplan`,
+    GET_USER_HEALTH_CARE_PLAN: `${API_GATEWAY_ENDPOINT}/${userService}/${apiPrefixV1}/users/patients/careplan`,
+    CREATE_USER_HEALTH_CARE_PLAN: `${API_GATEWAY_ENDPOINT}/${userService}/${apiPrefixV1}/users/patients/careplan`,
+    UPDATE_USER_HEALTH_CARE_PLAN: `${API_GATEWAY_ENDPOINT}/${userService}/${apiPrefixV1}/users/patients/careplan`,
+    DELETE_USER_HEALTH_CARE_PLAN: `${API_GATEWAY_ENDPOINT}/${userService}/${apiPrefixV1}/users/patients/careplan`,
 
-    GET_ALL_SERVICE_PACKAGES: `${API_GATEWAY_ENDPOINT}/${apiPrefixV1}/service_packages`,
-    GET_ALL_PURCHASED_SERVICE_PACKAGES: `${API_GATEWAY_ENDPOINT}/${apiPrefixV1}/service_packages/purchased`,
-    CREATE_PAYMENT: `${API_GATEWAY_ENDPOINT}/${apiPrefixV1}/payments`,
-    GET_ALL_DOCTOR: `${API_GATEWAY_ENDPOINT}/${apiPrefixV1}/doctors`,
-    GET_DOCTOR_BY_ID: `${API_GATEWAY_ENDPOINT}/${apiPrefixV1}/doctors`,
+    GET_ALL_SERVICE_PACKAGES: `${API_GATEWAY_ENDPOINT}/${userService}/${apiPrefixV1}/service_packages`,
+    GET_ALL_PURCHASED_SERVICE_PACKAGES: `${API_GATEWAY_ENDPOINT}/${userService}/${apiPrefixV1}/service_packages/purchased`,
+    CREATE_PAYMENT: `${API_GATEWAY_ENDPOINT}/${userService}/${apiPrefixV1}/payments`,
+    GET_ALL_DOCTOR: `${API_GATEWAY_ENDPOINT}/${userService}/${apiPrefixV1}/doctors`,
+    GET_DOCTOR_BY_ID: `${API_GATEWAY_ENDPOINT}/${userService}/${apiPrefixV1}/doctors`,
     GET_ALL_DOCTOR_SCHEDULE: `${CONSULTATION_SERVICE_ENDPOINT}/${apiPrefixV1}/doctors`,
-    GET_USER_SESSION_AMOUNT: `${API_GATEWAY_ENDPOINT}/${apiPrefixV1}/users/patients/consultation-sessions`,
+    GET_USER_SESSION_AMOUNT: `${API_GATEWAY_ENDPOINT}/${userService}/${apiPrefixV1}/users/patients/consultation-sessions`,
 
     CREATE_BOOKING: `${CONSULTATION_SERVICE_ENDPOINT}/${apiPrefixV1}/consultations`,
     GET_ALL_CONSULTAIONS: `${CONSULTATION_SERVICE_ENDPOINT}/${apiPrefixV1}/consultations`
 }
 
 const endpointMedia = {
-    GET_ALL_MEDIAS: `${API_GATEWAY_ENDPOINT}/${apiPrefixV1}/posts`,
-    GET_MEDIA_BY_ID: `${API_GATEWAY_ENDPOINT}/${apiPrefixV1}/posts`,
-    GET_TOP_MEDIAS: `${API_GATEWAY_ENDPOINT}/${apiPrefixV1}/posts/top-view`,
+    GET_ALL_MEDIAS: `${API_GATEWAY_ENDPOINT}/${mediaService}/${apiPrefixV1}/posts`,
+    GET_MEDIA_BY_ID: `${API_GATEWAY_ENDPOINT}/${mediaService}/${apiPrefixV1}/posts`,
+    GET_TOP_MEDIAS: `${API_GATEWAY_ENDPOINT}/${mediaService}/${apiPrefixV1}/posts/top-view`,
     UPLOAD_IMAGE: `${CHAT_SERVICE_ENDPOINT}/${apiPrefixV1}/media/upload`,
-    BOOKMARK_MEDIA: `${API_GATEWAY_ENDPOINT}/${apiPrefixV1}/bookmarks`,
-    GET_ALL_BOOKMARK_MEDIA: `${API_GATEWAY_ENDPOINT}/${apiPrefixV1}/posts/bookmark`,
-    LIKE_MEDIA: `${API_GATEWAY_ENDPOINT}/${apiPrefixV1}/likes`,
-    GET_ALL_LIKE_MEDIA: `${API_GATEWAY_ENDPOINT}/${apiPrefixV1}/posts/like`
+    BOOKMARK_MEDIA: `${API_GATEWAY_ENDPOINT}/${mediaService}/${apiPrefixV1}/bookmarks`,
+    GET_ALL_BOOKMARK_MEDIA: `${API_GATEWAY_ENDPOINT}/${mediaService}/${apiPrefixV1}/posts/bookmark`,
+    LIKE_MEDIA: `${API_GATEWAY_ENDPOINT}/${mediaService}/${apiPrefixV1}/likes`,
+    GET_ALL_LIKE_MEDIA: `${API_GATEWAY_ENDPOINT}/${mediaService}/${apiPrefixV1}/posts/like`
 }
 const endpointCategory = {
-    GET_ALL_CATEGORY: `${API_GATEWAY_ENDPOINT}/${apiPrefixV1}/categories`,
-    GET_TOP_CATEGORY: `${API_GATEWAY_ENDPOINT}/${apiPrefixV1}/categories/top-post`
+    GET_ALL_CATEGORY: `${API_GATEWAY_ENDPOINT}/${mediaService}/${apiPrefixV1}/categories`,
+    GET_TOP_CATEGORY: `${API_GATEWAY_ENDPOINT}/${mediaService}/${apiPrefixV1}/categories/top-post`
 }
 
 const endpointChat = {

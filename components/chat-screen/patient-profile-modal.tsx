@@ -11,6 +11,8 @@ import { HealthTrackItem } from '../../assets/types/user/health-track'
 import HealthTracker from '../home/health-track.tsx/health-track'
 import { Calendar } from '../../lib/icons/Calendar'
 import { Text } from '../../components/ui/text'
+import { router } from 'expo-router'
+import { Clock } from '../../lib/icons/Clock'
 
 type Prop = {
     id: string
@@ -58,6 +60,26 @@ export default function PatientProfileModal({ id, visible, setVisible }: Prop) {
         Promise.all(refreshPromises).finally(() => setRefreshing(false))
     }, [refetch, userRecordRefetch, remove, userRecordRemove])
 
+    const onChooseTemplate = () => {
+        setVisible(false)
+        router.push({
+            pathname: 'doctor-manage-care-plan-screen',
+            params: {
+                id: id
+            }
+        })
+    }
+
+    const onChooseInstance = () => {
+        setVisible(false)
+        router.push({
+            pathname: 'doctor-manage-today-care-plan-screen',
+            params: {
+                id: id
+            }
+        })
+    }
+
     return (
         <>
             <Modal
@@ -93,11 +115,23 @@ export default function PatientProfileModal({ id, visible, setVisible }: Prop) {
                             patientId={id}
                         />
                     </View>
-                    <View className='flex w-full items-center justify-center px-3 pb-3'>
-                        <Pressable className='flex-row gap-2 items-center px-3 py-2 rounded-full bg-[var(--oppo-theme-col)]'>
-                            <Calendar className='text-[var(--same-theme-col)]' size={17} />
-                            <Text className='text-base text-[var(--same-theme-col)] font-semibold tracking-wider'>
-                                Tạo lịch đo cho bệnh nhân
+                    <View className='flex-col gap-3 w-full items-center justify-center px-3 pb-3'>
+                        <Pressable
+                            className='flex-row gap-2 items-center justify-center px-4 py-3 rounded-full border border-[var(--oppo-theme-col)] w-full active:bg-[var(--click-bg)]'
+                            onPress={onChooseTemplate}
+                        >
+                            <Calendar className='text-foreground' size={17} />
+                            <Text className='text-base font-semibold tracking-wider'>
+                                Xem lịch đo hằng ngày của bệnh nhân
+                            </Text>
+                        </Pressable>
+                        <Pressable
+                            className='flex-row gap-2 items-center justify-center px-4 py-3 rounded-full border border-[var(--oppo-theme-col)] w-full active:bg-[var(--click-bg)]'
+                            onPress={onChooseInstance}
+                        >
+                            <Clock className='text-foreground' size={17} />
+                            <Text className='text-base font-semibold tracking-wider'>
+                                Xem lịch đo hôm nay của bệnh nhân
                             </Text>
                         </Pressable>
                     </View>

@@ -26,6 +26,12 @@ export default function LogoutButton() {
         await mutateAsync()
     }
 
+    const forceLogout = () => {
+        logout()
+        setTokenDevice(null)
+        router.replace('/landing-screen')
+    }
+
     useEffect(() => {
         if (!data || data.status !== 200 || isError) return
         logout()
@@ -39,6 +45,7 @@ export default function LogoutButton() {
             style={{ width: width * 0.93 }}
             className={`flex-row items-center justify-center px-4 py-3 gap-2 rounded-xl active:bg-[#ef44441A] w-full ${isLoading && 'opacity-70'}`}
             onPress={onLogout}
+            onLongPress={forceLogout}
             disabled={isLoading}
         >
             <LogOut color={GlobalColor.RED_NEON_BORDER} size={17} />

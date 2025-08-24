@@ -100,7 +100,7 @@ export default function AddEditCarePlanScreen() {
         <>
             <Stack.Screen
                 options={{
-                    headerRight: () => (id && !isLoading) ? <TemplateDeleteButton id={id as string} /> : null,
+                    headerRight: () => (id && !isLoading) ? <TemplateDeleteButton id={id as string} deleteFor='patient' /> : null,
                     headerTitle: id ? 'Chỉnh sửa lịch đo' : 'Tạo lịch đo mới'
                 }}
             />

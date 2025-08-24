@@ -357,15 +357,14 @@ export const GetCarePlanTemplateDoctor = async (params: {
 
 export const CreateCarePlanTemplateDoctor = async (params: {
     recordType: HealthRecordType,
-    period: HealthCarePlanPeriod,
-    subType: HealthCarePlanSubType,
-    templateId: string,
+    scheduledAt: string,
+    subType?: HealthCarePlanSubType,
     patientId: string
 }) => {
     try {
-        const response = await axiosServices.post(`${endpointUser.UPDATE_CARE_PLAN_TEMPLATE_DOCTOR}/${params.patientId}/template/${params.templateId}`, {
+        const response = await axiosServices.post(`${endpointUser.CREATE_CARE_PLAN_TEMPLATE_DOCTOR}/${params.patientId}/template`, {
             recordType: params.recordType,
-            period: params.period,
+            scheduledAt: params.scheduledAt,
             subType: params.subType
         })
 
@@ -396,15 +395,15 @@ export const CreateCarePlanTemplateDoctor = async (params: {
 
 export const UpdateCarePlanTemplateDoctor = async (params: {
     recordType: HealthRecordType,
-    period: HealthCarePlanPeriod,
-    subType: HealthCarePlanSubType,
+    scheduledAt: string,
+    subType?: HealthCarePlanSubType,
     templateId: string,
     patientId: string
 }) => {
     try {
         const response = await axiosServices.put(`${endpointUser.UPDATE_CARE_PLAN_TEMPLATE_DOCTOR}/${params.patientId}/template/${params.templateId}`, {
             recordType: params.recordType,
-            period: params.period,
+            scheduledAt: params.scheduledAt,
             subType: params.subType
         })
 
@@ -434,11 +433,156 @@ export const UpdateCarePlanTemplateDoctor = async (params: {
 }
 
 export const DeleteCarePlanTemplateDoctor = async (params: {
-    templateId: string,
+    templateId: string
+}) => {
+    try {
+        const response = await axiosServices.delete(`${endpointUser.DELETE_CARE_PLAN_TEMPLATE_DOCTOR}/template/${params.templateId}`)
+
+        return {
+            success: true,
+            status: response.status,
+            data: response.data
+        }
+
+    } catch (e) {
+        if (axios.isAxiosError(e) && e.response) {
+            return {
+                success: false,
+                status: e.response.status,
+                message: e.response.data.message || 'An error occurred',
+                data: e.response.data
+            };
+        }
+
+        return {
+            success: false,
+            status: 500,
+            message: 'An error occurred',
+            data: null
+        }
+    }
+}
+
+export const GetCarePlanInstanceDoctor = async (params: {
+    patientId: string,
+    search?: string,
+    pageSize?: number,
+    cursor?: string,
+    sortBy: string,
+    sortDirection: number
+}) => {
+    try {
+        const { patientId, ...rest } = params
+        const queryString = createQueryString(rest)
+        const response = await axiosServices.get(`${endpointUser.GET_CARE_PLAN_TEMPLATE_DOCTOR}/${patientId}/careplan?${queryString}`)
+
+        return {
+            success: true,
+            status: response.status,
+            data: response.data
+        }
+
+    } catch (e) {
+        if (axios.isAxiosError(e) && e.response) {
+            return {
+                success: false,
+                status: e.response.status,
+                message: e.response.data.message || 'An error occurred',
+                data: e.response.data
+            };
+        }
+
+        return {
+            success: false,
+            status: 500,
+            message: 'An error occurred',
+            data: null
+        }
+    }
+}
+
+export const CreateCarePlanInstanceDoctor = async (params: {
+    recordType: HealthRecordType,
+    scheduledAt: string,
+    subType?: HealthCarePlanSubType,
     patientId: string
 }) => {
     try {
-        const response = await axiosServices.delete(`${endpointUser.DELETE_CARE_PLAN_TEMPLATE_DOCTOR}/${params.patientId}/template/${params.templateId}`)
+        const response = await axiosServices.post(`${endpointUser.CREATE_CARE_PLAN_TEMPLATE_DOCTOR}/${params.patientId}/careplan`, {
+            recordType: params.recordType,
+            scheduledAt: params.scheduledAt,
+            subType: params.subType
+        })
+
+        return {
+            success: true,
+            status: response.status,
+            data: response.data
+        }
+
+    } catch (e) {
+        if (axios.isAxiosError(e) && e.response) {
+            return {
+                success: false,
+                status: e.response.status,
+                message: e.response.data.message || 'An error occurred',
+                data: e.response.data
+            };
+        }
+
+        return {
+            success: false,
+            status: 500,
+            message: 'An error occurred',
+            data: null
+        }
+    }
+}
+
+export const UpdateCarePlanInstanceDoctor = async (params: {
+    recordType: HealthRecordType,
+    scheduledAt: string,
+    subType?: HealthCarePlanSubType,
+    instanceId: string,
+    patientId: string
+}) => {
+    try {
+        const response = await axiosServices.put(`${endpointUser.UPDATE_CARE_PLAN_TEMPLATE_DOCTOR}/${params.patientId}/careplan/${params.instanceId}`, {
+            recordType: params.recordType,
+            scheduledAt: params.scheduledAt,
+            subType: params.subType
+        })
+
+        return {
+            success: true,
+            status: response.status,
+            data: response.data
+        }
+
+    } catch (e) {
+        if (axios.isAxiosError(e) && e.response) {
+            return {
+                success: false,
+                status: e.response.status,
+                message: e.response.data.message || 'An error occurred',
+                data: e.response.data
+            };
+        }
+
+        return {
+            success: false,
+            status: 500,
+            message: 'An error occurred',
+            data: null
+        }
+    }
+}
+
+export const DeleteCarePlanInstanceDoctor = async (params: {
+    instanceId: string
+}) => {
+    try {
+        const response = await axiosServices.delete(`${endpointUser.DELETE_CARE_PLAN_TEMPLATE_DOCTOR}/careplan/${params.instanceId}`)
 
         return {
             success: true,

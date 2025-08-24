@@ -1,7 +1,7 @@
 import * as React from 'react'
 import { Text } from '../ui/text'
 import { Dimensions, Modal, Pressable, View } from 'react-native'
-import { useDeleteCarePlanMutation, useDeleteCarePlanTemplateMutation } from '../../service/query/user-query'
+import { useDeleteCarePlanInstanceDoctorMutation, useDeleteCarePlanMutation } from '../../service/query/user-query'
 import { GlobalColor } from '../../global-color'
 import { Trash2 } from '../../lib/icons/Trash2'
 import { useEffect, useState } from 'react'
@@ -11,26 +11,51 @@ import { router } from 'expo-router'
 
 type Prop = {
     id: string
+    deleteFor: 'patient' | 'doctor'
 }
 
 const { width } = Dimensions.get('window')
 
-export default function CarePlanDeleteButton({ id }: Prop) {
+export default function CarePlanDeleteButton({ id, deleteFor }: Prop) {
 
     const [visible, setVisible] = useState(false)
 
-    const { mutateAsync, data, isLoading, isError } = useDeleteCarePlanMutation()
+    const {
+        mutateAsync: patientDelete,
+        data: patientDeleteData,
+        isLoading: patientDeleteLoading,
+        isError: patientDeleteError
+    } = useDeleteCarePlanMutation()
+
+
+    const {
+        mutateAsync: doctorDelete,
+        data: doctorDeleteData,
+        isLoading: doctorDeleteLoading,
+        isError: doctorDeleteError
+    } = useDeleteCarePlanInstanceDoctorMutation()
 
     const onDelete = async () => {
-        await (mutateAsync(id))
+        if (deleteFor == 'patient') {
+            await patientDelete(id)
+        } else {
+            await doctorDelete({ instanceId: id })
+        }
     }
 
     useEffect(() => {
-        if (!data || isError || isLoading || data.status !== 200) return
+        if (!patientDeleteData || patientDeleteLoading || patientDeleteData.status !== 200) return
 
         setVisible(false)
         router.back()
-    }, [data])
+    }, [patientDeleteData])
+
+    useEffect(() => {
+        if (!doctorDeleteData || doctorDeleteLoading || doctorDeleteData.status !== 200) return
+
+        setVisible(false)
+        router.back()
+    }, [doctorDeleteData])
 
     return (
         <>
@@ -61,11 +86,11 @@ export default function CarePlanDeleteButton({ id }: Prop) {
                         <View className='flex-col gap-4 items-center w-full'>
                             <Pressable
                                 style={{ backgroundColor: GlobalColor.RED_NEON_BORDER }}
-                                className={`flex-row gap-2 items-center p-4 rounded-full items-center justify-center w-full active:opacity-70 ${isLoading && 'opacity-70'}`}
+                                className={`flex-row gap-2 items-center p-4 rounded-full items-center justify-center w-full active:opacity-70 ${patientDeleteLoading || doctorDeleteLoading && 'opacity-70'}`}
                                 onPress={onDelete}
-                                disabled={isLoading}
+                                disabled={patientDeleteLoading || doctorDeleteLoading}
                             >
-                                {isLoading && (
+                                {patientDeleteLoading || doctorDeleteLoading && (
                                     <SpinningIcon icon={<Loader className='text-white' size={17} />} />
                                 )}
                                 <Text className='text-base text-white font-bold tracking-wider'>
@@ -73,11 +98,11 @@ export default function CarePlanDeleteButton({ id }: Prop) {
                                 </Text>
                             </Pressable>
                             <Pressable
-                                className={`flex-row gap-2 items-center p-4 rounded-full items-center justify-center w-full bg-[var(--oppo-theme-col)] active:opacity-70 ${isLoading && 'opacity-70'}`}
+                                className={`flex-row gap-2 items-center p-4 rounded-full items-center justify-center w-full bg-[var(--oppo-theme-col)] active:opacity-70 ${patientDeleteLoading || doctorDeleteLoading && 'opacity-70'}`}
                                 onPress={() => setVisible(false)}
-                                disabled={isLoading}
+                                disabled={patientDeleteLoading || doctorDeleteLoading}
                             >
-                                {isLoading && (
+                                {patientDeleteLoading || doctorDeleteLoading && (
                                     <SpinningIcon icon={<Loader className='text-white' size={17} />} />
                                 )}
                                 <Text className='text-base text-[var(--same-theme-col)] font-bold tracking-wider'>Không, quay lại</Text>

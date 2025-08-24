@@ -6,7 +6,7 @@ import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '.
 import { healthRecord } from '../../../assets/data/health-record-type'
 import { healthCarePlanSubType } from '../../../assets/data/healthcare-plan'
 import { useEffect, useState } from 'react'
-import { useCreateCarePlanMutation, useUpdateCarePlanMutation } from '../../../service/query/user-query'
+import { useCreateCarePlanInstanceDoctorMutation, useCreateCarePlanMutation, useUpdateCarePlanInstanceDoctorMutation, useUpdateCarePlanMutation } from '../../../service/query/user-query'
 import { HealthRecordType } from '../../../assets/enum/health-record'
 import { HealthCarePlanSubType } from '../../../assets/enum/healthcare-plan'
 import { Save } from '../../../lib/icons/Save'
@@ -18,8 +18,8 @@ import CarePlanDeleteButton from '../../../components/manage-today-care-plan-scr
 
 const { width } = Dimensions.get('window')
 
-export default function AddEditTodayCarePlanScreen() {
-    const { id, type, time, sub } = useLocalSearchParams()
+export default function DoctorAddEditTodayCarePlanScreen() {
+    const { id, type, time, sub, patient } = useLocalSearchParams()
 
     const [recordType, setRecordType] = useState(type as string || HealthRecordType.BLOOD_SUGAR.toString())
     const [scheduledTime, setScheduledTime] = useState(time ? new Date(time as string) : new Date())
@@ -33,13 +33,13 @@ export default function AddEditTodayCarePlanScreen() {
         mutateAsync: updateCarePlan,
         data: updateCarePlanData,
         isLoading: updateCarePlanLoading
-    } = useUpdateCarePlanMutation()
+    } = useUpdateCarePlanInstanceDoctorMutation()
 
     const {
         mutateAsync: createCarePlan,
         data: createCarePlanData,
         isLoading: createCarePlanLoading
-    } = useCreateCarePlanMutation()
+    } = useCreateCarePlanInstanceDoctorMutation()
 
     const onSave = async () => {
         if (!scheduledTime) {
@@ -56,13 +56,15 @@ export default function AddEditTodayCarePlanScreen() {
                 instanceId: id as string,
                 recordType: Number(recordType) as HealthRecordType,
                 scheduledAt: scheduledTime.toISOString(),
-                subType: Number(subType) as HealthCarePlanSubType
+                subType: Number(subType) as HealthCarePlanSubType,
+                patientId: patient as string
             })
         } else {
             await createCarePlan({
                 recordType: Number(recordType) as HealthRecordType,
                 scheduledAt: scheduledTime.toISOString(),
-                subType: Number(subType) as HealthCarePlanSubType
+                subType: Number(subType) as HealthCarePlanSubType,
+                patientId: patient as string
             })
         }
     }
@@ -85,7 +87,7 @@ export default function AddEditTodayCarePlanScreen() {
             <Stack.Screen
                 options={{
                     headerTitle: id ? 'Chỉnh sửa lịch đo' : 'Tạo lịch đo mới',
-                    headerRight: () => (id && !isLoading) ? <CarePlanDeleteButton id={id as string} deleteFor='patient' /> : null,
+                    headerRight: () => (id && !isLoading) ? <CarePlanDeleteButton id={id as string} deleteFor='doctor' /> : null,
                 }}
             />
             <View className='flex-col gap-5 px-5 py-3'>
@@ -129,7 +131,7 @@ export default function AddEditTodayCarePlanScreen() {
                             value={scheduledTime}
                             mode="time"
                             is24Hour={true}
-                            onChange={(event, selectedDate) => {
+                            onChange={(_, selectedDate) => {
                                 setShowTimePicker(false)
                                 if (selectedDate) {
                                     setScheduledTime(selectedDate)

@@ -85,8 +85,14 @@ const endpointUser = {
 
     GET_ALL_DOCTOR_HAVE_CREATED_CARE_PLAN: `${API_GATEWAY_ENDPOINT}/${userService}/${apiPrefixV1}/users/patients/template/doctor-created`,
     GET_CARE_PLAN_TEMPLATE_DOCTOR: `${API_GATEWAY_ENDPOINT}/${userService}/${apiPrefixV1}/doctors`,
+    CREATE_CARE_PLAN_TEMPLATE_DOCTOR: `${API_GATEWAY_ENDPOINT}/${userService}/${apiPrefixV1}/doctors`,
     UPDATE_CARE_PLAN_TEMPLATE_DOCTOR: `${API_GATEWAY_ENDPOINT}/${userService}/${apiPrefixV1}/doctors`,
     DELETE_CARE_PLAN_TEMPLATE_DOCTOR: `${API_GATEWAY_ENDPOINT}/${userService}/${apiPrefixV1}/doctors`,
+
+    GET_CARE_PLAN_INSTACE_DOCTOR: `${API_GATEWAY_ENDPOINT}/${userService}/${apiPrefixV1}/doctors/careplan`,
+    CREATE_CARE_PLAN_INSTACE_DOCTOR: `${API_GATEWAY_ENDPOINT}/${userService}/${apiPrefixV1}/doctors/careplan`,
+    UPDATE_CARE_PLAN_INSTACE_DOCTOR: `${API_GATEWAY_ENDPOINT}/${userService}/${apiPrefixV1}/doctors/careplan`,
+    DELETE_CARE_PLAN_INSTACE_DOCTOR: `${API_GATEWAY_ENDPOINT}/${userService}/${apiPrefixV1}/doctors/careplan`,
 
     GET_ALL_SERVICE_PACKAGES: `${API_GATEWAY_ENDPOINT}/${userService}/${apiPrefixV1}/service_packages`,
     GET_ALL_PURCHASED_SERVICE_PACKAGES: `${API_GATEWAY_ENDPOINT}/${userService}/${apiPrefixV1}/service_packages/purchased`,

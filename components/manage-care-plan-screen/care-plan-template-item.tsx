@@ -11,28 +11,47 @@ import { formatDateMessage } from '../../util/format-date-message'
 
 type Prop = {
     item: CarePlanTemplate
+    patientId?: string
 }
 
-export default function CarePlanTemplateItem({ item }: Prop) {
+export default function CarePlanTemplateItem({ item, patientId }: Prop) {
 
     const recordDisplay = getHealthRecordDisplay(item.recordType)
     const period = item.period ? getHealthCarePlanPeriodString(item.period) : undefined
     const subtype = item.subType ? getHealthCarePlanSubTypeString(item.subType) : undefined
 
+    const onSelect = () => {
+        if (patientId) {
+            router.push({
+                pathname: 'doctor-add-edit-care-plan-screen',
+                params: {
+                    id: item.id,
+                    type: item.recordType,
+                    per: item.period,
+                    sub: item.subType,
+                    time: item.scheduledAt,
+                    patient: patientId
+                }
+            })
+        } else {
+            router.push({
+                pathname: 'add-edit-care-plan-screen',
+                params: {
+                    id: item.id,
+                    type: item.recordType,
+                    per: item.period,
+                    sub: item.subType,
+                    time: item.scheduledAt,
+                }
+            })
+        }
+    }
+
     return (
         <>
             <Pressable
                 className='flex-row justify-between items-center px-3 py-4 mt-3 rounded-xl bg-[var(--blog-bg)] active:bg-[var(--click-bg)]'
-                onPress={() => router.push({
-                    pathname: 'add-edit-care-plan-screen',
-                    params: {
-                        id: item.id,
-                        type: item.recordType,
-                        per: item.period,
-                        sub: item.subType,
-                        time: item.scheduledAt
-                    }
-                })}
+                onPress={onSelect}
             >
                 <View className='flex-col gap-3'>
                     <View className='flex-row items-center gap-3'>

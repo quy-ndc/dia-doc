@@ -14,11 +14,12 @@ import { ChevronRight } from '../../../lib/icons/ChevronRight'
 import { Stethoscope } from '../../../lib/icons/Stethoscope'
 
 type Prop = {
+    patientId?: string
     item: HealthCarePlan
     display: 'view' | 'manage'
 }
 
-export default function HealthcarePlanItem({ item, display }: Prop) {
+export default function HealthcarePlanItem({ item, display, patientId }: Prop) {
 
     const recordDisplay = getHealthRecordDisplay(item.recordType)
     const period = getHealthCarePlanPeriodString(item.period)
@@ -26,15 +27,28 @@ export default function HealthcarePlanItem({ item, display }: Prop) {
 
     const handlePress = () => {
         if (display === 'manage') {
-            router.push({
-                pathname: 'add-edit-today-care-plan-screen',
-                params: {
-                    id: item.id,
-                    type: item.recordType,
-                    time: item.scheduledAt,
-                    sub: item.subtype
-                }
-            })
+            if (patientId) {
+                router.push({
+                    pathname: 'doctor-add-edit-today-care-plan-screen',
+                    params: {
+                        id: item.id,
+                        type: item.recordType,
+                        time: item.scheduledAt,
+                        sub: item.subtype,
+                        patient: patientId
+                    }
+                })
+            } else {
+                router.push({
+                    pathname: 'add-edit-today-care-plan-screen',
+                    params: {
+                        id: item.id,
+                        type: item.recordType,
+                        time: item.scheduledAt,
+                        sub: item.subtype,
+                    }
+                })
+            }
         } else {
             router.push({
                 pathname: 'update-record-screen',
@@ -97,12 +111,7 @@ export default function HealthcarePlanItem({ item, display }: Prop) {
                 )
             )}
 
-            {/* {item.doctor && (
-                <View className='flex-row gap-2 items-center'>
-                    <Stethoscope className='text-foreground' size={17} />
-                    <Teaxt className='text-sm font-semibold tracking-wider'>{item.doctor.name}</Text>
-                </View>
-            )} */}
+            {/* {item.docto bv */}
 
         </Pressable>
     )

@@ -43,7 +43,22 @@ export default function PrivateChatModule() {
             })
         }
     })
-    const groups: GroupChat[] = data?.data?.data?.items || []
+    // const groups: GroupChat[] = data?.data?.data?.items || []
+    const groups: GroupChat[] = [
+        {
+            id: 'mock-group-1',
+            otherUserId: '450a9de6-92f4-46aa-8981-b7c41d658ff0',
+            name: 'Nguyên Minh Hiển',
+            avatar: 'https://res.cloudinary.com/dc4eascme/image/upload/v1752100066/diabetesdoctor/1430453_lso7fr.png',
+            conversationType: 1,
+            memberCount: 2,
+            status: 1,
+            canView: true,
+            modifiedDate: new Date().toISOString(),
+            lastMessage: undefined
+        },
+        // ...(data?.data?.data?.items || [])
+    ]
     const groupIds: string[] = groups.map(group => group.id)
 
     const onRefresh = useCallback(() => {

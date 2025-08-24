@@ -1,5 +1,5 @@
 import { useMutation, useQueryClient } from "@tanstack/react-query"
-import { CreateBooking, CreateCarePlanTemplate, CreateCarePlanTemplateDoctor, CreatePayment, CreateUserHealthCarePlan, CreateUserProfile, DeleteCarePlanTemplate, DeleteCarePlanTemplateDoctor, DeleteUserHealthCarePlan, DoctorGetPatientProfile, DoctorGetPatientRecords, EditUserProfile, GetAllConsultation, GetAllDoctor, GetAllDoctorHaveCreatedCarePlan, GetAllPurchasedServicePackages, GetAllServicePackages, GetCarePlanTemplate, GetCarePlanTemplateDoctor, GetDoctorById, GetDoctorProfile, GetDoctorSchedule, GetUserHealthCarePlan, GetUserHealthRecord, GetUserProfile, UpdateCarePlanTemplate, UpdateCarePlanTemplateDoctor, UpdateUserBloodPressure, UpdateUserBloodSugar, UpdateUserHbA1c, UpdateUserHealthCarePlan, UpdateUserHeight, UpdateUserWeight } from "../api/user-service"
+import { CreateBooking, CreateCarePlanInstanceDoctor, CreateCarePlanTemplate, CreateCarePlanTemplateDoctor, CreatePayment, CreateUserHealthCarePlan, CreateUserProfile, DeleteCarePlanInstanceDoctor, DeleteCarePlanTemplate, DeleteCarePlanTemplateDoctor, DeleteUserHealthCarePlan, DoctorGetPatientProfile, DoctorGetPatientRecords, EditUserProfile, GetAllConsultation, GetAllDoctor, GetAllDoctorHaveCreatedCarePlan, GetAllPurchasedServicePackages, GetAllServicePackages, GetCarePlanInstanceDoctor, GetCarePlanTemplate, GetCarePlanTemplateDoctor, GetDoctorById, GetDoctorProfile, GetDoctorSchedule, GetUserHealthCarePlan, GetUserHealthRecord, GetUserProfile, UpdateCarePlanInstanceDoctor, UpdateCarePlanTemplate, UpdateCarePlanTemplateDoctor, UpdateUserBloodPressure, UpdateUserBloodSugar, UpdateUserHbA1c, UpdateUserHealthCarePlan, UpdateUserHeight, UpdateUserWeight } from "../api/user-service"
 import { QueryKeys } from "../../assets/enum/query"
 import { GenderNumber } from "../../assets/enum/gender"
 import { DiagnosisRecency } from "../../assets/enum/diagnosis-recency"
@@ -242,9 +242,8 @@ export const useCreateCarePlanTemplateDoctorMutation = () => {
     return useMutation({
         mutationFn: (params: {
             recordType: HealthRecordType,
-            period: HealthCarePlanPeriod,
-            subType: HealthCarePlanSubType,
-            templateId: string,
+            scheduledAt: string,
+            subType?: HealthCarePlanSubType,
             patientId: string
         }) => CreateCarePlanTemplateDoctor(params),
         onSuccess: (data) => {
@@ -283,8 +282,8 @@ export const useUpdateCarePlanTemplateDoctorMutation = () => {
     return useMutation({
         mutationFn: (params: {
             recordType: HealthRecordType,
-            period: HealthCarePlanPeriod,
-            subType: HealthCarePlanSubType,
+            scheduledAt: string,
+            subType?: HealthCarePlanSubType,
             templateId: string,
             patientId: string
         }) => UpdateCarePlanTemplateDoctor(params),
@@ -323,8 +322,7 @@ export const useDeleteCarePlanTemplateDoctorMutation = () => {
     const queryClient = useQueryClient()
     return useMutation({
         mutationFn: (params: {
-            templateId: string,
-            patientId: string
+            templateId: string
         }) => DeleteCarePlanTemplateDoctor(params),
         onSuccess: (data) => {
             if (data.status !== 200) {
@@ -343,7 +341,141 @@ export const useDeleteCarePlanTemplateDoctorMutation = () => {
                     visibilityTime: 2000,
                 })
             }
+            return data 
+        },
+        onError: (error) => {
+            Toast.show({
+                type: 'error',
+                text1: 'Xóa lịch đo thất bại',
+                text2: 'Vui lòng thử lại sau',
+                visibilityTime: 2000,
+            })
+            return error
+        }
+    })
+}
+
+export const useCarePlanInstanceDoctor = (params: {
+    patientId: string,
+    search?: string,
+    pageSize?: number,
+    cursor?: string,
+    sortBy: string,
+    sortDirection: number
+}) => {
+    const queryKey = [QueryKeys.CARE_PLAN_INSTANCE_DOCTOR, params]
+    const queryFn = async () => {
+        return GetCarePlanInstanceDoctor(params)
+    }
+
+    return { queryKey, queryFn }
+}
+
+export const useCreateCarePlanInstanceDoctorMutation = () => {
+    const queryClient = useQueryClient()
+    return useMutation({
+        mutationFn: (params: {
+            recordType: HealthRecordType,
+            scheduledAt: string,
+            subType?: HealthCarePlanSubType,
+            patientId: string
+        }) => CreateCarePlanInstanceDoctor(params),
+        onSuccess: (data) => {
+            if (data.status !== 200) {
+                Toast.show({
+                    type: 'error',
+                    text1: data.data.errors[0].message || 'Tạo lịch đo thất bại',
+                    text2: 'Vui lòng thử lại sau',
+                    visibilityTime: 2000,
+                })
+            } else {
+                queryClient.invalidateQueries({ queryKey: [QueryKeys.PATIENT_RECORDS_BY_DOCTOR] })
+                queryClient.invalidateQueries({ queryKey: [QueryKeys.CARE_PLAN_INSTANCE_DOCTOR] })
+                Toast.show({
+                    type: 'success',
+                    text1: 'Tạo lịch đo thành công',
+                    visibilityTime: 2000,
+                })
+            }
             return data
+        },
+        onError: (error) => {
+            Toast.show({
+                type: 'error',
+                text1: 'Tạo lịch đo thất bại',
+                text2: 'Vui lòng thử lại sau',
+                visibilityTime: 2000,
+            })
+            return error
+        }
+    })
+}
+
+export const useUpdateCarePlanInstanceDoctorMutation = () => {
+    const queryClient = useQueryClient()
+    return useMutation({
+        mutationFn: (params: {
+            recordType: HealthRecordType,
+            scheduledAt: string,
+            subType?: HealthCarePlanSubType,
+            instanceId: string,
+            patientId: string
+        }) => UpdateCarePlanInstanceDoctor(params),
+        onSuccess: (data) => {
+            if (data.status !== 200) {
+                Toast.show({
+                    type: 'error',
+                    text1: data.data.errors[0].message || 'Cập nhật lịch đo thất bại',
+                    text2: 'Vui lòng thử lại sau',
+                    visibilityTime: 2000,
+                })
+            } else {
+                queryClient.invalidateQueries({ queryKey: [QueryKeys.PATIENT_RECORDS_BY_DOCTOR] })
+                queryClient.invalidateQueries({ queryKey: [QueryKeys.CARE_PLAN_INSTANCE_DOCTOR] })
+                Toast.show({
+                    type: 'success',
+                    text1: 'Cập nhật lịch đo thành công',
+                    visibilityTime: 2000,
+                })
+            }
+            return data
+        },
+        onError: (error) => {
+            Toast.show({
+                type: 'error',
+                text1: 'Cập nhật lịch đo thất bại',
+                text2: 'Vui lòng thử lại sau',
+                visibilityTime: 2000,
+            })
+            return error
+        }
+    })
+}
+
+export const useDeleteCarePlanInstanceDoctorMutation = () => {
+    const queryClient = useQueryClient()
+    return useMutation({
+        mutationFn: (params: {
+            instanceId: string
+        }) => DeleteCarePlanInstanceDoctor(params),
+        onSuccess: (data) => {
+            if (data.status !== 200) {
+                Toast.show({
+                    type: 'error',
+                    text1: data.data.errors[0].message || 'Xóa lịch đo thất bại',
+                    text2: 'Vui lòng thử lại sau',
+                    visibilityTime: 2000,
+                })
+            } else {
+                queryClient.invalidateQueries({ queryKey: [QueryKeys.PATIENT_RECORDS_BY_DOCTOR] })
+                queryClient.invalidateQueries({ queryKey: [QueryKeys.CARE_PLAN_INSTANCE_DOCTOR] })
+                Toast.show({
+                    type: 'success',
+                    text1: 'Xóa lịch đo thành công',
+                    visibilityTime: 2000,
+                })
+            }
+            return data 
         },
         onError: (error) => {
             Toast.show({

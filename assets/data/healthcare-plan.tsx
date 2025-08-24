@@ -17,6 +17,23 @@ export const getHealthCarePlanPeriodString = (period: HealthCarePlanPeriod): str
     return period in periodStrings ? periodStrings[period] : undefined
 }
 
+export const getHealthCarePlanPeriodTime = (period: HealthCarePlanPeriod): string | undefined => {
+    const periodTimes: Record<HealthCarePlanPeriod, string> = {
+        [HealthCarePlanPeriod.MORNING]: '05:30',
+        [HealthCarePlanPeriod.BEFORE_BREAKFAST]: '07:00',
+        [HealthCarePlanPeriod.AFTER_BREAKFAST]: '08:30',
+        [HealthCarePlanPeriod.NOON]: '11:30',
+        [HealthCarePlanPeriod.BEFORE_LUNCH]: '11:30',
+        [HealthCarePlanPeriod.AFTER_LUNCH]: '13:30',
+        [HealthCarePlanPeriod.AFTERNOON]: '15:00',
+        [HealthCarePlanPeriod.EVENING]: '17:00',
+        [HealthCarePlanPeriod.BEFORE_DINNER]: '17:30',
+        [HealthCarePlanPeriod.AFTER_DINNER]: '20:00',
+        [HealthCarePlanPeriod.BEFORE_SLEEP]: '22:30',
+    }
+    return period in periodTimes ? periodTimes[period] : undefined
+}
+
 export const getHealthCarePlanSubTypeString = (subType: HealthCarePlanSubType): string | undefined => {
     const subTypeStrings: Record<HealthCarePlanSubType, string> = {
         [HealthCarePlanSubType.FASTING]: 'Lúc đói',

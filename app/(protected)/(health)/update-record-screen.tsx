@@ -25,7 +25,7 @@ function getUpdateModule(type: HealthRecordType) {
 }
 
 export default function UpdateRecordScreen() {
-    const { type, lastMesurement, time } = useLocalSearchParams()
+    const { type, lastMesurement, time, id } = useLocalSearchParams()
     const recordType = type as unknown as HealthRecordType
     const recordDisplay = getHealthRecordDisplay(recordType)
     const UpdateModule = getUpdateModule(recordType)
@@ -67,6 +67,7 @@ export default function UpdateRecordScreen() {
                 <UpdateModule
                     lastMesurement={lastMesurement as string}
                     initialTime={time as string}
+                    id={id as string}
                 />
                 <Pressable
                     style={{ backgroundColor: recordDisplay.iconColor }}

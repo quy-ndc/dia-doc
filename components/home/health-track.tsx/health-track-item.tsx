@@ -8,14 +8,19 @@ import { BloodPressureRecord, HealthTrackItem } from '../../../assets/types/user
 import { router } from 'expo-router'
 import { ChevronRight } from '../../../lib/icons/ChevronRight'
 import RoundedIcon from '../../common/icons/rouned-icon'
+import useUserStore from '../../../store/userStore'
+import { UserRole } from '../../../assets/enum/user-role'
 
 type Prop = {
     item: HealthTrackItem
+    patientId?: string
 }
 
 const { width } = Dimensions.get('window')
 
-export default function HealthTrackerItem({ item }: Prop) {
+export default function HealthTrackerItem({ item, patientId }: Prop) {
+
+    const { user } = useUserStore()
 
     const recordDisplay = getHealthRecordDisplay(item.recordType)
 
@@ -46,10 +51,17 @@ export default function HealthTrackerItem({ item }: Prop) {
     }
 
     const handlePress = () => {
-        router.push({
-            pathname: "/update-record-screen",
-            params: { type: item.recordType, lastMesurement: getValue() }
-        })
+        if (user.role == UserRole.DOCTOR) {
+            router.push({
+                pathname: "/health-record-history-screen",
+                params: { type: item.recordType, id: patientId }
+            })
+        } else {
+            router.push({
+                pathname: "/update-record-screen",
+                params: { type: item.recordType, lastMesurement: getValue() }
+            })
+        }
     }
 
     return (
@@ -58,7 +70,7 @@ export default function HealthTrackerItem({ item }: Prop) {
                 backgroundColor: recordDisplay.backgroundColor,
                 width: width * 0.44
             }}
-            className={`p-4 gap-2 rounded-xl active:scale-95 w-full`}
+            className={`p-4 gap-2 rounded-xl w-full active:scale-95`}
             onPress={handlePress}
         >
             <View className='flex-row items-center gap-2 mb-3'>

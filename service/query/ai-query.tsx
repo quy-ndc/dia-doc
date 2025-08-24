@@ -27,7 +27,7 @@ export const useAiChatMutation = () => {
             content: string,
             user_id: string,
             session_id?: string,
-            external_knowledge: boolean
+            use_external_knowledge: boolean
         }) => SendMessageToAI(params),
         onSuccess: (data) => {
             return data

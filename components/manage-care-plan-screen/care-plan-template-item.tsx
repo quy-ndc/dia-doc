@@ -7,7 +7,6 @@ import { getHealthRecordDisplay } from '../../assets/data/health-record-type'
 import { getHealthCarePlanPeriodString, getHealthCarePlanSubTypeString } from '../../assets/data/healthcare-plan'
 import { router } from 'expo-router'
 import { ChevronRight } from '../../lib/icons/ChevronRight'
-import { formatDate } from '../../util/format-date'
 import { formatDateMessage } from '../../util/format-date-message'
 
 type Prop = {
@@ -17,7 +16,7 @@ type Prop = {
 export default function CarePlanTemplateItem({ item }: Prop) {
 
     const recordDisplay = getHealthRecordDisplay(item.recordType)
-    const period = getHealthCarePlanPeriodString(item.period)
+    const period = item.period ? getHealthCarePlanPeriodString(item.period) : undefined
     const subtype = item.subType ? getHealthCarePlanSubTypeString(item.subType) : undefined
 
     return (
@@ -30,7 +29,8 @@ export default function CarePlanTemplateItem({ item }: Prop) {
                         id: item.id,
                         type: item.recordType,
                         per: item.period,
-                        sub: item.subType
+                        sub: item.subType,
+                        time: item.scheduledAt
                     }
                 })}
             >
@@ -45,6 +45,11 @@ export default function CarePlanTemplateItem({ item }: Prop) {
                         <Text className='text-base font-bold tracking-widest capitalize'>Đo {recordDisplay.name}</Text>
                     </View>
                     <View className='flex-row items-center gap-2'>
+                        {item.scheduledAt !== undefined && (
+                            <Text className='text-sm font-semibold px-4 py-1 rounded-full tracking-wider bg-[var(--click-bg)]'>
+                                {item.scheduledAt}
+                            </Text>
+                        )}
                         {period !== undefined && (
                             <Text className='text-sm font-semibold px-4 py-1 rounded-full tracking-wider bg-[var(--click-bg)]'>
                                 {period}

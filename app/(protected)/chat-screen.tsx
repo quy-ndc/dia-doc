@@ -1,5 +1,5 @@
 import * as React from 'react'
-import { Modal, View } from 'react-native'
+import { Modal, Pressable, View } from 'react-native'
 import { Image } from 'expo-image'
 import { Text } from '../../components/ui/text'
 import { Stack, useLocalSearchParams } from 'expo-router'
@@ -17,11 +17,15 @@ import UtilButton from '../../components/chat-screen/util-button'
 import PatientProfileModal from '../../components/chat-screen/patient-profile-modal'
 import { UserRole } from '../../assets/enum/user-role'
 import DoctorProfileModal from '../../components/chat-screen/doctor-profile-modal'
+import { User } from '../../lib/icons/User'
+import Toast from 'react-native-toast-message'
 
 export default function ChatScreen() {
-    const { id, title, image, type, target } = useLocalSearchParams()
+
+    const { id, title, image, type, target, active } = useLocalSearchParams()
     const router = useRouter()
     const { user } = useUserStore()
+    const [profileVisible, setProfileVisible] = useState(false)
     const [isCameraOn, setIsCameraOn] = useState(false)
 
     const handleStartCall = () => {
@@ -51,18 +55,31 @@ export default function ChatScreen() {
                     headerRight: () =>
                         <View className='flex-row gap-2 items-center'>
                             {target && (
-                                <IconButton
-                                    icon={<Phone className='text-foreground' size={17} />}
-                                    buttonSize={3}
-                                    possition={'other'}
+                                <Pressable
+                                    className={`p-3 items-center justify-center rounded-full ${active === 'false' ? 'opacity-80' : 'active:bg-[var(--click-bg)]'}`}
+                                    disabled={active === 'false'}
                                     onPress={handleStartCall}
-                                />
+                                >
+                                    <Phone className='text-foreground' size={17} />
+                                </Pressable>
                             )}
                             {type as string == ConversationType.PRIVATE_CHAT.toString() ? (
                                 user.role === UserRole.PATIENT ? (
                                     <DoctorProfileModal id={target as string} />
                                 ) : (
-                                    <PatientProfileModal id={target as string} />
+                                    <>
+                                        <IconButton
+                                            icon={<User className='text-foreground' size={17} />}
+                                            buttonSize={3}
+                                            possition={'other'}
+                                            onPress={() => setProfileVisible(true)}
+                                        />
+                                        <PatientProfileModal
+                                            id={target as string}
+                                            visible={profileVisible}
+                                            setVisible={setProfileVisible}
+                                        />
+                                    </>
                                 )
                             ) : (
                                 <UtilButton id={id as string} />
@@ -85,6 +102,7 @@ export default function ChatScreen() {
                     <PrivateChatModule
                         groupId={id as string}
                         setIsCameraOn={setIsCameraOn}
+                        isActive={active as string == 'true'}
                     />
                 ) : (
                     <ChatModule

@@ -1,34 +1,32 @@
-import { Dimensions, Pressable, View } from "react-native"
+import { Dimensions, View } from "react-native"
 import { FlashList } from "@shopify/flash-list"
 import ErrorDisplay from "../../common/error-display"
 import { GlobalColor } from "../../../global-color"
 import { useCallback } from "react"
-import { Users } from "../../../lib/icons/Users"
 import ConsultationScheduleSkeleton from "../../common/skeleton/consultation-schedule-skeleton"
-import { ConsultationHistory } from "../../../assets/types/consult/doctor-schedule"
-import ConsultationScheduleItem from "./consultation-schedule-item"
 import { Text } from "../../../components/ui/text"
 import IconButton from "../../common/icon-button"
 import { History } from "../../../lib/icons/History"
 import { router } from "expo-router"
-import useUserStore from "../../../store/userStore"
-import { Calendar } from "../../../lib/icons/Calendar"
-import { Clock } from "../../../lib/icons/Clock"
-import { UserRole } from "../../../assets/enum/user-role"
+import { PurchasedServicePackage } from "../../../assets/types/consult/consultation"
+import AvailableServiceItem from "./available-serivce-item"
+import { ShoppingCart } from "../../../lib/icons/ShoppingCart"
 import { Plus } from "../../../lib/icons/Plus"
+import useUserStore from "../../../store/userStore"
+import { UserRole } from "../../../assets/enum/user-role"
 
 const { width } = Dimensions.get('window')
 
 type Prop = {
     isLoading: boolean
     isError: boolean
-    items: ConsultationHistory[]
+    items: PurchasedServicePackage[]
     refetch: () => void
     remove: () => void
     refreshing: boolean
 }
 
-export default function ConsultationSchedule({ isLoading, isError, items, refetch, remove, refreshing }: Prop) {
+export default function PurchaseService({ isLoading, isError, items, refetch, remove, refreshing }: Prop) {
 
     const { user } = useUserStore()
 
@@ -44,22 +42,22 @@ export default function ConsultationSchedule({ isLoading, isError, items, refetc
         >
             <View className="flex-row justify-between items-center w-full">
                 <View className='flex-row px-2 gap-3 items-center text-center'>
-                    <Users color={GlobalColor.INDIGO_NEON_BORDER} size={18} />
-                    <Text className='text-lg font-bold tracking-widest capitalize'>Lịch tư vấn</Text>
+                    <ShoppingCart color={GlobalColor.EMERALD_NEON_BORDER} size={18} />
+                    <Text className='text-lg font-bold tracking-widest capitalize'>Dịch vụ đã mua</Text>
                 </View>
                 <View className="flex-row gap-2 items-center">
                     <IconButton
                         icon={<History className="text-foreground" size={17} />}
                         buttonSize={3}
                         possition={"other"}
-                        onPress={() => router.push('/consultation-history-screen')}
+                        onPress={() => router.push('/purchased-service-screen')}
                     />
                     {user.role == UserRole.PATIENT && (
                         <IconButton
                             icon={<Plus color={GlobalColor.BLUE_NEON_BORDER} size={17} />}
                             buttonSize={3}
                             possition={"other"}
-                            onPress={() => router.push('/doctor-list-screen')}
+                            onPress={() => router.push('/service-package-screen')}
                         />
                     )}
                 </View>
@@ -71,16 +69,16 @@ export default function ConsultationSchedule({ isLoading, isError, items, refetc
                     <ErrorDisplay
                         onRefresh={onRefresh}
                         refreshing={refreshing}
-                        text="Không có lịch tư vấn nào"
+                        text="Bạn chưa mua gói dịch vụ nào"
                     />
                 </View>
             ) : (
                 <View style={{ width: width }} className="px-2">
-                    <FlashList<ConsultationHistory>
+                    <FlashList<PurchasedServicePackage>
                         data={items}
                         keyExtractor={(_, index) => index.toString()}
                         renderItem={({ item }) =>
-                            <ConsultationScheduleItem item={item} />
+                            <AvailableServiceItem item={item} />
                         }
                         estimatedItemSize={100}
                     />

@@ -10,4 +10,9 @@ export type HealthCarePlan = {
     scheduledAt: string
     measuredAt: string
     isCompleted: boolean
+    doctor?: {
+        id: string,
+        name: string,
+        avatar: string
+    }
 }

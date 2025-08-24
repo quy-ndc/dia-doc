@@ -8,7 +8,7 @@ import RecordTimePicker from './common/time-picker'
 import { useUpdateUserWeightMutation } from '../../service/query/user-query'
 import RecordConfirmButton from './common/record-confirm-button'
 import { useGenerateAiNoteMutation } from '../../service/query/ai-query'
-import { router } from 'expo-router'
+import { router, useLocalSearchParams } from 'expo-router'
 import { Info } from '../../lib/icons/Info'
 import { GlobalColor } from '../../global-color'
 import LoadingBanner from './common/loading-banner'
@@ -19,9 +19,10 @@ const { width } = Dimensions.get('window')
 type Props = {
     lastMesurement: string
     initialTime?: string | null
+    id?: string | null
 }
 
-export default function WeightUpdateModule({ lastMesurement, initialTime }: Props) {
+export default function WeightUpdateModule({ lastMesurement, initialTime, id }: Props) {
 
     const [value, setValue] = useState('')
     const change = calculateChange(lastMesurement as string, value)
@@ -38,7 +39,8 @@ export default function WeightUpdateModule({ lastMesurement, initialTime }: Prop
     const handleUpdateWeight = async () => {
         await mutateAsync({
             value: Number(value),
-            measurementAt: selectedTime
+            measurementAt: selectedTime,
+            ...(id ? { carePlanInstanceId: id as string } : {})
         })
     }
 

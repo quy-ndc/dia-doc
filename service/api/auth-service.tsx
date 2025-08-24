@@ -2,7 +2,6 @@ import axios from "axios"
 import { endpointAuth } from "../endpoint"
 import axiosServices from "../axios"
 
-
 export const LoginUser = async (data: {
     phoneNumber: string,
     password: string
@@ -13,6 +12,35 @@ export const LoginUser = async (data: {
             phoneNumber: data.phoneNumber,
             password: data.password,
         })
+
+        return {
+            success: true,
+            status: response.status,
+            data: response.data
+        }
+    } catch (e) {
+        if (axios.isAxiosError(e) && e.response) {
+            return {
+                success: false,
+                status: e.response.status,
+                message: e.response.data.message || 'An error occurred',
+                data: e.response.data
+            }
+        }
+
+        return {
+            success: false,
+            status: 500,
+            message: 'An error occurred',
+            data: null
+        }
+    }
+}
+
+export const Logout = async () => {
+
+    try {
+        const response = await axiosServices.delete(`${endpointAuth.LOGOUT}`)
 
         return {
             success: true,

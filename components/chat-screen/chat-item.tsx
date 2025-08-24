@@ -28,13 +28,14 @@ export default function ChatItem({ item }: Prop) {
                 title: item.name,
                 image: item.avatar,
                 type: item.conversationType,
+                active: item.status === 1 ? 'true' : 'false',
                 target: isPrivateChat ? item.otherUserId : undefined
             }
         })
     }
 
     const isPrivateChat = item.conversationType === ConversationType.PRIVATE_CHAT
-    const latestMessage = isPrivateChat 
+    const latestMessage = isPrivateChat
         ? getPrivateLatestMessage(item.id)
         : getGroupLatestMessage(item.id)
 

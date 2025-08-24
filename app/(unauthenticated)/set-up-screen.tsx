@@ -216,7 +216,6 @@ export default function SetUpScreen() {
     }
 
     useEffect(() => {
-        console.log(data?.data?.errors)
         if (!data?.data || isError || data.status !== 200) return
 
         if (newUser) {

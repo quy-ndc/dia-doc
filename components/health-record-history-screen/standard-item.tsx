@@ -4,53 +4,50 @@ import { Text } from "../ui/text"
 import { HB1ACRecord, HealthTrackItem, HeightRecord, WeightRecord } from '../../assets/types/user/health-track'
 import { GlobalColor } from '../../global-color'
 import { formatDateDm } from '../../util/format-date-d-m'
-import { formatTime } from '../../util/format-time'
-import { formatDateMessage } from '../../util/format-date-message'
 import { useState } from 'react'
 import HealthRecordHistoryModal from './health-history-modal'
 import { getHealthRecordDisplay } from '../../assets/data/health-record-type'
-
+import Svg, { Line, Circle } from "react-native-svg"
 
 type Prop = {
     item: HealthTrackItem
     maxValue: number
     minValue: number
+    nextValue?: number
 }
 
 const ITEM_WIDTH = 100
-const MIN_BAR_HEIGHT = 130
+const MIN_CHART_HEIGHT = 60
 
 export default function StandardHistoryItem({
     item,
     maxValue,
     minValue,
+    nextValue,
 }: Prop) {
-
     if (!item.healthRecord || item.healthRecord == undefined) return null
 
     const [visible, setVisible] = useState(false)
-
     const healthRecord = item.healthRecord as WeightRecord | HeightRecord | HB1ACRecord
-
+    const value = Number(healthRecord.value)
     const recordDisplay = getHealthRecordDisplay(item.recordType)
 
     const getContainerHeight = () => {
         const valueRatio = maxValue / minValue
-        return MIN_BAR_HEIGHT * valueRatio
+        return MIN_CHART_HEIGHT * valueRatio + 10
     }
 
-    const getBarHeight = () => {
-        const value = Number(healthRecord.value)
-
-        if (value === minValue) {
-            return MIN_BAR_HEIGHT
-        }
-        const valueRatio = value / minValue
-        return MIN_BAR_HEIGHT * valueRatio
+    const getY = (val: number) => {
+        const availableHeight = getContainerHeight() - 10
+        const valueRange = maxValue - minValue + 10
+        const heightPerUnit = availableHeight / valueRange
+        const heightFromBottom = (val - minValue) * heightPerUnit
+        return availableHeight - heightFromBottom
     }
 
     const containerHeight = getContainerHeight()
-    const barHeight = getBarHeight()
+    const currentY = getY(value)
+    const nextY = nextValue !== undefined ? getY(nextValue) : undefined
 
     return (
         <>
@@ -60,20 +57,47 @@ export default function StandardHistoryItem({
                 style={{ width: ITEM_WIDTH }}
             >
                 <View
-                    className='rounded-xl'
-                    style={{ width: ITEM_WIDTH * 0.8, height: containerHeight }}
+                    className='relative items-center'
+                    style={{ width: ITEM_WIDTH, height: containerHeight }}
                 >
-                    <View
-                        className='absolute bottom-0 w-full rounded-xl'
-                        style={{ height: barHeight, backgroundColor: recordDisplay.iconColor }}
-                    />
-                    <Text className='absolute bottom-5 left-1/2 transform -translate-x-1/2 text-center text-white tracking-wider text-base font-medium'>
+                    <Svg style={{ position: "absolute", width: ITEM_WIDTH * 2, height: containerHeight }}>
+                        <Line
+                            x1={ITEM_WIDTH}
+                            y1={currentY}
+                            x2={ITEM_WIDTH}
+                            y2={containerHeight - 10}
+                            stroke={recordDisplay.iconColor}
+                            strokeWidth={1}
+                            strokeDasharray="4,4"
+                        />
+
+                        {nextY !== undefined && (
+                            <Line
+                                x1={ITEM_WIDTH}
+                                y1={currentY}
+                                x2={ITEM_WIDTH * 2}
+                                y2={nextY}
+                                stroke={recordDisplay.iconColor}
+                                strokeWidth={1}
+                            />
+                        )}
+
+                        <Circle cx={ITEM_WIDTH} cy={currentY} r={5} fill={recordDisplay.iconColor} />
+                    </Svg>
+
+                    <Text
+                        className='absolute text-sm font-medium text-center text-[var(--fade-text-color)] tracking-wider'
+                        style={{
+                            top: currentY - 10,
+                            left: ITEM_WIDTH - 35,
+                        }}
+                    >
                         {healthRecord.value}
                     </Text>
                 </View>
 
                 <Text className='text-sm text-center text-[var(--fade-text-color)]'>
-                    {formatDateMessage(item.mesurementAt)}
+                    {formatDateDm(item.mesurementAt)}
                 </Text>
             </Pressable>
             <HealthRecordHistoryModal visible={visible} setVisible={setVisible} item={item} />

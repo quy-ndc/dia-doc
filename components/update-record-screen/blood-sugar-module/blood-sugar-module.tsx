@@ -8,7 +8,7 @@ import SectionTitle from '../../home/common/section-title'
 import { GlobalColor } from '../../../global-color'
 import RecordTimePicker from '../common/time-picker'
 import { useUpdateUserBloodSugarMutation } from '../../../service/query/user-query'
-import { router } from 'expo-router'
+import { router, useLocalSearchParams } from 'expo-router'
 import { UtensilsCrossed } from '../../../lib/icons/UtensilsCrossed'
 import GlucoseTimingPicker from './glucose-timing-picker'
 import { MeasureTime } from '../../../assets/data/measure-time'
@@ -24,9 +24,10 @@ const { width } = Dimensions.get('window')
 type Props = {
     lastMesurement: string
     initialTime?: string | null
+    id?: string | null
 }
 
-export default function BloodSugarUpdateModule({ lastMesurement, initialTime }: Props) {
+export default function BloodSugarUpdateModule({ lastMesurement, initialTime, id }: Props) {
 
     const [value, setValue] = useState('')
     const [selectedTime, setSelectedTime] = useState('')
@@ -44,11 +45,19 @@ export default function BloodSugarUpdateModule({ lastMesurement, initialTime }: 
     } = useGenerateAiNoteMutation()
 
     const handleUpdateBloodSugar = async () => {
+        const request = {
+            value: Number(value),
+            measureTime: selectPeriod as number,
+            personNote: note,
+            measurementAt: selectedTime,
+            ...(id ? { carePlanInstanceId: id as string } : {})
+        }
         await mutateAsync({
             value: Number(value),
             measureTime: selectPeriod as number,
             personNote: note,
-            measurementAt: selectedTime
+            measurementAt: selectedTime,
+            ...(id ? { carePlanInstanceId: id as string } : {})
         })
     }
 
@@ -103,7 +112,7 @@ export default function BloodSugarUpdateModule({ lastMesurement, initialTime }: 
                                     {change.icon}
                                     <Text
                                         style={{ color: change.color }}
-                                className={`text-base font-bold tracking-wider`}
+                                        className={`text-base font-bold tracking-wider`}
                                     >
                                         {change.label} {change.percentage}%
                                     </Text>

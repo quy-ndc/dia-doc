@@ -152,7 +152,8 @@ export const GetUserHealthRecord = async (params: {
 
 export const GetUserHealthCarePlan = async (params: {
     fromDate?: string,
-    toDate?: string
+    toDate?: string,
+    doctorId?: string
 }) => {
     try {
         const queryString = createQueryString(params)
@@ -287,6 +288,183 @@ export const DeleteUserHealthCarePlan = async (instanceId: string) => {
     }
 }
 
+export const GetAllDoctorHaveCreatedCarePlan = async () => {
+    try {
+        const response = await axiosServices.get(`${endpointUser.GET_ALL_DOCTOR_HAVE_CREATED_CARE_PLAN}`)
+
+        return {
+            success: true,
+            status: response.status,
+            data: response.data
+        }
+
+    } catch (e) {
+        if (axios.isAxiosError(e) && e.response) {
+            return {
+                success: false,
+                status: e.response.status,
+                message: e.response.data.message || 'An error occurred',
+                data: e.response.data
+            };
+        }
+
+        return {
+            success: false,
+            status: 500,
+            message: 'An error occurred',
+            data: null
+        }
+    }
+}
+
+export const GetCarePlanTemplateDoctor = async (params: {
+    patientId: string,
+    search?: string,
+    pageSize?: number,
+    cursor?: string,
+    sortBy: string,
+    sortDirection: number
+}) => {
+    try {
+        const { patientId, ...rest } = params
+        const queryString = createQueryString(rest)
+        const response = await axiosServices.get(`${endpointUser.GET_CARE_PLAN_TEMPLATE_DOCTOR}/${patientId}/template?${queryString}`)
+
+        return {
+            success: true,
+            status: response.status,
+            data: response.data
+        }
+
+    } catch (e) {
+        if (axios.isAxiosError(e) && e.response) {
+            return {
+                success: false,
+                status: e.response.status,
+                message: e.response.data.message || 'An error occurred',
+                data: e.response.data
+            };
+        }
+
+        return {
+            success: false,
+            status: 500,
+            message: 'An error occurred',
+            data: null
+        }
+    }
+}
+
+export const CreateCarePlanTemplateDoctor = async (params: {
+    recordType: HealthRecordType,
+    period: HealthCarePlanPeriod,
+    subType: HealthCarePlanSubType,
+    templateId: string,
+    patientId: string
+}) => {
+    try {
+        const response = await axiosServices.post(`${endpointUser.UPDATE_CARE_PLAN_TEMPLATE_DOCTOR}/${params.patientId}/template/${params.templateId}`, {
+            recordType: params.recordType,
+            period: params.period,
+            subType: params.subType
+        })
+
+        return {
+            success: true,
+            status: response.status,
+            data: response.data
+        }
+
+    } catch (e) {
+        if (axios.isAxiosError(e) && e.response) {
+            return {
+                success: false,
+                status: e.response.status,
+                message: e.response.data.message || 'An error occurred',
+                data: e.response.data
+            };
+        }
+
+        return {
+            success: false,
+            status: 500,
+            message: 'An error occurred',
+            data: null
+        }
+    }
+}
+
+export const UpdateCarePlanTemplateDoctor = async (params: {
+    recordType: HealthRecordType,
+    period: HealthCarePlanPeriod,
+    subType: HealthCarePlanSubType,
+    templateId: string,
+    patientId: string
+}) => {
+    try {
+        const response = await axiosServices.put(`${endpointUser.UPDATE_CARE_PLAN_TEMPLATE_DOCTOR}/${params.patientId}/template/${params.templateId}`, {
+            recordType: params.recordType,
+            period: params.period,
+            subType: params.subType
+        })
+
+        return {
+            success: true,
+            status: response.status,
+            data: response.data
+        }
+
+    } catch (e) {
+        if (axios.isAxiosError(e) && e.response) {
+            return {
+                success: false,
+                status: e.response.status,
+                message: e.response.data.message || 'An error occurred',
+                data: e.response.data
+            };
+        }
+
+        return {
+            success: false,
+            status: 500,
+            message: 'An error occurred',
+            data: null
+        }
+    }
+}
+
+export const DeleteCarePlanTemplateDoctor = async (params: {
+    templateId: string,
+    patientId: string
+}) => {
+    try {
+        const response = await axiosServices.delete(`${endpointUser.DELETE_CARE_PLAN_TEMPLATE_DOCTOR}/${params.patientId}/template/${params.templateId}`)
+
+        return {
+            success: true,
+            status: response.status,
+            data: response.data
+        }
+
+    } catch (e) {
+        if (axios.isAxiosError(e) && e.response) {
+            return {
+                success: false,
+                status: e.response.status,
+                message: e.response.data.message || 'An error occurred',
+                data: e.response.data
+            };
+        }
+
+        return {
+            success: false,
+            status: 500,
+            message: 'An error occurred',
+            data: null
+        }
+    }
+}
+
 export const CreateUserProfile = async (data: {
     firstName: string,
     middleName: string,
@@ -361,12 +539,14 @@ export const CreateUserProfile = async (data: {
 
 export const UpdateUserWeight = async (params: {
     value: number,
-    measurementAt: string
+    measurementAt: string,
+    carePlanInstanceId?: string
 }) => {
     try {
         const response = await axiosServices.post(`${endpointUser.UPDATE_USER_WEIGHT}`, {
             value: params.value,
-            measurementAt: params.measurementAt
+            measurementAt: params.measurementAt,
+            ...(params.carePlanInstanceId ? { carePlanInstanceId: params.carePlanInstanceId } : {})
         })
 
         return {
@@ -396,12 +576,14 @@ export const UpdateUserWeight = async (params: {
 
 export const UpdateUserHeight = async (params: {
     value: number,
-    measurementAt: string
+    measurementAt: string,
+    carePlanInstanceId?: string
 }) => {
     try {
         const response = await axiosServices.post(`${endpointUser.UPDATE_USER_HEIGHT}`, {
             value: params.value,
-            measurementAt: params.measurementAt
+            measurementAt: params.measurementAt,
+            ...(params.carePlanInstanceId ? { carePlanInstanceId: params.carePlanInstanceId } : {})
         })
 
         return {
@@ -433,14 +615,16 @@ export const UpdateUserBloodPressure = async (params: {
     systolic: number,
     diastolic: number,
     personNote: string,
-    measurementAt: string
+    measurementAt: string,
+    carePlanInstanceId?: string
 }) => {
     try {
         const response = await axiosServices.post(`${endpointUser.UPDATE_USER_BLOOD_PRESSURE}`, {
             systolic: params.systolic,
             diastolic: params.diastolic,
             personNote: params.personNote,
-            measurementAt: params.measurementAt
+            measurementAt: params.measurementAt,
+            ...(params.carePlanInstanceId ? { carePlanInstanceId: params.carePlanInstanceId } : {})
         })
 
         return {
@@ -472,14 +656,16 @@ export const UpdateUserBloodSugar = async (params: {
     value: number,
     measureTime: number,
     personNote: string,
-    measurementAt: string
+    measurementAt: string,
+    carePlanInstanceId?: string
 }) => {
     try {
         const response = await axiosServices.post(`${endpointUser.UPDATE_USER_BLOOD_SUGAR}`, {
             value: params.value,
             measureTime: params.measureTime,
             personNote: params.personNote,
-            measurementAt: params.measurementAt
+            measurementAt: params.measurementAt,
+            ...(params.carePlanInstanceId ? { carePlanInstanceId: params.carePlanInstanceId } : {})
         })
 
         return {
@@ -510,13 +696,15 @@ export const UpdateUserBloodSugar = async (params: {
 export const UpdateUserHbA1c = async (params: {
     value: number,
     personNote: string,
-    measurementAt: string
+    measurementAt: string,
+    carePlanInstanceId?: string
 }) => {
     try {
         const response = await axiosServices.post(`${endpointUser.UPDATE_USER_HBA1C}`, {
             value: params.value,
             personNote: params.personNote,
-            measurementAt: params.measurementAt
+            measurementAt: params.measurementAt,
+            ...(params.carePlanInstanceId ? { carePlanInstanceId: params.carePlanInstanceId } : {})
         })
 
         return {
@@ -550,6 +738,7 @@ export const GetCarePlanTemplate = async (params: {
     RecordType?: HealthRecordType,
     Period?: HealthCarePlanPeriod,
     SubType?: HealthCarePlanSubType,
+    DoctorId?: string,
     PageSize?: number,
     SortBy: string,
     SortDirection: number
@@ -585,13 +774,13 @@ export const GetCarePlanTemplate = async (params: {
 
 export const CreateCarePlanTemplate = async (params: {
     recordType: HealthRecordType,
-    period: HealthCarePlanPeriod,
+    scheduledAt: string,
     subType?: HealthCarePlanSubType,
 }) => {
     try {
         const response = await axiosServices.post(`${endpointUser.GET_CARE_PLAN_TEMPLATE}`, {
             recordType: params.recordType,
-            period: params.period,
+            scheduledAt: params.scheduledAt,
             subType: params.subType
         })
 
@@ -623,13 +812,13 @@ export const CreateCarePlanTemplate = async (params: {
 export const UpdateCarePlanTemplate = async (params: {
     id: string
     recordType?: HealthRecordType,
-    period?: HealthCarePlanPeriod,
+    scheduledAt?: string,
     subType?: HealthCarePlanSubType,
 }) => {
     try {
         const response = await axiosServices.put(`${endpointUser.GET_CARE_PLAN_TEMPLATE}/${params.id}`, {
             recordType: params.recordType,
-            period: params.period,
+            scheduledAt: params.scheduledAt,
             subType: params.subType
         })
 
@@ -687,6 +876,8 @@ export const DeleteCarePlanTemplate = async (id: string) => {
     }
 }
 
+
+
 export const GetAllServicePackages = async (params: {
     Search?: string,
     Cursor?: string,
@@ -727,6 +918,7 @@ export const GetAllPurchasedServicePackages = async (params: {
     Search?: string,
     Cursor?: string,
     PageSize?: number,
+    IsExistedSessions?: boolean,
     SortBy: string,
     SortDirection: number
 }) => {
@@ -894,35 +1086,6 @@ export const GetDoctorSchedule = async (params: {
     }
 }
 
-export const GetUserSessionAmount = async () => {
-    try {
-        const response = await axiosServices.get(`${endpointUser.GET_USER_SESSION_AMOUNT}`)
-
-        return {
-            success: true,
-            status: response.status,
-            data: response.data
-        }
-
-    } catch (e) {
-        if (axios.isAxiosError(e) && e.response) {
-            return {
-                success: false,
-                status: e.response.status,
-                message: e.response.data.message || 'An error occurred',
-                data: e.response.data
-            };
-        }
-
-        return {
-            success: false,
-            status: 500,
-            message: 'An error occurred',
-            data: null
-        }
-    }
-}
-
 export const CreateBooking = async (data: {
     doctorId: string,
     templateId: string
@@ -1023,7 +1186,8 @@ export const DoctorGetPatientProfile = async (patientId: string) => {
 
 export const DoctorGetPatientRecords = async (params: {
     patientId: string,
-    recordType: string,
+    onePerType?: boolean,
+    recordTypes: string,
 }) => {
 
     const { patientId, ...rest } = params

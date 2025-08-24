@@ -19,9 +19,10 @@ type Prop = {
     refetch: () => void
     remove: () => void
     refreshing: boolean
+    patientId?: string
 }
 
-export default function HealthTracker({ items, isLoading, isError, refetch, remove, refreshing }: Prop) {
+export default function HealthTracker({ items, isLoading, isError, refetch, remove, refreshing, patientId }: Prop) {
 
     const onRefresh = useCallback(() => {
         remove()
@@ -54,6 +55,7 @@ export default function HealthTracker({ items, isLoading, isError, refetch, remo
                                 <HealthTrackerItem
                                     key={index}
                                     item={item}
+                                    patientId={patientId}
                                 />
                             </View>
                         )}

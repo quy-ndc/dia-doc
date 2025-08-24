@@ -15,7 +15,6 @@ import { GlobalColor } from '../../global-color'
 import { router } from 'expo-router'
 import useUserStore from '../../store/userStore'
 import { UserRole } from '../../assets/enum/user-role'
-import { Calendar } from '../../lib/icons/Calendar'
 
 const { width, height } = Dimensions.get('window')
 
@@ -23,7 +22,7 @@ export default function PrivateChatModule() {
     const queryClient = useQueryClient()
     const { user } = useUserStore()
     const [refreshing, setRefreshing] = useState(false)
-    const { setGroups, setLatestMessage } = usePrivateMessageStore()
+    const { setGroups, setLatestMessage, setGroupStatus } = usePrivateMessageStore()
 
     const { data, isLoading, isError, remove, refetch } = useQuery({
         ...useGroupChatQuery({
@@ -59,6 +58,9 @@ export default function PrivateChatModule() {
             setGroups(groupIds)
 
             groups.forEach(group => {
+                if (group.status === 0) {
+                    setGroupStatus(group.id, false)
+                }
                 if (group.lastMessage) {
                     setLatestMessage(group.id, group.lastMessage)
                 }
@@ -66,57 +68,58 @@ export default function PrivateChatModule() {
         }
     }, [data])
 
-    if (isLoading) return (
-        <ScrollView
-            contentContainerStyle={{ flexGrow: 1 }}
-            refreshControl={<RefreshControl refreshing={refreshing} onRefresh={onRefresh} />}
-        >
-            <GroupChatSkeleton />
-        </ScrollView>
-    )
-
-    if (isError || groups.length === 0) {
-        return (
-            <ScrollView
-                contentContainerStyle={{ flexGrow: 1 }}
-                refreshControl={<RefreshControl refreshing={refreshing} onRefresh={onRefresh} />}
-            >
-                <View
-                    style={{ width: width, height: height * 0.7 }}
-                    className="flex-1 justify-center items-center"
-                >
-                    <ErrorDisplay
-                        onRefresh={onRefresh}
-                        refreshing={refreshing}
-                        text='Không có cuộc tư vấn nào.'
-                    />
-                </View>
-            </ScrollView>
-        )
-    }
-
     return (
         <>
-            <ScrollView
-                className="w-full pb-5"
-                contentContainerStyle={{ alignItems: 'center' }}
-                refreshControl={<RefreshControl refreshing={refreshing} onRefresh={onRefresh} />}
-                decelerationRate={'normal'}
-            >
-                <View
-                    className='pt-2 px-2'
-                    style={{ width: width, height: height * 0.8 }}
+            {isLoading ? (
+                <ScrollView
+                    contentContainerStyle={{ flexGrow: 1 }}
+                    refreshControl={<RefreshControl refreshing={refreshing} onRefresh={onRefresh} />}
                 >
-                    <FlashList<GroupChat>
-                        data={groups}
-                        keyExtractor={(_, index) => index.toString()}
-                        renderItem={({ item }) => (
-                            <ChatItem item={item} />
-                        )}
-                        estimatedItemSize={100}
-                    />
-                </View>
-            </ScrollView>
+                    <View
+                        style={{ width: width, height: height * 0.8 }}
+                        className="flex-1 justify-center items-center"
+                    >
+                        <GroupChatSkeleton />
+                    </View>
+                </ScrollView>
+            ) : isError || groups.length === 0 ? (
+                <ScrollView
+                    contentContainerStyle={{ flexGrow: 1 }}
+                    refreshControl={<RefreshControl refreshing={refreshing} onRefresh={onRefresh} />}
+                >
+                    <View
+                        style={{ width: width, height: height * 0.8 }}
+                        className="flex-1 justify-center items-center"
+                    >
+                        <ErrorDisplay
+                            onRefresh={onRefresh}
+                            refreshing={refreshing}
+                            text='Không có cuộc tư vấn nào.'
+                        />
+                    </View>
+                </ScrollView>
+            ) : (
+                <ScrollView
+                    className="w-full pb-5"
+                    contentContainerStyle={{ alignItems: 'center' }}
+                    refreshControl={<RefreshControl refreshing={refreshing} onRefresh={onRefresh} />}
+                    decelerationRate={'normal'}
+                >
+                    <View
+                        className='pt-2 px-2'
+                        style={{ width: width, height: height * 0.8 }}
+                    >
+                        <FlashList<GroupChat>
+                            data={groups}
+                            keyExtractor={(_, index) => index.toString()}
+                            renderItem={({ item }) => (
+                                <ChatItem item={item} />
+                            )}
+                            estimatedItemSize={100}
+                        />
+                    </View>
+                </ScrollView>
+            )}
             {user.role == UserRole.PATIENT && (
                 <View className='absolute flex-col gap-3 bottom-11 right-0'>
                     <Pressable

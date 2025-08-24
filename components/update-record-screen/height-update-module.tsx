@@ -6,7 +6,7 @@ import { useEffect, useState } from 'react'
 import { calculateChange } from '../../util/calculate-change'
 import RecordTimePicker from './common/time-picker'
 import { useUpdateUserHeightMutation } from '../../service/query/user-query'
-import { router } from 'expo-router'
+import { router, useLocalSearchParams } from 'expo-router'
 import RecordConfirmButton from './common/record-confirm-button'
 import LoadingBanner from './common/loading-banner'
 import { useGenerateAiNoteMutation } from '../../service/query/ai-query'
@@ -17,9 +17,10 @@ const { width } = Dimensions.get('window')
 type Props = {
     lastMesurement: string
     initialTime?: string | null
+    id?: string | null
 }
 
-export default function HeightUpdateModule({ lastMesurement, initialTime }: Props) {
+export default function HeightUpdateModule({ lastMesurement, initialTime, id }: Props) {
 
     const [value, setValue] = useState('')
     const change = calculateChange(lastMesurement as string, value)
@@ -36,7 +37,8 @@ export default function HeightUpdateModule({ lastMesurement, initialTime }: Prop
     const handleUpdateHeight = async () => {
         await mutateAsync({
             value: Number(value),
-            measurementAt: selectedTime
+            measurementAt: selectedTime,
+            ...(id ? { carePlanInstanceId: id as string } : {})
         })
     }
 

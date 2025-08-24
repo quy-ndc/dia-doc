@@ -6,7 +6,7 @@ import { useEffect, useMemo, useState } from 'react'
 import { calculateChange } from '../../util/calculate-change'
 import RecordTimePicker from './common/time-picker'
 import { useUpdateUserBloodPressureMutation } from '../../service/query/user-query'
-import { router } from 'expo-router'
+import { router, useLocalSearchParams } from 'expo-router'
 import NoteField from './common/note-field'
 import RecordConfirmButton from './common/record-confirm-button'
 import { useGenerateAiNoteMutation } from '../../service/query/ai-query'
@@ -19,9 +19,10 @@ const { width } = Dimensions.get('window')
 type Props = {
     lastMesurement: string
     initialTime?: string | null
+    id?: string | null
 }
 
-export default function BloodPressureUpdateModule({ lastMesurement, initialTime }: Props) {
+export default function BloodPressureUpdateModule({ lastMesurement, initialTime, id }: Props) {
 
     const [lastSystolic, lastDiastolic] = useMemo(() => {
         if (!lastMesurement || lastMesurement === '0') return ['0', '0']
@@ -42,11 +43,19 @@ export default function BloodPressureUpdateModule({ lastMesurement, initialTime 
     } = useGenerateAiNoteMutation()
 
     const handleUpdateBloodPressure = async () => {
+        const request = {
+            systolic: Number(systolic),
+            diastolic: Number(diastolic),
+            personNote: '',
+            measurementAt: selectedTime,
+            ...(id ? { carePlanInstanceId: id as string } : {})
+        }
         await mutateAsync({
             systolic: Number(systolic),
             diastolic: Number(diastolic),
             personNote: '',
-            measurementAt: selectedTime
+            measurementAt: selectedTime,
+            ...(id ? { carePlanInstanceId: id as string } : {})
         })
     }
 

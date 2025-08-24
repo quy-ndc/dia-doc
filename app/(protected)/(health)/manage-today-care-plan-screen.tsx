@@ -51,7 +51,7 @@ export default function ManageTodayCarePlanScreen() {
                                 </Text>
                             </View>
                             <Text className='text-base tracking-wider'>
-                                Sau khi cập nhật, lịch đo mới sẽ được cập nhật ngay lập tức, bạn có thể tiếp tục theo dõi sức khỏe của mình
+                                Sau khi cập nhật, lịch đo mới sẽ được cập nhật ngay lập tức, bạn chỉ có thể sửa lịch của bản thân
                             </Text>
                         </View>
                         {isLoading ? (

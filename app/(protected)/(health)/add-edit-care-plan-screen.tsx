@@ -1,7 +1,7 @@
 import * as React from 'react'
 import { Text } from '../../../components/ui/text'
 import { Select, SelectTrigger, SelectContent, SelectItem, SelectValue } from '../../../components/ui/select'
-import { healthCarePlanPeriod, healthCarePlanSubType } from '../../../assets/data/healthcare-plan'
+import { healthCarePlanSubType, getHealthCarePlanPeriodTime } from '../../../assets/data/healthcare-plan'
 import { healthRecord } from '../../../assets/data/health-record-type'
 import { useEffect, useState } from 'react'
 import { Pressable, View } from 'react-native'
@@ -12,21 +12,36 @@ import TemplateDeleteButton from '../../../components/manage-care-plan-screen/te
 import SpinningIcon from '../../../components/common/icons/spinning-icon'
 import { Loader } from '../../../lib/icons/Loader'
 import { HealthRecordType } from '../../../assets/enum/health-record'
-import { HealthCarePlanPeriod } from '../../../assets/enum/healthcare-plan'
+import { HealthCarePlanPeriod, HealthCarePlanSubType } from '../../../assets/enum/healthcare-plan'
 import Toast from 'react-native-toast-message'
 import { Save } from '../../../lib/icons/Save'
+import DateTimePicker from '@react-native-community/datetimepicker'
 
 const { width } = Dimensions.get('window')
 
-export default function AddEditCarePlanScreen() {
+const getDefaultTime = (time?: string, period?: string) => {
+    if (time) {
+        if (time.match(/^\d{2}:\d{2}$/)) return time
+        if (time.match(/^\d{2}:\d{2}:\d{2}$/)) return time.substring(0, 5)
+    }
 
-    const { id, type, per, sub } = useLocalSearchParams()
+    if (period) {
+        const defaultTime = getHealthCarePlanPeriodTime(Number(period) as HealthCarePlanPeriod)
+        if (defaultTime) return defaultTime
+    }
+
+    const now = new Date()
+    return `${String(now.getHours()).padStart(2, '0')}:${String(now.getMinutes()).padStart(2, '0')}`
+}
+
+export default function AddEditCarePlanScreen() {
+    const { id, type, time, per, sub } = useLocalSearchParams()
 
     const [recordType, setRecordType] = useState<string | null>(type as string || null)
-    const [period, setPeriod] = useState<string | null>(per as string || null)
+    const [scheduledTime, setScheduledTime] = useState(getDefaultTime(time as string, per as string))
     const [subType, setSubType] = useState<string | null>(sub as string || null)
+    const [showTimePicker, setShowTimePicker] = useState(false)
 
-    const selectedPeriod = healthCarePlanPeriod.find(option => option.value === period)
     const selectedRecordType = healthRecord.find(option => option.value === recordType)
     const selectedSubType = healthCarePlanSubType.find(option => option.value === subType)
 
@@ -43,10 +58,10 @@ export default function AddEditCarePlanScreen() {
     } = useCreateCarePlanTemplateMutation()
 
     const onSave = async () => {
-        if (recordType === null || period === null) {
+        if (recordType === null || !scheduledTime) {
             Toast.show({
                 type: 'error',
-                text1: 'Loại chỉ số và thời điểm không được trống',
+                text1: 'Loại chỉ số và thời gian không được trống',
                 text2: 'Vui lòng điền đầy đủ'
             })
             return
@@ -56,20 +71,20 @@ export default function AddEditCarePlanScreen() {
             await updateTemplate({
                 id: id as string,
                 recordType: Number(recordType) as HealthRecordType,
-                period: Number(period) as HealthCarePlanPeriod,
-                subType: subType ? Number(subType) : undefined
+                scheduledAt: `${scheduledTime}:00`,
+                subType: subType ? Number(subType) as HealthCarePlanSubType : undefined
             })
         } else {
             await createTemplate({
                 recordType: Number(recordType) as HealthRecordType,
-                period: Number(period) as HealthCarePlanPeriod,
-                subType: subType ? Number(subType) : undefined
+                scheduledAt: `${scheduledTime}:00`,
+                subType: subType ? Number(subType) as HealthCarePlanSubType : undefined
             })
         }
     }
 
     const isLoading = updateTemplateLoading || createTemplateLoading
-    const disabled = isLoading || recordType === null || period === null
+    const disabled = isLoading || recordType === null || !scheduledTime
 
     useEffect(() => {
         if (!updateTemplateData || updateTemplateLoading || updateTemplateData.status !== 200) return
@@ -86,7 +101,7 @@ export default function AddEditCarePlanScreen() {
             <Stack.Screen
                 options={{
                     headerRight: () => (id && !isLoading) ? <TemplateDeleteButton id={id as string} /> : null,
-                    headerTitle: id ? 'Chỉnh sửa lịch đo' : 'Tạo lịch đo mới '
+                    headerTitle: id ? 'Chỉnh sửa lịch đo' : 'Tạo lịch đo mới'
                 }}
             />
             <View className='flex-col gap-5 px-5 py-3'>
@@ -114,24 +129,36 @@ export default function AddEditCarePlanScreen() {
 
                 <View className='flex-col gap-3'>
                     <Text className="text-lg font-bold tracking-wider">
-                        Chọn thời điểm
+                        Chọn thời gian
                         <Text className='text-red-500'> *</Text>
                     </Text>
-                    <Select
-                        value={selectedPeriod}
-                        onValueChange={option => setPeriod(option?.value || null)}
+                    <Pressable
+                        className='flex-row items-center justify-between px-4 py-3 rounded-lg bg-[var(--input-bg)] active:opacity-70'
+                        onPress={() => setShowTimePicker(true)}
                     >
-                        <SelectTrigger>
-                            <SelectValue placeholder="Chọn thời điểm">
-                                {selectedPeriod?.label ?? ''}
-                            </SelectValue>
-                        </SelectTrigger>
-                        <SelectContent style={{ width: width * 0.9, height: 'auto' }}>
-                            {healthCarePlanPeriod.map(option => (
-                                <SelectItem key={option.value} value={option.value} label={option.label} />
-                            ))}
-                        </SelectContent>
-                    </Select>
+                        <Text className='text-base tracking-wider'>{scheduledTime}</Text>
+                    </Pressable>
+                    {showTimePicker && (
+                        <DateTimePicker
+                            value={(() => {
+                                const [hours, minutes] = scheduledTime.split(':').map(Number)
+                                const date = new Date()
+                                date.setHours(hours)
+                                date.setMinutes(minutes)
+                                return date
+                            })()}
+                            mode="time"
+                            is24Hour={true}
+                            onChange={(_, selectedDate) => {
+                                setShowTimePicker(false)
+                                if (selectedDate) {
+                                    setScheduledTime(
+                                        `${String(selectedDate.getHours()).padStart(2, '0')}:${String(selectedDate.getMinutes()).padStart(2, '0')}`
+                                    )
+                                }
+                            }}
+                        />
+                    )}
                 </View>
 
                 <View className='flex-col gap-3'>
@@ -160,7 +187,7 @@ export default function AddEditCarePlanScreen() {
                     disabled={disabled}
                 >
                     {isLoading ? (
-                        <SpinningIcon icon={<Loader className='text-white' size={17} />} />
+                        <SpinningIcon icon={<Loader className='text-[var(--same-theme-col)]' size={17} />} />
                     ) : (
                         <Save className='text-[var(--same-theme-col)]' size={17} />
                     )}

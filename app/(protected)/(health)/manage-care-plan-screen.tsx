@@ -53,7 +53,7 @@ export default function ManageCarePlanScreen() {
                             </Text>
                         </View>
                         <Text className='text-base tracking-wider'>
-                            Sau khi cập nhật, lịch đo mới sẽ được hiển thị vào ngày tiếp theo, lịch đo sẽ được áp dụng hằng ngày
+                            Sau khi cập nhật, lịch đo mới sẽ được hiển thị vào ngày tiếp theo, lịch đo sẽ được áp dụng hằng ngày, bạn chỉ có thể sửa lịch của bản thân
                         </Text>
                     </View>
                     {isLoading ? (

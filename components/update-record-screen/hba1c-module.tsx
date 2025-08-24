@@ -6,7 +6,7 @@ import { useEffect, useState } from 'react'
 import { calculateChange } from '../../util/calculate-change'
 import RecordTimePicker from './common/time-picker'
 import { useUpdateUserHbA1cMutation } from '../../service/query/user-query'
-import { router } from 'expo-router'
+import { router, useLocalSearchParams } from 'expo-router'
 import NoteField from './common/note-field'
 import RecordConfirmButton from './common/record-confirm-button'
 import LoadingBanner from './common/loading-banner'
@@ -18,9 +18,10 @@ const { width } = Dimensions.get('window')
 type Props = {
     lastMesurement: string
     initialTime?: string | null
+    id?: string | null
 }
 
-export default function Hb1AcUpdateModule({ lastMesurement, initialTime }: Props) {
+export default function Hb1AcUpdateModule({ lastMesurement, initialTime, id }: Props) {
 
     const [value, setValue] = useState('')
     const [note, setNote] = useState('')
@@ -39,7 +40,8 @@ export default function Hb1AcUpdateModule({ lastMesurement, initialTime }: Props
         await mutateAsync({
             value: Number(value),
             personNote: note,
-            measurementAt: selectedTime
+            measurementAt: selectedTime,
+            ...(id ? { carePlanInstanceId: id as string } : {})
         })
     }
 

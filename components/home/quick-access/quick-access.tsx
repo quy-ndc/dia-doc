@@ -56,8 +56,6 @@ export default function QuickAccess() {
                             pathname: '/message-screen',
                             params: { type: 'group' }
                         })}
-                    // onPress={handlePressGroup}
-                    // onPress={handlePress}
                     />
                     <QuickButton
                         icon={

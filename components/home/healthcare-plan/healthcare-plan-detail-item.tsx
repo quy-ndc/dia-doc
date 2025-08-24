@@ -40,7 +40,7 @@ export default function HealthcarePlanDetailItem({ item, hidden }: Prop) {
             onPress={() => {
                 router.push({
                     pathname: 'update-record-screen',
-                    params: { type: item.recordType, time: item.scheduledAt }
+                    params: { type: item.recordType, time: item.scheduledAt, id: item.id }
                 })
             }}
         >

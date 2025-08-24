@@ -2,11 +2,10 @@ import { create } from 'zustand'
 import { MessageStore } from '../assets/types/zustand/message-z'
 import { Message } from '../assets/types/chat/message'
 
-
 export const useMessageStore = create<MessageStore>((set, get) => ({
     groups: {},
 
-    addGroup: (groupId) =>
+    addGroup: (groupId, isActive?: boolean) =>
         set((state) => {
             if (state.groups[groupId]) return state
             return {
@@ -16,12 +15,13 @@ export const useMessageStore = create<MessageStore>((set, get) => ({
                         messages: [],
                         messageIds: new Set(),
                         latestMessage: undefined,
+                        isActive: isActive === undefined ? true : isActive,
                     },
                 },
             }
         }),
 
-    addGroups: (groupIds: string[]) =>
+    addGroups: (groupIds: string[], isActive?: boolean) =>
         set((state) => {
             const newGroups = { ...state.groups }
 
@@ -31,6 +31,7 @@ export const useMessageStore = create<MessageStore>((set, get) => ({
                         messages: [],
                         messageIds: new Set(),
                         latestMessage: undefined,
+                        isActive: isActive === undefined ? true : isActive,
                     }
                 }
             }
@@ -40,7 +41,7 @@ export const useMessageStore = create<MessageStore>((set, get) => ({
             }
         }),
 
-    setGroups: (groupIds: string[]) =>
+    setGroups: (groupIds: string[], isActive?: boolean) =>
         set(() => {
             const newGroups: MessageStore["groups"] = {}
 
@@ -49,6 +50,7 @@ export const useMessageStore = create<MessageStore>((set, get) => ({
                     messages: [],
                     messageIds: new Set(),
                     latestMessage: undefined,
+                    isActive: isActive === undefined ? true : isActive,
                 }
             }
 
@@ -136,6 +138,25 @@ export const useMessageStore = create<MessageStore>((set, get) => ({
     getLatestMessage: (groupId) => {
         const group = get().groups[groupId]
         return group?.latestMessage
+    },
+
+    setGroupStatus: (groupId, isActive) =>
+        set((state) => {
+            if (!state.groups[groupId]) return state
+            return {
+                groups: {
+                    ...state.groups,
+                    [groupId]: {
+                        ...state.groups[groupId],
+                        isActive,
+                    },
+                },
+            }
+        }),
+
+    getGroupStatus: (groupId) => {
+        const group = get().groups[groupId]
+        return group?.isActive
     },
 
     clear: () => {

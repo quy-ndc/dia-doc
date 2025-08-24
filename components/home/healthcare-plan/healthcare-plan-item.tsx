@@ -11,6 +11,7 @@ import { getHealthCarePlanPeriodString, getHealthCarePlanSubTypeString } from '.
 import { Clock } from '../../../lib/icons/Clock'
 import { router } from 'expo-router'
 import { ChevronRight } from '../../../lib/icons/ChevronRight'
+import { Stethoscope } from '../../../lib/icons/Stethoscope'
 
 type Prop = {
     item: HealthCarePlan
@@ -37,7 +38,7 @@ export default function HealthcarePlanItem({ item, display }: Prop) {
         } else {
             router.push({
                 pathname: 'update-record-screen',
-                params: { type: item.recordType, time: item.scheduledAt }
+                params: { type: item.recordType, time: item.scheduledAt, id: item.id }
             })
         }
     }
@@ -95,6 +96,13 @@ export default function HealthcarePlanItem({ item, display }: Prop) {
                     </View>
                 )
             )}
+
+            {/* {item.doctor && (
+                <View className='flex-row gap-2 items-center'>
+                    <Stethoscope className='text-foreground' size={17} />
+                    <Teaxt className='text-sm font-semibold tracking-wider'>{item.doctor.name}</Text>
+                </View>
+            )} */}
 
         </Pressable>
     )

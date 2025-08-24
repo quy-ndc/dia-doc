@@ -8,20 +8,24 @@ import { useTopMediaQuery } from '../../../service/query/media-query'
 import { BlogPost } from '../../../assets/types/media/blog-post'
 import DailyTip from '../../../components/home/daily-tip.tsx/daily-tip'
 import HealthTracker from '../../../components/home/health-track.tsx/health-track'
-import { useConsultationListQuery, useUserHealthCarePlan, useUserHealthRecordProfile, useUserSessionAmountQuery } from '../../../service/query/user-query'
+import { useConsultationListQuery, usePurchasedServicePackageQuery, useUserHealthCarePlan, useUserHealthRecordProfile } from '../../../service/query/user-query'
 import { HealthTrackItem } from '../../../assets/types/user/health-track'
 import HealthcarePlan from '../../../components/home/healthcare-plan/healthcare-plan'
 import { HealthCarePlan } from '../../../assets/types/user/healthcare-plan'
 import useUserStore from '../../../store/userStore'
 import { UserRole } from '../../../assets/enum/user-role'
 import AiAccess from '../../../components/home/ai-access/ai-access'
-import ConsultSession from '../../../components/home/consult-session/consult-session'
 import ConsultationSchedule from '../../../components/home/consultation-schedule/consultation-schedule'
 import { ConsultationHistory } from '../../../assets/types/consult/doctor-schedule'
+import PurchaseService from '../../../components/home/purchase-service/purchase-serivce'
+import { PurchasedServicePackage } from '../../../assets/types/consult/consultation'
+import { ConsultationStatus } from '../../../assets/enum/consultation-status'
 
 export default function HomeScreen() {
+
     const { user } = useUserStore()
     const [refreshing, setRefreshing] = useState(false)
+    const [doctor, setDoctor] = useState('')
 
     const { data, isLoading, isError, refetch, remove } = useQuery({
         ...useTopMediaQuery({
@@ -56,23 +60,28 @@ export default function HomeScreen() {
         refetch: healthCarePlanRefetch,
         remove: healthCarePlanRemove
     } = useQuery({
-        ...useUserHealthCarePlan({}),
+        ...useUserHealthCarePlan({
+            doctorId: doctor == '' ? undefined : doctor
+        }),
         retry: 2,
         retryDelay: attempt => Math.min(1000 * 2 ** attempt, 5000),
         enabled: user.role === UserRole.PATIENT
     })
 
     const {
-        data: consultSessionData,
-        isLoading: consultSessionLoading,
-        isError: consultSessionError,
-        refetch: consultSessionRefetch,
-        remove: consultSessionRemove
+        data: avalableServiceData,
+        isError: availableServiceError,
+        refetch: availableServiceRefetch,
+        remove: availableServiceRemove,
+        isLoading: availableServiceLoading
     } = useQuery({
-        ...useUserSessionAmountQuery(),
+        ...usePurchasedServicePackageQuery({
+            SortBy: 'purchasedDate',
+            SortDirection: 0,
+            IsExistedSessions: true
+        }),
         retry: 2,
-        retryDelay: attempt => Math.min(1000 * 2 ** attempt, 5000),
-        enabled: user.role === UserRole.PATIENT
+        retryDelay: attempt => Math.min(1000 * 2 ** attempt, 5000)
     })
 
     const {
@@ -83,7 +92,8 @@ export default function HomeScreen() {
         remove: consultationListRemove
     } = useQuery({
         ...useConsultationListQuery({
-            PageSize: 5
+            PageSize: 5,
+            Status: user.role == UserRole.PATIENT ? ConsultationStatus.BOOKED : 2
         }),
         retry: 2,
         retryDelay: attempt => Math.min(1000 * 2 ** attempt, 5000),
@@ -91,23 +101,26 @@ export default function HomeScreen() {
 
     const onRefresh = useCallback(() => {
         setRefreshing(true)
-        remove()
-
         const refreshPromises = [refetch()]
-
-        healthRecordRemove()
-        healthCarePlanRemove()
-        consultSessionRemove()
+        remove()
+        if (user.role == UserRole.PATIENT) {
+            healthRecordRemove()
+            healthCarePlanRemove()
+            availableServiceRemove()
+        }
         consultationListRemove()
-        refreshPromises.push(healthRecordRefetch(), healthCarePlanRefetch(), consultSessionRefetch(), consultationListRefetch())
+        refreshPromises.push(refetch(), consultationListRefetch())
+        if (user.role == UserRole.PATIENT) {
+            refreshPromises.push(healthRecordRefetch(), healthCarePlanRefetch(), availableServiceRefetch())
+        }
 
         Promise.all(refreshPromises).finally(() => setRefreshing(false))
-    }, [user.role, refetch, healthRecordRefetch, healthCarePlanRefetch, consultSessionRefetch, remove, healthRecordRemove, healthCarePlanRemove, consultSessionRemove])
+    }, [user.role, refetch, healthRecordRefetch, healthCarePlanRefetch, remove, healthRecordRemove, healthCarePlanRemove])
 
     const items: BlogPost[] = data?.data?.data || []
     const healthRecordItems: HealthTrackItem[] = healthRecordData?.data?.data?.healthRecords || []
     const healthCarePlanItems: HealthCarePlan[] = healthCarePlanData?.data?.data || []
-    const sessionAmount = consultSessionData?.data?.data || 0
+    const availableServiceItems: PurchasedServicePackage[] = avalableServiceData?.data?.data?.items || []
     const consultationHistoryItems: ConsultationHistory[] = consultatonList?.data?.data?.items || []
 
     return (
@@ -139,13 +152,15 @@ export default function HomeScreen() {
                                     refetch={healthCarePlanRefetch}
                                     remove={healthCarePlanRemove}
                                     refreshing={refreshing}
+                                    doctor={doctor}
+                                    setDoctor={setDoctor}
                                 />
-                                <ConsultSession
-                                    amount={sessionAmount}
-                                    isLoading={consultSessionLoading}
-                                    isError={consultSessionError}
-                                    refetch={consultSessionRefetch}
-                                    remove={consultSessionRemove}
+                                <PurchaseService
+                                    items={availableServiceItems}
+                                    isLoading={availableServiceLoading}
+                                    isError={availableServiceError}
+                                    refetch={availableServiceRefetch}
+                                    remove={availableServiceRemove}
                                     refreshing={refreshing}
                                 />
                             </>

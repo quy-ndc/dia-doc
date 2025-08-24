@@ -35,6 +35,7 @@ const mediaService = 'media-service'
 
 const endpointAuth = {
     LOGIN_PHONE: `${API_GATEWAY_ENDPOINT}/${authService}/${apiPrefixV1}/auth/login-phone`,
+    LOGOUT: `${API_GATEWAY_ENDPOINT}/${authService}/${apiPrefixV1}/auth/logout`,
     REGISTER_PHONE: `${API_GATEWAY_ENDPOINT}/${authService}/${apiPrefixV1}/auth/register-phone`,
     VERIFY_PHONE: `${API_GATEWAY_ENDPOINT}/${authService}/${apiPrefixV1}/auth/verify-otp-register`,
     RESEND_PHONE: `${API_GATEWAY_ENDPOINT}/${authService}/${apiPrefixV1}/auth/resend-otp-register`,
@@ -54,7 +55,7 @@ const endpointAI = {
     DELETE_AI_SESSION: `${AI_SERVICE_ENDPOINT}/${apiPrefixV1}/rag/session-chat`,
     UPDATE_AI_SESSION: `${AI_SERVICE_ENDPOINT}/${apiPrefixV1}/rag/session-chat`,
 
-    GENERATE_AI_NOTE: `${API_GATEWAY_ENDPOINT}/${apiPrefixV1}/users/patients/records/ai-note`
+    GENERATE_AI_NOTE: `${API_GATEWAY_ENDPOINT}/${userService}/${apiPrefixV1}/users/patients/records/ai-note`
 }
 
 const endpointUser = {
@@ -82,13 +83,17 @@ const endpointUser = {
     UPDATE_USER_HEALTH_CARE_PLAN: `${API_GATEWAY_ENDPOINT}/${userService}/${apiPrefixV1}/users/patients/careplan`,
     DELETE_USER_HEALTH_CARE_PLAN: `${API_GATEWAY_ENDPOINT}/${userService}/${apiPrefixV1}/users/patients/careplan`,
 
+    GET_ALL_DOCTOR_HAVE_CREATED_CARE_PLAN: `${API_GATEWAY_ENDPOINT}/${userService}/${apiPrefixV1}/users/patients/template/doctor-created`,
+    GET_CARE_PLAN_TEMPLATE_DOCTOR: `${API_GATEWAY_ENDPOINT}/${userService}/${apiPrefixV1}/doctors`,
+    UPDATE_CARE_PLAN_TEMPLATE_DOCTOR: `${API_GATEWAY_ENDPOINT}/${userService}/${apiPrefixV1}/doctors`,
+    DELETE_CARE_PLAN_TEMPLATE_DOCTOR: `${API_GATEWAY_ENDPOINT}/${userService}/${apiPrefixV1}/doctors`,
+
     GET_ALL_SERVICE_PACKAGES: `${API_GATEWAY_ENDPOINT}/${userService}/${apiPrefixV1}/service_packages`,
     GET_ALL_PURCHASED_SERVICE_PACKAGES: `${API_GATEWAY_ENDPOINT}/${userService}/${apiPrefixV1}/service_packages/purchased`,
     CREATE_PAYMENT: `${API_GATEWAY_ENDPOINT}/${userService}/${apiPrefixV1}/payments`,
     GET_ALL_DOCTOR: `${API_GATEWAY_ENDPOINT}/${userService}/${apiPrefixV1}/doctors`,
     GET_DOCTOR_BY_ID: `${API_GATEWAY_ENDPOINT}/${userService}/${apiPrefixV1}/doctors`,
     GET_ALL_DOCTOR_SCHEDULE: `${CONSULTATION_SERVICE_ENDPOINT}/${apiPrefixV1}/doctors`,
-    GET_USER_SESSION_AMOUNT: `${API_GATEWAY_ENDPOINT}/${userService}/${apiPrefixV1}/users/patients/consultation-sessions`,
 
     CREATE_BOOKING: `${CONSULTATION_SERVICE_ENDPOINT}/${apiPrefixV1}/consultations`,
     GET_ALL_CONSULTAIONS: `${CONSULTATION_SERVICE_ENDPOINT}/${apiPrefixV1}/consultations`

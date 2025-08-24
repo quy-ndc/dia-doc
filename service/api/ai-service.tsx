@@ -138,7 +138,7 @@ export const SendMessageToAI = async (params: {
     content: string,
     user_id: string,
     session_id?: string,
-    external_knowledge: boolean
+    use_external_knowledge: boolean
 }) => {
 
     try {
@@ -146,7 +146,7 @@ export const SendMessageToAI = async (params: {
             content: params.content,
             user_id: params.user_id,
             session_id: params.session_id,
-            external_knowledge: params.external_knowledge
+            use_external_knowledge: params.use_external_knowledge
         })
 
         return {

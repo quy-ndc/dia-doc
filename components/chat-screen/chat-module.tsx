@@ -79,7 +79,6 @@ export default function ChatModule({
     useEffect(() => {
         if (!data) return
         const messages: Message[] = data.pages.at(-1)?.data?.data?.items ?? []
-        console.log()
         if (messages.length) {
             if (data.pages.length === 1) {
                 setMessages(groupId, messages)

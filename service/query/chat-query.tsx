@@ -49,7 +49,7 @@ export const useSendMessageMutation = () => {
             if (data.status !== 200) {
                 Toast.show({
                     type: 'error',
-                    text1: data?.data?.errors[0].description || 'Gửi tin nhắn thất bại',
+                    text1: data?.data?.errors[0].message || 'Gửi tin nhắn thất bại',
                     text2: 'Vui lòng thử lại sau',
                     visibilityTime: 2000,
                 })
@@ -78,7 +78,7 @@ export const useJoinAGroupMutation = () => {
             if (data.status !== 200) {
                 Toast.show({
                     type: 'error',
-                    text1: data?.data?.errors[0].description || 'Tham gia nhóm thất bại',
+                    text1: data?.data?.errors[0].message || 'Tham gia nhóm thất bại',
                     text2: 'Vui lòng thử lại sau',
                     visibilityTime: 2000,
                 })

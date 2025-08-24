@@ -83,7 +83,7 @@ export default function EmptyAiChatModule({ useExternal }: Prop) {
                 content: messageContent,
                 user_id: user.id,
                 session_id: currentSessionId || '',
-                external_knowledge: useExternal
+                use_external_knowledge: useExternal
             })
 
             if (response?.data && response.status === 200) {

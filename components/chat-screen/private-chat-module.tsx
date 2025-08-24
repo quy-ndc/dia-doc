@@ -24,15 +24,18 @@ import { useDebounce } from '../../util/hook/useDebounce'
 import ErrorDisplay from '../common/error-display'
 import { useMessages } from '@ably/chat'
 import { UserRole, UserRoleNumber } from '../../assets/enum/user-role'
+import { BooleanSchema } from 'yup'
 
 type Prop = {
     groupId: string
     setIsCameraOn: (state: boolean) => void
+    isActive: boolean
 }
 
 export default function PrivateChatModule({
     groupId,
     setIsCameraOn,
+    isActive
 }: Prop) {
     const { groups, setMessages, addMessages, addMessage } = usePrivateMessageStore()
     const { user } = useUserStore()
@@ -44,7 +47,6 @@ export default function PrivateChatModule({
     const [refreshing, setRefreshing] = useState(false)
     const [scrollOffsetY, setScrollOffsetY] = useState(0)
     const debouncedOffsetY = useDebounce(scrollOffsetY, 500)
-    const [disableSend, setDisableSend] = useState(false)
 
     const {
         data,
@@ -147,7 +149,6 @@ export default function PrivateChatModule({
     useEffect(() => {
         if (messageData?.data?.code == 'conversation_er_07') {
             setNewMessage('')
-            setDisableSend(true)
         }
         if (!messageData || messageData.status !== 200) return
         const messageToSend: Message = {
@@ -180,6 +181,18 @@ export default function PrivateChatModule({
                     <View className='flex-1 w-full h-full justify-center items-center'>
                         <SpinningIcon icon={<Loader className='text-foreground' size={30} />} />
                     </View>
+                ) : !isActive ? (
+                    <ScrollView
+                        className="flex-1 w-full"
+                        contentContainerStyle={{ alignItems: 'center', justifyContent: 'center', flexGrow: 1 }}
+                        refreshControl={<RefreshControl refreshing={refreshing} onRefresh={onRefresh} />}
+                    >
+                        <ErrorDisplay
+                            text={'Cuộc tư vấn này chưa bắt đầu hoặc đã kết thúc'}
+                            onRefresh={onRefresh}
+                            refreshing={refreshing}
+                        />
+                    </ScrollView>
                 ) : isError || groups[groupId].messages.length == 0 ? (
                     <ScrollView
                         className="flex-1 w-full"
@@ -187,7 +200,7 @@ export default function PrivateChatModule({
                         refreshControl={<RefreshControl refreshing={refreshing} onRefresh={onRefresh} />}
                     >
                         <ErrorDisplay
-                            text={'Không có tin nhắn nào'}
+                            text={'Chưa có tin nhắn nào'}
                             onRefresh={onRefresh}
                             refreshing={refreshing}
                         />
@@ -226,8 +239,8 @@ export default function PrivateChatModule({
                         <ChevronRight className='text-foreground' size={20} />
                     </Pressable>
                     <Input
-                        style={{ opacity: disableSend ? 0.7 : 1 }}
-                        aria-disabled={disableSend}
+                        style={{ opacity: !isActive ? 0.7 : 1 }}
+                        aria-disabled={!isActive}
                         className='flex-1 rounded-full bg-[var(--input-bg)]'
                         value={newMessage}
                         onChangeText={onTextChange}
@@ -243,7 +256,7 @@ export default function PrivateChatModule({
                             ${newMessage == '' && 'opacity-50'}
                         `}
                         onPress={handleSend}
-                        disabled={newMessage == ''}
+                        disabled={newMessage == '' || !isActive}
                     >
                         {isLoading ? (
                             <SpinningIcon icon={<Loader className='text-foreground' size={20} />} />
@@ -253,14 +266,14 @@ export default function PrivateChatModule({
                     </Pressable>
                 </View>
 
-                <RNAnimated.View style={{ opacity, position: 'absolute', bottom: 70, left: '50%', transform: [{ translateX: -20 }] }}>
+                {/* <RNAnimated.View style={{ opacity, position: 'absolute', bottom: 70, left: '50%', transform: [{ translateX: -20 }] }}>
                     <Pressable
                         className='p-2 rounded-full justify-center items-center bg-[var(--go-up-btn-bg)] active:bg-[var(--go-up-click-bg)]'
                         onPress={scrollToTop}
                     >
                         <ChevronDown className='text-[var(--go-up-btn-icon)]' size={22} />
                     </Pressable>
-                </RNAnimated.View>
+                </RNAnimated.View> */}
             </View>
         </KeyboardAvoidingView>
     )

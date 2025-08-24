@@ -23,8 +23,6 @@ export default function BloodPressureGuide() {
         TutorialType: Number(type) as HealthRecordType
     }))
 
-    console.log(type)
-
     const onRefresh = useCallback(() => {
         setRefreshing(true)
         remove()

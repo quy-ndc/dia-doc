@@ -14,6 +14,8 @@ import { PencilLine } from '../../../lib/icons/PencilLine'
 import { ArrowRightLeft } from '../../../lib/icons/ArrowRightLeft'
 import { router } from 'expo-router'
 import { Clock } from '../../../lib/icons/Clock'
+import IconButton from '../../common/icon-button'
+import DoctorFilter from './doctor-filter'
 
 
 const { width } = Dimensions.get('window')
@@ -25,6 +27,8 @@ type Prop = {
     refetch: () => void
     remove: () => void
     refreshing: boolean
+    doctor: string
+    setDoctor: (doctor: string) => void
 }
 
 const getClosestFutureItem = (items: HealthCarePlan[]): HealthCarePlan | null => {
@@ -34,7 +38,7 @@ const getClosestFutureItem = (items: HealthCarePlan[]): HealthCarePlan | null =>
         .sort((a, b) => new Date(a.scheduledAt).getTime() - new Date(b.scheduledAt).getTime())[0] || null
 }
 
-export default function HealthcarePlan({ items, isLoading, isError, refetch, remove, refreshing }: Prop) {
+export default function HealthcarePlan({ items, isLoading, isError, refetch, remove, refreshing, doctor, setDoctor }: Prop) {
 
     const [value, setValue] = useState<'detail' | 'list'>('detail')
 
@@ -56,12 +60,13 @@ export default function HealthcarePlan({ items, isLoading, isError, refetch, rem
                     <Text className='text-lg mb-1 font-bold tracking-widest capitalize'>Lịch chăm sóc sức khỏe</Text>
                 </View>
                 <View className='flex-row gap-2 items-center rounded-lg'>
-                    <Pressable
-                        className={`p-2 rounded-full active:bg-[var(--click-bg)]`}
+                    <IconButton
+                        icon={<ArrowRightLeft className='text-foreground' size={17} />}
+                        buttonSize={2}
+                        possition={'other'}
                         onPress={() => setValue(value == 'detail' ? 'list' : 'detail')}
-                    >
-                        <ArrowRightLeft className='text-foreground' size={17} />
-                    </Pressable>
+                    />
+                    <DoctorFilter doctor={doctor} setDoctor={setDoctor} />
                 </View>
             </View>
 
@@ -83,7 +88,7 @@ export default function HealthcarePlan({ items, isLoading, isError, refetch, rem
                     />
                     <View className='flex-col gap-3 py-3 w-full items-center'>
                         <Pressable
-                            className='flex-row gap-2 items-center justify-center px-4 py-3 rounded-lg border border-[var(--oppo-theme-col)] w-full active:bg-[var(--click-bg)]'
+                            className='flex-row gap-2 items-center justify-center px-4 py-3 rounded-full border border-[var(--oppo-theme-col)] w-full active:bg-[var(--click-bg)]'
                             onPress={() => router.push('manage-today-care-plan-screen')}
                         >
                             <Clock className='text-[var(--oppo-theme-col)]' size={17} />
@@ -91,7 +96,7 @@ export default function HealthcarePlan({ items, isLoading, isError, refetch, rem
                         </Pressable>
 
                         <Pressable
-                            className='flex-row gap-2 items-center justify-center px-4 py-3 rounded-lg bg-[var(--oppo-theme-col)] w-full active:opacity-80'
+                            className='flex-row gap-2 items-center justify-center px-4 py-3 rounded-full bg-[var(--oppo-theme-col)] w-full active:opacity-80'
                             onPress={() => router.push('manage-care-plan-screen')}
                         >
                             <Calendar className='text-[var(--same-theme-col)]' size={17} />

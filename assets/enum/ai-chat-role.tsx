@@ -1,4 +1,4 @@
 export enum AIChatRole {
-    USER = 'human',
+    USER = 'user',
     ASSISTANT = 'ai'
 }

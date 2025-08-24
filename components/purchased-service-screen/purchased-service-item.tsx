@@ -1,12 +1,12 @@
 import * as React from 'react'
 import { Pressable, View } from 'react-native'
 import { Text } from '../../components/ui/text'
-import { PurchasedServicePackage } from '../../assets/types/consult/consultation'
-import Tag from '../common/tag'
-import { GlobalColor } from '../../global-color'
-import { ChevronRight } from '../../lib/icons/ChevronRight'
 import { formatPrice } from '../../util/format-price'
 import PurchaseConfirmationModal from '../service-package-screen/purchase-confirmation'
+import { PurchasedServicePackage } from '../../assets/types/consult/consultation'
+import { GlobalColor } from '../../global-color'
+import Tag from '../common/tag'
+import { formatDate } from '../../util/format-date'
 
 type Prop = {
     item: PurchasedServicePackage
@@ -19,24 +19,27 @@ export default function PurchaseServiceItem({ item }: Prop) {
             <View className='flex-row gap-2 w-full justify-between'>
                 <View className='flex-col px-2 gap-3 flex-1'>
                     <Text className='text-base font-medium tracking-wider'>
-                        {item.servicePackage.name}
+                        {item.packageName}
                     </Text>
                     <Text className='text-lg font-semibold tracking-wider text-[var(--fade-text-color)]'>
-                        Giá gốc: {formatPrice(item.servicePackage.price)}đ
+                        Giá mua: {formatPrice(item.priceAtPurchased)}đ
                     </Text>
-                    <Text className='text-lg font-semibold tracking-wider text-[var(--fade-text-color)]'>
-                        Giá đã mua: {formatPrice(item.priceAtPurchased)}đ
+                    <Text
+                        style={{ color: GlobalColor.BLUE_NEON_BORDER }}
+                        className='text-lg font-semibold tracking-wider text-[var(--fade-text-color)]'
+                    >
+                        {`Còn ${item.remainingSessions}/${item.totalSessions} lượt`}
                     </Text>
-                </View>
-                <View className='flex-shrink-0'>
-                    <Tag
-                        background={GlobalColor.BLUE_NEON_BG}
-                        textColor={GlobalColor.BLUE_NEON_BORDER}
-                        text={item.servicePackage.type.name}
-                    />
+                    <View className='self-start'>
+                        <Tag
+                            background={GlobalColor.BLUE_NEON_BG}
+                            text={`Mua vào ${formatDate(item.purchasedDate)}`}
+                            textColor={GlobalColor.BLUE_NEON_BORDER}
+                        />
+                    </View>
                 </View>
             </View>
-            <PurchaseConfirmationModal id={item.servicePackage.id} />
+            <PurchaseConfirmationModal id={item.id} />
         </Pressable>
     )
 }

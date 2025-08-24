@@ -3,11 +3,11 @@ import { useCallback, useState } from 'react'
 import { Dimensions, RefreshControl, ScrollView, View } from 'react-native'
 import { useInfiniteQuery } from '@tanstack/react-query'
 import { usePurchasedServicePackageQuery } from '../../../service/query/user-query'
-import { PurchasedServicePackage } from '../../../assets/types/consult/consultation'
 import { FlashList } from '@shopify/flash-list'
 import ServicePackageSkeleton from '../../../components/common/skeleton/service-package-skeleton'
 import ErrorDisplay from '../../../components/common/error-display'
 import PurchaseServiceItem from '../../../components/purchased-service-screen/purchased-service-item'
+import { PurchasedServicePackage, ServicePackage } from '../../../assets/types/consult/consultation'
 
 const { width, height } = Dimensions.get('window')
 
@@ -66,9 +66,8 @@ export default function PurchasedServiceScreen() {
                     ) : (
                         <FlashList<PurchasedServicePackage>
                             data={items}
-                            keyExtractor={(_, index) => index.toString()}
-                            renderItem={({ item }) => (
-                                <View className='my-2'>
+                            renderItem={({ item, index }) => (
+                                <View key={index} className='my-2'>
                                     <PurchaseServiceItem item={item} />
                                 </View>
                             )}

@@ -4,8 +4,9 @@ import { HealthCarePlanPeriod, HealthCarePlanSubType } from "../../enum/healthca
 export type CarePlanTemplate = {
     id: string
     recordType: HealthRecordType
-    period: HealthCarePlanPeriod
+    period?: HealthCarePlanPeriod
+    scheduledAt?: string
     subType?: HealthCarePlanSubType
-    reason: string
+    reason?: string
     createdDate: string
 }

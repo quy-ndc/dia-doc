@@ -27,22 +27,26 @@ export default function ServicePackageItem({ item }: Prop) {
                         {formatPrice(item.price)}đ
                     </Text>
                 </View>
-                <View className='flex-shrink-0'>
-                    <Tag
-                        background={GlobalColor.BLUE_NEON_BG}
-                        textColor={GlobalColor.BLUE_NEON_BORDER}
-                        text={item.type.name}
-                    />
-                </View>
+                <View />
             </View>
 
             <View className='flex-col gap-2 w-full'>
-                {item.features.map((feature, index) => (
-                    <PackageFeatureItem
-                        key={index}
-                        item={feature}
+                <View className='flex-row gap-2 items-center'>
+                    <RoundedIcon
+                        icon={<Check color={GlobalColor.GREEN_NEON_BORDER} size={14} />}
+                        background={GlobalColor.GREEN_NEON_BG}
+                        size={2}
                     />
-                ))}
+                    <Text className='text-sm font-medium tracking-wider'>{item.sessions} lần tư vấn</Text>
+                </View>
+                <View className='flex-row gap-2 items-center'>
+                    <RoundedIcon
+                        icon={<Check color={GlobalColor.GREEN_NEON_BORDER} size={14} />}
+                        background={GlobalColor.GREEN_NEON_BG}
+                        size={2}
+                    />
+                    <Text className='text-sm font-medium tracking-wider'>Thời lượng {item.durationInMonths} tháng</Text>
+                </View>
                 <View className='flex-row gap-2 items-center'>
                     <RoundedIcon
                         icon={<Check color={GlobalColor.GREEN_NEON_BORDER} size={14} />}

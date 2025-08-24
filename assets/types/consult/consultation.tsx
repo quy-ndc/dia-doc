@@ -1,33 +1,21 @@
-import { PackageFeatureType } from "../../enum/package-feature"
-
 export type ServicePackage = {
     id: string
     name: string
+    description: string
     price: number
-    createdDate: string
-    type: {
-        id: string
-        name: string
-        createdDate: string
-    }
-    features: PackageFeature[]
-}
-
-export type PackageFeature = {
-    id: string
-    type: PackageFeatureType
-    name: string
-    featureValue: {
-        value: number
-        type: string
-    }
+    sessions: number
+    durationInMonths: number
+    isActive: boolean
     createdDate: string
 }
 
 export type PurchasedServicePackage = {
     id: string
-    information: string
+    packageName: string
     priceAtPurchased: number
+    totalSessions: number
+    remainingSessions: number
+    expireDate: string
+    isExpired: boolean
     purchasedDate: string
-    servicePackage: ServicePackage
 }

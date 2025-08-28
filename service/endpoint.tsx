@@ -32,6 +32,8 @@ const apiPrefixV1 = 'api/v1'
 const authService = 'auth-service'
 const userService = 'user-service'
 const mediaService = 'media-service'
+const chatService = 'chat-service'
+const consultationService = 'consultation-service'
 
 const endpointAuth = {
     LOGIN_PHONE: `${API_GATEWAY_ENDPOINT}/${authService}/${apiPrefixV1}/auth/login-phone`,
@@ -99,10 +101,14 @@ const endpointUser = {
     CREATE_PAYMENT: `${API_GATEWAY_ENDPOINT}/${userService}/${apiPrefixV1}/payments`,
     GET_ALL_DOCTOR: `${API_GATEWAY_ENDPOINT}/${userService}/${apiPrefixV1}/doctors`,
     GET_DOCTOR_BY_ID: `${API_GATEWAY_ENDPOINT}/${userService}/${apiPrefixV1}/doctors`,
-    GET_ALL_DOCTOR_SCHEDULE: `${CONSULTATION_SERVICE_ENDPOINT}/${apiPrefixV1}/doctors`,
+    GET_ALL_DOCTOR_SCHEDULE: `${API_GATEWAY_ENDPOINT}/${consultationService}/${apiPrefixV1}/doctors`,
 
-    CREATE_BOOKING: `${CONSULTATION_SERVICE_ENDPOINT}/${apiPrefixV1}/consultations`,
-    GET_ALL_CONSULTAIONS: `${CONSULTATION_SERVICE_ENDPOINT}/${apiPrefixV1}/consultations`
+    CREATE_BOOKING: `${API_GATEWAY_ENDPOINT}/${consultationService}/${apiPrefixV1}/consultations`,
+    GET_ALL_CONSULTAIONS: `${API_GATEWAY_ENDPOINT}/${consultationService}/${apiPrefixV1}/consultations`,
+    CANCEL_BOOKING: `${API_GATEWAY_ENDPOINT}/${consultationService}/${apiPrefixV1}/consultations`,
+
+    GET_WALLET_BALANCE: `${API_GATEWAY_ENDPOINT}/${userService}/${apiPrefixV1}/users/wallet/balance`,
+    GET_WALLET_HISTORY: `${API_GATEWAY_ENDPOINT}/${userService}/${apiPrefixV1}/users/wallet/history`,
 }
 
 const endpointMedia = {
@@ -121,12 +127,12 @@ const endpointCategory = {
 }
 
 const endpointChat = {
-    GET_ALL_GROUP_CHAT: `${CHAT_SERVICE_ENDPOINT}/${apiPrefixV1}/conversations`,
-    GET_ALL_MESSAGES: `${CHAT_SERVICE_ENDPOINT}/${apiPrefixV1}/conversations`,
-    SEND_MESSAGE: `${CHAT_SERVICE_ENDPOINT}/${apiPrefixV1}/conversations`,
-    UPLOAD_IMAGE: `${CHAT_SERVICE_ENDPOINT}/${apiPrefixV1}/media/upload`,
-    JOIN_A_GROUP: `${CHAT_SERVICE_ENDPOINT}/${apiPrefixV1}/hospital-conversations`,
-    LEAVE_A_GROUP: `${CHAT_SERVICE_ENDPOINT}/${apiPrefixV1}/conversations`,
+    GET_ALL_GROUP_CHAT: `${API_GATEWAY_ENDPOINT}/${chatService}/${apiPrefixV1}/conversations`,
+    GET_ALL_MESSAGES: `${API_GATEWAY_ENDPOINT}/${chatService}/${apiPrefixV1}/conversations`,
+    SEND_MESSAGE: `${API_GATEWAY_ENDPOINT}/${chatService}/${apiPrefixV1}/conversations`,
+    UPLOAD_IMAGE: `${API_GATEWAY_ENDPOINT}/${chatService}/${apiPrefixV1}/media/upload`,
+    JOIN_A_GROUP: `${API_GATEWAY_ENDPOINT}/${chatService}/${apiPrefixV1}/hospital-conversations`,
+    LEAVE_A_GROUP: `${API_GATEWAY_ENDPOINT}/${chatService}/${apiPrefixV1}/conversations`,
 }
 
 const endpointNoti = {

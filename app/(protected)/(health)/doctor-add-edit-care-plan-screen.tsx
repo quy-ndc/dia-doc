@@ -45,8 +45,6 @@ export default function DoctorAddEditCarePlanScreen() {
     const selectedRecordType = healthRecord.find(option => option.value === recordType)
     const selectedSubType = healthCarePlanSubType.find(option => option.value === subType)
 
-    console.log(id)
-
     const {
         mutateAsync: updateTemplate,
         data: updateTemplateData,

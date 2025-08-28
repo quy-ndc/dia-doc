@@ -5,14 +5,15 @@ import { Image } from 'expo-image'
 import { Clock } from "../../../lib/icons/Clock"
 import { GlobalColor } from "../../../global-color"
 import Tag from "../../common/tag"
-import { getConsultationStatusDisplay } from "../../../assets/enum/consultation-status"
-import PatientProfileModal from "../../chat-screen/patient-profile-modal"
+import { ConsultationStatus, getConsultationStatusDisplay } from "../../../assets/enum/consultation-status"
 import { useState } from "react"
 import React from "react"
 import useUserStore from "../../../store/userStore"
 import { UserRole } from "../../../assets/enum/user-role"
 import { router } from "expo-router"
 import { ConversationType } from "../../../assets/enum/conversation-type"
+import PatientProfileModal from "../../chat-screen/patient-profile-modal"
+import ScheduleCancelModal from "./schedule-cancel-modal"
 
 type Prop = {
     item: ConsultationHistory
@@ -35,7 +36,26 @@ export default function ConsultationScheduleItem({ item }: Prop) {
     }
 
     const onPress = () => {
-        if (user.role == UserRole.PATIENT) {
+        const currentTime = new Date();
+        const [hours, minutes, seconds] = item.startTime.split(':').map(Number);
+        const [endHours, endMinutes, endSeconds] = item.endTime.split(':').map(Number);
+
+        const startTimeToday = new Date();
+        startTimeToday.setHours(hours, minutes, seconds);
+
+        const endTimeToday = new Date();
+        endTimeToday.setHours(endHours, endMinutes, endSeconds);
+
+        if (user.role === UserRole.DOCTOR) {
+            setProfileVisible(true)
+            return
+        }
+
+        if (user.role === UserRole.PATIENT && item.status == ConsultationStatus.BOOKED) {
+            if (currentTime > endTimeToday) {
+                return
+            }
+
             router.push({
                 pathname: '/chat-screen',
                 params: {
@@ -43,11 +63,13 @@ export default function ConsultationScheduleItem({ item }: Prop) {
                     title: item.userFullName,
                     image: item.userAvatar,
                     type: ConversationType.PRIVATE_CHAT,
-                    // target: item.userId
+                    active: currentTime >= startTimeToday ? 'true' : 'false',
+                    target: item.userId
                 }
-            })
+            });
         }
     }
+
 
     return (
         <>
@@ -71,20 +93,23 @@ export default function ConsultationScheduleItem({ item }: Prop) {
                         </Text>
                     </View>
                 </View>
-                <View>
+                <View className="flex-col gap-3">
                     <Tag
                         background={status.backgroundColor}
                         text={status.label}
                         textColor={status.color}
                         borderColor={status.color}
                     />
+                    {item.status === ConsultationStatus.BOOKED && (
+                        <ScheduleCancelModal id={item.id} />
+                    )}
                 </View>
             </Pressable>
-            {/* <PatientProfileModal
+            <PatientProfileModal
                 id={item.userId}
                 visible={profileVisible}
                 setVisible={setProfileVisible}
-            /> */}
+            />
         </>
     )
 }

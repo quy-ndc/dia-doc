@@ -11,6 +11,8 @@ import BloodPressureUpdateModule from '../../../components/update-record-screen/
 import Hb1AcUpdateModule from '../../../components/update-record-screen/hba1c-module'
 import IconButton from '../../../components/common/icon-button'
 import { History } from '../../../lib/icons/History'
+import { CircleAlert } from '../../../lib/icons/CircleAlert'
+import { GlobalColor } from '../../../global-color'
 
 const updateModules = {
     [HealthRecordType.WEIGHT]: WeightUpdateModule,
@@ -49,18 +51,18 @@ export default function UpdateRecordScreen() {
                                 </Text>
                             </View>
                         </View>,
-                    headerRight: () =>
+                    headerRight: () => recordType == HealthRecordType.BLOOD_SUGAR || recordType == HealthRecordType.BLOOD_PRESSURE || recordType == HealthRecordType.HBA1C ?
                         <IconButton
-                            icon={<History className='text-foreground' size={18} />}
+                            icon={<CircleAlert color={GlobalColor.BLUE_NEON_BORDER} size={18} />}
                             buttonSize={3}
                             possition={'other'}
                             onPress={() => {
                                 router.push({
-                                    pathname: "/health-record-history-screen",
+                                    pathname: "/health-record-guide-screen",
                                     params: { type: recordType }
                                 })
                             }}
-                        />
+                        /> : null
                 }}
             />
             <View className='flex-1 relative'>

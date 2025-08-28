@@ -1,5 +1,5 @@
 import { useMutation, useQueryClient } from "@tanstack/react-query"
-import { CreateBooking, CreateCarePlanInstanceDoctor, CreateCarePlanTemplate, CreateCarePlanTemplateDoctor, CreatePayment, CreateUserHealthCarePlan, CreateUserProfile, DeleteCarePlanInstanceDoctor, DeleteCarePlanTemplate, DeleteCarePlanTemplateDoctor, DeleteUserHealthCarePlan, DoctorGetPatientProfile, DoctorGetPatientRecords, EditUserProfile, GetAllConsultation, GetAllDoctor, GetAllDoctorHaveCreatedCarePlan, GetAllPurchasedServicePackages, GetAllServicePackages, GetCarePlanInstanceDoctor, GetCarePlanTemplate, GetCarePlanTemplateDoctor, GetDoctorById, GetDoctorProfile, GetDoctorSchedule, GetUserHealthCarePlan, GetUserHealthRecord, GetUserProfile, UpdateCarePlanInstanceDoctor, UpdateCarePlanTemplate, UpdateCarePlanTemplateDoctor, UpdateUserBloodPressure, UpdateUserBloodSugar, UpdateUserHbA1c, UpdateUserHealthCarePlan, UpdateUserHeight, UpdateUserWeight } from "../api/user-service"
+import { CancelBooking, CreateBooking, CreateCarePlanInstanceDoctor, CreateCarePlanTemplate, CreateCarePlanTemplateDoctor, CreatePayment, CreateUserHealthCarePlan, CreateUserProfile, DeleteCarePlanInstanceDoctor, DeleteCarePlanTemplate, DeleteCarePlanTemplateDoctor, DeleteUserHealthCarePlan, DoctorGetPatientProfile, DoctorGetPatientRecords, EditUserProfile, GetAllConsultation, GetAllDoctor, GetAllDoctorHaveCreatedCarePlan, GetAllPurchasedServicePackages, GetAllServicePackages, GetCarePlanInstanceDoctor, GetCarePlanTemplate, GetCarePlanTemplateDoctor, GetDoctorById, GetDoctorProfile, GetDoctorSchedule, GetUserHealthCarePlan, GetUserHealthRecord, GetUserProfile, GetWalletBalance, GetWalletHistory, UpdateCarePlanInstanceDoctor, UpdateCarePlanTemplate, UpdateCarePlanTemplateDoctor, UpdateUserBloodPressure, UpdateUserBloodSugar, UpdateUserHbA1c, UpdateUserHealthCarePlan, UpdateUserHeight, UpdateUserWeight } from "../api/user-service"
 import { QueryKeys } from "../../assets/enum/query"
 import { GenderNumber } from "../../assets/enum/gender"
 import { DiagnosisRecency } from "../../assets/enum/diagnosis-recency"
@@ -38,7 +38,7 @@ export const useEditUserProfileMutation = () => {
             if (data.status !== 200) {
                 Toast.show({
                     type: 'error',
-                    text1: data.data.detail || 'Cập nhật hồ sơ thất bại',
+                    text1: data.data.errors[0].message || 'Cập nhật hồ sơ thất bại',
                     text2: 'Vui lòng thử lại sau',
                     visibilityTime: 2000,
                 })
@@ -93,7 +93,7 @@ export const useUserHealthCarePlan = (params: {
     toDate?: string,
     doctorId?: string
 }) => {
-    const queryKey = [QueryKeys.HEALTH_CARE_PLAN]
+    const queryKey = [QueryKeys.HEALTH_CARE_PLAN, params]
     const queryFn = async () => {
         return GetUserHealthCarePlan(params)
     }
@@ -112,7 +112,7 @@ export const useCreateCarePlanMutation = () => {
             if (data.status !== 200) {
                 Toast.show({
                     type: 'error',
-                    text1: data.data.errors[0][0].message || 'Tạo lịch đo thất bại',
+                    text1: data.data.errors[0].message || 'Tạo lịch đo thất bại',
                     text2: 'Vui lòng thử lại sau',
                     visibilityTime: 2000,
                 })
@@ -341,7 +341,7 @@ export const useDeleteCarePlanTemplateDoctorMutation = () => {
                     visibilityTime: 2000,
                 })
             }
-            return data 
+            return data
         },
         onError: (error) => {
             Toast.show({
@@ -475,7 +475,7 @@ export const useDeleteCarePlanInstanceDoctorMutation = () => {
                     visibilityTime: 2000,
                 })
             }
-            return data 
+            return data
         },
         onError: (error) => {
             Toast.show({
@@ -518,7 +518,7 @@ export const useCreateUserProfileMutation = () => {
             if (data.status !== 200) {
                 Toast.show({
                     type: 'error',
-                    text1: data.data.detail || 'Thiết lập hồ sơ thất bại',
+                    text1: data.data.errors[0].message || 'Thiết lập hồ sơ thất bại',
                     text2: 'Vui lòng thử lại sau',
                     visibilityTime: 2000,
                 })
@@ -556,7 +556,7 @@ export const useUpdateUserWeightMutation = () => {
             if (data.status !== 200) {
                 Toast.show({
                     type: 'error',
-                    text1: data.data.detail || 'Cập nhật cân nặng thất bại',
+                    text1: data.data.errors[0].message || 'Cập nhật cân nặng thất bại',
                     text2: 'Vui lòng thử lại sau',
                     visibilityTime: 2000,
                 })
@@ -595,7 +595,7 @@ export const useUpdateUserHeightMutation = () => {
             if (data.status !== 200) {
                 Toast.show({
                     type: 'error',
-                    text1: data.data.detail || 'Cập nhật chiều cao thất bại',
+                    text1: data.data.errors[0].message || 'Cập nhật chiều cao thất bại',
                     text2: 'Vui lòng thử lại sau',
                     visibilityTime: 2000,
                 })
@@ -677,7 +677,7 @@ export const useUpdateUserBloodSugarMutation = () => {
             if (data.status !== 200) {
                 Toast.show({
                     type: 'error',
-                    text1: data.data.detail || 'Cập nhật huyết đường thất bại',
+                    text1: data.data.errors[0].message || 'Cập nhật huyết đường thất bại',
                     text2: 'Vui lòng thử lại sau',
                     visibilityTime: 2000,
                 })
@@ -717,7 +717,7 @@ export const useUpdateUserHbA1cMutation = () => {
             if (data.status !== 200) {
                 Toast.show({
                     type: 'error',
-                    text1: data.data.detail || 'Cập nhật hbA1c thất bại',
+                    text1: data.data.errors[0].message || 'Cập nhật hbA1c thất bại',
                     text2: 'Vui lòng thử lại sau',
                     visibilityTime: 2000,
                 })
@@ -1001,6 +1001,7 @@ export const useCreateBookingMutation = () => {
                 })
             } else {
                 queryClient.invalidateQueries({ queryKey: [QueryKeys.CONSULTATION_LIST] })
+                queryClient.invalidateQueries({ queryKey: [QueryKeys.PURCHASED_SERVICE_PACKAGES] })
                 Toast.show({
                     type: 'success',
                     text1: 'Đặt lịch thành công',
@@ -1038,6 +1039,43 @@ export const useConsultationListQuery = (params: {
     return { queryKey, queryFn }
 }
 
+export const useCancelBookingMutation = () => {
+    const queryClient = useQueryClient()
+    return useMutation({
+        mutationFn: (params: {
+            consultationId: string,
+            reason: string
+        }) => CancelBooking(params),
+        onSuccess: (data) => {
+            if (data.status !== 200) {
+                Toast.show({
+                    type: 'error',
+                    text1: data?.data?.errors[0].messnage || 'Hủy thất bại',
+                    text2: 'Vui lòng thử lại sau',
+                    visibilityTime: 2000,
+                })
+            } else {
+                queryClient.invalidateQueries({ queryKey: [QueryKeys.CONSULTATION_LIST] })
+                Toast.show({
+                    type: 'success',
+                    text1: 'Hủy thành công',
+                    visibilityTime: 2000,
+                })
+            }
+            return data
+        },
+        onError: (error) => {
+            Toast.show({
+                type: 'error',
+                text1: 'Hủy thất bại',
+                text2: 'Vui lòng thử lại sau',
+                visibilityTime: 2000,
+            })
+            return error
+        }
+    })
+}
+
 export const usePatientProfileByDoctor = (patientId: string) => {
     const queryKey = [QueryKeys.PATIENT_PROFILE_BY_DOCTOR, patientId]
 
@@ -1058,6 +1096,35 @@ export const usePatientRecordsByDoctor = (params: {
     const queryFn = async () => {
         return DoctorGetPatientRecords(params)
     }
+
+    return { queryKey, queryFn }
+}
+
+export const useWalletBalanceQuery = () => {
+    const queryKey = [QueryKeys.WALLET_BALANCE]
+
+    const queryFn = async () => {
+        return GetWalletBalance()
+    }
+
+    return { queryKey, queryFn }
+}
+
+export const useWalletHistoryQuery = (params: {
+    search?: string,
+    cursor?: string,
+    pageSize?: number,
+    sortBy: string,
+    sortDirection: number
+}) => {
+    const queryKey = [QueryKeys.WALLET_HISTORY, params]
+    const queryFn = async ({ pageParam = undefined }) => {
+        return GetWalletHistory({
+            ...params,
+            cursor: pageParam,
+        })
+    }
+
 
     return { queryKey, queryFn }
 }

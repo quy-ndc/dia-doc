@@ -43,13 +43,6 @@ export default function BloodPressureUpdateModule({ lastMesurement, initialTime,
     } = useGenerateAiNoteMutation()
 
     const handleUpdateBloodPressure = async () => {
-        const request = {
-            systolic: Number(systolic),
-            diastolic: Number(diastolic),
-            personNote: '',
-            measurementAt: selectedTime,
-            ...(id ? { carePlanInstanceId: id as string } : {})
-        }
         await mutateAsync({
             systolic: Number(systolic),
             diastolic: Number(diastolic),

@@ -4,6 +4,6 @@ export enum Notification {
 }
 
 export enum NotificatinType {
-    DEFAULT = 0,
-    POST = 1
+    CONSULTATION = 0,
+    CAREPLAN = 1
 }

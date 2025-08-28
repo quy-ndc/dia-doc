@@ -1,5 +1,5 @@
 import * as React from 'react'
-import { Modal, Pressable, View } from 'react-native'
+import { Pressable, View } from 'react-native'
 import { Image } from 'expo-image'
 import { Text } from '../../components/ui/text'
 import { Stack, useLocalSearchParams } from 'expo-router'
@@ -18,13 +18,14 @@ import PatientProfileModal from '../../components/chat-screen/patient-profile-mo
 import { UserRole } from '../../assets/enum/user-role'
 import DoctorProfileModal from '../../components/chat-screen/doctor-profile-modal'
 import { User } from '../../lib/icons/User'
-import Toast from 'react-native-toast-message'
+import { usePrivateMessageStore } from '../../store/usePrivateMessage'
 
 export default function ChatScreen() {
 
-    const { id, title, image, type, target, active } = useLocalSearchParams()
+    const { id, title, image, type, target } = useLocalSearchParams()
     const router = useRouter()
     const { user } = useUserStore()
+    const { getGroupStatus } = usePrivateMessageStore()
     const [profileVisible, setProfileVisible] = useState(false)
     const [isCameraOn, setIsCameraOn] = useState(false)
 
@@ -56,8 +57,8 @@ export default function ChatScreen() {
                         <View className='flex-row gap-2 items-center'>
                             {target && (
                                 <Pressable
-                                    className={`p-3 items-center justify-center rounded-full ${active === 'false' ? 'opacity-80' : 'active:bg-[var(--click-bg)]'}`}
-                                    disabled={active === 'false'}
+                                    className={`p-3 items-center justify-center rounded-full ${!getGroupStatus(id as string) ? 'opacity-80' : 'active:bg-[var(--click-bg)]'}`}
+                                    disabled={!getGroupStatus(id as string)}
                                     onPress={handleStartCall}
                                 >
                                     <Phone className='text-foreground' size={17} />
@@ -102,7 +103,6 @@ export default function ChatScreen() {
                     <PrivateChatModule
                         groupId={id as string}
                         setIsCameraOn={setIsCameraOn}
-                        isActive={active as string == 'true'}
                     />
                 ) : (
                     <ChatModule

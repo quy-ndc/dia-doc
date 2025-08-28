@@ -7,14 +7,11 @@ import { TextMessage } from './text-message'
 import { SendHorizontal } from '../../lib/icons/SendHorizontal'
 import { ImageMessage } from './image-message'
 import { Animated as RNAnimated } from 'react-native'
-import { ChevronDown } from '../../lib/icons/ChevronDown'
 import VoiceRecord from './voice-record'
 import { ChevronRight } from '../../lib/icons/ChevronRight'
 import useUserStore from '../../store/userStore'
-import { Text } from '../ui/text'
 import { MessageType } from '../../assets/enum/message-type'
 import { useChatMessagesQuery, useSendMessageMutation } from '../../service/query/chat-query'
-import Toast from 'react-native-toast-message'
 import { useInfiniteQuery } from '@tanstack/react-query'
 import SpinningIcon from '../common/icons/spinning-icon'
 import { Loader } from '../../lib/icons/Loader'
@@ -24,20 +21,18 @@ import { useDebounce } from '../../util/hook/useDebounce'
 import ErrorDisplay from '../common/error-display'
 import { useMessages } from '@ably/chat'
 import { UserRole, UserRoleNumber } from '../../assets/enum/user-role'
-import { BooleanSchema } from 'yup'
 
 type Prop = {
     groupId: string
     setIsCameraOn: (state: boolean) => void
-    isActive: boolean
 }
 
 export default function PrivateChatModule({
     groupId,
     setIsCameraOn,
-    isActive
 }: Prop) {
-    const { groups, setMessages, addMessages, addMessage } = usePrivateMessageStore()
+    const { groups, setMessages, addMessages, addMessage, getGroupStatus } = usePrivateMessageStore()
+    const isActive = getGroupStatus(groupId) ?? false
     const { user } = useUserStore()
     const [showScrollButton, setShowScrollButton] = useState(false)
     const listRef = useRef<FlashList<Message>>(null)

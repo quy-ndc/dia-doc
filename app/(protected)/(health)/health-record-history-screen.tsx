@@ -238,7 +238,7 @@ export default function HealthRecordHistoryScreen() {
                                                     healthRecord: item.healthRecord as BloodPressureRecord
                                                 }}
                                                 maxValue={minMax.highest}
-                                                minValue={40}
+                                                minValue={minMax.lowest}
                                                 nextValue={index < healthRecordItems.length - 1 ? {
                                                     systolic: Number((healthRecordItems[index + 1].healthRecord as BloodPressureRecord).systolic),
                                                     diastolic: Number((healthRecordItems[index + 1].healthRecord as BloodPressureRecord).diastolic)
@@ -251,28 +251,42 @@ export default function HealthRecordHistoryScreen() {
                             />
                         )}
                         {(recordType == HealthRecordType.BLOOD_SUGAR || recordType == HealthRecordType.BLOOD_PRESSURE) && (
-                            <View className='flex-row items-center justify-center w-full gap-5 pt-5'>
-                                <View className='flex-row gap-2 items-center'>
-                                    <View
-                                        className='p-2 rounded-full'
-                                        style={{ backgroundColor: GlobalColor.RED_NEON_BORDER }}
-                                    />
-                                    <Text className='text-base font-bold text-[var(--fade-text-color)]'>Cao</Text>
+                            <View className='flex-col gap-2 items-center'>
+                                <View className='flex-row items-center justify-center w-full gap-5 pt-5'>
+                                    <View className='flex-row gap-2 items-center'>
+                                        <View
+                                            className='p-2 rounded-full'
+                                            style={{ backgroundColor: GlobalColor.RED_NEON_BORDER }}
+                                        />
+                                        <Text className='text-base font-bold text-[var(--fade-text-color)]'>Cao</Text>
+                                    </View>
+                                    <View className='flex-row gap-2 items-center'>
+                                        <View
+                                            className='p-2 rounded-full'
+                                            style={{ backgroundColor: GlobalColor.GREEN_NEON_BORDER }}
+                                        />
+                                        <Text className='text-base font-bold text-[var(--fade-text-color)]'>Bình thường</Text>
+                                    </View>
+                                    <View className='flex-row gap-2 items-center'>
+                                        <View
+                                            className='p-2 rounded-full'
+                                            style={{ backgroundColor: GlobalColor.PURPLE_NEON_BORDER }}
+                                        />
+                                        <Text className='text-base font-bold text-[var(--fade-text-color)]'>Thấp</Text>
+                                    </View>
                                 </View>
-                                <View className='flex-row gap-2 items-center'>
-                                    <View
-                                        className='p-2 rounded-full'
-                                        style={{ backgroundColor: GlobalColor.GREEN_NEON_BORDER }}
-                                    />
-                                    <Text className='text-base font-bold text-[var(--fade-text-color)]'>Bình thường</Text>
-                                </View>
-                                <View className='flex-row gap-2 items-center'>
-                                    <View
-                                        className='p-2 rounded-full'
-                                        style={{ backgroundColor: GlobalColor.PURPLE_NEON_BORDER }}
-                                    />
-                                    <Text className='text-base font-bold text-[var(--fade-text-color)]'>Thấp</Text>
-                                </View>
+                                {recordType == HealthRecordType.BLOOD_PRESSURE && (
+                                    <View className='flex-row items-center justify-center w-full gap-5 pt-5'>
+                                        <View className='flex-col gap-2 items-center'>
+                                            <View style={{ backgroundColor: GlobalColor.CYAN_NEON_BORDER, width: 30, height: 2 }} />
+                                            <Text className='text-base font-bold text-[var(--fade-text-color)]'>Tâm trương</Text>
+                                        </View>
+                                        <View className='flex-col gap-2 items-center'>
+                                            <View style={{ backgroundColor: GlobalColor.ORANGE_NEON_BORDER, width: 30, height: 2 }} />
+                                            <Text className='text-base font-bold text-[var(--fade-text-color)]'>Tâm thu</Text>
+                                        </View>
+                                    </View>
+                                )}
                             </View>
                         )}
                     </View>

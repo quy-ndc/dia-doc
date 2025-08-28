@@ -17,7 +17,7 @@ type Prop = {
 }
 
 const ITEM_WIDTH = 100
-const MIN_CHART_HEIGHT = 60
+const MIN_CHART_HEIGHT = 80
 
 export default function BloodPressureItem({
     item,
@@ -79,7 +79,7 @@ export default function BloodPressureItem({
                                     y1={systolicY}
                                     x2={ITEM_WIDTH * 2}
                                     y2={nextSystolicY}
-                                    stroke={lineColor}
+                                    stroke={GlobalColor.CYAN_NEON_BORDER}
                                     strokeWidth={1}
                                 />
                                 <Line
@@ -87,7 +87,7 @@ export default function BloodPressureItem({
                                     y1={diastolicY}
                                     x2={ITEM_WIDTH * 2}
                                     y2={nextDiastolicY}
-                                    stroke={lineColor}
+                                    stroke={GlobalColor.ORANGE_NEON_BORDER}
                                     strokeWidth={1}
                                 />
                             </>

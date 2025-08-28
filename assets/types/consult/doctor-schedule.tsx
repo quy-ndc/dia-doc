@@ -16,6 +16,7 @@ export type ConsultationHistory = {
     startTime: string,
     endTime: string,
     status: number,
+    userId: string,
     userFullName: string,
     userAvatar: string
     conversationId: string

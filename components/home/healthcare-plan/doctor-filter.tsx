@@ -2,11 +2,6 @@
 import * as React from 'react'
 import { Dimensions, Modal, Pressable, RefreshControl, ScrollView, View } from 'react-native'
 import { Text } from '../../ui/text'
-import { GlobalColor } from '../../../global-color'
-import { HealthCarePlan } from '../../../assets/types/user/healthcare-plan'
-import { getHealthRecordDisplay } from '../../../assets/data/health-record-type'
-import { formatTime } from '../../../util/format-time'
-import { Check } from '../../../lib/icons/Check'
 import { X } from '../../../lib/icons/X'
 import { useDoctorHaveCreatedCarePlan } from '../../../service/query/user-query'
 import { useQuery } from '@tanstack/react-query'
@@ -20,8 +15,14 @@ import { FlashList } from '@shopify/flash-list'
 import { Image } from 'expo-image'
 
 type Prop = {
-    doctor: string
-    setDoctor: (doctor: string) => void
+    doctor: {
+        id: string,
+        name: string
+    } | undefined
+    setDoctor: (doctor: {
+        id: string,
+        name: string
+    } | undefined) => void
 }
 
 const { width, height } = Dimensions.get('window')
@@ -43,11 +44,17 @@ export default function DoctorFilter({ doctor, setDoctor }: Prop) {
         refetch().finally(() => setRefreshing(false))
     }, [refetch, remove])
 
-    const handleSelectDoctor = (selectedDoctor: string) => {
-        if (selectedDoctor == doctor) {
-            setDoctor('')
+    const handleSelectDoctor = (selectedDoctor: {
+        id: string,
+        name: string
+    }) => {
+        if (selectedDoctor.id == doctor?.id) {
+            setDoctor(undefined)
         } else {
-            setDoctor(selectedDoctor)
+            setDoctor({
+                id: selectedDoctor.id,
+                name: selectedDoctor.name
+            })
         }
         setVisible(false)
     }
@@ -109,8 +116,11 @@ export default function DoctorFilter({ doctor, setDoctor }: Prop) {
                                             keyExtractor={(_, index) => index.toString()}
                                             renderItem={({ item }) =>
                                                 <Pressable
-                                                    className={`flex-row gap-4 items-center active:bg-[var(--click-bg)] rounded-lg p-2 ${doctor == item.id ? 'bg-[var(--click-bg)]' : ''}`}
-                                                    onPress={() => handleSelectDoctor(item.id)}
+                                                    className={`flex-row gap-4 items-center active:bg-[var(--click-bg)] rounded-lg p-2 ${doctor?.id == item.id ? 'bg-[var(--click-bg)]' : ''}`}
+                                                    onPress={() => handleSelectDoctor({
+                                                        id: item.id,
+                                                        name: item.name
+                                                    })}
                                                 >
                                                     <Image
                                                         source={item.avatar}

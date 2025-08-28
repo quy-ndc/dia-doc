@@ -32,5 +32,7 @@ export enum QueryKeys {
     PATIENT_RECORDS_BY_DOCTOR = 'patientRecordsByDoctor',
     DOCTOR_HAVE_CREATED_CARE_PLAN = 'doctorHaveCreatedCarePlan',
     CARE_PLAN_DOCTOR = 'carePlanDoctor',
-    CARE_PLAN_INSTANCE_DOCTOR = 'carePlanInstanceDoctor'
+    CARE_PLAN_INSTANCE_DOCTOR = 'carePlanInstanceDoctor',
+    WALLET_BALANCE = 'walletBalance',
+    WALLET_HISTORY = 'walletHistory'
 }

@@ -16,6 +16,8 @@ import { router } from 'expo-router'
 import { Clock } from '../../../lib/icons/Clock'
 import IconButton from '../../common/icon-button'
 import DoctorFilter from './doctor-filter'
+import { User } from '../../../lib/icons/User'
+import Tag from '../../common/tag'
 
 
 const { width } = Dimensions.get('window')
@@ -27,8 +29,14 @@ type Prop = {
     refetch: () => void
     remove: () => void
     refreshing: boolean
-    doctor: string
-    setDoctor: (doctor: string) => void
+    doctor: {
+        id: string,
+        name: string
+    } | undefined
+    setDoctor: (doctor: {
+        id: string,
+        name: string
+    } | undefined) => void
 }
 
 const getClosestFutureItem = (items: HealthCarePlan[]): HealthCarePlan | null => {
@@ -73,15 +81,25 @@ export default function HealthcarePlan({ items, isLoading, isError, refetch, rem
             {isLoading ? (
                 <HealthcarePlanSkeleton />
             ) : isError || items.length === 0 ? (
-                <View className='py-10'>
+                <View className='py-4'>
                     <ErrorDisplay
-                        text='Không có lịch chăm sóc sức khỏe'
                         onRefresh={onRefresh}
                         refreshing={refreshing}
+                        text='Không thể lấy lịch đo'
                     />
                 </View>
             ) : (
                 <>
+                    {(doctor && value === 'detail') && (
+                        <View className='flex-row justify-between items-center w-full px-2'>
+                            <Text
+                                style={{ backgroundColor: GlobalColor.BLUE_NEON_BG, color: GlobalColor.BLUE_NEON_BORDER }}
+                                className={`px-4 py-1 rounded-full text-sm font-semibold tracking-wider`}
+                            >
+                                {`Lịch của BS.${doctor.name}`}
+                            </Text>
+                        </View>
+                    )}
                     <HealthcarePlanDetailItem
                         item={nextItem || undefined}
                         hidden={value === 'list'}
@@ -103,6 +121,16 @@ export default function HealthcarePlan({ items, isLoading, isError, refetch, rem
                             <Text className='text-sm font-medium tracking-widest text-[var(--same-theme-col)]'>Sửa lịch cho mọi ngày</Text>
                         </Pressable>
                     </View>
+                    {(doctor && value === 'list') && (
+                        <View className='flex-row justify-between items-center w-full px-2'>
+                            <Text
+                                style={{ backgroundColor: GlobalColor.BLUE_NEON_BG, color: GlobalColor.BLUE_NEON_BORDER }}
+                                className={`px-4 py-1 rounded-full text-sm font-semibold tracking-wider`}
+                            >
+                                {`Lịch của BS.${doctor.name}`}
+                            </Text>
+                        </View>
+                    )}
                     <View className={`w-full px-1 ${value === 'detail' ? 'hidden' : ''}`}>
                         <FlashList<HealthCarePlan>
                             data={items}
@@ -113,7 +141,8 @@ export default function HealthcarePlan({ items, isLoading, isError, refetch, rem
                         />
                     </View>
                 </>
-            )}
-        </View>
+            )
+            }
+        </View >
     )
 }

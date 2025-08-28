@@ -1,5 +1,5 @@
 export enum ConsultationVideoCall {
-    SIGNALR_SERVER = 'https://consultation-doctor-hzfhdqfhd9crd3es.southeastasia-01.azurewebsites.net/hub/consultation',
+    SIGNALR_SERVER = `http://163.61.110.211:37414/hub/consultation`,
     ICE_SERVER = 'stun:stun.l.google.com:19302',
     CALL_USER_INVOKE = 'CallUser',
     CALL_USER_RECEIVE = 'IncomingCall',

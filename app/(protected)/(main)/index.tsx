@@ -8,7 +8,7 @@ import { useTopMediaQuery } from '../../../service/query/media-query'
 import { BlogPost } from '../../../assets/types/media/blog-post'
 import DailyTip from '../../../components/home/daily-tip.tsx/daily-tip'
 import HealthTracker from '../../../components/home/health-track.tsx/health-track'
-import { useConsultationListQuery, usePurchasedServicePackageQuery, useUserHealthCarePlan, useUserHealthRecordProfile } from '../../../service/query/user-query'
+import { useConsultationListQuery, usePurchasedServicePackageQuery, useUserHealthCarePlan, useUserHealthRecordProfile, useWalletBalanceQuery, useWalletHistoryQuery } from '../../../service/query/user-query'
 import { HealthTrackItem } from '../../../assets/types/user/health-track'
 import HealthcarePlan from '../../../components/home/healthcare-plan/healthcare-plan'
 import { HealthCarePlan } from '../../../assets/types/user/healthcare-plan'
@@ -20,12 +20,17 @@ import { ConsultationHistory } from '../../../assets/types/consult/doctor-schedu
 import PurchaseService from '../../../components/home/purchase-service/purchase-serivce'
 import { PurchasedServicePackage } from '../../../assets/types/consult/consultation'
 import { ConsultationStatus } from '../../../assets/enum/consultation-status'
+import DoctorIncome from '../../../components/home/doctor-income/doctor-income'
+import { IncomeHistory } from '../../../assets/types/user/doctor'
 
 export default function HomeScreen() {
 
     const { user } = useUserStore()
     const [refreshing, setRefreshing] = useState(false)
-    const [doctor, setDoctor] = useState('')
+    const [doctor, setDoctor] = useState<{
+        id: string,
+        name: string
+    } | undefined>(undefined)
 
     const { data, isLoading, isError, refetch, remove } = useQuery({
         ...useTopMediaQuery({
@@ -61,7 +66,7 @@ export default function HomeScreen() {
         remove: healthCarePlanRemove
     } = useQuery({
         ...useUserHealthCarePlan({
-            doctorId: doctor == '' ? undefined : doctor
+            doctorId: doctor?.id || undefined
         }),
         retry: 2,
         retryDelay: attempt => Math.min(1000 * 2 ** attempt, 5000),
@@ -81,7 +86,8 @@ export default function HomeScreen() {
             IsExistedSessions: true
         }),
         retry: 2,
-        retryDelay: attempt => Math.min(1000 * 2 ** attempt, 5000)
+        retryDelay: attempt => Math.min(1000 * 2 ** attempt, 5000),
+        enabled: user.role === UserRole.PATIENT
     })
 
     const {
@@ -99,6 +105,19 @@ export default function HomeScreen() {
         retryDelay: attempt => Math.min(1000 * 2 ** attempt, 5000),
     })
 
+    const {
+        data: walletBalanceData,
+        isLoading: walletBalanceLoading,
+        isError: walletBalanceError,
+        refetch: walletBalanceRefetch,
+        remove: walletBalanceRemove
+    } = useQuery({
+        ...useWalletBalanceQuery(),
+        retry: 2,
+        retryDelay: attempt => Math.min(1000 * 2 ** attempt, 5000),
+        enabled: user.role === UserRole.DOCTOR
+    })
+
     const onRefresh = useCallback(() => {
         setRefreshing(true)
         const refreshPromises = [refetch()]
@@ -108,20 +127,27 @@ export default function HomeScreen() {
             healthCarePlanRemove()
             availableServiceRemove()
         }
+        if (user.role == UserRole.DOCTOR) {
+            walletBalanceRemove()
+        }
         consultationListRemove()
         refreshPromises.push(refetch(), consultationListRefetch())
         if (user.role == UserRole.PATIENT) {
             refreshPromises.push(healthRecordRefetch(), healthCarePlanRefetch(), availableServiceRefetch())
         }
+        if (user.role == UserRole.DOCTOR) {
+            refreshPromises.push(walletBalanceRefetch())
+        }
 
         Promise.all(refreshPromises).finally(() => setRefreshing(false))
-    }, [user.role, refetch, healthRecordRefetch, healthCarePlanRefetch, remove, healthRecordRemove, healthCarePlanRemove])
+    }, [user.role, refetch, healthRecordRefetch, healthCarePlanRefetch, remove, healthRecordRemove, healthCarePlanRemove, walletBalanceRemove, walletBalanceRefetch])
 
     const items: BlogPost[] = data?.data?.data || []
     const healthRecordItems: HealthTrackItem[] = healthRecordData?.data?.data?.healthRecords || []
     const healthCarePlanItems: HealthCarePlan[] = healthCarePlanData?.data?.data || []
     const availableServiceItems: PurchasedServicePackage[] = avalableServiceData?.data?.data?.items || []
     const consultationHistoryItems: ConsultationHistory[] = consultatonList?.data?.data?.items || []
+    const sum: number = walletBalanceData?.data?.data?.balance || 0
 
     return (
         <>
@@ -164,6 +190,16 @@ export default function HomeScreen() {
                                     refreshing={refreshing}
                                 />
                             </>
+                        )}
+                        {user.role === UserRole.DOCTOR && (
+                            <DoctorIncome
+                                sum={sum}
+                                isLoading={walletBalanceLoading}
+                                isError={walletBalanceError}
+                                refetch={walletBalanceRefetch}
+                                remove={walletBalanceRemove}
+                                refreshing={refreshing}
+                            />
                         )}
                         <ConsultationSchedule
                             items={consultationHistoryItems}

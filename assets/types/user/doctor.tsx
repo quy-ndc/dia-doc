@@ -9,6 +9,7 @@ export type Doctor = {
     dateOfBirth: string
     gender: GenderNumber
     numberOfExperiences: number
+    numberOfRating: number
     position: DoctorRole
     introduction: string
     hospital: {
@@ -17,5 +18,14 @@ export type Doctor = {
         phoneNumber: string
         thumbnail: string
     },
+    createdDate: string
+}
+
+export type IncomeHistory = {
+    id: string,
+    amount: number,
+    direction: number,
+    balanceAfterTransaction: number,
+    description: string,
     createdDate: string
 }

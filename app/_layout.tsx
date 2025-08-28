@@ -30,10 +30,6 @@ export default function RootLayout() {
   const [isColorSchemeLoaded, setIsColorSchemeLoaded] = React.useState(false)
   const { user } = useUserStore()
 
-  // useEffect(() => {
-  //   createNotificationChannel()
-  // }, [])
-
   console.log(user)
 
   useIsomorphicLayoutEffect(() => {

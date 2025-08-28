@@ -2,7 +2,6 @@ import * as React from 'react'
 import { View, Pressable } from "react-native"
 import { Text } from "../ui/text"
 import { HB1ACRecord, HealthTrackItem, HeightRecord, WeightRecord } from '../../assets/types/user/health-track'
-import { GlobalColor } from '../../global-color'
 import { formatDateDm } from '../../util/format-date-d-m'
 import { useState } from 'react'
 import HealthRecordHistoryModal from './health-history-modal'
@@ -17,7 +16,7 @@ type Prop = {
 }
 
 const ITEM_WIDTH = 100
-const MIN_CHART_HEIGHT = 60
+const MIN_CHART_HEIGHT = 100
 
 export default function StandardHistoryItem({
     item,

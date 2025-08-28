@@ -45,13 +45,6 @@ export default function BloodSugarUpdateModule({ lastMesurement, initialTime, id
     } = useGenerateAiNoteMutation()
 
     const handleUpdateBloodSugar = async () => {
-        const request = {
-            value: Number(value),
-            measureTime: selectPeriod as number,
-            personNote: note,
-            measurementAt: selectedTime,
-            ...(id ? { carePlanInstanceId: id as string } : {})
-        }
         await mutateAsync({
             value: Number(value),
             measureTime: selectPeriod as number,

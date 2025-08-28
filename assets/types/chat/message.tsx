@@ -1,3 +1,4 @@
+import { ConversationType } from "../../enum/conversation-type"
 import { MessageType } from "../../enum/message-type"
 import { UserRoleNumber } from "../../enum/user-role"
 
@@ -50,6 +51,7 @@ export type NotificationMessage = {
     body: string,
     conversationId: string,
     conversationName: string,
+    conversationType: ConversationType,
     createdDate: string,
     fileType: string,
     icon: string,

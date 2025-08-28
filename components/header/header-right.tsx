@@ -5,6 +5,7 @@ import { ThemeToggle } from '../ThemeToggle';
 import { Image } from 'expo-image'
 import IconButton from '../common/icon-button';
 import useUserStore from '../../store/userStore';
+import NotificationAccess from './notification/noti-access';
 
 export default function HeaderRight() {
 
@@ -14,7 +15,7 @@ export default function HeaderRight() {
     return (
         <View className='flex-row pr-2 items-center'>
             <ThemeToggle />
-            {/* <Notification position='header' /> */}
+            <NotificationAccess position='header' />
             <IconButton
                 icon={
                     <Image

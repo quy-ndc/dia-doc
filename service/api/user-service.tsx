@@ -1299,6 +1299,40 @@ export const GetAllConsultation = async (params: {
     }
 }
 
+export const CancelBooking = async (params: {
+    consultationId: string,
+    reason: string
+}) => {
+    try {
+        const response = await axiosServices.patch(`${endpointUser.CANCEL_BOOKING}/${params.consultationId}/cancel`, {
+            reason: params.reason
+        })
+
+        return {
+            success: true,
+            status: response.status,
+            data: response.data
+        }
+
+    } catch (e) {
+        if (axios.isAxiosError(e) && e.response) {
+            return {
+                success: false,
+                status: e.response.status,
+                message: e.response.data.message || 'An error occurred',
+                data: e.response.data
+            };
+        }
+
+        return {
+            success: false,
+            status: 500,
+            message: 'An error occurred',
+            data: null
+        }
+    }
+}
+
 export const DoctorGetPatientProfile = async (patientId: string) => {
     try {
         const response = await axiosServices.get(`${endpointUser.DOCTOR_GET_PATIENT_PROFILE}/${patientId}`)
@@ -1338,6 +1372,73 @@ export const DoctorGetPatientRecords = async (params: {
     const queryString = createQueryString(rest)
     try {
         const response = await axiosServices.get(`${endpointUser.DOCTOR_GET_PATIENT_RECORDS}/${patientId}?${queryString}`)
+
+        return {
+            success: true,
+            status: response.status,
+            data: response.data
+        }
+
+    } catch (e) {
+        if (axios.isAxiosError(e) && e.response) {
+            return {
+                success: false,
+                status: e.response.status,
+                message: e.response.data.message || 'An error occurred',
+                data: e.response.data
+            };
+        }
+
+        return {
+            success: false,
+            status: 500,
+            message: 'An error occurred',
+            data: null
+        }
+    }
+}
+
+export const GetWalletBalance = async () => {
+
+    try {
+        const response = await axiosServices.get(`${endpointUser.GET_WALLET_BALANCE}`)
+
+        return {
+            success: true,
+            status: response.status,
+            data: response.data
+        }
+
+    } catch (e) {
+        if (axios.isAxiosError(e) && e.response) {
+            return {
+                success: false,
+                status: e.response.status,
+                message: e.response.data.message || 'An error occurred',
+                data: e.response.data
+            };
+        }
+
+        return {
+            success: false,
+            status: 500,
+            message: 'An error occurred',
+            data: null
+        }
+    }
+}
+
+export const GetWalletHistory = async (params: {
+    search?: string,
+    cursor?: string,
+    pageSize?: number,
+    sortBy: string,
+    sortDirection: number
+}) => {
+
+    const queryString = createQueryString(params)
+    try {
+        const response = await axiosServices.get(`${endpointUser.GET_WALLET_HISTORY}?${queryString}`)
 
         return {
             success: true,

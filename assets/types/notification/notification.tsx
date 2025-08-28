@@ -1,3 +1,5 @@
+import { NotificatinType } from "../../enum/notification"
+
 export type SystemNotification = {
     id: string,
     userId: string,
@@ -19,4 +21,24 @@ export type DefaultPayload = {
     thumbnail: string,
     body: string,
     createdBy: string
-} 
+}
+
+export type NotificationConsultationStart = {
+    body: string,
+    createdDate: string,
+    title: string,
+    type: NotificatinType
+}
+
+export type NotificationConsultationEnd = {
+    createdDate: string,
+    title: string,
+    type: NotificatinType
+}
+
+export type NotificationCarePlan = {
+    body: string,
+    createdDate: string,
+    title: string,
+    type: NotificatinType
+}

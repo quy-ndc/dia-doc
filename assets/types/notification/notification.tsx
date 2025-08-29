@@ -27,13 +27,15 @@ export type NotificationConsultationStart = {
     body: string,
     createdDate: string,
     title: string,
-    type: NotificatinType
+    type: NotificatinType,
+    conversationId: string
 }
 
 export type NotificationConsultationEnd = {
     createdDate: string,
     title: string,
-    type: NotificatinType
+    type: NotificatinType,
+    conversationId: string
 }
 
 export type NotificationCarePlan = {

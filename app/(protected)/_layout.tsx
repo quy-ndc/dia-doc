@@ -120,11 +120,12 @@ export default function ProtectedLayout() {
                             sound: 'default',
                         },
                     })
-                    // if (incomingMessage.body == undefined) {
-                    //     setGroupStatus(incomingMessage.conversationId, true)
-                    // } else {
-                    //     setGroupStatus(incomingMessage.conversationId, false)
-                    // }
+
+                    if ('body' in incomingMessage && 'conversationId' in incomingMessage) {
+                        setGroupStatus(incomingMessage.conversationId, true)
+                    } else {
+                        setGroupStatus(incomingMessage.conversationId, false)
+                    }
                 } else if (remoteMessage.data.type == NotificatinType.CONSULTATION.toString()) {
                     await notifee.displayNotification({
                         title: remoteMessage.notification.title || '',

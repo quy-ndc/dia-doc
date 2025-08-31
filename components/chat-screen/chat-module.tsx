@@ -11,21 +11,17 @@ import { ChevronDown } from '../../lib/icons/ChevronDown'
 import VoiceRecord from './voice-record'
 import { ChevronRight } from '../../lib/icons/ChevronRight'
 import useUserStore from '../../store/userStore'
-import { Text } from '../ui/text'
 import { MessageType } from '../../assets/enum/message-type'
 import { useChatMessagesQuery, useSendMessageMutation } from '../../service/query/chat-query'
-import Toast from 'react-native-toast-message'
 import { useInfiniteQuery } from '@tanstack/react-query'
 import SpinningIcon from '../common/icons/spinning-icon'
 import { Loader } from '../../lib/icons/Loader'
-import { RefreshCcw } from '../../lib/icons/RefreshCcw'
 import { useMessageStore } from '../../store/useMessage'
 import { FlashList } from '@shopify/flash-list'
 import { useDebounce } from '../../util/hook/useDebounce'
-import { useMessages, usePresence } from '@ably/chat'
+import { useMessages, useRoom } from '@ably/chat'
 import ErrorDisplay from '../common/error-display'
 import { UserRole, UserRoleNumber } from '../../assets/enum/user-role'
-import GalleryAccess from './gallery-access'
 
 
 type Prop = {
@@ -139,6 +135,8 @@ export default function ChatModule({
             addMessage(groupId, event.message.metadata.messageToSend as Message)
         },
     })
+    const { detach } = useRoom()
+
     const handleSend = async () => {
         scrollToTop()
         await mutateAsync({
@@ -171,6 +169,12 @@ export default function ChatModule({
         setLatestMessage(groupId, messageToSend)
         send({ text: ' ', metadata: { messageToSend } }).then(() => setNewMessage(''))
     }, [messageData, isLoading])
+
+    useEffect(() => {
+        return () => {
+            detach()
+        }
+    }, [])
 
     return (
         <KeyboardAvoidingView

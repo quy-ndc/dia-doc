@@ -1,4 +1,4 @@
-import { Dimensions, View } from "react-native"
+import { Dimensions, Pressable, View } from "react-native"
 import { FlashList } from "@shopify/flash-list"
 import ErrorDisplay from "../../common/error-display"
 import { GlobalColor } from "../../../global-color"
@@ -14,6 +14,7 @@ import { ShoppingCart } from "../../../lib/icons/ShoppingCart"
 import { Plus } from "../../../lib/icons/Plus"
 import useUserStore from "../../../store/userStore"
 import { UserRole } from "../../../assets/enum/user-role"
+import { ChevronRight } from "../../../lib/icons/ChevronRight"
 
 const { width } = Dimensions.get('window')
 
@@ -43,7 +44,7 @@ export default function PurchaseService({ isLoading, isError, items, refetch, re
             <View className="flex-row justify-between items-center w-full">
                 <View className='flex-row px-2 gap-3 items-center text-center'>
                     <ShoppingCart color={GlobalColor.EMERALD_NEON_BORDER} size={18} />
-                    <Text className='text-lg font-bold tracking-widest capitalize'>Dịch vụ đã mua</Text>
+                    <Text className='text-lg font-bold tracking-widest capitalize'>Lượt tư vấn</Text>
                 </View>
                 <View className="flex-row gap-2 items-center">
                     <IconButton
@@ -65,12 +66,19 @@ export default function PurchaseService({ isLoading, isError, items, refetch, re
             {isLoading ? (
                 <ConsultationScheduleSkeleton />
             ) : isError || items.length === 0 ? (
-                <View className="py-6">
+                <View className="flex-col gap-4 py-6 items-center">
                     <ErrorDisplay
                         onRefresh={onRefresh}
                         refreshing={refreshing}
-                        text="Bạn chưa mua gói dịch vụ nào"
+                        text="Bạn đã hết lượt tư vấn"
                     />
+                    <Pressable
+                        className='flex-row items-center px-5 py-2 rounded-full bg-[var(--oppo-theme-col)] w-full active:opacity-80 gap-2'
+                        onPress={() => router.push('/service-package-screen')}
+                    >
+                        <Text className='text-sm text-center font-semibold tracking-widest text-[var(--same-theme-col)]'>Mua thêm</Text>
+                        <ChevronRight className='text-[var(--same-theme-col)]' size={17} />
+                    </Pressable>
                 </View>
             ) : (
                 <View style={{ width: width }} className="px-2">

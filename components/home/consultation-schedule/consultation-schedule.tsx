@@ -1,4 +1,4 @@
-import { Dimensions, Pressable, View } from "react-native"
+import { Dimensions, View } from "react-native"
 import { FlashList } from "@shopify/flash-list"
 import ErrorDisplay from "../../common/error-display"
 import { GlobalColor } from "../../../global-color"
@@ -12,12 +12,10 @@ import IconButton from "../../common/icon-button"
 import { History } from "../../../lib/icons/History"
 import { router } from "expo-router"
 import useUserStore from "../../../store/userStore"
-import { Calendar } from "../../../lib/icons/Calendar"
-import { Clock } from "../../../lib/icons/Clock"
 import { UserRole } from "../../../assets/enum/user-role"
 import { Plus } from "../../../lib/icons/Plus"
 
-const { width } = Dimensions.get('window')
+const { height, width } = Dimensions.get('window')
 
 type Prop = {
     isLoading: boolean
@@ -67,11 +65,11 @@ export default function ConsultationSchedule({ isLoading, isError, items, refetc
             {isLoading ? (
                 <ConsultationScheduleSkeleton />
             ) : isError || items.length === 0 ? (
-                <View className="py-6">
+                <View style={{ height: height * 0.13 }} className="flex justify-center items-center">
                     <ErrorDisplay
                         onRefresh={onRefresh}
                         refreshing={refreshing}
-                        text="Không có lịch tư vấn nào"
+                        text="Không có buổi tư vấn sắp tới"
                     />
                 </View>
             ) : (

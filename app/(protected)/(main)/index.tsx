@@ -49,7 +49,7 @@ export default function HomeScreen() {
         remove: healthRecordRemove
     } = useQuery({
         ...useUserHealthRecordProfile({
-            recordTypes: '0,1,2,3,4',
+            recordTypes: '2,3,5',
             newest: true,
             onePerType: true,
         }),
@@ -83,7 +83,8 @@ export default function HomeScreen() {
         ...usePurchasedServicePackageQuery({
             SortBy: 'purchasedDate',
             SortDirection: 0,
-            IsExistedSessions: true
+            IsExistedSessions: true,
+            PageSize: 1
         }),
         retry: 2,
         retryDelay: attempt => Math.min(1000 * 2 ** attempt, 5000),
@@ -99,7 +100,7 @@ export default function HomeScreen() {
     } = useQuery({
         ...useConsultationListQuery({
             PageSize: 5,
-            Status: user.role == UserRole.PATIENT ? ConsultationStatus.BOOKED : 2
+            Status: ConsultationStatus.BOOKED
         }),
         retry: 2,
         retryDelay: attempt => Math.min(1000 * 2 ** attempt, 5000),

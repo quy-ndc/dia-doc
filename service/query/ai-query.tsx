@@ -80,7 +80,11 @@ export const useUpdateAiSessionMutation = () => {
                     visibilityTime: 2000,
                 })
             } else {
-                queryClient.invalidateQueries({ queryKey: [QueryKeys.AI_CHAT] })
+                queryClient.invalidateQueries({
+                    queryKey: [QueryKeys.HEALTH_RECORD],
+                    refetchType: 'all',
+                    exact: false
+                })
             }
             return data
         },

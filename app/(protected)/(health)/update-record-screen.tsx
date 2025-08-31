@@ -13,6 +13,7 @@ import IconButton from '../../../components/common/icon-button'
 import { History } from '../../../lib/icons/History'
 import { CircleAlert } from '../../../lib/icons/CircleAlert'
 import { GlobalColor } from '../../../global-color'
+import BmiUpdateModule from '../../../components/update-record-screen/bmi-update-module'
 
 const updateModules = {
     [HealthRecordType.WEIGHT]: WeightUpdateModule,
@@ -20,6 +21,7 @@ const updateModules = {
     [HealthRecordType.BLOOD_SUGAR]: BloodSugarUpdateModule,
     [HealthRecordType.BLOOD_PRESSURE]: BloodPressureUpdateModule,
     [HealthRecordType.HBA1C]: Hb1AcUpdateModule,
+    [HealthRecordType.BMI]: BmiUpdateModule,
 } as const
 
 function getUpdateModule(type: HealthRecordType) {

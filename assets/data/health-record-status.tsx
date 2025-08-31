@@ -2,21 +2,20 @@ import { GlobalColor } from '../../global-color'
 import { Check } from '../../lib/icons/Check'
 import { CircleAlert } from '../../lib/icons/CircleAlert'
 import { TrendingUp } from '../../lib/icons/TrendingUp'
-import { HealthRecordType } from '../enum/health-record'
 import { MeasureTime } from './measure-time'
 
 export enum BLOOD_SUGAR_LEVELS {
-    BEFORE_EATING_LOW = 69,
-    AFTER_EATING_LOW = 69,
-    NOT_EAT_LOW = 69,
+    BEFORE_EATING_LOW = 3.8,
+    AFTER_EATING_LOW = 3.8,
+    NOT_EAT_LOW = 3.8,
 
-    BEFORE_EATING_NORMAL = 129,
-    AFTER_EATING_NORMAL = 179,
-    NOT_EAT_NORMAL = 129,
+    BEFORE_EATING_NORMAL = 7.2,
+    AFTER_EATING_NORMAL = 9.9,
+    NOT_EAT_NORMAL = 7.2,
 
-    BEFORE_EATING_HIGH = 130,
-    AFTER_EATING_HIGH = 180,
-    NOT_EAT_HIGH = 130,
+    BEFORE_EATING_HIGH = 7.2,
+    AFTER_EATING_HIGH = 10,
+    NOT_EAT_HIGH = 7.2,
 }
 
 export enum BLOOD_PRESSURE_LEVELS {

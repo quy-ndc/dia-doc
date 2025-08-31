@@ -79,31 +79,31 @@ export default function BloodSugarGuide() {
                             style={{ backgroundColor: GlobalColor.RED_NEON_BG }}
                             className='text-base p-3 font-bold tracking-wider'
                         >
-                            {`>130`}
+                            {`>7.2`}
                         </Text>
                         <Text
                             style={{ backgroundColor: GlobalColor.ORANGE_NEON_BG }}
                             className='text-base p-3 font-bold tracking-wider'
                         >
-                            {`>130`}
+                            {`>7.2`}
                         </Text>
                         <Text
                             style={{ backgroundColor: GlobalColor.GREEN_NEON_BG }}
                             className='text-base p-3 font-bold tracking-wider'
                         >
-                            {`70-130`}
+                            {`3.9-7.2`}
                         </Text>
                         <Text
                             style={{ backgroundColor: GlobalColor.YELLOW_NEON_BG }}
                             className='text-base p-3 font-bold tracking-wider'
                         >
-                            {`<54-69`}
+                            {`<3-3.8`}
                         </Text>
                         <Text
                             style={{ backgroundColor: GlobalColor.PURPLE_NEON_BG }}
                             className='text-base p-3 font-bold tracking-wider'
                         >
-                            {`<54-69`}
+                            {`<3-3.8`}
                         </Text>
                     </View>
                     <View className='flex-col'>
@@ -114,31 +114,31 @@ export default function BloodSugarGuide() {
                             style={{ backgroundColor: GlobalColor.RED_NEON_BG }}
                             className='text-base p-3 font-bold tracking-wider'
                         >
-                            {`>180`}
+                            {`>10`}
                         </Text>
                         <Text
                             style={{ backgroundColor: GlobalColor.ORANGE_NEON_BG }}
                             className='text-base p-3 font-bold tracking-wider'
                         >
-                            {`>180`}
+                            {`>10`}
                         </Text>
                         <Text
                             style={{ backgroundColor: GlobalColor.GREEN_NEON_BG }}
                             className='text-base p-3 font-bold tracking-wider'
                         >
-                            {`70-179`}
+                            {`3.9-9.9`}
                         </Text>
                         <Text
                             style={{ backgroundColor: GlobalColor.YELLOW_NEON_BG }}
                             className='text-base p-3 font-bold tracking-wider'
                         >
-                            {`<54-69`}
+                            {`<3-3.8`}
                         </Text>
                         <Text
                             style={{ backgroundColor: GlobalColor.PURPLE_NEON_BG }}
                             className='text-base p-3 font-bold tracking-wider'
                         >
-                            {`<54-69`}
+                            {`<3-3.8`}
                         </Text>
                     </View>
                     <View className='flex-col'>
@@ -149,31 +149,31 @@ export default function BloodSugarGuide() {
                             style={{ backgroundColor: GlobalColor.RED_NEON_BG }}
                             className='text-base p-3 font-bold tracking-wider'
                         >
-                            {`>130`}
+                            {`>7.2`}
                         </Text>
                         <Text
                             style={{ backgroundColor: GlobalColor.ORANGE_NEON_BG }}
                             className='text-base p-3 font-bold tracking-wider'
                         >
-                            {`>130`}
+                            {`>7.2`}
                         </Text>
                         <Text
                             style={{ backgroundColor: GlobalColor.GREEN_NEON_BG }}
                             className='text-base p-3 font-bold tracking-wider'
                         >
-                            {`70-130`}
+                            {`3.9-7.2`}
                         </Text>
                         <Text
                             style={{ backgroundColor: GlobalColor.YELLOW_NEON_BG }}
                             className='text-base p-3 font-bold tracking-wider'
                         >
-                            {`<54-69`}
+                            {`<3-3.8`}
                         </Text>
                         <Text
                             style={{ backgroundColor: GlobalColor.PURPLE_NEON_BG }}
                             className='text-base p-3 font-bold tracking-wider'
                         >
-                            {`<54-69`}
+                            {`<3-3.8`}
                         </Text>
                     </View>
                 </View>

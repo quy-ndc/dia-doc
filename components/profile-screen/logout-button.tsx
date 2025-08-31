@@ -29,6 +29,7 @@ export default function LogoutButton() {
     const forceLogout = () => {
         logout()
         setTokenDevice(null)
+        invalidateQuery(queryClient) 
         router.replace('/landing-screen')
     }
 

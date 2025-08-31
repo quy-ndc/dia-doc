@@ -25,7 +25,7 @@ export default function NoteField({ note, setNote, placeholder }: Props) {
                 <View />
             </View>
             <Textarea
-                style={{ letterSpacing: 1 }}
+                style={{ letterSpacing: 1, borderRadius: 13 }}
                 value={note}
                 onChangeText={setNote}
                 placeholder={`Ví dụ: ${placeholder}...`}

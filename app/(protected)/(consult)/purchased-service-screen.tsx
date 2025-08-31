@@ -7,7 +7,7 @@ import { FlashList } from '@shopify/flash-list'
 import ServicePackageSkeleton from '../../../components/common/skeleton/service-package-skeleton'
 import ErrorDisplay from '../../../components/common/error-display'
 import PurchaseServiceItem from '../../../components/purchased-service-screen/purchased-service-item'
-import { PurchasedServicePackage, ServicePackage } from '../../../assets/types/consult/consultation'
+import { PurchasedServicePackage } from '../../../assets/types/consult/consultation'
 
 const { width, height } = Dimensions.get('window')
 
@@ -18,7 +18,7 @@ export default function PurchasedServiceScreen() {
     const { data, isError, hasNextPage, isFetchingNextPage, fetchNextPage, refetch, remove, isLoading } = useInfiniteQuery({
         ...usePurchasedServicePackageQuery({
             PageSize: 10,
-            SortBy: 'PurchasedDate,',
+            SortBy: 'PurchasedDate',
             SortDirection: 0
         }),
         getNextPageParam: (lastPage) => {

@@ -41,7 +41,7 @@ export default function ServicePackageScreen() {
     return (
         <>
             <ScrollView
-                className="w-full pb-5"
+                className='w-full pb-5'
                 contentContainerStyle={{ alignItems: 'center' }}
                 refreshControl={<RefreshControl refreshing={refreshing} onRefresh={onRefresh} />}
                 decelerationRate={'normal'}
@@ -75,9 +75,7 @@ export default function ServicePackageScreen() {
                             )}
                             estimatedItemSize={100}
                             onEndReached={() => {
-                                if (hasNextPage && !isFetchingNextPage) {
-                                    fetchNextPage()
-                                }
+                                if (hasNextPage && !isFetchingNextPage) fetchNextPage()
                             }}
                             onEndReachedThreshold={0.5}
                         />

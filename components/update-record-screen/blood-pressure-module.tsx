@@ -91,7 +91,7 @@ export default function BloodPressureUpdateModule({ lastMesurement, initialTime,
                         <View className='flex-1 flex-col items-center relative'>
                             <Text className='text-base font-semibold text-[var(--fade-text-color)] tracking-wider mb-2'>Tâm thu</Text>
                             <Input
-                                style={{ textAlign: 'center', letterSpacing: 1.5, fontSize: 18, fontWeight: 'bold' }}
+                                style={{ textAlign: 'center', letterSpacing: 1.5, fontSize: 18, fontWeight: 'bold', borderRadius: 1000 }}
                                 value={systolic}
                                 onChangeText={setSystolic}
                                 keyboardType='numeric'
@@ -133,7 +133,7 @@ export default function BloodPressureUpdateModule({ lastMesurement, initialTime,
                         <View className='flex-1 flex-col items-center relative'>
                             <Text className='text-base font-semibold text-[var(--fade-text-color)] tracking-wider mb-2'>Tâm trương</Text>
                             <Input
-                                style={{ textAlign: 'center', letterSpacing: 1.5, fontSize: 18, fontWeight: 'bold' }}
+                                style={{ textAlign: 'center', letterSpacing: 1.5, fontSize: 18, fontWeight: 'bold', borderRadius: 1000 }}
                                 value={diastolic}
                                 onChangeText={setDiastolic}
                                 keyboardType='numeric'

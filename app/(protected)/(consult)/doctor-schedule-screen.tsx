@@ -185,62 +185,64 @@ export default function DoctorScheduleScreen() {
                             </View>
                         ) : (
                             <>
-                                <FlashList<DoctorSchedule>
-                                    data={allItems}
-                                    keyExtractor={(_, index) => index.toString()}
-                                    renderItem={({ item }) =>
-                                        <View className='mx-2'>
-                                            <DoctorScheduleItem
-                                                item={item}
-                                                choosen={choosenTimeStamp == item.date}
-                                                setChoosenTimeStamp={setChoosenTimeStamp}
-                                                setChoosenTime={setChoosenTime}
-                                            />
-                                        </View>
-                                    }
-                                    horizontal
-                                    showsHorizontalScrollIndicator={false}
-                                    estimatedItemSize={100}
-                                    scrollEventThrottle={16}
-                                    onEndReachedThreshold={0.5}
-                                    extraData={choosenTimeStamp}
-                                />
-                                <Text className='text-lg font-bold tracking-wider px-2'>
-                                    Các khung giờ hẹn
-                                </Text>
-                                <FlashList<DoctorScheduleTime>
-                                    data={timeStamp}
-                                    keyExtractor={(_, index) => index.toString()}
-                                    renderItem={({ item }) =>
-                                        <View className='m-2'>
-                                            <ScheduleTimeStamp
-                                                item={item}
-                                                choosen={choosenTime == item.id}
-                                                setChoosenTime={setChoosenTime}
-                                            />
-                                        </View>
-                                    }
-                                    numColumns={2}
-                                    showsHorizontalScrollIndicator={false}
-                                    estimatedItemSize={100}
-                                    scrollEventThrottle={16}
-                                    onEndReachedThreshold={0.5}
-                                    extraData={choosenTime}
-                                />
-                                <Pressable
-                                    className={`flex-row gap-2 px-4 py-3 mt-5 items-center justify-center rounded-full bg-[var(--oppo-theme-col)] active:opacity-80 ${choosenTime == '' || bookingLoading ? 'opacity-50' : ''}`}
-                                    disabled={choosenTime == '' || bookingLoading}
-                                    onPress={handleBooking}
-                                >
-                                    {bookingLoading ? (
-                                        <SpinningIcon icon={<Loader className='text-[var(--same-theme-col)]' size={17} />} />
-                                    ) : (
-                                        <Check className='text-[var(--same-theme-col)]' size={17} />
-                                    )}
-                                    <Text className='text-[var(--same-theme-col)] text-base font-bold tracking-wider'>
-                                        Đặt lịch hẹn
+                                <View className='px-2'>
+                                    <FlashList<DoctorSchedule>
+                                        data={allItems}
+                                        keyExtractor={(_, index) => index.toString()}
+                                        renderItem={({ item }) =>
+                                            <View className='mx-2'>
+                                                <DoctorScheduleItem
+                                                    item={item}
+                                                    choosen={choosenTimeStamp == item.date}
+                                                    setChoosenTimeStamp={setChoosenTimeStamp}
+                                                    setChoosenTime={setChoosenTime}
+                                                />
+                                            </View>
+                                        }
+                                        horizontal
+                                        showsHorizontalScrollIndicator={false}
+                                        estimatedItemSize={100}
+                                        scrollEventThrottle={16}
+                                        onEndReachedThreshold={0.5}
+                                        extraData={choosenTimeStamp}
+                                    />
+                                    <Text className='text-lg font-bold tracking-wider px-2'>
+                                        Các khung giờ hẹn
                                     </Text>
-                                </Pressable>
+                                    <FlashList<DoctorScheduleTime>
+                                        data={timeStamp}
+                                        keyExtractor={(_, index) => index.toString()}
+                                        renderItem={({ item }) =>
+                                            <View className='m-2'>
+                                                <ScheduleTimeStamp
+                                                    item={item}
+                                                    choosen={choosenTime == item.id}
+                                                    setChoosenTime={setChoosenTime}
+                                                />
+                                            </View>
+                                        }
+                                        numColumns={2}
+                                        showsHorizontalScrollIndicator={false}
+                                        estimatedItemSize={100}
+                                        scrollEventThrottle={16}
+                                        onEndReachedThreshold={0.5}
+                                        extraData={choosenTime}
+                                    />
+                                    <Pressable
+                                        className={`flex-row gap-2 px-4 py-3 mt-5 items-center justify-center rounded-full bg-[var(--oppo-theme-col)] active:opacity-80 ${choosenTime == '' || bookingLoading ? 'opacity-50' : ''}`}
+                                        disabled={choosenTime == '' || bookingLoading}
+                                        onPress={handleBooking}
+                                    >
+                                        {bookingLoading ? (
+                                            <SpinningIcon icon={<Loader className='text-[var(--same-theme-col)]' size={17} />} />
+                                        ) : (
+                                            <Check className='text-[var(--same-theme-col)]' size={17} />
+                                        )}
+                                        <Text className='text-[var(--same-theme-col)] text-base font-bold tracking-wider'>
+                                            Đặt lịch hẹn
+                                        </Text>
+                                    </Pressable>
+                                </View>
                             </>
                         )}
                     </View>

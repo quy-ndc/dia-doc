@@ -46,7 +46,7 @@ export default function ChatItem({ item }: Prop) {
     return (
         <Pressable
             onPress={handleChatSelect}
-            className={`flex-row justify-between items-center py-2 px-3 active:bg-[var(--click-bg)] rounded-xl`}
+            className={`flex-row justify-between items-center py-2 px-3 active:bg-[var(--click-bg)] rounded-2xl`}
         >
             <Image
                 style={{ width: 60, height: 60, borderRadius: 1000 }}

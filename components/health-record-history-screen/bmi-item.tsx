@@ -1,11 +1,11 @@
 import * as React from 'react'
 import { View, Pressable, useColorScheme } from "react-native"
 import { Text } from "../ui/text"
-import { BloodSugarRecord, HealthTrackItem } from '../../assets/types/user/health-track'
+import { BmiRecord, HealthTrackItem } from '../../assets/types/user/health-track'
 import { useState } from 'react'
-import { getBloodSugarStatus } from '../../assets/data/health-record-status'
 import HealthRecordHistoryModal from './health-history-modal'
 import Svg, { Path, Circle } from "react-native-svg"
+import { getBmiLevelInfo } from '../../assets/enum/bmi-level'
 import { GlobalColor } from '../../global-color'
 import { formatDateTime } from '../../util/format-date-time'
 
@@ -17,19 +17,29 @@ type Prop = {
 }
 
 const ITEM_WIDTH = 100
-const MIN_CHART_HEIGHT = 80
+const MIN_CHART_HEIGHT = 100
 
-export default function BloodSugarItem({
+export default function BmiHistoryItem({
     item,
     maxValue,
     minValue,
     nextValue,
 }: Prop) {
+    if (!item.healthRecord || item.healthRecord == undefined) return null
+
     const [visible, setVisible] = useState(false)
     const theme = useColorScheme()
-    const healthRecord = item.healthRecord as BloodSugarRecord
-    const value = Number(healthRecord.value)
-    const status = getBloodSugarStatus(value, healthRecord.measureTime)
+    const healthRecord = item.healthRecord as BmiRecord
+    const value = healthRecord.bmi
+    const bmiLevelInfo = getBmiLevelInfo(healthRecord.level)
+
+    const getHeightMultiplier = () => {
+        const gap = maxValue - minValue
+        if (gap < 1) return 10
+        if (gap < 2) return 5
+        if (gap < 5) return 2
+        return 1
+    }
 
     const getContainerHeight = () => {
         const valueRatio = maxValue / minValue
@@ -39,10 +49,25 @@ export default function BloodSugarItem({
     const getY = (val: number) => {
         const availableHeight = getContainerHeight() - 10
         const valueRange = maxValue - minValue + 10
-        const heightPerUnit = availableHeight / valueRange
+        const heightPerUnit = (availableHeight / valueRange) * getHeightMultiplier()
         const heightFromBottom = (val - minValue) * heightPerUnit
         return availableHeight - heightFromBottom
     }
+
+    const getLabelPosition = (currentY: number, nextY?: number) => {
+        if (!nextY) return { top: currentY - 12 }
+
+        const isNextPointHigher = nextY < currentY
+        const upwardOffset = 20
+        const downwardOffset = 2
+
+        return {
+            top: isNextPointHigher ?
+                currentY + downwardOffset :
+                currentY - upwardOffset
+        }
+    }
+
     const timeDisplay = formatDateTime(item.mesurementAt)
 
     const containerHeight = getContainerHeight()
@@ -81,20 +106,6 @@ export default function BloodSugarItem({
                 L ${x2} ${y2}`
     }
 
-    const getLabelPosition = (currentY: number, nextY?: number) => {
-        if (!nextY) return { top: currentY - 12 }
-
-        const isNextPointHigher = nextY < currentY
-        const upwardOffset = 20
-        const downwardOffset = 2
-
-        return {
-            top: isNextPointHigher ?
-                currentY + downwardOffset :
-                currentY - upwardOffset
-        }
-    }
-
     return (
         <>
             <Pressable
@@ -109,7 +120,7 @@ export default function BloodSugarItem({
                     <Svg style={{ position: "absolute", width: ITEM_WIDTH * 2, height: containerHeight }}>
                         <Path
                             d={`M ${ITEM_WIDTH} ${currentY} L ${ITEM_WIDTH} ${containerHeight - 10}`}
-                            stroke={status.color}
+                            stroke={lineColor}
                             strokeWidth={1}
                             strokeDasharray="4,4"
                         />
@@ -118,22 +129,22 @@ export default function BloodSugarItem({
                             <Path
                                 d={createCurvedPath(ITEM_WIDTH, currentY, ITEM_WIDTH * 2, nextY)}
                                 stroke={lineColor}
-                                strokeWidth={1.5}
+                                strokeWidth={1}
                                 fill="none"
                             />
                         )}
 
-                        <Circle cx={ITEM_WIDTH} cy={currentY} r={5} fill={status.color} />
+                        <Circle cx={ITEM_WIDTH} cy={currentY} r={5} fill={bmiLevelInfo.color} />
                     </Svg>
 
                     <Text
-                        className='absolute text-sm font-medium text-center text-[var(--fade-text-color)] tracking-wider'
+                        className='absolute text-xs font-medium text-center text-[var(--fade-text-color)] tracking-wider'
                         style={{
                             ...getLabelPosition(currentY, nextY),
-                            left: ITEM_WIDTH - 35,
+                            left: ITEM_WIDTH - 35
                         }}
                     >
-                        {healthRecord.value}
+                        {value}
                     </Text>
                 </View>
 
@@ -146,7 +157,6 @@ export default function BloodSugarItem({
                     </Text>
                 </View>
             </Pressable>
-
             <HealthRecordHistoryModal visible={visible} setVisible={setVisible} item={item} />
         </>
     )

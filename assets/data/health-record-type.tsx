@@ -6,6 +6,7 @@ import { Heart } from "../../lib/icons/Heart"
 import { Droplet } from "../../lib/icons/Droplet"
 import { TrendingUp } from "../../lib/icons/TrendingUp"
 import * as React from 'react'
+import { Activity } from "../../lib/icons/Activity"
 
 export const healthRecord = [
     { label: 'Chiều cao', value: HealthRecordType.HEIGHT.toString() },
@@ -13,6 +14,7 @@ export const healthRecord = [
     { label: 'Đường huyết', value: HealthRecordType.BLOOD_SUGAR.toString() },
     { label: 'Huyết áp', value: HealthRecordType.BLOOD_PRESSURE.toString() },
     { label: 'HbA1c', value: HealthRecordType.HBA1C.toString() },
+    { label: 'BMI', value: HealthRecordType.BMI.toString() },
 ]
 
 const healthRecordDisplayMap = {
@@ -55,6 +57,14 @@ const healthRecordDisplayMap = {
         backgroundColor: GlobalColor.PURPLE_NEON_BG,
         iconColor: GlobalColor.PURPLE_NEON_BORDER,
         unit: '%'
+    },
+    [HealthRecordType.BMI]: {
+        name: 'BMI',
+        icon: <Activity className="text-white" size={17} />,
+        coloredIcon: <Activity color={GlobalColor.INDIGO_NEON_BORDER} size={17} />,
+        backgroundColor: GlobalColor.INDIGO_NEON_BG,
+        iconColor: GlobalColor.INDIGO_NEON_BORDER,
+        unit: 'kg/m2'
     }
 } as const
 

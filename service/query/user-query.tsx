@@ -1,5 +1,5 @@
 import { useMutation, useQueryClient } from "@tanstack/react-query"
-import { CancelBooking, CreateBooking, CreateCarePlanInstanceDoctor, CreateCarePlanTemplate, CreateCarePlanTemplateDoctor, CreatePayment, CreateUserHealthCarePlan, CreateUserProfile, DeleteCarePlanInstanceDoctor, DeleteCarePlanTemplate, DeleteCarePlanTemplateDoctor, DeleteUserHealthCarePlan, DoctorGetPatientProfile, DoctorGetPatientRecords, EditUserProfile, GetAllConsultation, GetAllDoctor, GetAllDoctorHaveCreatedCarePlan, GetAllPurchasedServicePackages, GetAllServicePackages, GetCarePlanInstanceDoctor, GetCarePlanTemplate, GetCarePlanTemplateDoctor, GetDoctorById, GetDoctorProfile, GetDoctorSchedule, GetUserHealthCarePlan, GetUserHealthRecord, GetUserProfile, GetWalletBalance, GetWalletHistory, UpdateCarePlanInstanceDoctor, UpdateCarePlanTemplate, UpdateCarePlanTemplateDoctor, UpdateUserBloodPressure, UpdateUserBloodSugar, UpdateUserHbA1c, UpdateUserHealthCarePlan, UpdateUserHeight, UpdateUserWeight } from "../api/user-service"
+import { CancelBooking, CreateBooking, CreateCarePlanInstanceDoctor, CreateCarePlanTemplate, CreateCarePlanTemplateDoctor, CreatePayment, CreateUserHealthCarePlan, CreateUserProfile, DeleteCarePlanInstanceDoctor, DeleteCarePlanTemplate, DeleteCarePlanTemplateDoctor, DeleteUserHealthCarePlan, DoctorGetPatientProfile, DoctorGetPatientRecords, EditUserProfile, GetAllConsultation, GetAllDoctor, GetAllDoctorHaveCreatedCarePlan, GetAllPurchasedServicePackages, GetAllServicePackages, GetCarePlanInstanceDoctor, GetCarePlanTemplate, GetCarePlanTemplateDoctor, GetDoctorById, GetDoctorProfile, GetDoctorSchedule, GetUserHealthCarePlan, GetUserHealthRecord, GetUserProfile, GetWalletBalance, GetWalletHistory, UpdateCarePlanInstanceDoctor, UpdateCarePlanTemplate, UpdateCarePlanTemplateDoctor, UpdateUserBloodPressure, UpdateUserBloodSugar, UpdateUserBmi, UpdateUserHbA1c, UpdateUserHealthCarePlan, UpdateUserHeight, UpdateUserWeight } from "../api/user-service"
 import { QueryKeys } from "../../assets/enum/query"
 import { GenderNumber } from "../../assets/enum/gender"
 import { DiagnosisRecency } from "../../assets/enum/diagnosis-recency"
@@ -561,7 +561,11 @@ export const useUpdateUserWeightMutation = () => {
                     visibilityTime: 2000,
                 })
             } else {
-                queryClient.invalidateQueries({ queryKey: [QueryKeys.HEALTH_RECORD] })
+                queryClient.invalidateQueries({
+                    queryKey: [QueryKeys.HEALTH_RECORD],
+                    refetchType: 'all',
+                    exact: false
+                })
                 queryClient.invalidateQueries({ queryKey: [QueryKeys.HEALTH_CARE_PLAN] })
                 Toast.show({
                     type: 'success',
@@ -600,7 +604,11 @@ export const useUpdateUserHeightMutation = () => {
                     visibilityTime: 2000,
                 })
             } else {
-                queryClient.invalidateQueries({ queryKey: [QueryKeys.HEALTH_RECORD] })
+                queryClient.invalidateQueries({
+                    queryKey: [QueryKeys.HEALTH_RECORD],
+                    refetchType: 'all',
+                    exact: false
+                })
                 queryClient.invalidateQueries({ queryKey: [QueryKeys.HEALTH_CARE_PLAN] })
                 Toast.show({
                     type: 'success',
@@ -641,7 +649,11 @@ export const useUpdateUserBloodPressureMutation = () => {
                     visibilityTime: 2000,
                 })
             } else {
-                queryClient.invalidateQueries({ queryKey: [QueryKeys.HEALTH_RECORD] })
+                queryClient.invalidateQueries({
+                    queryKey: [QueryKeys.HEALTH_RECORD],
+                    refetchType: 'all',
+                    exact: false
+                })
                 queryClient.invalidateQueries({ queryKey: [QueryKeys.HEALTH_CARE_PLAN] })
                 Toast.show({
                     type: 'success',
@@ -682,7 +694,11 @@ export const useUpdateUserBloodSugarMutation = () => {
                     visibilityTime: 2000,
                 })
             } else {
-                queryClient.invalidateQueries({ queryKey: [QueryKeys.HEALTH_RECORD] })
+                queryClient.invalidateQueries({
+                    queryKey: [QueryKeys.HEALTH_RECORD],
+                    refetchType: 'all',
+                    exact: false
+                })
                 queryClient.invalidateQueries({ queryKey: [QueryKeys.HEALTH_CARE_PLAN] })
                 Toast.show({
                     type: 'success',
@@ -722,7 +738,11 @@ export const useUpdateUserHbA1cMutation = () => {
                     visibilityTime: 2000,
                 })
             } else {
-                queryClient.invalidateQueries({ queryKey: [QueryKeys.HEALTH_RECORD] })
+                queryClient.invalidateQueries({
+                    queryKey: [QueryKeys.HEALTH_RECORD],
+                    refetchType: 'all',
+                    exact: false
+                })
                 queryClient.invalidateQueries({ queryKey: [QueryKeys.HEALTH_CARE_PLAN] })
                 Toast.show({
                     type: 'success',
@@ -736,6 +756,43 @@ export const useUpdateUserHbA1cMutation = () => {
             Toast.show({
                 type: 'error',
                 text1: 'Cập nhật hbA1c thất bại',
+                text2: 'Vui lòng thử lại sau',
+                visibilityTime: 2000,
+            })
+            return error
+        }
+    })
+}
+
+export const useUpdateUserBmiMutation = () => {
+    const queryClient = useQueryClient()
+    return useMutation({
+        mutationFn: (params: {
+            weight: number,
+            height: number,
+            measurementAt: string
+        }) => UpdateUserBmi(params),
+        onSuccess: (data) => {
+            if (data.status !== 200) {
+                Toast.show({
+                    type: 'error',
+                    text1: data.data.errors[0].message || 'Cập nhật BMI thất bại',
+                    text2: 'Vui lòng thử lại sau',
+                    visibilityTime: 2000,
+                })
+            }
+            queryClient.invalidateQueries({
+                queryKey: [QueryKeys.HEALTH_RECORD],
+                refetchType: 'all',
+                exact: false
+            })
+            queryClient.invalidateQueries({ queryKey: [QueryKeys.HEALTH_CARE_PLAN] })
+            return data
+        },
+        onError: (error) => {
+            Toast.show({
+                type: 'error',
+                text1: 'Cập nhật BMI thất bại',
                 text2: 'Vui lòng thử lại sau',
                 visibilityTime: 2000,
             })

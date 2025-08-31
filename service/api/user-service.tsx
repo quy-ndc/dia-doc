@@ -876,6 +876,43 @@ export const UpdateUserHbA1c = async (params: {
     }
 }
 
+export const UpdateUserBmi = async (params: {
+   weight: number,
+   height: number,
+   measurementAt: string
+}) => {
+    try {
+        const response = await axiosServices.post(`${endpointUser.UPDATE_USER_BMI}`, {
+            weight: params.weight,
+            height: params.height,
+            measurementAt: params.measurementAt
+        })
+
+        return {
+            success: true,
+            status: response.status,
+            data: response.data
+        }
+
+    } catch (e) {
+        if (axios.isAxiosError(e) && e.response) {
+            return {
+                success: false,
+                status: e.response.status,
+                message: e.response.data.message || 'An error occurred',
+                data: e.response.data
+            };
+        }
+
+        return {
+            success: false,
+            status: 500,
+            message: 'An error occurred',
+            data: null
+        }
+    }
+}
+
 export const GetCarePlanTemplate = async (params: {
     Cursor?: string,
     Search?: string,

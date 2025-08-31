@@ -19,16 +19,20 @@ import { usePrivateMessageStore } from '../../store/usePrivateMessage'
 import { FlashList } from '@shopify/flash-list'
 import { useDebounce } from '../../util/hook/useDebounce'
 import ErrorDisplay from '../common/error-display'
-import { useMessages } from '@ably/chat'
+import { useMessages, useRoom } from '@ably/chat'
 import { UserRole, UserRoleNumber } from '../../assets/enum/user-role'
+import Toast from 'react-native-toast-message'
+import AddToGroupModal from './add-to-group'
 
 type Prop = {
     groupId: string
+    patientId: string
     setIsCameraOn: (state: boolean) => void
 }
 
 export default function PrivateChatModule({
     groupId,
+    patientId,
     setIsCameraOn,
 }: Prop) {
     const { groups, setMessages, addMessages, addMessage, getGroupStatus } = usePrivateMessageStore()
@@ -131,6 +135,8 @@ export default function PrivateChatModule({
             addMessage(groupId, event.message.metadata.messageToSend as Message)
         },
     })
+    const { detach } = useRoom()
+
     const handleSend = async () => {
         await mutateAsync({
             conversationId: groupId,
@@ -166,6 +172,26 @@ export default function PrivateChatModule({
         setNewMessage('')
     }, [messageData, isLoading])
 
+    useEffect(() => {
+        if (!isActive) {
+            Toast.show({
+                type: 'info',
+                text1: 'Cuộc tư vấn này chưa bắt đầu hoặc đã kết thúc',
+                visibilityTime: 0,
+                autoHide: false,
+                onPress: () => Toast.hide()
+            })
+        } else {
+            Toast.hide()
+        }
+    }, [isActive])
+
+    useEffect(() => {
+        return () => {
+            detach()
+        }
+    }, [])
+
     return (
         <KeyboardAvoidingView
             behavior={Platform.OS === 'ios' ? 'padding' : undefined}
@@ -176,18 +202,6 @@ export default function PrivateChatModule({
                     <View className='flex-1 w-full h-full justify-center items-center'>
                         <SpinningIcon icon={<Loader className='text-foreground' size={30} />} />
                     </View>
-                ) : !isActive ? (
-                    <ScrollView
-                        className="flex-1 w-full"
-                        contentContainerStyle={{ alignItems: 'center', justifyContent: 'center', flexGrow: 1 }}
-                        refreshControl={<RefreshControl refreshing={refreshing} onRefresh={onRefresh} />}
-                    >
-                        <ErrorDisplay
-                            text={'Cuộc tư vấn này chưa bắt đầu hoặc đã kết thúc'}
-                            onRefresh={onRefresh}
-                            refreshing={refreshing}
-                        />
-                    </ScrollView>
                 ) : isError || groups[groupId].messages.length == 0 ? (
                     <ScrollView
                         className="flex-1 w-full"
@@ -222,10 +236,12 @@ export default function PrivateChatModule({
                         />
                     </View>
                 )}
-
                 <View className='flex-row gap-1 justify-center items-center pt-2 pb-2'>
                     <View className={`flex-row items-center ${!showUtil && 'hidden'}`}>
                         <VoiceRecord setNewMessage={setNewMessage} />
+                        {user.role == UserRole.DOCTOR && (
+                            <AddToGroupModal patientId={patientId} />
+                        )}
                     </View>
                     <Pressable
                         className={`px-3 py-4 rounded-xl active:bg-[var(--click-bg)] ${showUtil && 'hidden'}`}

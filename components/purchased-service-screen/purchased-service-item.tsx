@@ -15,7 +15,7 @@ type Prop = {
 export default function PurchaseServiceItem({ item }: Prop) {
 
     return (
-        <Pressable className='flex-col py-3 gap-5 items-center w-full bg-[var(--blog-bg)] rounded-lg active:bg-[var(--click-bg)]'>
+        <Pressable className='flex-col py-3 gap-5 items-center w-full bg-[var(--blog-bg)] rounded-lg'>
             <View className='flex-row gap-2 w-full justify-between'>
                 <View className='flex-col px-2 gap-3 flex-1'>
                     <Text className='text-base font-medium tracking-wider'>

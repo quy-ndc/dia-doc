@@ -15,6 +15,7 @@ import { getGenderString } from '../../assets/enum/gender'
 import { Clock } from '../../lib/icons/Clock'
 import { formatDate } from '../../util/format-date'
 import { router } from 'expo-router'
+import { Star } from '../../lib/icons/Star'
 
 type Prop = {
     item: Doctor
@@ -52,6 +53,17 @@ export default function DoctorItem({ item }: Prop) {
                             text={expDisplay.text}
                             borderColor={borderColor}
                         />
+                    </View>
+                    <View className='flex-row gap-2 items-center'>
+                        {[1, 2, 3, 4, 5].map((index) => (
+                            <Star
+                                key={index}
+                                color={index <= item.numberOfRating ? GlobalColor.YELLOW_NEON_BORDER : 'transparent'}
+                                fill={index <= item.numberOfRating ? GlobalColor.YELLOW_NEON_BORDER : 'transparent'}
+                                className={`${index > item.numberOfRating && 'text-foreground'}`}
+                                size={17}
+                            />
+                        ))}
                     </View>
                 </View>
             </View>

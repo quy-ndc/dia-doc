@@ -14,21 +14,19 @@ type Prop = {
 export default function AvailableServiceItem({ item }: Prop) {
 
     return (
-        <View className='flex-col py-3 gap-5 items-center w-full bg-[var(--blog-bg)] rounded-lg'>
+        <View className='flex-col px-1 gap-5 items-center w-full rounded-lg'>
             <View className='flex-row gap-2 w-full justify-between'>
                 <View className='flex-col px-2 gap-4 flex-1'>
                     <Text className='text-lg font-semibold tracking-wider'>
-                        {item.packageName}
-                    </Text>
-                    <View className='flex-row justify-between items-center w-full'>
-                        <Text className='text-base font-semibold tracking-wider'>
-                            Phiên sử dụng
-                        </Text>
+                        {item.packageName} - &nbsp;
                         <Text className='text-base font-semibold tracking-wider text-[var(--fade-text-color)]'>
                             {`Còn ${item.remainingSessions}/${item.totalSessions} lượt`}
                         </Text>
-                    </View>
-                    <View className='w-full h-2 bg-[var(--input-bg)] rounded-full overflow-hidden'>
+                    </Text>
+                    <View
+                        style={{ height: 12 }}
+                        className='w-full bg-[var(--input-bg)] rounded-full overflow-hidden'
+                    >
                         <View
                             className='h-full bg-[var(--oppo-theme-col)] rounded-full'
                             style={{ width: `${(item.remainingSessions / item.totalSessions) * 100}%` }}

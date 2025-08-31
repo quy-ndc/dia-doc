@@ -60,7 +60,7 @@ export default function GlucoseTimingPicker({ setSelectPeriod }: Props) {
                         key={index}
                         onPress={item.onPress}
                         style={{ width: (width - 40 - 12) / 2, borderColor: selectedItem === index ? item.color : themeColor }}
-                        className={`px-3 py-5 rounded-md border border-[var(--fade-text-color)] active:scale-95`}
+                        className={`px-3 py-5 rounded-2xl border border-[var(--fade-text-color)] active:scale-95`}
                     >
                         <View className='flex-col gap-2'>
                             <View className='flex-row items-center gap-3'>

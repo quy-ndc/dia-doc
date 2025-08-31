@@ -22,6 +22,8 @@ import { CircleAlert } from '../../../lib/icons/CircleAlert'
 import { BloodSugarRecord } from '../../../assets/types/user/health-track'
 import useUserStore from '../../../store/userStore'
 import { UserRole } from '../../../assets/enum/user-role'
+import BmiHistoryItem from '../../../components/health-record-history-screen/bmi-item'
+import { BmiRecord } from '../../../assets/types/user/health-track'
 
 const { height } = Dimensions.get('window')
 
@@ -94,6 +96,13 @@ export default function HealthRecordHistoryScreen() {
             const avgSystolic = (systolicSum / items.length).toFixed(1)
             const avgDiastolic = (diastolicSum / items.length).toFixed(1)
             return `${avgSystolic} / ${avgDiastolic}`
+        } else if (recordType == HealthRecordType.BMI) {
+            let sum = 0
+            for (const item of items) {
+                const record = item.healthRecord as BmiRecord
+                sum += record.bmi
+            }
+            return (sum / items.length).toFixed(1)
         } else {
             let sum = 0
             for (const item of items) {
@@ -120,6 +129,14 @@ export default function HealthRecordHistoryScreen() {
                 ? `${bpRecord.systolic}/${bpRecord.diastolic}`
                 : 'N/A'
         }
+
+        if (healthRecordItems[0].recordType === HealthRecordType.BMI) {
+            const bmiRecord = healthRecordItems[0].healthRecord as BmiRecord
+            return bmiRecord?.weightValue && bmiRecord?.heightValue
+                ? `${bmiRecord.weightValue}/${bmiRecord.heightValue}`
+                : '0/0'
+        }
+
         return (healthRecordItems[0].healthRecord as any).value ?? 'N/A'
     }
 
@@ -219,6 +236,17 @@ export default function HealthRecordHistoryScreen() {
                                                 minValue={minMax.lowest}
                                                 nextValue={index < healthRecordItems.length - 1 ? Number((healthRecordItems[index + 1].healthRecord as WeightRecord | HeightRecord | HB1ACRecord)?.value) : undefined}
                                             />
+                                        ) : item.recordType == HealthRecordType.BMI ? (
+                                            <BmiHistoryItem
+                                                key={index}
+                                                item={{
+                                                    ...item,
+                                                    healthRecord: item.healthRecord as BmiRecord
+                                                }}
+                                                maxValue={minMax.highest}
+                                                minValue={minMax.lowest}
+                                                nextValue={index < healthRecordItems.length - 1 ? Number((healthRecordItems[index + 1].healthRecord as BmiRecord)?.bmi) : undefined}
+                                            />
                                         ) : item.recordType == HealthRecordType.BLOOD_SUGAR ? (
                                             <BloodSugarItem
                                                 key={index}
@@ -287,6 +315,49 @@ export default function HealthRecordHistoryScreen() {
                                         </View>
                                     </View>
                                 )}
+                            </View>
+                        )}
+                        {(recordType == HealthRecordType.BMI) && (
+                            <View className='flex-col gap-2 items-center'>
+                                <View className='flex-row items-center justify-center w-full gap-5 pt-5'>
+                                    <View className='flex-row gap-2 items-center'>
+                                        <View
+                                            className='p-2 rounded-full'
+                                            style={{ backgroundColor: GlobalColor.RED_NEON_BORDER }}
+                                        />
+                                        <Text className='text-base font-bold text-[var(--fade-text-color)]'>Rất cao</Text>
+                                    </View>
+                                    <View className='flex-row gap-2 items-center'>
+                                        <View
+                                            className='p-2 rounded-full'
+                                            style={{ backgroundColor: GlobalColor.ORANGE_NEON_BORDER }}
+                                        />
+                                        <Text className='text-base font-bold text-[var(--fade-text-color)]'>Cao</Text>
+                                    </View>
+                                    <View className='flex-row gap-2 items-center'>
+                                        <View
+                                            className='p-2 rounded-full'
+                                            style={{ backgroundColor: GlobalColor.YELLOW_NEON_BORDER }}
+                                        />
+                                        <Text className='text-base font-bold text-[var(--fade-text-color)]'>Hơi cao</Text>
+                                    </View>
+                                </View>
+                                <View className='flex-row items-center justify-center w-full gap-5 pt-5'>
+                                    <View className='flex-row gap-2 items-center'>
+                                        <View
+                                            className='p-2 rounded-full'
+                                            style={{ backgroundColor: GlobalColor.GREEN_NEON_BORDER }}
+                                        />
+                                        <Text className='text-base font-bold text-[var(--fade-text-color)]'>Bình thường</Text>
+                                    </View>
+                                    <View className='flex-row gap-2 items-center'>
+                                        <View
+                                            className='p-2 rounded-full'
+                                            style={{ backgroundColor: GlobalColor.PURPLE_NEON_BORDER }}
+                                        />
+                                        <Text className='text-base font-bold text-[var(--fade-text-color)]'>Thấp</Text>
+                                    </View>
+                                </View>
                             </View>
                         )}
                     </View>

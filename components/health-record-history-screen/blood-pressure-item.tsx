@@ -6,8 +6,9 @@ import { formatDateMessage } from '../../util/format-date-message'
 import HealthRecordHistoryModal from './health-history-modal'
 import { useState } from 'react'
 import { getBloodPressureStatus } from '../../assets/data/health-record-status'
-import Svg, { Line, Circle } from "react-native-svg"
+import Svg, { Path, Circle } from "react-native-svg"
 import { GlobalColor } from '../../global-color'
+import { formatDateTime } from '../../util/format-date-time'
 
 type Prop = {
     item: HealthTrackItem
@@ -43,12 +44,57 @@ export default function BloodPressureItem({
         const heightFromBottom = (val - minValue) * heightPerUnit
         return availableHeight - heightFromBottom
     }
+    const timeDisplay = formatDateTime(item.mesurementAt)
 
     const containerHeight = getContainerHeight()
     const systolicY = getY(Number(healthRecord.systolic))
     const diastolicY = getY(Number(healthRecord.diastolic))
     const nextSystolicY = nextValue ? getY(nextValue.systolic) : undefined
     const nextDiastolicY = nextValue ? getY(nextValue.diastolic) : undefined
+
+    const createCurvedPath = (x1: number, y1: number, x2: number, y2: number) => {
+        const dx = x2 - x1
+
+        const straightLength = dx * 0.03
+        const curveStart = x1 + straightLength
+        const curveEnd = x2 - straightLength
+
+        const cp1x = curveStart + (curveEnd - curveStart) * 0.25
+        const cp2x = curveStart + (curveEnd - curveStart) * 0.75
+
+        const dy = Math.abs(y2 - y1)
+        const isGoingUp = y2 < y1
+
+        const curveIntensity = Math.max(0.1, 0.15 - (dy / 1000))
+        const maxOffset = Math.min(dy * curveIntensity, 10)
+
+        const cp1y = isGoingUp ?
+            y1 + maxOffset :
+            y1 - maxOffset
+
+        const cp2y = isGoingUp ?
+            y2 - maxOffset :
+            y2 + maxOffset
+
+        return `M ${x1} ${y1} 
+                L ${curveStart} ${y1} 
+                C ${cp1x} ${cp1y} ${cp2x} ${cp2y} ${curveEnd} ${y2}
+                L ${x2} ${y2}`
+    }
+
+    const getLabelPosition = (currentY: number, nextY?: number) => {
+        if (!nextY) return { top: currentY - 12 }
+
+        const isNextPointHigher = nextY < currentY
+        const upwardOffset = 20
+        const downwardOffset = 2
+
+        return {
+            top: isNextPointHigher ?
+                currentY + downwardOffset :
+                currentY - upwardOffset
+        }
+    }
 
     return (
         <>
@@ -62,33 +108,26 @@ export default function BloodPressureItem({
                     style={{ width: ITEM_WIDTH, height: containerHeight }}
                 >
                     <Svg style={{ position: "absolute", width: ITEM_WIDTH * 2, height: containerHeight }}>
-                        <Line
-                            x1={ITEM_WIDTH}
-                            y1={systolicY}
-                            x2={ITEM_WIDTH}
-                            y2={containerHeight - 10}
+                        <Path
+                            d={`M ${ITEM_WIDTH} ${systolicY} L ${ITEM_WIDTH} ${containerHeight - 10}`}
                             stroke={lineColor}
                             strokeWidth={1}
                             strokeDasharray="4,4"
                         />
 
-                        {nextValue && (
+                        {nextValue && nextSystolicY !== undefined && nextDiastolicY !== undefined && (
                             <>
-                                <Line
-                                    x1={ITEM_WIDTH}
-                                    y1={systolicY}
-                                    x2={ITEM_WIDTH * 2}
-                                    y2={nextSystolicY}
+                                <Path
+                                    d={createCurvedPath(ITEM_WIDTH, systolicY, ITEM_WIDTH * 2, nextSystolicY)}
                                     stroke={GlobalColor.CYAN_NEON_BORDER}
                                     strokeWidth={1}
+                                    fill="none"
                                 />
-                                <Line
-                                    x1={ITEM_WIDTH}
-                                    y1={diastolicY}
-                                    x2={ITEM_WIDTH * 2}
-                                    y2={nextDiastolicY}
+                                <Path
+                                    d={createCurvedPath(ITEM_WIDTH, diastolicY, ITEM_WIDTH * 2, nextDiastolicY)}
                                     stroke={GlobalColor.ORANGE_NEON_BORDER}
                                     strokeWidth={1}
+                                    fill="none"
                                 />
                             </>
                         )}
@@ -107,11 +146,10 @@ export default function BloodPressureItem({
                         />
                     </Svg>
 
-                    {/* Value labels */}
                     <Text
                         className='absolute text-sm font-medium text-center text-[var(--fade-text-color)] tracking-wider'
                         style={{
-                            top: systolicY - 10,
+                            ...getLabelPosition(systolicY, nextValue?.systolic),
                             left: ITEM_WIDTH - 35,
                         }}
                     >
@@ -120,7 +158,7 @@ export default function BloodPressureItem({
                     <Text
                         className='absolute text-sm font-medium text-center text-[var(--fade-text-color)] tracking-wider'
                         style={{
-                            top: diastolicY - 10,
+                            ...getLabelPosition(diastolicY, nextValue?.diastolic),
                             left: ITEM_WIDTH - 35,
                         }}
                     >
@@ -128,9 +166,14 @@ export default function BloodPressureItem({
                     </Text>
                 </View>
 
-                <Text className='text-sm text-center text-[var(--fade-text-color)] tracking-wider'>
-                    {formatDateMessage(item.mesurementAt)}
-                </Text>
+                <View className='flex-col gap-1'>
+                    <Text className='text-sm text-center font-medium text-[var(--fade-text-color)] tracking-widest'>
+                        {timeDisplay.date}
+                    </Text>
+                    <Text className='text-sm text-center font-medium text-[var(--fade-text-color)] tracking-widest'>
+                        {timeDisplay.time}
+                    </Text>
+                </View>
             </Pressable>
             <HealthRecordHistoryModal visible={visible} setVisible={setVisible} item={item} />
         </>

@@ -9,6 +9,8 @@ import ErrorDisplay from '../../common/error-display'
 import HealthTrackerItem from './health-track-item'
 import { HealthTrackItem } from '../../../assets/types/user/health-track'
 import { FlashList } from '@shopify/flash-list'
+import { HealthRecordType } from '../../../assets/enum/health-record'
+import BmiItem from './bmi-item'
 
 const { width } = Dimensions.get('window')
 
@@ -51,13 +53,23 @@ export default function HealthTracker({ items, isLoading, isError, refetch, remo
                     <FlashList<HealthTrackItem>
                         data={items}
                         renderItem={({ item, index }) => (
-                            <View className='m-2'>
-                                <HealthTrackerItem
-                                    key={index}
-                                    item={item}
-                                    patientId={patientId}
-                                />
-                            </View>
+                            item.recordType === HealthRecordType.BMI ? (
+                                <View className='m-2'>
+                                    <BmiItem
+                                        key={index}
+                                        item={item}
+                                        patientId={patientId}
+                                    />
+                                </View>
+                            ) : (
+                                <View className='m-2'>
+                                    <HealthTrackerItem
+                                        key={index}
+                                        item={item}
+                                        patientId={patientId}
+                                    />
+                                </View>
+                            )
                         )}
                         estimatedItemSize={10}
                         numColumns={2}

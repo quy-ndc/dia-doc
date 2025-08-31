@@ -103,6 +103,8 @@ export default function ProtectedLayout() {
         const unsubscribeOnMessage = messaging().onMessage(async remoteMessage => {
             if (!remoteMessage?.notification) return
 
+            console.log(remoteMessage.data)
+
             if (remoteMessage.data) {
                 if (remoteMessage.data.type == NotificatinType.CONSULTATION.toString()) {
                     const incomingMessage = remoteMessage.data as unknown as NotificationConsultationStart | NotificationConsultationEnd
@@ -151,6 +153,7 @@ export default function ProtectedLayout() {
                             android: {
                                 channelId: 'foreground-noti',
                                 smallIcon: 'ic_launcher',
+                                largeIcon: 'ic_launcher',
                                 importance: AndroidImportance.HIGH,
                                 pressAction: {
                                     id: 'default',
@@ -158,7 +161,6 @@ export default function ProtectedLayout() {
                                 sound: 'default',
                             },
                         })
-                        Vibration.vibrate()
                     }
                     const message: Message = {
                         id: incomingMessage.messageId,

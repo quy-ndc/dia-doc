@@ -102,6 +102,7 @@ export default function ChatScreen() {
                 {type as string === ConversationType.PRIVATE_CHAT.toString() ? (
                     <PrivateChatModule
                         groupId={id as string}
+                        patientId={target as string}
                         setIsCameraOn={setIsCameraOn}
                     />
                 ) : (

@@ -8,6 +8,8 @@ import Voice from "@react-native-voice/voice";
 import { MicOff } from "../../lib/icons/MicOff";
 import { Check } from "../../lib/icons/Check";
 import { X } from "../../lib/icons/X";
+import React from "react";
+import IconButton from "../common/icon-button";
 
 type Prop = {
     setNewMessage: (newMessage: string) => void;
@@ -132,12 +134,12 @@ export default function VoiceRecord({ setNewMessage }: Prop) {
 
     return (
         <>
-            <Pressable
-                className='px-3 py-4 rounded-xl active:bg-[var(--click-bg)]'
+            <IconButton
+                icon={<Mic className='text-foreground' size={18} />}
+                buttonSize={3}
+                possition={"other"}
                 onPress={!permission.granted ? grantPermission : onStartRecord}
-            >
-                <Mic className='text-foreground' size={20} />
-            </Pressable>
+            />
             <Modal
                 visible={visible}
                 transparent

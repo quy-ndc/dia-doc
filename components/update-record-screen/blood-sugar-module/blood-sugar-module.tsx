@@ -87,14 +87,14 @@ export default function BloodSugarUpdateModule({ lastMesurement, initialTime, id
                     <Text className='text-lg font-bold tracking-wider capitalize'>Đường huyết hiện tại</Text>
                     <View className='w-full relative'>
                         <Input
-                            style={{ textAlign: 'center', letterSpacing: 1.5, fontSize: 18, fontWeight: 'bold' }}
+                            style={{ textAlign: 'center', letterSpacing: 1.5, fontSize: 18, fontWeight: 'bold', borderRadius: 1000 }}
                             value={value}
                             onChangeText={setValue}
                             keyboardType='numeric'
                             placeholder={lastMesurement as string || '0'}
                             className='w-full'
                         />
-                        <Text className='absolute right-3  -translate-y-1/2 top-[50%] text-base font-bold text-[var(--fade-text-color)] tracking-wider'>
+                        <Text className='absolute right-3 -translate-y-1/2 top-[50%] text-base font-bold text-[var(--fade-text-color)] tracking-wider'>
                             mmol/L
                         </Text>
                     </View>

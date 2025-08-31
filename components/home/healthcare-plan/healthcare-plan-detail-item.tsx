@@ -79,12 +79,14 @@ export default function HealthcarePlanDetailItem({ item, hidden }: Prop) {
                 <Clock color={GlobalColor.BLUE_NEON_BORDER} size={20} />
                 <Text className='text-lg font-bold tracking-wider'>{formatTime(item.scheduledAt)}</Text>
             </View>
-            <Text className='text-base font-semibold tracking-wider text-center'>
-                Lý do: &nbsp;
-                <Text className='text-base font-medium text-[var(--fade-text-color)] tracking-wider text-center'>
-                    {item.reason}
+            {item.reason !== undefined && (
+                <Text className='text-base font-semibold tracking-wider text-center'>
+                    Lý do: &nbsp;
+                    <Text className='text-base font-medium text-[var(--fade-text-color)] tracking-wider text-center'>
+                        {item.reason}
+                    </Text>
                 </Text>
-            </Text>
+            )}
             <Text className='text-base font-semibold tracking-wider text-center'>
                 Trạng thái: &nbsp;
                 <Text

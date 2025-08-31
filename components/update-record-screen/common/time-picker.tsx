@@ -39,36 +39,6 @@ export default function RecordTimePicker({ setSelectedTime, initialTime }: Props
             icon: <Clock color={selectedItem === 0 ? GlobalColor.EMERALD_NEON_BORDER : themeColor} size={18} />,
             color: GlobalColor.EMERALD_NEON_BORDER,
             onPress: () => handleSelectTime(new Date().toISOString(), 0)
-        },
-        {
-            label: '7 giờ sáng',
-            icon: <Sunrise color={selectedItem === 1 ? GlobalColor.YELLOW_NEON_BORDER : themeColor} size={18} />,
-            color: GlobalColor.ORANGE_NEON_BORDER,
-            onPress: () => {
-                const today = new Date()
-                today.setHours(7, 0, 0, 0)
-                handleSelectTime(today.toISOString(), 1)
-            }
-        },
-        {
-            label: '12 giờ trưa',
-            icon: <Sun color={selectedItem === 2 ? GlobalColor.YELLOW_NEON_BORDER : themeColor} size={18} />,
-            color: GlobalColor.YELLOW_NEON_BORDER,
-            onPress: () => {
-                const today = new Date()
-                today.setHours(12, 0, 0, 0)
-                handleSelectTime(today.toISOString(), 2)
-            }
-        },
-        {
-            label: '7 giờ tối',
-            icon: <Moon color={selectedItem === 3 ? GlobalColor.PURPLE_NEON_BORDER : themeColor} size={18} />,
-            color: GlobalColor.PURPLE_NEON_BORDER,
-            onPress: () => {
-                const today = new Date()
-                today.setHours(19, 0, 0, 0)
-                handleSelectTime(today.toISOString(), 3)
-            }
         }
     ]
 
@@ -100,7 +70,7 @@ export default function RecordTimePicker({ setSelectedTime, initialTime }: Props
                             key={index}
                             onPress={item.onPress}
                             style={{ width: (width - 40 - 12) / 2, borderColor: selectedItem === index ? item.color : themeColor }}
-                            className={`py-5 rounded-md border border-[var(--fade-text-color)] items-center justify-center active:scale-95`}
+                            className={`py-4 rounded-full border border-[var(--fade-text-color)] items-center justify-center active:scale-95`}
                         >
                             <View className='flex-row items-center gap-3'>
                                 {item.icon}
@@ -117,7 +87,7 @@ export default function RecordTimePicker({ setSelectedTime, initialTime }: Props
                 <Pressable
                     onPress={() => setShow(true)}
                     style={{ width: (width - 40 - 12) / 2, borderColor: selectedItem === 4 ? GlobalColor.BLUE_NEON_BORDER : themeColor }}
-                    className={`py-5 rounded-md border border-[var(--fade-text-color)] items-center justify-center active:scale-95`}
+                    className={`py-4 rounded-full border border-[var(--fade-text-color)] items-center justify-center active:scale-95`}
                 >
                     <View className='flex-row items-center gap-3'>
                         <Calendar color={selectedItem === 4 ? GlobalColor.BLUE_NEON_BORDER : themeColor} size={18} />

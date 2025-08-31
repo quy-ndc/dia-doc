@@ -1,5 +1,5 @@
 import * as React from 'react'
-import {    View } from 'react-native'
+import { View } from 'react-native'
 import LogoutButton from './logout-button'
 import ChangePasswordModal from './popup-modal/change-password-modal'
 

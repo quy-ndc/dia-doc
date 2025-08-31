@@ -1,9 +1,9 @@
 import * as React from 'react'
-import { Dimensions, Modal, Pressable, View } from "react-native"
+import { Dimensions, Modal, Pressable, useColorScheme, View } from "react-native"
 import { Text } from "../ui/text"
 import { getHealthRecordDisplay } from '../../assets/data/health-record-type'
 import { HealthRecordType } from '../../assets/enum/health-record'
-import { BloodPressureRecord, HealthTrackItem } from '../../assets/types/user/health-track'
+import { BloodPressureRecord, BmiRecord, HealthTrackItem } from '../../assets/types/user/health-track'
 import { Clock } from '../../lib/icons/Clock'
 import { formatTime } from '../../util/format-time'
 import { formatDate } from '../../util/format-date'
@@ -11,6 +11,7 @@ import { PenLine } from '../../lib/icons/PenLine'
 import { GlobalColor } from '../../global-color'
 import { Bot } from '../../lib/icons/Bot'
 import { Check } from '../../lib/icons/Check'
+import Markdown from 'react-native-markdown-display'
 
 type Prop = {
     visible: boolean
@@ -24,6 +25,9 @@ export default function HealthRecordHistoryModal({ visible, setVisible, item }: 
 
     if (item.healthRecord == undefined) return null
 
+    const theme = useColorScheme()
+    const textColor = theme == 'dark' ? GlobalColor.LIGHT_THEME_COL : GlobalColor.DARK_THEME_COL
+
     const recordDisplay = getHealthRecordDisplay(item.recordType)
 
     const getValue = () => {
@@ -34,6 +38,9 @@ export default function HealthRecordHistoryModal({ visible, setVisible, item }: 
             return bpRecord?.systolic && bpRecord?.diastolic
                 ? `${bpRecord.systolic}/${bpRecord.diastolic}`
                 : 'N/A'
+        } else if (item.recordType === HealthRecordType.BMI) {
+            const bmiRecord = item.healthRecord as BmiRecord
+            return bmiRecord?.bmi ?? 'N/A'
         }
         return (item.healthRecord as any).value ?? 'N/A'
     }
@@ -82,10 +89,22 @@ export default function HealthRecordHistoryModal({ visible, setVisible, item }: 
                             </Text>
                         </View>
                         <View className='flex-col gap-2'>
-                            <Bot color={GlobalColor.BLUE_NEON_BORDER} size={17} />
-                            <Text className='text-base font-medium tracking-wider'>
-                                {item.assistantNote ? item.assistantNote : 'Không có lời khuyên từ tư vấn AI'}
-                            </Text>
+                            <View className='flex-row gap-2 items-center'>
+                                <Bot color={GlobalColor.BLUE_NEON_BORDER} size={17} />
+                                <Text className='text-base font-medium tracking-wider'>Lời khuyên từ AI</Text>
+                            </View>
+                            {item.assistantNote && item.assistantNote.length > 0 && (
+                                <View className='flex-col'>
+                                    {item.assistantNote.map((note, index) => (
+                                        <Markdown
+                                            key={index}
+                                            style={{ body: { letterSpacing: 0.6, color: textColor } }}
+                                        >
+                                            {note}
+                                        </Markdown>
+                                    ))}
+                                </View>
+                            )}
                         </View>
                         <Pressable
                             onPress={() => setVisible(false)}

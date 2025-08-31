@@ -4,7 +4,7 @@ export type ServicePackage = {
     description: string
     price: number
     sessions: number
-    durationInMonths: number
+    durations: string
     isActive: boolean
     createdDate: string
 }
@@ -15,6 +15,7 @@ export type PurchasedServicePackage = {
     priceAtPurchased: number
     totalSessions: number
     remainingSessions: number
+    durations: string
     expireDate: string
     isExpired: boolean
     purchasedDate: string

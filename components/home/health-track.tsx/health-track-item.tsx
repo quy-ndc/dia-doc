@@ -70,7 +70,7 @@ export default function HealthTrackerItem({ item, patientId }: Prop) {
                 backgroundColor: recordDisplay.backgroundColor,
                 width: width * 0.44
             }}
-            className={`p-4 gap-2 rounded-xl w-full active:scale-95`}
+            className={`p-4 gap-2 rounded-xl w-full active:opacity-60`}
             onPress={handlePress}
         >
             <View className='flex-row items-center gap-2 mb-3'>

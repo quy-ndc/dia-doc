@@ -1,14 +1,13 @@
 import * as React from 'react'
-import { Pressable, View } from 'react-native'
+import { View } from 'react-native'
 import { Text } from '../../components/ui/text'
 import { ServicePackage } from '../../assets/types/consult/consultation'
-import Tag from '../common/tag'
-import { GlobalColor } from '../../global-color'
-import PackageFeatureItem from './package-feature'
 import RoundedIcon from '../common/icons/rouned-icon'
 import { Check } from '../../lib/icons/Check'
 import { formatPrice } from '../../util/format-price'
 import PurchaseConfirmationModal from './purchase-confirmation'
+import { formatTimeSpanToString } from '../../util/format-time-span'
+import { GlobalColor } from '../../global-color'
 
 type Prop = {
     item: ServicePackage
@@ -37,7 +36,12 @@ export default function ServicePackageItem({ item }: Prop) {
                         background={GlobalColor.GREEN_NEON_BG}
                         size={2}
                     />
-                    <Text className='text-sm font-medium tracking-wider'>{item.sessions} lần tư vấn</Text>
+                    <Text className='text-sm font-medium tracking-wider'>
+                        <Text className='text-sm font-bold tracking-wider' style={{color: GlobalColor.EMERALD_NEON_BORDER}}>
+                            {item.sessions} lần&nbsp;
+                        </Text>
+                        tư vấn
+                    </Text>
                 </View>
                 <View className='flex-row gap-2 items-center'>
                     <RoundedIcon
@@ -45,7 +49,12 @@ export default function ServicePackageItem({ item }: Prop) {
                         background={GlobalColor.GREEN_NEON_BG}
                         size={2}
                     />
-                    <Text className='text-sm font-medium tracking-wider'>Thời lượng {item.durationInMonths} tháng</Text>
+                    <Text className='text-sm font-medium tracking-wider'>
+                        Thời lượng&nbsp;
+                        <Text className='text-sm font-bold tracking-wider' style={{color: GlobalColor.EMERALD_NEON_BORDER}}>
+                            {formatTimeSpanToString(item.durations)}
+                        </Text>
+                    </Text>
                 </View>
                 <View className='flex-row gap-2 items-center'>
                     <RoundedIcon

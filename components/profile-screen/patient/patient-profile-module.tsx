@@ -35,7 +35,7 @@ export default function PatientProfileModule() {
                 refreshing={refreshing}
                 remove={remove}
             />
-            <ProfileHealthRecord />
+            {/* <ProfileHealthRecord /> */}
             <ProfileAction />
         </ScrollView>
     )

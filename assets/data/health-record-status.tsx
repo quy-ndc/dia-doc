@@ -25,8 +25,8 @@ export enum BLOOD_PRESSURE_LEVELS {
     NORMAL_SYS = 140,
     NORMAL_DIA = 90,
 
-    HIGH_SYS = 180,
-    HIGH_DIA = 110,
+    HIGH_SYS = 130,
+    HIGH_DIA = 90,
 }
 
 export interface HealthStatusResult {

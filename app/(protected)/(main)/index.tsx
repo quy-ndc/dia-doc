@@ -8,8 +8,8 @@ import { useTopMediaQuery } from '../../../service/query/media-query'
 import { BlogPost } from '../../../assets/types/media/blog-post'
 import DailyTip from '../../../components/home/daily-tip.tsx/daily-tip'
 import HealthTracker from '../../../components/home/health-track.tsx/health-track'
-import { useConsultationListQuery, usePurchasedServicePackageQuery, useUserHealthCarePlan, useUserHealthRecordProfile, useWalletBalanceQuery, useWalletHistoryQuery } from '../../../service/query/user-query'
-import { HealthTrackItem } from '../../../assets/types/user/health-track'
+import { useConsultationListQuery, useGetHealthRecordSummaryQuery, usePurchasedServicePackageQuery, useUserHealthCarePlan, useUserHealthRecordProfile, useWalletBalanceQuery, useWalletHistoryQuery } from '../../../service/query/user-query'
+import { HealthSummary, HealthTrackItem } from '../../../assets/types/user/health-track'
 import HealthcarePlan from '../../../components/home/healthcare-plan/healthcare-plan'
 import { HealthCarePlan } from '../../../assets/types/user/healthcare-plan'
 import useUserStore from '../../../store/userStore'
@@ -21,12 +21,19 @@ import PurchaseService from '../../../components/home/purchase-service/purchase-
 import { PurchasedServicePackage } from '../../../assets/types/consult/consultation'
 import { ConsultationStatus } from '../../../assets/enum/consultation-status'
 import DoctorIncome from '../../../components/home/doctor-income/doctor-income'
-import { IncomeHistory } from '../../../assets/types/user/doctor'
+import HealthSummaries from '../../../components/home/health-summary/health-summary'
 
 export default function HomeScreen() {
 
     const { user } = useUserStore()
     const [refreshing, setRefreshing] = useState(false)
+    const [selectedDate, setSelectedDate] = useState<string | null>(() => {
+        const today = new Date()
+        const year = today.getFullYear()
+        const month = String(today.getMonth() + 1).padStart(2, '0')
+        const day = String(today.getDate()).padStart(2, '0')
+        return `${year}-${month}-${day}`
+    })
     const [doctor, setDoctor] = useState<{
         id: string,
         name: string
@@ -39,6 +46,21 @@ export default function HomeScreen() {
         }),
         retry: 2,
         retryDelay: attempt => Math.min(1000 * 2 ** attempt, 5000)
+    })
+
+    const {
+        data: healthRecordSummaryData,
+        isLoading: healthRecordSummaryLoading,
+        isError: healthRecordSummaryError,
+        refetch: healthRecordSummaryRefetch,
+        remove: healthRecordSummaryRemove
+    } = useQuery({
+        ...useGetHealthRecordSummaryQuery(
+            selectedDate ? { date: selectedDate } : {}
+        ),
+        retry: 2,
+        retryDelay: attempt => Math.min(1000 * 2 ** attempt, 5000),
+        enabled: user.role === UserRole.PATIENT
     })
 
     const {
@@ -124,6 +146,7 @@ export default function HomeScreen() {
         const refreshPromises = [refetch()]
         remove()
         if (user.role == UserRole.PATIENT) {
+            healthRecordSummaryRemove()
             healthRecordRemove()
             healthCarePlanRemove()
             availableServiceRemove()
@@ -134,16 +157,17 @@ export default function HomeScreen() {
         consultationListRemove()
         refreshPromises.push(refetch(), consultationListRefetch())
         if (user.role == UserRole.PATIENT) {
-            refreshPromises.push(healthRecordRefetch(), healthCarePlanRefetch(), availableServiceRefetch())
+            refreshPromises.push(healthRecordRefetch(), healthCarePlanRefetch(), availableServiceRefetch(), healthRecordSummaryRefetch())
         }
         if (user.role == UserRole.DOCTOR) {
             refreshPromises.push(walletBalanceRefetch())
         }
 
         Promise.all(refreshPromises).finally(() => setRefreshing(false))
-    }, [user.role, refetch, healthRecordRefetch, healthCarePlanRefetch, remove, healthRecordRemove, healthCarePlanRemove, walletBalanceRemove, walletBalanceRefetch])
+    }, [user.role, refetch, healthRecordRefetch, healthCarePlanRefetch, remove, healthRecordRemove, healthCarePlanRemove, walletBalanceRemove, walletBalanceRefetch, healthRecordSummaryRefetch])
 
     const items: BlogPost[] = data?.data?.data || []
+    const healthSummary: HealthSummary = healthRecordSummaryData?.data?.data || undefined
     const healthRecordItems: HealthTrackItem[] = healthRecordData?.data?.data?.healthRecords || []
     const healthCarePlanItems: HealthCarePlan[] = healthCarePlanData?.data?.data || []
     const availableServiceItems: PurchasedServicePackage[] = avalableServiceData?.data?.data?.items || []
@@ -164,6 +188,16 @@ export default function HomeScreen() {
                         <DailyTip />
                         {user.role === UserRole.PATIENT && (
                             <>
+                                <HealthSummaries
+                                    items={healthSummary}
+                                    isLoading={healthRecordSummaryLoading}
+                                    isError={healthRecordSummaryError}
+                                    refetch={healthRecordSummaryRefetch}
+                                    remove={healthRecordSummaryRemove}
+                                    refreshing={refreshing}
+                                    date={selectedDate}
+                                    setDate={setSelectedDate}
+                                />
                                 <HealthTracker
                                     items={healthRecordItems}
                                     isLoading={healthRecordLoading}

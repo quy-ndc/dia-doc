@@ -877,9 +877,9 @@ export const UpdateUserHbA1c = async (params: {
 }
 
 export const UpdateUserBmi = async (params: {
-   weight: number,
-   height: number,
-   measurementAt: string
+    weight: number,
+    height: number,
+    measurementAt: string
 }) => {
     try {
         const response = await axiosServices.post(`${endpointUser.UPDATE_USER_BMI}`, {
@@ -887,6 +887,38 @@ export const UpdateUserBmi = async (params: {
             height: params.height,
             measurementAt: params.measurementAt
         })
+
+        return {
+            success: true,
+            status: response.status,
+            data: response.data
+        }
+
+    } catch (e) {
+        if (axios.isAxiosError(e) && e.response) {
+            return {
+                success: false,
+                status: e.response.status,
+                message: e.response.data.message || 'An error occurred',
+                data: e.response.data
+            };
+        }
+
+        return {
+            success: false,
+            status: 500,
+            message: 'An error occurred',
+            data: null
+        }
+    }
+}
+
+export const GetHealthRecordSummary = async (params: {
+    date?: string
+}) => {
+    try {
+        const queryString = createQueryString(params)
+        const response = await axiosServices.get(`${endpointUser.GET_HEALTH_RECORD_SUMMARY}?${queryString}`)
 
         return {
             success: true,
@@ -1343,6 +1375,42 @@ export const CancelBooking = async (params: {
     try {
         const response = await axiosServices.patch(`${endpointUser.CANCEL_BOOKING}/${params.consultationId}/cancel`, {
             reason: params.reason
+        })
+
+        return {
+            success: true,
+            status: response.status,
+            data: response.data
+        }
+
+    } catch (e) {
+        if (axios.isAxiosError(e) && e.response) {
+            return {
+                success: false,
+                status: e.response.status,
+                message: e.response.data.message || 'An error occurred',
+                data: e.response.data
+            };
+        }
+
+        return {
+            success: false,
+            status: 500,
+            message: 'An error occurred',
+            data: null
+        }
+    }
+}
+
+export const ReviewConsultation = async (params: {
+    consultationId: string,
+    rating: number,
+    feedback: string
+}) => {
+    try {
+        const response = await axiosServices.patch(`${endpointUser.REVIEW_CONSULTATION}/${params.consultationId}/review`, {
+            rating: params.rating,
+            feedback: params.feedback
         })
 
         return {

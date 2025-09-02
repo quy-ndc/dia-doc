@@ -61,7 +61,7 @@ export default function BloodPressureUpdateModule({ lastMesurement, initialTime,
     const bloodPressureStatus = getBloodPressureStatus(`${systolic}/${diastolic}`)
 
     useEffect(() => {
-        if (isError || !data || data.status !== 200) return
+        if (isError || !data?.success || data?.status !== 200) return
         handleGenerateAiNote()
     }, [data])
 

@@ -20,6 +20,7 @@ export enum QueryKeys {
     USER = 'user',
     DOCTOR = 'doctor',
     HEALTH_RECORD = 'healthRecord',
+    HEALTH_RECORD_SUMMARY = 'healthRecordSummary',
     HEALTH_CARE_PLAN = 'healthCarePlan',
     CARE_PLAN_TEMPLATE = 'carePlanTemplate',
     SERVICE_PACKAGES = 'servicePackages',

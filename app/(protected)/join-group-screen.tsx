@@ -31,7 +31,6 @@ export default function JoinGroupScreen() {
     }, [])
 
     useEffect(() => {
-        console.log(data?.data)
         if (!data || data.status !== 200 || isError) {
             setJoinStatus(false)
         } else {

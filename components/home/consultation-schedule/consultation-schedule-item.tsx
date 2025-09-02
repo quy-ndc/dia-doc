@@ -14,6 +14,8 @@ import { router } from "expo-router"
 import { ConversationType } from "../../../assets/enum/conversation-type"
 import PatientProfileModal from "../../chat-screen/patient-profile-modal"
 import ScheduleCancelModal from "./schedule-cancel-modal"
+import ConsultationRateModal from "./consultation-rate-modal"
+import { Star } from "../../../lib/icons/Star"
 
 type Prop = {
     item: ConsultationHistory
@@ -36,15 +38,15 @@ export default function ConsultationScheduleItem({ item }: Prop) {
     }
 
     const onPress = () => {
-        const currentTime = new Date();
-        const [hours, minutes, seconds] = item.startTime.split(':').map(Number);
-        const [endHours, endMinutes, endSeconds] = item.endTime.split(':').map(Number);
+        const currentTime = new Date()
+        const [hours, minutes, seconds] = item.startTime.split(':').map(Number)
+        const [endHours, endMinutes, endSeconds] = item.endTime.split(':').map(Number)
 
-        const startTimeToday = new Date();
-        startTimeToday.setHours(hours, minutes, seconds);
+        const startTimeToday = new Date()
+        startTimeToday.setHours(hours, minutes, seconds)
 
-        const endTimeToday = new Date();
-        endTimeToday.setHours(endHours, endMinutes, endSeconds);
+        const endTimeToday = new Date()
+        endTimeToday.setHours(endHours, endMinutes, endSeconds)
 
         if (user.role === UserRole.DOCTOR) {
             setProfileVisible(true)
@@ -55,7 +57,6 @@ export default function ConsultationScheduleItem({ item }: Prop) {
             if (currentTime > endTimeToday) {
                 return
             }
-
             router.push({
                 pathname: '/chat-screen',
                 params: {
@@ -66,10 +67,9 @@ export default function ConsultationScheduleItem({ item }: Prop) {
                     active: currentTime >= startTimeToday ? 'true' : 'false',
                     target: item.userId
                 }
-            });
+            })
         }
     }
-
 
     return (
         <>
@@ -77,7 +77,7 @@ export default function ConsultationScheduleItem({ item }: Prop) {
                 className="flex-row justify-between p-3 my-2 bg-[var(--blog-bg)] rounded-xl active:bg-[var(--click-bg)]"
                 onPress={onPress}
             >
-                <View className="flex-col gap-3">
+                <View className="flex-col gap-4">
                     <View className="flex-row gap-2 items-center">
                         <Image
                             style={{ width: 30, height: 30, borderRadius: 1000 }}
@@ -92,6 +92,37 @@ export default function ConsultationScheduleItem({ item }: Prop) {
                             {`${formatTimeDisplay(item.startTime)} - ${formatTimeDisplay(item.endTime)} (${formatDateDisplay(item.date)})`}
                         </Text>
                     </View>
+                    {((item.status === ConsultationStatus.DECLINED || item.status === ConsultationStatus.CANCELED) && item.reason) && (
+                        <Text className='text-sm font-medium tracking-wider text-[var(--fade-text-color)]'>
+                            {`Lý do: `}
+                            <Text className='text-sm font-bold tracking-wider'>
+                                {`${item.reason}`}
+                            </Text>
+                        </Text>
+                    )}
+                    {item.rating !== undefined && (
+                        <View className="flex-col gap-2">
+                            <View className='flex-row gap-2 items-center'>
+                                {[1, 2, 3, 4, 5].map((star) => (
+                                    <Star
+                                        key={star}
+                                        color={star <= item.rating! ? GlobalColor.YELLOW_NEON_BORDER : GlobalColor.GRAY_NEON_BORDER}
+                                        fill={star <= item.rating! ? GlobalColor.YELLOW_NEON_BORDER : 'transparent'}
+                                        size={17}
+                                        strokeWidth={1.4}
+                                    />
+                                ))}
+                            </View>
+                            {item.feedback !== undefined && (
+                                <Text className='text-sm font-medium tracking-wider text-[var(--fade-text-color)]'>
+                                    {`Đánh giá: `}
+                                    <Text className='text-sm font-bold tracking-wider'>
+                                        {`${item.feedback}`}
+                                    </Text>
+                                </Text>
+                            )}
+                        </View>
+                    )}
                 </View>
                 <View className="flex-col gap-3">
                     <Tag
@@ -102,6 +133,9 @@ export default function ConsultationScheduleItem({ item }: Prop) {
                     />
                     {item.status === ConsultationStatus.BOOKED && (
                         <ScheduleCancelModal id={item.id} />
+                    )}
+                    {(item.status === ConsultationStatus.COMPLETED && user.role == UserRole.PATIENT && !item.rating) && (
+                        <ConsultationRateModal id={item.id} />
                     )}
                 </View>
             </Pressable>

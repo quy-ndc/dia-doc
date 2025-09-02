@@ -15,7 +15,6 @@ type Props = {
 export default function NoteField({ note, setNote, placeholder }: Props) {
 
     return (
-
         <View className='flex-col gap-2 w-full px-5'>
             <View className='flex-row w-full items-center justify-between'>
                 <SectionTitle

@@ -65,7 +65,7 @@ export default function ConsultationSchedule({ isLoading, isError, items, refetc
             {isLoading ? (
                 <ConsultationScheduleSkeleton />
             ) : isError || items.length === 0 ? (
-                <View style={{ height: height * 0.13 }} className="flex justify-center items-center">
+                <View style={{ height: height * 0.15 }} className="flex justify-center items-center">
                     <ErrorDisplay
                         onRefresh={onRefresh}
                         refreshing={refreshing}

@@ -100,7 +100,11 @@ export default function AddToGroupModal({ patientId }: Prop) {
                                         data={groups}
                                         keyExtractor={(_, index) => index.toString()}
                                         renderItem={({ item }) => (
-                                            <GroupItem item={item} />
+                                            <GroupItem
+                                                item={item}
+                                                patientId={patientId}
+                                                setVisible={setVisible}
+                                            />
                                         )}
                                         estimatedItemSize={100}
                                     />

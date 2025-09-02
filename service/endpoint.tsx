@@ -34,6 +34,7 @@ const userService = 'user-service'
 const mediaService = 'media-service'
 const chatService = 'chat-service'
 const consultationService = 'consultation-service'
+const notificationService = 'notification-service'
 
 const endpointAuth = {
     LOGIN_PHONE: `${API_GATEWAY_ENDPOINT}/${authService}/${apiPrefixV1}/auth/login-phone`,
@@ -75,6 +76,7 @@ const endpointUser = {
     UPDATE_USER_BLOOD_SUGAR: `${API_GATEWAY_ENDPOINT}/${userService}/${apiPrefixV1}/users/patients/records/blood-glucose`,
     UPDATE_USER_HBA1C: `${API_GATEWAY_ENDPOINT}/${userService}/${apiPrefixV1}/users/patients/records/hba1c`,
     UPDATE_USER_BMI: `${API_GATEWAY_ENDPOINT}/${userService}/${apiPrefixV1}/users/patients/records/bmi`,
+    GET_HEALTH_RECORD_SUMMARY: `${API_GATEWAY_ENDPOINT}/${userService}/${apiPrefixV1}/users/patients/records/summary`,
 
     CREATE_CARE_PLAN_TEMPLATE: `${API_GATEWAY_ENDPOINT}/${userService}/${apiPrefixV1}/users/patients/template`,
     UPDATE_CARE_PLAN_TEMPLATE: `${API_GATEWAY_ENDPOINT}/${userService}/${apiPrefixV1}/users/patients/template`,
@@ -107,6 +109,7 @@ const endpointUser = {
     CREATE_BOOKING: `${API_GATEWAY_ENDPOINT}/${consultationService}/${apiPrefixV1}/consultations`,
     GET_ALL_CONSULTAIONS: `${API_GATEWAY_ENDPOINT}/${consultationService}/${apiPrefixV1}/consultations`,
     CANCEL_BOOKING: `${API_GATEWAY_ENDPOINT}/${consultationService}/${apiPrefixV1}/consultations`,
+    REVIEW_CONSULTATION: `${API_GATEWAY_ENDPOINT}/${consultationService}/${apiPrefixV1}/consultations`,
 
     GET_WALLET_BALANCE: `${API_GATEWAY_ENDPOINT}/${userService}/${apiPrefixV1}/users/wallet/balance`,
     GET_WALLET_HISTORY: `${API_GATEWAY_ENDPOINT}/${userService}/${apiPrefixV1}/users/wallet/history`,
@@ -134,12 +137,13 @@ const endpointChat = {
     UPLOAD_IMAGE: `${API_GATEWAY_ENDPOINT}/${chatService}/${apiPrefixV1}/media/upload`,
     JOIN_A_GROUP: `${API_GATEWAY_ENDPOINT}/${chatService}/${apiPrefixV1}/hospital-conversations`,
     LEAVE_A_GROUP: `${API_GATEWAY_ENDPOINT}/${chatService}/${apiPrefixV1}/conversations`,
+    ADD_TO_GROUP: `${API_GATEWAY_ENDPOINT}/${chatService}/${apiPrefixV1}/hospital-conversations`
 }
 
 const endpointNoti = {
-    GET_ALL_NOTIFICATION: `${NOTIFICATION_SERVICE_ENDPOINT}/${apiPrefixV1}/notifications/user`,
-    UPDATE_NOTIFICATION: `${NOTIFICATION_SERVICE_ENDPOINT}/${apiPrefixV1}/notifications`,
-    DELETE_NOTIFICATION: `${NOTIFICATION_SERVICE_ENDPOINT}/${apiPrefixV1}/notifications`,
+    GET_ALL_NOTIFICATION: `${API_GATEWAY_ENDPOINT}/${notificationService}/${apiPrefixV1}/notifications`,
+    UPDATE_NOTIFICATION: `${API_GATEWAY_ENDPOINT}/${notificationService}/${apiPrefixV1}/notifications`,
+    DELETE_NOTIFICATION: `${API_GATEWAY_ENDPOINT}/${notificationService}/${apiPrefixV1}/notifications`,
 }
 
 export { endpointUser, endpointAuth, endpointMedia, endpointCategory, endpointChat, endpointNoti, endpointAI }

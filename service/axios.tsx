@@ -59,7 +59,7 @@ axiosServices.interceptors.response.use(
                 handleUnauthorized()
             }
         } else {
-            console.error("Error:", err.message)
+            console.error("Error:", err)
         }
         return Promise.reject(err)
     }

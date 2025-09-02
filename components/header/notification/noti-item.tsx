@@ -5,13 +5,21 @@ import { useState } from 'react';
 import { Trash2 } from '../../../lib/icons/Trash2';
 import { X } from '../../../lib/icons/X';
 import useNotificationStore from '../../../store/notificationStore';
-import { SystemNotification } from '../../../assets/types/notification/notification';
-import { NotificatinType } from '../../../assets/enum/notification';
-import DefaultNotification from './noti-default';
-import PostNotification from './noti-post';
+import { GlobalColor } from '../../../global-color';
+import { LinearGradient } from 'expo-linear-gradient';
+import { CircleAlert } from '../../../lib/icons/CircleAlert';
+import { Clock } from '../../../lib/icons/Clock';
+import { formatDateBlog } from '../../../util/format-date-post';
+import IconButton from '../../common/icon-button';
+import { Ellipsis } from '../../../lib/icons/Ellipsis';
+import { Image } from 'expo-image'
+import { Notification } from '../../../assets/types/notification/notification';
+import { getNotificatinTypeInfo } from '../../../assets/enum/notification';
+import { Item } from '@rn-primitives/select';
+import Tag from '../../common/tag';
 
 type Prop = {
-    notification: SystemNotification
+    notification: Notification
 }
 
 const { width } = Dimensions.get('window');
@@ -27,20 +35,46 @@ export default function NotificationItem({ notification }: Prop) {
         setVisible(false)
     }
 
-
-    const renderNoti = () => {
-        switch (notification.type) {
-            case NotificatinType.DEFAULT:
-                return <DefaultNotification setVisible={setVisible} notification={notification} />
-            case NotificatinType.POST:
-                return <PostNotification setVisible={setVisible} notification={notification} />
-        }
-    }
+    const notiDisplay = getNotificatinTypeInfo(notification.type)
 
     return (
         <>
             <View className='mb-3'>
-                {renderNoti()}
+                <Pressable
+                    style={{ borderLeftColor: notiDisplay.color, borderLeftWidth: 2 }}
+                    className='px-4 py-3 w-full flex-col gap-3 border-l justify-between active:opacity-70'
+                >
+                    <View className='flex-row w-full gap-2 justify-between items-center'>
+                        <View className='flex-row gap-3 items-center'>
+                            <View className='flex-col gap-3'>
+                                <View className='flex-row w-full items-center justify-between'>
+                                    <Tag
+                                        background={notiDisplay.subColor}
+                                        text={notiDisplay.label}
+                                        textColor={notiDisplay.color}
+                                        borderColor={notiDisplay.color}
+                                    />
+                                    <IconButton
+                                        icon={<Ellipsis className='text-foreground' size={20} />}
+                                        buttonSize={2}
+                                        possition={'other'}
+                                        onPress={() => setVisible(true)}
+                                    />
+                                </View>
+                                <View className='flex-col gap-2'>
+                                    <Text className='text-base font-semibold tracking-wider'>{notification.title}</Text>
+                                    {notification.content && (
+                                        <Text className='text-sm text-[var(--fade-text-color)]'>{notification.content}</Text>
+                                    )}
+                                </View>
+                                <View className='flex-row gap-2 items-center'>
+                                    <Clock className='text-[var(--fade-text-color)]' size={13} />
+                                    <Text className='text-xs text-[var(--fade-text-color)]'>{formatDateBlog(notification.receivedAt)}</Text>
+                                </View>
+                            </View>
+                        </View>
+                    </View>
+                </Pressable>
             </View>
             <Modal
                 visible={visible}

@@ -81,12 +81,29 @@ export default function HealthcarePlan({ items, isLoading, isError, refetch, rem
             {isLoading ? (
                 <HealthcarePlanSkeleton />
             ) : isError || items.length === 0 ? (
-                <View className='py-4'>
+                <View className='flex-col gap-5 pt-6 w-full'>
                     <ErrorDisplay
                         onRefresh={onRefresh}
                         refreshing={refreshing}
-                        text='Không thể lấy lịch đo'
+                        text='Không có lịch lịch đo'
                     />
+                    <View className='flex-col gap-3 py-3 w-full items-center'>
+                        <Pressable
+                            className='flex-row gap-2 items-center justify-center px-4 py-3 rounded-full border border-[var(--oppo-theme-col)] w-full active:bg-[var(--click-bg)]'
+                            onPress={() => router.push('manage-today-care-plan-screen')}
+                        >
+                            <Clock className='text-[var(--oppo-theme-col)]' size={17} />
+                            <Text className='text-sm font-medium tracking-widest'>Sửa lịch ngày hôm nay</Text>
+                        </Pressable>
+
+                        <Pressable
+                            className='flex-row gap-2 items-center justify-center px-4 py-3 rounded-full bg-[var(--oppo-theme-col)] w-full active:opacity-80'
+                            onPress={() => router.push('manage-care-plan-screen')}
+                        >
+                            <Calendar className='text-[var(--same-theme-col)]' size={17} />
+                            <Text className='text-sm font-medium tracking-widest text-[var(--same-theme-col)]'>Sửa lịch cho mọi ngày</Text>
+                        </Pressable>
+                    </View>
                 </View>
             ) : (
                 <>

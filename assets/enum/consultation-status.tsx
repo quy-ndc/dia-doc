@@ -16,12 +16,12 @@ export const ConsultationStatusString: Record<ConsultationStatus, { label: strin
         backgroundColor: GlobalColor.CYAN_NEON_BG,
     },
     [ConsultationStatus.DECLINED]: {
-        label: 'Từ chối',
+        label: 'Bác sĩ từ chối',
         color: GlobalColor.RED_NEON_BORDER,
         backgroundColor: GlobalColor.RED_NEON_BG,
     },
     [ConsultationStatus.CANCELED]: {
-        label: 'Hủy',
+        label: 'Bệnh nhân hủy',
         color: GlobalColor.RED_NEON_BORDER,
         backgroundColor: GlobalColor.RED_NEON_BG,
     },

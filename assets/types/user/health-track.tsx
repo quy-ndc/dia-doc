@@ -1,4 +1,6 @@
 import { MeasureTime } from "../../data/measure-time"
+import { BloodPressureLevel } from "../../enum/blood-pressure-level"
+import { BloodSugarLevel } from "../../enum/blood-sugar-level"
 import { BmiLevel } from "../../enum/bmi-level"
 import { HealthRecordType } from "../../enum/health-record"
 
@@ -52,4 +54,15 @@ export type BmiRecord = {
     heightUnit: string
     level: BmiLevel
     type: string
+}
+
+export type HealthSummary = {
+    id: string,
+    bloodPressureLevel: BloodPressureLevel,
+    meanBloodPressureValue: number,
+    bloodGlucoseLevel: BloodSugarLevel,
+    bmiLevel: BmiLevel,
+    bmiValue: number,
+    assistantNote: string[],
+    createdDate: string
 }

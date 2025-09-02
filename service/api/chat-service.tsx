@@ -147,11 +147,44 @@ export const JoinAGroup = async (request: {
     }
 }
 
-
 export const LeaveAGroup = async (conversationId: string) => {
 
     try {
         const response = await axiosServices.delete(`${endpointChat.LEAVE_A_GROUP}/${conversationId}/participants/me`)
+
+        return {
+            success: true,
+            status: response.status,
+            data: response.data,
+        }
+    } catch (error) {
+        if (axios.isAxiosError(error) && error.response) {
+            return {
+                success: false,
+                status: error.response.status,
+                message: error.response.data.message || 'An error occurred',
+                data: error.response.data
+            };
+        } else {
+            return {
+                success: false,
+                status: 500,
+                message: 'An unexpected error occurred',
+                data: null
+            };
+        }
+    }
+}
+
+export const AddToGroup = async (data: {
+    conversationId: string,
+    userIds: string[]
+}) => {
+
+    try {
+        const response = await axiosServices.post(`${endpointChat.ADD_TO_GROUP}/${data.conversationId}/members`, {
+            userIds: data.userIds
+        })
 
         return {
             success: true,

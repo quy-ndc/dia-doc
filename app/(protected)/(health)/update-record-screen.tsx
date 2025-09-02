@@ -47,7 +47,7 @@ export default function UpdateRecordScreen() {
                                 {recordDisplay.icon}
                             </View>
                             <View className='flex-col1'>
-                                <Text className='text-lg font-bold tracking-wider capitalize'>{recordDisplay.name}</Text>
+                                <Text className='text-lg font-bold tracking-wider'>{recordDisplay.name}</Text>
                                 <Text className='text-sm text-[var(--fade-text-color)] tracking-wider'>
                                     Theo dõi {recordDisplay.name}
                                 </Text>

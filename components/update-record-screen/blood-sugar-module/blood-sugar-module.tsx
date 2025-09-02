@@ -139,7 +139,11 @@ export default function BloodSugarUpdateModule({ lastMesurement, initialTime, id
                     setSelectedTime={setSelectedTime}
                     initialTime={initialTime}
                 />
-                <NoteField note={note} setNote={setNote} placeholder='Ăn nhiều ngọt trước đó, cảm thấy chóng mặt' />
+                <NoteField
+                    note={note}
+                    setNote={setNote}
+                    placeholder='Ăn nhiều ngọt trước đó, cảm thấy chóng mặt'
+                />
                 <RecordConfirmButton
                     isLoading={isLoading || isLoadingAiNote}
                     disabled={value == '' || selectedTime == '' || selectPeriod == undefined}

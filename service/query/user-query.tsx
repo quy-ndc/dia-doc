@@ -1,5 +1,5 @@
 import { useMutation, useQueryClient } from "@tanstack/react-query"
-import { CancelBooking, CreateBooking, CreateCarePlanInstanceDoctor, CreateCarePlanTemplate, CreateCarePlanTemplateDoctor, CreatePayment, CreateUserHealthCarePlan, CreateUserProfile, DeleteCarePlanInstanceDoctor, DeleteCarePlanTemplate, DeleteCarePlanTemplateDoctor, DeleteUserHealthCarePlan, DoctorGetPatientProfile, DoctorGetPatientRecords, EditUserProfile, GetAllConsultation, GetAllDoctor, GetAllDoctorHaveCreatedCarePlan, GetAllPurchasedServicePackages, GetAllServicePackages, GetCarePlanInstanceDoctor, GetCarePlanTemplate, GetCarePlanTemplateDoctor, GetDoctorById, GetDoctorProfile, GetDoctorSchedule, GetUserHealthCarePlan, GetUserHealthRecord, GetUserProfile, GetWalletBalance, GetWalletHistory, UpdateCarePlanInstanceDoctor, UpdateCarePlanTemplate, UpdateCarePlanTemplateDoctor, UpdateUserBloodPressure, UpdateUserBloodSugar, UpdateUserBmi, UpdateUserHbA1c, UpdateUserHealthCarePlan, UpdateUserHeight, UpdateUserWeight } from "../api/user-service"
+import { CancelBooking, CreateBooking, CreateCarePlanInstanceDoctor, CreateCarePlanTemplate, CreateCarePlanTemplateDoctor, CreatePayment, CreateUserHealthCarePlan, CreateUserProfile, DeleteCarePlanInstanceDoctor, DeleteCarePlanTemplate, DeleteCarePlanTemplateDoctor, DeleteUserHealthCarePlan, DoctorGetPatientProfile, DoctorGetPatientRecords, EditUserProfile, GetAllConsultation, GetAllDoctor, GetAllDoctorHaveCreatedCarePlan, GetAllPurchasedServicePackages, GetAllServicePackages, GetCarePlanInstanceDoctor, GetCarePlanTemplate, GetCarePlanTemplateDoctor, GetDoctorById, GetDoctorProfile, GetDoctorSchedule, GetHealthRecordSummary, GetUserHealthCarePlan, GetUserHealthRecord, GetUserProfile, GetWalletBalance, GetWalletHistory, ReviewConsultation, UpdateCarePlanInstanceDoctor, UpdateCarePlanTemplate, UpdateCarePlanTemplateDoctor, UpdateUserBloodPressure, UpdateUserBloodSugar, UpdateUserBmi, UpdateUserHbA1c, UpdateUserHealthCarePlan, UpdateUserHeight, UpdateUserWeight } from "../api/user-service"
 import { QueryKeys } from "../../assets/enum/query"
 import { GenderNumber } from "../../assets/enum/gender"
 import { DiagnosisRecency } from "../../assets/enum/diagnosis-recency"
@@ -38,7 +38,7 @@ export const useEditUserProfileMutation = () => {
             if (data.status !== 200) {
                 Toast.show({
                     type: 'error',
-                    text1: data.data.errors[0].message || 'Cập nhật hồ sơ thất bại',
+                    text1: data.message || 'Cập nhật hồ sơ thất bại',
                     text2: 'Vui lòng thử lại sau',
                     visibilityTime: 2000,
                 })
@@ -112,7 +112,7 @@ export const useCreateCarePlanMutation = () => {
             if (data.status !== 200) {
                 Toast.show({
                     type: 'error',
-                    text1: data.data.errors[0].message || 'Tạo lịch đo thất bại',
+                    text1: data.message || 'Tạo lịch đo thất bại',
                     text2: 'Vui lòng thử lại sau',
                     visibilityTime: 2000,
                 })
@@ -151,7 +151,7 @@ export const useUpdateCarePlanMutation = () => {
             if (data.status !== 200) {
                 Toast.show({
                     type: 'error',
-                    text1: data.data.errors[0].message || 'Cập nhật lịch đo thất bại',
+                    text1: data.message || 'Cập nhật lịch đo thất bại',
                     text2: 'Vui lòng thử lại sau',
                     visibilityTime: 2000,
                 })
@@ -186,7 +186,7 @@ export const useDeleteCarePlanMutation = () => {
             if (data.status !== 200) {
                 Toast.show({
                     type: 'error',
-                    text1: data.data.errors[0].message || 'Xóa lịch đo thất bại',
+                    text1: data.message || 'Xóa lịch đo thất bại',
                     text2: 'Vui lòng thử lại sau',
                     visibilityTime: 2000,
                 })
@@ -250,7 +250,7 @@ export const useCreateCarePlanTemplateDoctorMutation = () => {
             if (data.status !== 200) {
                 Toast.show({
                     type: 'error',
-                    text1: data.data.errors[0].message || 'Tạo lịch đo thất bại',
+                    text1: data.message || 'Tạo lịch đo thất bại',
                     text2: 'Vui lòng thử lại sau',
                     visibilityTime: 2000,
                 })
@@ -291,7 +291,7 @@ export const useUpdateCarePlanTemplateDoctorMutation = () => {
             if (data.status !== 200) {
                 Toast.show({
                     type: 'error',
-                    text1: data.data.errors[0].message || 'Cập nhật lịch đo thất bại',
+                    text1: data.message || 'Cập nhật lịch đo thất bại',
                     text2: 'Vui lòng thử lại sau',
                     visibilityTime: 2000,
                 })
@@ -328,7 +328,7 @@ export const useDeleteCarePlanTemplateDoctorMutation = () => {
             if (data.status !== 200) {
                 Toast.show({
                     type: 'error',
-                    text1: data.data.errors[0].message || 'Xóa lịch đo thất bại',
+                    text1: data.message || 'Xóa lịch đo thất bại',
                     text2: 'Vui lòng thử lại sau',
                     visibilityTime: 2000,
                 })
@@ -384,7 +384,7 @@ export const useCreateCarePlanInstanceDoctorMutation = () => {
             if (data.status !== 200) {
                 Toast.show({
                     type: 'error',
-                    text1: data.data.errors[0].message || 'Tạo lịch đo thất bại',
+                    text1: data.message || 'Tạo lịch đo thất bại',
                     text2: 'Vui lòng thử lại sau',
                     visibilityTime: 2000,
                 })
@@ -425,7 +425,7 @@ export const useUpdateCarePlanInstanceDoctorMutation = () => {
             if (data.status !== 200) {
                 Toast.show({
                     type: 'error',
-                    text1: data.data.errors[0].message || 'Cập nhật lịch đo thất bại',
+                    text1: data.message || 'Cập nhật lịch đo thất bại',
                     text2: 'Vui lòng thử lại sau',
                     visibilityTime: 2000,
                 })
@@ -462,7 +462,7 @@ export const useDeleteCarePlanInstanceDoctorMutation = () => {
             if (data.status !== 200) {
                 Toast.show({
                     type: 'error',
-                    text1: data.data.errors[0].message || 'Xóa lịch đo thất bại',
+                    text1: data.message || 'Xóa lịch đo thất bại',
                     text2: 'Vui lòng thử lại sau',
                     visibilityTime: 2000,
                 })
@@ -518,7 +518,7 @@ export const useCreateUserProfileMutation = () => {
             if (data.status !== 200) {
                 Toast.show({
                     type: 'error',
-                    text1: data.data.errors[0].message || 'Thiết lập hồ sơ thất bại',
+                    text1: data.message || 'Thiết lập hồ sơ thất bại',
                     text2: 'Vui lòng thử lại sau',
                     visibilityTime: 2000,
                 })
@@ -556,7 +556,7 @@ export const useUpdateUserWeightMutation = () => {
             if (data.status !== 200) {
                 Toast.show({
                     type: 'error',
-                    text1: data.data.errors[0].message || 'Cập nhật cân nặng thất bại',
+                    text1: data.message || 'Cập nhật cân nặng thất bại',
                     text2: 'Vui lòng thử lại sau',
                     visibilityTime: 2000,
                 })
@@ -599,7 +599,7 @@ export const useUpdateUserHeightMutation = () => {
             if (data.status !== 200) {
                 Toast.show({
                     type: 'error',
-                    text1: data.data.errors[0].message || 'Cập nhật chiều cao thất bại',
+                    text1: data.message || 'Cập nhật chiều cao thất bại',
                     text2: 'Vui lòng thử lại sau',
                     visibilityTime: 2000,
                 })
@@ -641,10 +641,10 @@ export const useUpdateUserBloodPressureMutation = () => {
             carePlanInstanceId?: string
         }) => UpdateUserBloodPressure(params),
         onSuccess: (data) => {
-            if (data.status !== 200) {
+            if (!data.success || data.status !== 200) {
                 Toast.show({
                     type: 'error',
-                    text1: data.data.error[0].message || 'Cập nhật huyết áp thất bại',
+                    text1: data.message || 'Cập nhật huyết áp thất bại',
                     text2: 'Vui lòng thử lại sau',
                     visibilityTime: 2000,
                 })
@@ -663,10 +663,10 @@ export const useUpdateUserBloodPressureMutation = () => {
             }
             return data
         },
-        onError: (error) => {
+        onError: (error: any) => {
             Toast.show({
                 type: 'error',
-                text1: 'Cập nhật huyết áp thất bại',
+                text1: error?.message || 'Cập nhật huyết áp thất bại',
                 text2: 'Vui lòng thử lại sau',
                 visibilityTime: 2000,
             })
@@ -689,7 +689,7 @@ export const useUpdateUserBloodSugarMutation = () => {
             if (data.status !== 200) {
                 Toast.show({
                     type: 'error',
-                    text1: data.data.errors[0].message || 'Cập nhật huyết đường thất bại',
+                    text1: data.message || 'Cập nhật huyết đường thất bại',
                     text2: 'Vui lòng thử lại sau',
                     visibilityTime: 2000,
                 })
@@ -733,7 +733,7 @@ export const useUpdateUserHbA1cMutation = () => {
             if (data.status !== 200) {
                 Toast.show({
                     type: 'error',
-                    text1: data.data.errors[0].message || 'Cập nhật hbA1c thất bại',
+                    text1: data.message || 'Cập nhật hbA1c thất bại',
                     text2: 'Vui lòng thử lại sau',
                     visibilityTime: 2000,
                 })
@@ -776,7 +776,7 @@ export const useUpdateUserBmiMutation = () => {
             if (data.status !== 200) {
                 Toast.show({
                     type: 'error',
-                    text1: data.data.errors[0].message || 'Cập nhật BMI thất bại',
+                    text1: data.message || 'Cập nhật BMI thất bại',
                     text2: 'Vui lòng thử lại sau',
                     visibilityTime: 2000,
                 })
@@ -799,6 +799,17 @@ export const useUpdateUserBmiMutation = () => {
             return error
         }
     })
+}
+
+export const useGetHealthRecordSummaryQuery = (params: {
+    date?: string
+}) => {
+    const queryKey = [QueryKeys.HEALTH_RECORD_SUMMARY, params]
+    const queryFn = async () => {
+        return GetHealthRecordSummary(params)
+    }
+
+    return { queryKey, queryFn }
 }
 
 export const useCarePlanTemplateQuery = (params: {
@@ -832,7 +843,7 @@ export const useCreateCarePlanTemplateMutation = () => {
             if (data.status !== 200) {
                 Toast.show({
                     type: 'error',
-                    text1: data?.data?.errors[0].message || 'Tạo lịch đo thất bại',
+                    text1: data?.data?.message || 'Tạo lịch đo thất bại',
                     text2: 'Vui lòng thử lại sau',
                     visibilityTime: 2000,
                 })
@@ -871,7 +882,7 @@ export const useUpdateCarePlanTemplateMutation = () => {
             if (data.status !== 200) {
                 Toast.show({
                     type: 'error',
-                    text1: data?.data?.errors[0].message || 'Cập nhật lịch đo thất bại',
+                    text1: data?.data?.message || 'Cập nhật lịch đo thất bại',
                     text2: 'Vui lòng thử lại sau',
                     visibilityTime: 2000,
                 })
@@ -905,7 +916,7 @@ export const useDeleteCarePlanTemplateMutation = () => {
             if (data.status !== 200) {
                 Toast.show({
                     type: 'error',
-                    text1: data?.data?.errors[0].message || 'Xóa lịch đo thất bại',
+                    text1: data?.data?.message || 'Xóa lịch đo thất bại',
                     text2: 'Vui lòng thử lại sau',
                     visibilityTime: 2000,
                 })
@@ -976,7 +987,7 @@ export const useCreatePaymentMutation = () => {
             if (data.status !== 200) {
                 Toast.show({
                     type: 'error',
-                    text1: data?.data?.errors[0].message || 'Tại giao dịch thất bại',
+                    text1: data?.data?.message || 'Tại giao dịch thất bại',
                     text2: 'Vui lòng thử lại sau',
                     visibilityTime: 2000,
                 })
@@ -1052,7 +1063,7 @@ export const useCreateBookingMutation = () => {
             if (data.status !== 200) {
                 Toast.show({
                     type: 'error',
-                    text1: data?.data?.errors[0].messnage || 'Đặt lịch thất bại',
+                    text1: data?.data?.messnage || 'Đặt lịch thất bại',
                     text2: 'Vui lòng thử lại sau',
                     visibilityTime: 2000,
                 })
@@ -1107,7 +1118,7 @@ export const useCancelBookingMutation = () => {
             if (data.status !== 200) {
                 Toast.show({
                     type: 'error',
-                    text1: data?.data?.errors[0].messnage || 'Hủy thất bại',
+                    text1: data?.data?.errors[0].message || 'Hủy thất bại',
                     text2: 'Vui lòng thử lại sau',
                     visibilityTime: 2000,
                 })
@@ -1116,6 +1127,44 @@ export const useCancelBookingMutation = () => {
                 Toast.show({
                     type: 'success',
                     text1: 'Hủy thành công',
+                    visibilityTime: 2000,
+                })
+            }
+            return data
+        },
+        onError: (error) => {
+            Toast.show({
+                type: 'error',
+                text1: 'Hủy thất bại',
+                text2: 'Vui lòng thử lại sau',
+                visibilityTime: 2000,
+            })
+            return error
+        }
+    })
+}
+
+export const useReviewConsultationMutation = () => {
+    const queryClient = useQueryClient()
+    return useMutation({
+        mutationFn: (params: {
+            consultationId: string,
+            rating: number,
+            feedback: string
+        }) => ReviewConsultation(params),
+        onSuccess: (data) => {
+            if (data.status !== 200) {
+                Toast.show({
+                    type: 'error',
+                    text1: data?.data?.errors[0].message || 'Đánh giá thất bại',
+                    text2: 'Vui lòng thử lại sau',
+                    visibilityTime: 2000,
+                })
+            } else {
+                queryClient.invalidateQueries({ queryKey: [QueryKeys.CONSULTATION_LIST] })
+                Toast.show({
+                    type: 'success',
+                    text1: 'Đánh giá thành công',
                     visibilityTime: 2000,
                 })
             }

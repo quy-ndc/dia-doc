@@ -43,11 +43,13 @@ export default function HealthTracker({ items, isLoading, isError, refetch, remo
             {isLoading ? (
                 <HealthTrackingSkeleton />
             ) : isError || items.length === 0 ? (
-                <ErrorDisplay
-                    text={isError ? 'Lỗi khi tải dữ liệu' : 'Không có dữ liệu'}
-                    onRefresh={onRefresh}
-                    refreshing={refreshing}
-                />
+                <View className='py-6'>
+                    <ErrorDisplay
+                        text={isError ? 'Lỗi khi tải dữ liệu' : 'Không có dữ liệu'}
+                        onRefresh={onRefresh}
+                        refreshing={refreshing}
+                    />
+                </View>
             ) : (
                 <View className='w-full'>
                     <FlashList<HealthTrackItem>

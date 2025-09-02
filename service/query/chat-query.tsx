@@ -1,5 +1,5 @@
 import { useMutation, useQueryClient } from "@tanstack/react-query"
-import { GetAllChatGroups, GetAllChatMessages, JoinAGroup, LeaveAGroup, SendMessage } from "../api/chat-service"
+import { AddToGroup, GetAllChatGroups, GetAllChatMessages, JoinAGroup, LeaveAGroup, SendMessage } from "../api/chat-service"
 import { MessageType } from "../../assets/enum/message-type"
 import Toast from "react-native-toast-message"
 import { QueryKeys } from "../../assets/enum/query"
@@ -49,7 +49,7 @@ export const useSendMessageMutation = () => {
             if (data.status !== 200) {
                 Toast.show({
                     type: 'error',
-                    text1: data?.data?.errors[0].message || 'Gửi tin nhắn thất bại',
+                    text1: data?.message || 'Gửi tin nhắn thất bại',
                     text2: 'Vui lòng thử lại sau',
                     visibilityTime: 2000,
                 })
@@ -78,7 +78,7 @@ export const useJoinAGroupMutation = () => {
             if (data.status !== 200) {
                 Toast.show({
                     type: 'error',
-                    text1: data?.data?.errors[0].message || 'Tham gia nhóm thất bại',
+                    text1: data?.message || 'Tham gia nhóm thất bại',
                     text2: 'Vui lòng thử lại sau',
                     visibilityTime: 2000,
                 })
@@ -111,7 +111,7 @@ export const useLeaveAGroupMutation = () => {
             if (data.status !== 200) {
                 Toast.show({
                     type: 'error',
-                    text1: data?.data?.errors[0].description || 'Rời khỏi nhóm thất bại',
+                    text1: data?.message || 'Rời khỏi nhóm thất bại',
                     text2: 'Vui lòng thử lại sau',
                     visibilityTime: 2000,
                 })
@@ -129,6 +129,40 @@ export const useLeaveAGroupMutation = () => {
             Toast.show({
                 type: 'error',
                 text1: 'Rời khỏi nhóm thất bại',
+                visibilityTime: 2000
+            })
+            return error;
+        }
+    })
+}
+
+export const useAddToGroupMutation = () => {
+    return useMutation({
+        mutationFn: (data: {
+            conversationId: string,
+            userIds: string[]
+        }) => AddToGroup(data),
+        onSuccess: (data) => {
+            if (data.status !== 200) {
+                Toast.show({
+                    type: 'error',
+                    text1: data?.message || 'Thêm vào nhóm thất bại',
+                    text2: 'Vui lòng thử lại sau',
+                    visibilityTime: 2000,
+                })
+            } else {
+                Toast.show({
+                    type: 'success',
+                    text1: 'Thêm vào nhóm thành công',
+                    visibilityTime: 2000,
+                })
+            }
+            return data
+        },
+        onError: (error) => {
+            Toast.show({
+                type: 'error',
+                text1: 'Thêm vào nhóm thất bại',
                 visibilityTime: 2000
             })
             return error;

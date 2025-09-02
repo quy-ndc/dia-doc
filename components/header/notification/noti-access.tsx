@@ -2,22 +2,18 @@ import * as React from 'react'
 import { Dimensions, Modal, Pressable, RefreshControl, ScrollView, View } from 'react-native'
 import { Bell } from '../../../lib/icons/Bell'
 import IconButton from '../../common/icon-button'
-import { useCallback, useEffect, useState } from 'react'
+import { useCallback, useState } from 'react'
 import { Text } from '../../ui/text'
 import { X } from '../../../lib/icons/X'
 import NotificationItem from './noti-item'
-import useNotificationStore from '../../../store/notificationStore'
 import { FlashList } from '@shopify/flash-list'
 import { useInfiniteQuery } from '@tanstack/react-query'
 import { useNotificationQuery } from '../../../service/query/notification-query'
-import { SystemNotification } from '../../../assets/types/notification/notification'
-import SpinningIcon from '../../common/icons/spinning-icon'
-import { Loader } from '../../../lib/icons/Loader'
-import { RefreshCcw } from '../../../lib/icons/RefreshCcw'
 import QuickButton from '../../home/quick-access/quick-button'
 import NotificationSkeleton from '../../common/skeleton/notification-skeleton'
 import { GlobalColor } from '../../../global-color'
 import ErrorDisplay from '../../common/error-display'
+import { Notification } from '../../../assets/types/notification/notification'
 
 const { height, width } = Dimensions.get('window')
 
@@ -30,25 +26,11 @@ export default function NotificationAccess({ position }: Prop) {
     const [open, setOpen] = useState(false)
     const [refreshing, setRefreshing] = useState(false)
 
-    const {
-        notification,
-        notiCount,
-        setNoti,
-        addNoti,
-        addNotis,
-        removeNoti,
-        resetNoti,
-        increaseCount,
-        decreaseCount,
-        clearCount
-    } = useNotificationStore()
-
     const onModalOpen = () => {
         if (!open) {
             setOpen(false)
         }
         setOpen(true)
-        clearCount()
     }
 
     const {
@@ -64,33 +46,14 @@ export default function NotificationAccess({ position }: Prop) {
             PageSize: 20
         }),
         getNextPageParam: (lastPage) => {
-            const notifications = lastPage.data?.value?.notifications
+            const notifications = lastPage.data?.data?.notifications
             return notifications?.hasNextPage ? notifications.nextCursor : undefined
         },
         keepPreviousData: false,
         enabled: open
     })
 
-    useEffect(() => {
-        if (!data) return
-        const notifications: SystemNotification[] = data.pages.at(-1)?.data?.value?.notifications?.items ?? []
-        if (notifications.length) {
-            if (data.pages.length === 1) {
-                setNoti(notifications)
-            } else {
-                addNotis(notifications)
-            }
-        }
-    }, [data])
-
-    const handleLoadMore = () => {
-        if (hasNextPage && !isFetchingNextPage) {
-            fetchNextPage().then(res => {
-                const newItems: SystemNotification[] = res.data?.pages?.at(-1)?.data?.value?.notifications?.items || []
-                newItems.forEach(item => addNoti(item))
-            })
-        }
-    }
+    const notifications: Notification[] = data?.pages.at(-1)?.data?.data?.items ?? []
 
     const onRefresh = useCallback(() => {
         setRefreshing(true)
@@ -127,7 +90,7 @@ export default function NotificationAccess({ position }: Prop) {
                         <View className='flex-1 w-full items-center justify-center'>
                             {isLoading ? (
                                 <NotificationSkeleton />
-                            ) : !notification.length ? (
+                            ) : !notifications.length ? (
                                 <ScrollView
                                     className="flex-1 w-full"
                                     contentContainerStyle={{ alignItems: 'center', justifyContent: 'center', flexGrow: 1 }}
@@ -137,12 +100,13 @@ export default function NotificationAccess({ position }: Prop) {
                                         text='Không có thông báo nào'
                                         onRefresh={onRefresh}
                                         refreshing={refreshing}
+                                        showRefresh
                                     />
                                 </ScrollView>
                             ) : (
                                 <View className='flex-1 flex-col w-full'>
-                                    <FlashList<SystemNotification>
-                                        data={notification}
+                                    <FlashList<Notification>
+                                        data={notifications}
                                         keyExtractor={(_, index) => index.toString()}
                                         renderItem={({ item }) => <NotificationItem notification={item} />}
                                         estimatedItemSize={100}
@@ -169,16 +133,6 @@ export default function NotificationAccess({ position }: Prop) {
                     >
                         <Bell className="text-foreground" size={21} strokeWidth={1.25} />
                     </Pressable>
-                    {notiCount > 0 && notiCount < 10 && (
-                        <View className='absolute top-0 right-0 px-2 py-1 rounded-full bg-red-500 items-center'>
-                            <Text className='text-xs font-bold'>{notiCount}</Text>
-                        </View>
-                    )}
-                    {notiCount > 9 && (
-                        <View className='absolute top-0 right-[-8] px-2 py-1 rounded-full bg-red-500 items-center'>
-                            <Text className='text-xs font-bold'>9 +</Text>
-                        </View>
-                    )}
                 </View>
             ) : (
                 <QuickButton

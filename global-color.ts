@@ -24,6 +24,8 @@ export enum GlobalColor {
     ORANGE_NEON_BORDER = '#f97316',
     CYAN_NEON_BG = '#06b6d41A',
     CYAN_NEON_BORDER = '#06b6d4',
+    GRAY_NEON_BORDER = '#6b7280',
+    GRAY_NEON_BG = '#6b72801A',
     ROSE_NEON_BG = '#d946ef1A',
     ROSE_NEON_BORDER = '#d946ef',
     EMERALD_NEON_BG = '#10b9811A',

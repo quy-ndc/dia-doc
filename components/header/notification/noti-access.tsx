@@ -100,7 +100,6 @@ export default function NotificationAccess({ position }: Prop) {
                                         text='Không có thông báo nào'
                                         onRefresh={onRefresh}
                                         refreshing={refreshing}
-                                        showRefresh
                                     />
                                 </ScrollView>
                             ) : (

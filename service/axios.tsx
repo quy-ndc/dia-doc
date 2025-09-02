@@ -4,16 +4,19 @@ import useUserStore from "../store/userStore"
 import Toast from "react-native-toast-message"
 import { useQueryClient } from "@tanstack/react-query"
 import { invalidateQuery } from "../util/invalidate-queries"
+import useConfigStore from "../store/appConfigStore"
 
 const axiosServices = axios.create({
-    timeout: 10000,
+    timeout: 1000000,
 })
 
 const handleUnauthorized = () => {
     const queryClient = useQueryClient()
     const { logout } = useUserStore.getState()
-    invalidateQuery(queryClient)
+    const { setTokenDevice } = useConfigStore.getState()
     router.replace('/landing-screen')
+    invalidateQuery(queryClient)
+    setTokenDevice(null)
     logout()
     Toast.show({
         type: 'error',

@@ -12,6 +12,8 @@ import { formatPhone } from '../../util/format-phone-number'
 import EditProfileModal from './popup-modal/edit-profile-modal'
 import useUserStore from '../../store/userStore'
 import { UserRole } from '../../assets/enum/user-role'
+import { Star } from '../../lib/icons/Star'
+import { GlobalColor } from '../../global-color'
 
 type Prop = {
     profile: Patient | Doctor
@@ -22,6 +24,7 @@ export default function BasicInfo({ profile }: Prop) {
     const { user } = useUserStore()
     const name = 'fullName' in profile ? profile.fullName : profile.name
     const isPatientProfile = 'fullName' in profile
+    const isDoctorProfile = !isPatientProfile
 
     return (
         <View className='flex-row justify-between items-center'>
@@ -41,6 +44,19 @@ export default function BasicInfo({ profile }: Prop) {
                         <User className='text-[--fade-text-color]' size={14} />
                         <Text className='text base text-[--fade-text-color] trakcing-wider'>{getGenderString(profile.gender)} • {getAge(profile.dateOfBirth)}</Text>
                     </View>
+                    {isDoctorProfile && (
+                        <View className='flex-row gap-2 items-center'>
+                            {[1, 2, 3, 4, 5].map((index) => (
+                                <Star
+                                    key={index}
+                                    color={index <= (profile as Doctor).rating ? GlobalColor.YELLOW_NEON_BORDER : 'transparent'}
+                                    fill={index <= (profile as Doctor).rating ? GlobalColor.YELLOW_NEON_BORDER : 'transparent'}
+                                    className={`${index > (profile as Doctor).rating && 'text-foreground'}`}
+                                    size={17}
+                                />
+                            ))}
+                        </View>
+                    )}
                 </View>
             </View>
             {user.role === UserRole.PATIENT && isPatientProfile && (

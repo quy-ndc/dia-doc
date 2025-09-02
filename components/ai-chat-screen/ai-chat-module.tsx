@@ -152,6 +152,7 @@ export default function AiChatModule({ session_id, useExternal }: Prop) {
 
     // Load initial messages from API
     useEffect(() => {
+        console.log(aiChatData)
         if (aiChatData?.data && aiChatData.status === 200) {
             const apiMessages: ChatItem[] = aiChatData.data.data.map((message: any) => ({
                 id: message.id,

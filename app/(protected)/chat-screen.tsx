@@ -107,7 +107,7 @@ export default function ChatScreen() {
                     />
                 ) : (
                     <ChatModule
-                        groupId={id as string}
+                        groupId={id as string} 
                         setIsCameraOn={setIsCameraOn}
                     />
                 )}

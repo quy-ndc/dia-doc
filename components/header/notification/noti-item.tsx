@@ -12,10 +12,8 @@ import { Clock } from '../../../lib/icons/Clock';
 import { formatDateBlog } from '../../../util/format-date-post';
 import IconButton from '../../common/icon-button';
 import { Ellipsis } from '../../../lib/icons/Ellipsis';
-import { Image } from 'expo-image'
 import { Notification } from '../../../assets/types/notification/notification';
 import { getNotificatinTypeInfo } from '../../../assets/enum/notification';
-import { Item } from '@rn-primitives/select';
 import Tag from '../../common/tag';
 
 type Prop = {

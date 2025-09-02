@@ -1,9 +1,8 @@
 import { FlashList } from "@shopify/flash-list"
-import { useRef, useState } from "react"
+import { useRef } from "react"
 import { AiSuggestions } from "../../assets/data/ai-suggestions"
 import { Dimensions, Pressable, View } from "react-native"
 import { Text } from "../../components/ui/text"
-
 
 const { height } = Dimensions.get('window')
 
@@ -13,7 +12,7 @@ type Props = {
 
 export const ScrollableSuggestion = ({ setMessage }: Props) => {
     const listRef = useRef<FlashList<string>>(null)
-    const items = AiSuggestions;
+    const items = AiSuggestions
 
     return (
         <View

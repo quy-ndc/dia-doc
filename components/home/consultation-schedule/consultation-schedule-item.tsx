@@ -37,26 +37,28 @@ export default function ConsultationScheduleItem({ item }: Prop) {
         return `${parts[1]}-${parts[2]}`
     }
 
-    const onPress = () => {
-        const currentTime = new Date()
-        const [hours, minutes, seconds] = item.startTime.split(':').map(Number)
-        const [endHours, endMinutes, endSeconds] = item.endTime.split(':').map(Number)
+    const handlePress = () => {
+        const currentDateTime = new Date()
+        const [startHour, startMinute] = item.startTime.split(':').map(Number)
+        const [endHour, endMinute] = item.endTime.split(':').map(Number)
 
-        const startTimeToday = new Date()
-        startTimeToday.setHours(hours, minutes, seconds)
+        const consultationDate = new Date(item.date)
+        const startDateTime = new Date(consultationDate)
+        startDateTime.setHours(startHour, startMinute, 0)
 
-        const endTimeToday = new Date()
-        endTimeToday.setHours(endHours, endMinutes, endSeconds)
+        const endDateTime = new Date(consultationDate)
+        endDateTime.setHours(endHour, endMinute, 0)
 
         if (user.role === UserRole.DOCTOR) {
             setProfileVisible(true)
             return
         }
 
-        if (user.role === UserRole.PATIENT && item.status == ConsultationStatus.BOOKED) {
-            if (currentTime > endTimeToday) {
+        if (user.role === UserRole.PATIENT && (item.status == ConsultationStatus.BOOKED || item.status == ConsultationStatus.ON_GOING)) {
+            if (currentDateTime > endDateTime) {
                 return
             }
+
             router.push({
                 pathname: '/chat-screen',
                 params: {
@@ -64,7 +66,7 @@ export default function ConsultationScheduleItem({ item }: Prop) {
                     title: item.userFullName,
                     image: item.userAvatar,
                     type: ConversationType.PRIVATE_CHAT,
-                    active: currentTime >= startTimeToday ? 'true' : 'false',
+                    active: currentDateTime >= startDateTime ? 'true' : 'false',
                     target: item.userId
                 }
             })
@@ -75,7 +77,7 @@ export default function ConsultationScheduleItem({ item }: Prop) {
         <>
             <Pressable
                 className="flex-row justify-between p-3 my-2 bg-[var(--blog-bg)] rounded-xl active:bg-[var(--click-bg)]"
-                onPress={onPress}
+                onPress={handlePress}
             >
                 <View className="flex-col gap-4">
                     <View className="flex-row gap-2 items-center">

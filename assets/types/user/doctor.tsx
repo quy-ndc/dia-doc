@@ -8,6 +8,7 @@ export type Doctor = {
     name: string
     dateOfBirth: string
     gender: GenderNumber
+    rating: number
     numberOfExperiences: number
     numberOfRating: number
     position: DoctorRole

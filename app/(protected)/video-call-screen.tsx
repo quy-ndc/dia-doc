@@ -241,7 +241,7 @@ export default function VideoCallScreen() {
             {!terminationMessage ? (
                 <View className='flex-row items-center gap-5 justify-center absolute left-0 right-0 bottom-10'>
                     <IconButton
-                        icon={isMuted ? <Mic className='text-white' size={20} /> : <MicOff className='text-white' size={20} />}
+                        icon={isMuted ? <MicOff className='text-white' size={20} /> : <Mic className='text-white' size={20} />}
                         buttonSize={3}
                         possition={'camera'}
                         onPress={toggleMic}

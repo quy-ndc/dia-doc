@@ -28,10 +28,20 @@ export default function HomeScreen() {
     const { user } = useUserStore()
     const [refreshing, setRefreshing] = useState(false)
     const [selectedDate, setSelectedDate] = useState<string | null>(() => {
-        const today = new Date()
-        const year = today.getFullYear()
-        const month = String(today.getMonth() + 1).padStart(2, '0')
-        const day = String(today.getDate()).padStart(2, '0')
+        const now = new Date()
+        const cutoffHour = 20
+        if (now.getHours() < cutoffHour) {
+            const yesterday = new Date(now)
+            yesterday.setDate(yesterday.getDate() - 1)
+
+            const year = yesterday.getFullYear()
+            const month = String(yesterday.getMonth() + 1).padStart(2, '0')
+            const day = String(yesterday.getDate()).padStart(2, '0')
+            return `${year}-${month}-${day}`
+        }
+        const year = now.getFullYear()
+        const month = String(now.getMonth() + 1).padStart(2, '0')
+        const day = String(now.getDate()).padStart(2, '0')
         return `${year}-${month}-${day}`
     })
     const [doctor, setDoctor] = useState<{
@@ -71,7 +81,7 @@ export default function HomeScreen() {
         remove: healthRecordRemove
     } = useQuery({
         ...useUserHealthRecordProfile({
-            recordTypes: '2,3,5',
+            recordTypes: '2,3,5,4',
             newest: true,
             onePerType: true,
         }),

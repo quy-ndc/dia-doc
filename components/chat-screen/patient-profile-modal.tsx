@@ -40,7 +40,7 @@ export default function PatientProfileModal({ id, visible, setVisible }: Prop) {
     } = useQuery({
         ...usePatientRecordsByDoctor({
             patientId: id,
-            recordTypes: '0,1,2,3,4'
+            recordTypes: '5,2,3,4'
         }),
         retry: 2,
         retryDelay: attempt => Math.min(1000 * 2 ** attempt, 5000),

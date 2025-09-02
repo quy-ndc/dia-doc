@@ -1068,8 +1068,16 @@ export const useCreateBookingMutation = () => {
                     visibilityTime: 2000,
                 })
             } else {
-                queryClient.invalidateQueries({ queryKey: [QueryKeys.CONSULTATION_LIST] })
-                queryClient.invalidateQueries({ queryKey: [QueryKeys.PURCHASED_SERVICE_PACKAGES] })
+                queryClient.invalidateQueries({
+                    queryKey: [QueryKeys.CONSULTATION_LIST],
+                    refetchType: 'all',
+                    exact: false
+                })
+                queryClient.invalidateQueries({
+                    queryKey: [QueryKeys.PURCHASED_SERVICE_PACKAGES],
+                    refetchType: 'all',
+                    exact: false
+                })
                 Toast.show({
                     type: 'success',
                     text1: 'Đặt lịch thành công',

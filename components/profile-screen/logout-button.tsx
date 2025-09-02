@@ -27,10 +27,10 @@ export default function LogoutButton() {
     }
 
     const forceLogout = () => {
+        router.replace('/landing-screen')
         logout()
         setTokenDevice(null)
-        invalidateQuery(queryClient) 
-        router.replace('/landing-screen')
+        invalidateQuery(queryClient)
     }
 
     useEffect(() => {

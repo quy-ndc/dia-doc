@@ -29,12 +29,7 @@ export default function AiChatScreen() {
                                 router.push("/ai-chat-session-screen")
                             }}
                         /> :
-                        <ExternalSwitch
-                            id={id as string}
-                            title={title as string}
-                            useExternal={useExternal}
-                            setUseExternal={setUseExternal}
-                        />
+                        null
                 }}
             />
             {id == undefined ? (

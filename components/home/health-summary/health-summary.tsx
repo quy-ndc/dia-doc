@@ -80,8 +80,8 @@ export default function HealthSummaries({
 
     return (
         <View
-            style={{ width: width * 0.95 }}
-            className='flex-col gap-1 pt-2 rounded-xl'
+            style={{ width: width * 0.95, backgroundColor: GlobalColor.BLUE_NEON_BG }}
+            className='flex-col gap-1 px-1 py-3 rounded-2xl'
         >
             <View className='flex-row justify-between items-center w-full'>
                 <View className='flex-row px-2 gap-3 items-center text-center'>

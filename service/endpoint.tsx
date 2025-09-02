@@ -29,6 +29,7 @@ export const authApiConfig = () => {
 }
 
 const apiPrefixV1 = 'api/v1'
+const aiService = 'ai-service'
 const authService = 'auth-service'
 const userService = 'user-service'
 const mediaService = 'media-service'
@@ -52,11 +53,11 @@ const endpointAuth = {
 }
 
 const endpointAI = {
-    SEND_MESSAGE_TO_AI: `${AI_SERVICE_ENDPOINT}/${apiPrefixV1}/rag/chat`,
-    GET_ALL_MESSAGE_WITH_AI: `${AI_SERVICE_ENDPOINT}/${apiPrefixV1}/rag/chat`,
-    GET_ALL_AI_SESSION: `${AI_SERVICE_ENDPOINT}/${apiPrefixV1}/rag/session-chat`,
-    DELETE_AI_SESSION: `${AI_SERVICE_ENDPOINT}/${apiPrefixV1}/rag/session-chat`,
-    UPDATE_AI_SESSION: `${AI_SERVICE_ENDPOINT}/${apiPrefixV1}/rag/session-chat`,
+    SEND_MESSAGE_TO_AI: `${API_GATEWAY_ENDPOINT}/${aiService}/${apiPrefixV1}/rag/chat`,
+    GET_ALL_MESSAGE_WITH_AI: `${API_GATEWAY_ENDPOINT}/${aiService}/${apiPrefixV1}/rag/chat`,
+    GET_ALL_AI_SESSION: `${API_GATEWAY_ENDPOINT}/${aiService}/${apiPrefixV1}/rag/session-chat`,
+    DELETE_AI_SESSION: `${API_GATEWAY_ENDPOINT}/${aiService}/${apiPrefixV1}/rag/session-chat`,
+    UPDATE_AI_SESSION: `${API_GATEWAY_ENDPOINT}/${aiService}/${apiPrefixV1}/rag/session-chat`,
 
     GENERATE_AI_NOTE: `${API_GATEWAY_ENDPOINT}/${userService}/${apiPrefixV1}/users/patients/records/ai-note`
 }

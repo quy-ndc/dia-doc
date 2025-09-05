@@ -31,7 +31,6 @@ export default function ScheduleCancelModal({ id }: Prop) {
 
     useEffect(() => {
         if (!data || isError || isLoading || data.status !== 200) return
-
         setVisible(false)
     }, [data])
 
